@@ -1,0 +1,44 @@
+.nitro-wired-help {
+    height: $wired-help-height;
+    width: $wired-help-width;
+    resize: none;
+
+    .wired-help-image1 {
+        background: url('../../assets/flash/wired/wf_help_1.gif');
+        width: 186px;
+        height: 47px;
+        align-self: center;
+        background-repeat: no-repeat;
+        background-position: bottom;
+    }
+    .wired-help-image2 {
+        background: url('../../assets/flash/wired/wf_help_2.gif');
+        width: 138px;
+        height: 71px;
+        align-self: center;
+        background-repeat: no-repeat;
+        background-position: bottom;
+    }
+    .wired-help-image3 {
+        background: url('../../assets/flash/wired/wf_help_3.gif');
+        width: 138px;
+        height: 83px;
+        align-self: center;
+        background-repeat: no-repeat;
+        background-position: bottom;
+    }
+    .wired-help-image4 {
+        background: url('../../assets/flash/wired/wf_help_4.gif');
+        width: 141px;
+        height: 71px;
+        align-self: center;
+        background-repeat: no-repeat;
+        background-position: bottom;
+    }
+}
+
+.help-button-size {
+    height: 20px!important;
+    width: 20px!important;
+    min-height: 20px!important;
+}

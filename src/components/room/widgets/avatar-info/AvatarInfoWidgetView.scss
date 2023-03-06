@@ -1,0 +1,225 @@
+.nitro-use-product-confirmation {
+    width: 350px;
+
+    .product-preview {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 122px;
+        height: 130px;
+        background: url('../../../../assets/images/room-widgets/avatar-info/preview-background.png') no-repeat center;
+
+        .pet-image {
+            width: 122px;
+            height: 130px;
+        }
+
+        .monsterplant-image {
+            width: 122px;
+            height: 130px;
+            background: url('../../../../assets/images/room-widgets/furni-context-menu/monsterplant-preview.png') no-repeat center;
+        }
+    }
+}
+
+.nitro-infostand-container {
+    position: absolute;
+    right: 10px;
+    bottom: $toolbar-height + 10px;
+    pointer-events: none;
+    z-index: $infostand-zindex;
+    color: $white;
+
+    .nitro-infostand {
+        position: relative;
+        min-width: 190px;
+        max-width: 190px;
+        z-index: $infostand-zindex;
+	    pointer-events: auto;
+        border-image-source: url(../../../../assets/flash/infostand/info_bg.png);
+        border-image-slice: 6 6 6 6 fill;
+        border-image-width: 6px 6px 6px 6px;
+        font-family: Goldfish;
+        font-size: 9px;
+
+        .form-control-sm {
+            height: 20px;
+            min-height: 20px;
+            padding: 0.1rem 0.25rem;
+            font-size: 9px;
+        }
+
+        .infostand-thumb-bg {
+            border-image-source: url(../../../../assets/flash/infostand/thumb_bg.png);
+            border-image-slice: 6 6 6 6 fill;
+            border-image-width: 6px 6px 6px 6px;
+        }
+
+        .infostand-close {
+            background: url(../../../../assets/flash/infostand/info_close.png);
+            width: 13px;
+            height: 13px;
+            cursor: pointer;
+        }
+
+        .body-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 68px;
+            border-radius: $border-radius;
+
+            &.pet {
+                max-width: 75px;
+                height: 84px;
+            }
+
+            &.bot {
+                background-image: url('../../../../assets/images/infostand/bot_background.png');
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            &.furni {
+                background-color: transparent;
+                margin-right: 0;
+            }
+        }
+
+        .body-image-plant {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 68px;
+            height: 85px;
+            max-height: 90px;
+            border-radius: $border-radius;
+        }
+
+        .badge-image {
+            width: 45px;
+            height: 45px;
+        }
+
+        .motto-content {
+            min-height: 18px;
+            font-family: Goldfish;
+        }
+
+        .own-motto-content {
+            min-height: 18px;
+            font-family: Goldfish;
+            max-width: 135px;
+        }
+
+        .motto-input {
+            width: 100%;
+            height: 100%;
+            font-size: 12px;
+            padding: 0;
+            outline: 0;
+            border: 0;
+            color: rgba($white, 1);
+            position: relative;
+            background: transparent;
+            resize: none;
+            font-size: 9px;
+
+            &:focus {
+                font-style: italic;
+            }
+        }
+    }
+
+    .button-container {
+	    pointer-events: auto;
+    }
+
+    .pet-stats {
+        height: 14px;
+    }
+}
+
+.infostand-name {
+    cursor: pointer;
+
+    &:hover {
+        color: #91c2ff !important;
+    }
+}
+
+.infostand-text-width {
+    max-width: 157px;
+}
+
+.pet-name-center {
+    justify-content: center;
+}
+
+.pet-text-center {
+    align-items: center;
+}
+
+.pet-close-margin {
+    margin-left: 160px;
+    position: absolute;
+}
+
+.pet-bg {
+    color: #3a3a3a;
+    border: 1px solid #dadada;
+}
+
+.hclassic-pet-happiness {
+    background-color: #009ac0;
+    box-shadow: inset 0px 4px 0px 0 #1fd1f2;
+}
+
+.hclassic-pet-experience {
+    background-color: #8547be;
+    box-shadow: inset 0px 4px 0px 0 #a06ad2;
+}
+.hclassic-pet-energy {
+    background-color: #5e9d00;
+    box-shadow: inset 0px 4px 0px 0 #8ac51e;
+}
+
+.pet-scratched {
+    background: url(../../../../assets/flash/pet/pet_respect.png);
+    width: 13px;
+    height: 21px;
+}
+
+.pet-happiness {
+    background: url(../../../../assets/flash/pet/pet_happiness.png);
+    width: 18px;
+    height: 18px;
+    position: fixed;
+    bottom: 235px;
+    right: 172px;
+}
+
+.pet-experience {
+    background: url(../../../../assets/flash/pet/pet_experience.png);
+    width: 18px;
+    height: 18px;
+    position: fixed;
+    bottom: 199px;
+    right: 172px;
+}
+
+.pet-energy {
+    background: url(../../../../assets/flash/pet/pet_energy.png);
+    width: 18px;
+    height: 18px;
+    position: fixed;
+    bottom: 163px;
+    right: 172px;
+}
+
+.pet-padding {
+padding-right: 4px;
+padding-left: 6px;
+}

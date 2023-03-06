@@ -1,0 +1,140 @@
+.nitro-chat-input-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 60px;
+    left: 30vw;
+    right: 30vw;
+    height: 38px;
+    border-image-source: url(../../../../assets/flash/room/chatinput.png);
+    border-image-slice:8 8 8 8 fill;
+    border-image-width:8px 8px 8px 8px;
+    background: #e4e4e4;
+    border-radius: 9px;
+    padding-right: 10px;
+    overflow: hidden;
+    z-index: 31;
+
+    @include media-breakpoint-down(sm) {
+        display: flex;
+        position: absolute;
+        bottom: 70px;
+        left: calc(100% / 3);
+        width: 200px;
+    }
+
+    .input-sizer {
+        display: inline-grid;
+        vertical-align: top;
+        height: 100%;
+        padding-right: 10px;
+
+        &::after,
+        input,
+        textarea {
+            width: 30vw;
+            min-width: 1em;
+            grid-area: 1 / 2;
+            margin: 0;
+            resize: none;
+            background: none;
+            appearance: none;
+            border: none;
+            outline: none;
+        }
+
+        &::after {
+            content: attr(data-value) '  ';
+            visibility: hidden;
+            white-space: pre-wrap;
+        }
+    }
+
+    .bubble-container {
+        visibility: visible;
+        width: 75%;
+    }
+}
+
+.nitro-chat-style-selector-container {
+    width: $chat-input-style-selector-widget-width;
+    background: transparent;
+    border: 0px;
+    box-shadow: none;
+
+    :before {
+        border-top-color: transparent !important;
+    }
+
+    :after {
+        border-top-color: transparent !important;
+    }
+
+    .content-area {
+        max-height: auto!important;
+    }
+
+    .bubble-parent-container {
+        height: 30px;
+
+        .bubble-container {
+            position: relative;
+            width: 50px;
+        }
+    }
+}
+
+.chatstyles-selector {
+    background: url(../../../../assets/flash/room/chatstyles_selector.png);
+    background-repeat: no-repeat;
+    min-width: 42px;
+    height: 34px;
+    margin-left: 2px;
+}
+
+.emoji-selector {
+    background: url(../../../../assets/flash/room/emoji_selector.png);
+    background-repeat: no-repeat;
+    min-width: 37px;
+    height: 34px;
+    margin-right: 2px;
+}
+
+.bubble-window {
+    border-image-source: url(../../../../assets/flash/room/chatstyles_selector_window.png);
+    border-image-slice:9 9 9 9 fill;
+    border-image-width:9px 9px 9px 9px;
+    margin-bottom: -13px;
+}
+.emoji-mart {
+    position: fixed;
+    bottom: 103px;
+    z-index: 1;
+}
+
+.emoji-mart-search {
+    display: none;
+}
+
+.emoji-mart-bar {
+    display: none;
+}
+
+.emoji-image {
+    filter: grayscale(100%);
+    transition: filter .3s ease-in-out;
+    font-Size: 1.3em;
+    text-align: center;
+    top: 4px;
+    position: relative;
+
+    &:hover {
+      filter: grayscale(0%);
+      font-Size: 1.5em;
+      top: 2px;
+    }
+}
+.chat-input-size {
+    font-size: 18px;
+    position: fixed;
+}

@@ -1,0 +1,158 @@
+.nitro-mod-tools {
+    width: $nitro-mod-tools-width;
+    height: 145px;
+    position: absolute;
+    top: 150px;
+    left: 0;
+    border-image-source: url(../../assets/flash/purse/purse-bg.png);
+    border-image-slice:6 6 6 6 fill;
+    border-image-width:6px 6px 6px 6px;
+    transition: all .2s ease;
+    z-index: 2;
+    padding-right: 8px!important;
+    padding-left: 31px!important;
+    align-items: baseline!important;
+}
+
+.roomtoolicon {
+    background-image: url(../../assets/flash/modtools/room.png);
+    width: 16px;
+    height: 17px;
+}
+
+.chatlogicon {
+    background-image: url(../../assets/flash/modtools/chatlog.png);
+    width: 17px;
+    height: 21px;
+
+}
+
+.usericon {
+    background-image: url(../../assets/flash/modtools/userinfo.png);
+    width: 18px;
+    height: 19px;
+}
+
+.ticketicon {
+    background-image: url(../../assets/flash/modtools/tickets.png);
+    width: 12px;
+    height: 16px;
+}
+
+.mod-header {
+    color: #000;
+    padding: 9px 0px 0px 10px;
+    font-size: 12px;
+    height: 25px;
+}
+
+.nitro-mod-tools-room {
+    width: 240px;
+
+    .username {
+        color: #1E7295;
+        text-decoration: underline;
+    }
+}
+
+.nitro-mod-tools-gap {
+    grid-gap: 2rem!important;
+    gap: 2rem!important;
+}
+
+.message-input {
+    height: 50px;
+
+    &::placeholder {
+        font-family: Goldfish;
+    }
+}
+
+.nitro-mod-tools-user {
+    width: 350px;
+    height: auto!important;
+
+    .username {
+        color: #1E7295;
+        text-decoration: underline;
+    }
+
+    .table {
+        color: $black;
+        font-family: Goldfish-Bold;
+
+        > :not(caption)>*>* {
+            box-shadow: none;
+            border-bottom: none;
+        }
+
+        &.table-striped>tbody>tr:nth-of-type(odd) {
+            color: $black;
+            background: #cbebf8;
+        }
+
+        td {
+            font-family: Goldfish;
+        }
+    }
+}
+
+.nitro-mod-tools-user-visits {
+    width: 450px;
+    height: 505px;
+    .user-visits {
+        min-height: 200px;
+
+    }
+}
+
+.nitro-mod-tools-chatlog {
+    width: 450px;
+    height: 505px;
+}
+.nitro-mod-tools-user-message {
+    width: 250px;
+    height: 200px;
+}
+
+.nitro-mod-tools-tickets {
+    width: 400px;
+    height: 200px;
+}
+
+.nitro-mod-tools-handle-issue {
+    width: 400px;
+}
+
+.nitro-mod-tools-chatlog,
+.nitro-mod-tools-user-visits {
+
+    .log-container {
+        height: 100%;
+
+        .log-entry-container {
+
+            .log-entry {
+
+                &.highlighted {
+                    border: 1px solid $red;
+                }
+
+                &:nth-child(odd) {
+                    background-color: #cbebf8;
+                }
+            }
+
+            &.highlighted {
+                border: 1px solid $red;
+            }
+        }
+
+        &:first-child {
+            padding-top: 0;
+        }
+    }
+}
+.form-width {
+width: 100%!important;
+}

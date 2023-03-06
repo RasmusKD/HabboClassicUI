@@ -1,0 +1,385 @@
+.nitro-group-tab-image {
+    width: 122px;
+    height: 68px;
+    background: url('../../assets/images/groups/creator_images.png') no-repeat;
+
+    &.tab-1 {
+        background-position: 0px 0px;
+        width: 99px;
+        height: 50px;
+    }
+
+    &.tab-2 {
+        background-position: -99px 0px;
+        width: 98px;
+        height: 62px;
+    }
+
+    &.tab-3 {
+        background-position: 0px -50px;
+        width: 115px;
+        height: 45px;
+        align-self: center;
+    }
+
+    &.tab-4,
+    &.tab-5 {
+        background-position: 0px -95px;
+        width: 114px;
+        height: 61px;
+    }
+}
+
+.group-information {
+    width: 100%;
+    height: 100%;
+    display: flex;
+
+    .group-badge {
+        width: 78px!important;
+        height: 78px!important;
+
+        .badge-image {
+            background-size: contain;
+        }
+    }
+
+    .group-description {
+        height: 55px;
+    }
+}
+
+.nitro-group-tab-image2 {
+    width: 122px;
+    height: 68px;
+    background: url('../../assets/images/groups/creator_images.png') no-repeat;
+
+    &.tab-1 {
+        background-position: 0px 0px;
+        width: 99px;
+        height: 50px;
+    }
+
+    &.tab-2 {
+        background-position: -99px 0px;
+        width: 98px;
+        height: 62px;
+    }
+
+    &.tab-3 {
+        background-position: 0px -50px;
+        width: 96px;
+        height: 45px;
+    }
+
+    &.tab-4,
+    &.tab-5 {
+        background-position: 0px -95px;
+        width: 114px;
+        height: 61px;
+    }
+}
+
+.group-information {
+    width: 100%;
+    height: 100%;
+    display: flex;
+
+    .group-badge {
+        width: 78px!important;
+        height: 78px!important;
+
+        .badge-image {
+            background-size: contain;
+        }
+    }
+
+    .group-description {
+        height: 55px;
+    }
+}
+
+.select-width {
+        width: 100%;
+    }
+
+.squared-form {
+    border-image-source: url("../../assets/flash/boxes/card/input3.png");
+    padding: 0.25rem;
+    }
+
+.nitro-group-information-standalone {
+    width: 365px;
+    height: 270px;
+}
+
+.group-grey-bg-border {
+    border-image-source: url(../../assets/flash/profile/grey_bg_border.png);
+    border-image-slice: 6 6 6 6 fill;
+    border-image-width: 6px 6px 6px 6px;
+    max-height: 240px;
+    grid-template-columns: repeat(var(--bs-columns,13),1fr)!important;
+}
+
+.nitro-group-members {
+    width: 352px;
+    height: 443px;
+
+    .nitro-group-members-list-grid {
+
+        .member-list-item {
+            height: 35px;
+            max-height: 35px;
+            border-radius: .5rem!important;
+            border: 1px solid #000;
+
+            .avatar-head {
+                position: relative;
+                overflow: hidden;
+                min-width: 40px;
+                height: 50px;
+                right: 8px;
+                bottom: 10px;
+
+                .avatar-image {
+                    position: absolute;
+                    left: -25px;
+                    top: -20px;
+                }
+            }
+        }
+    }
+}
+
+.group-badge-preview {
+    width: 42px;
+    height: 42px;
+    background-color: $grid-bg-color;
+
+    &.active {
+        border-color: $grid-active-border-color !important;
+        background-color: $grid-active-bg-color;
+
+        &:before {
+            position: absolute;
+            content: ' ';
+            width: 0;
+            height: 0;
+            border-top: 10px solid white;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            bottom: -10px;
+        }
+    }
+}
+
+.group-badge-color-swatch,
+.group-badge-position-swatch {
+    position: relative;
+    border-radius: $border-radius;
+    width: 16px;
+    height: 16px;
+    background: $white;
+    border: 2px solid $white;
+    box-shadow: inset 3px 3px rgba(0, 0, 0, .1);
+
+    &.active {
+        box-shadow: none;
+    }
+}
+
+.group-badge-position-swatch {
+    box-shadow: inset 3px 3px rgba(0, 0, 0, .1);
+
+    &.active {
+        background: $primary;
+    }
+}
+
+.group-badge-color-swatch {
+    box-shadow: inset 2px 2px rgba(0, 0, 0, .2);
+}
+
+.group-color-swatch {
+    width: 43px;
+    height: 40px;
+}
+
+.nitro-group-manager {
+    height: $nitro-group-manager-height;
+    width: $nitro-group-manager-width;
+    min-width: 287px;
+}
+
+.group-font-size {
+    font-size: 9px;
+    padding-top: 2px;
+}
+
+.group-font-size2 {
+    font-size: 11.5px;
+}
+
+.group-remove-icon {
+    background-image: url('../../assets/images/groups/icons/icon_close_off.png');
+    width: 17px;
+    height: 18px;
+    align-items: start!important;
+    position: absolute;
+    right: -6px;
+    top: 0px;
+
+    &.selected, &:hover {
+        background-image: url('../../assets/images/groups/icons/icon_close_over.png');
+        width: 17px;
+        height: 18px;
+        align-items: start!important;
+    }
+}
+
+.group-badge-margin {
+    margin: 10px;
+}
+
+.group-form-margin {
+    margin-top: auto;
+}
+
+.group-member-height {
+    height: auto!important;
+}
+
+.group-text {
+    position: relative;
+    right: 6px;
+}
+
+.group-member-buttons {
+    margin-top: auto;
+}
+
+.group-creator-buttons {
+    position: absolute;
+    bottom: 8px;
+}
+
+.group-back-button {
+    margin-right: 175px;
+    width: 86px;
+    margin-left: 7px;
+    align-self: center;
+}
+
+.group-next-button {
+    width: 109px;
+}
+
+.group-colors-height {
+    height: 88%;
+}
+.group-badges-height {
+    height: 354px;
+}
+.groups-small-text {
+    font-size: .75em;
+}
+
+.group-badge-margin2 {
+    margin-top: 8px;
+}
+
+.group-btn-margin {
+    margin-top: 13px;
+}
+.group-tab-img-margin {
+    margin-left: 10px;
+}
+.groups-background-color {
+    background-color: #b3b099!important;
+    border-right: 1px solid #000!important;
+    border-left: 1px solid #000!important;
+    min-height: 110px;
+}
+
+.nitro-group-progress-font {
+    font-family: 'UbuntuBold';
+    font-size: 12.5px;
+}
+.nitro-group-progress-fontsize {
+    font-size: 20px;
+}
+.nitro-group-creator {
+    height: 546px;
+    width: $nitro-group-manager-width;
+
+    .creator-tabs {
+
+        .tab {
+            position: relative;
+            margin-left: -6px;
+            background-image: url('../../assets/images/groups/creator_tabs.png');
+            background-repeat: no-repeat;
+
+            &:first-child {
+                margin-left: 0;
+            }
+
+            &.tab-blue-flat {
+                width: 84px;
+                height: 24px;
+                background-position: 0px 0px;
+                margin-top: 6px;
+
+                &.active {
+                    height: 28px;
+                    background-position: 0px -24px;
+                    margin-top: 0px;
+                }
+            }
+
+            &.tab-blue-arrow {
+                width: 83px;
+                height: 24px;
+                background-position: 0px -52px;
+                margin-top: 6px;
+
+                &.active {
+                    height: 28px;
+                    background-position: 0px -76px;
+                    margin-top: 0px;
+                }
+            }
+
+            &.tab-yellow {
+                width: 133px;
+                height: 28px;
+                background-position: 0px -104px;
+                margin-top: 6px;
+
+                &.active {
+                    height: 33px;
+                    background-position: 0px -132px;
+                    margin-top: 1px;
+                }
+            }
+        }
+    }
+}
+.group-room-height {
+    height: 85px;
+}
+
+.button-size {
+  min-height: 22px;
+  width: 50px;
+}
+
+.accept-membership {
+    font-size: 10px;
+    padding-left: 7px;
+    color: #6f6e65;
+
+    &:hover {
+        color: #2aa1fc;
+   }
+}

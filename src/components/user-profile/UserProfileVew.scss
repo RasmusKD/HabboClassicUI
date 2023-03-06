@@ -1,0 +1,140 @@
+.user-profile {
+    min-width: $user-profile-width;
+    width: $user-profile-width;
+    min-height: $user-profile-height;
+    max-height: $user-profile-height2;
+    color: $black;
+    resize: none;
+
+    .profile-grey-bg {
+        border-image-source: url(../../assets/flash/profile/grey-bg.png);
+        border-image-slice: 6 6 6 6 fill;
+        border-image-width: 6px 6px 6px 6px;
+        height: 55px!important;
+    }
+
+    .profile-grey-bg-2 {
+        border-image-source: url(../../assets/flash/profile/grey-bg.png);
+        border-image-slice: 6 6 6 6 fill;
+        border-image-width: 6px 6px 6px 6px;
+        min-height: 50px;
+    }
+
+    .profile-white-bg {
+        border-image-source: url(../../assets/flash/profile/white_bg.png);
+        border-image-slice: 6 6 6 6 fill;
+        border-image-width: 6px 6px 6px 6px;
+    }
+
+    .profile-grey-bg-border {
+        border-image-source: url(../../assets/flash/profile/grey_bg_border.png);
+        border-image-slice: 6 6 6 6 fill;
+        border-image-width: 6px 6px 6px 6px;
+        max-height: 240px;
+    }
+
+    .badge-text {
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    .user-container {
+        border-right: 1px solid #afafaf;
+
+        .avatar-container {
+            width: 59px;
+            height: 120px;
+        }
+    }
+
+    .rooms-button-container {
+        border-top: 1px solid #afafaf;
+        border-bottom: 1px solid #afafaf;
+    }
+
+    .user-relationship {
+        height: 22px;
+
+        .avatar-image-container {
+            width: 50px;
+            height: 50px;
+
+            .avatar-image {
+                top: 20px;
+                right: -8px;
+            }
+        }
+    }
+
+    .user-relationship-count {
+        margin-top: 2px;
+        margin-left: 5px;
+        color: #939392 !important;
+        font-size: 9.5px!important;
+    }
+
+    .user-groups-container {
+
+        .layout-grid-item {
+            width: 50px;
+        }
+    }
+
+    .no-group-spritesheet {
+        background: transparent url('../../assets/images/groups/no-group-spritesheet.png') no-repeat;
+
+        &.image-1 {
+            width: 95px;
+            height: 136px;
+            background-position: -3px -3px;
+        }
+
+        &.image-2 {
+            width: 95px;
+            height: 136px;
+            background-position: -104px -3px;
+        }
+
+        &.image-3 {
+            width: 95px;
+            height: 136px;
+            background-position: -205px -3px;
+        }
+    }
+}
+
+.profile-groups-height {
+height: 220px!important;
+}
+
+.cropped-position {
+    width: 100%!important;
+    height: 100%!important;;
+    background-position-x: center!important;;
+    background-position-y: top!important;;
+    top: 5px!important;;
+    right: 2px!important;
+}
+
+.font-size-profile {
+    font-size: 11px;
+}
+
+.motto-height {
+    height: 30px;
+}
+
+.profile-padding {
+    padding-top: 13px!important;
+}
+
+.add-friend-button {
+    padding: 4px 12px 6px 12px!important;
+    margin-left: 13px!important;
+    height: 23px!important;
+}
+
+.heart-placement {
+    top: -5px;
+    left: -5px;
+}
