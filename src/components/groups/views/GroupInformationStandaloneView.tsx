@@ -3,7 +3,7 @@ import { FC, useState } from 'react';
 import { LocalizeText } from '../../../api';
 import { NitroCardContentView, NitroCardHeaderView, NitroCardView } from '../../../common';
 import { useMessageEvent } from '../../../hooks';
-import { GroupInformationView } from './GroupInformationView';
+import { GroupInformationView2 } from './GroupInformationView2';
 
 export const GroupInformationStandaloneView: FC<{}> = props =>
 {
@@ -19,10 +19,10 @@ export const GroupInformationStandaloneView: FC<{}> = props =>
     if(!groupInformation) return null;
 
     return (
-        <NitroCardView className="nitro-group-information-standalone no-resize" theme="primary">
+        <NitroCardView id='GroupInfo' overflow="visible" className="nitro-group-information-standalone no-resize" theme="primary">
             <NitroCardHeaderView headerText={ LocalizeText('group.window.title') } onCloseClick={ event => setGroupInformation(null) } />
             <NitroCardContentView>
-                <GroupInformationView groupInformation={ groupInformation } onClose={ () => setGroupInformation(null) } />
+                <GroupInformationView2 groupInformation={ groupInformation } onClose={ () => setGroupInformation(null) } />
             </NitroCardContentView>
         </NitroCardView>
     );

@@ -6,14 +6,14 @@ import { useNotification } from '../../../hooks';
 
 const STATES: string[] = [ 'regular', 'exclusive', 'private' ];
 
-interface GroupInformationViewProps extends GridProps
+interface GroupInformationView2Props extends GridProps
 {
     groupInformation: GroupInformationParser;
     onJoin?: () => void;
     onClose?: () => void;
 }
 
-export const GroupInformationView: FC<GroupInformationViewProps> = props =>
+export const GroupInformationView2: FC<GroupInformationView2Props> = props =>
 {
     const { groupInformation = null, onClose = null, overflow = 'hidden', ...rest } = props;
     const { showConfirm = null } = useNotification();
@@ -36,11 +36,11 @@ export const GroupInformationView: FC<GroupInformationViewProps> = props =>
     {
         if(groupInformation.membershipType === GroupMembershipType.NOT_MEMBER || groupInformation.membershipType === GroupMembershipType.REQUEST_PENDING) return null;
 
-        if(isRealOwner) return <div className='margin-top-auto'><Tooltip windowId="UserProfile" isDraggable={true} content={ LocalizeText('group.youareowner') }><i className="icon icon-group-owner" /></Tooltip></div>;
+        if(isRealOwner) return <div className='margin-top-auto'><Tooltip windowId="GroupInfo" isDraggable={true} content={ LocalizeText('group.youareowner') }><i className="icon icon-group-owner" /></Tooltip></div>;
 
-        if(groupInformation.isAdmin) return <div className='margin-top-auto'><Tooltip windowId="UserProfile" isDraggable={true} content={ LocalizeText('group.youareadmin') }><i className="icon icon-group-admin" /></Tooltip></div>;
+        if(groupInformation.isAdmin) return <div className='margin-top-auto'><Tooltip windowId="GroupInfo" isDraggable={true} content={ LocalizeText('group.youareadmin') }><i className="icon icon-group-admin" /></Tooltip></div>;
 
-        return <div className='margin-top-auto'><Tooltip windowId="UserProfile" isDraggable={true} content={ LocalizeText('group.youaremember') }><i className="icon icon-group-member" /></Tooltip></div>;
+        return <div className='margin-top-auto'><Tooltip windowId="GroupInfo" isDraggable={true} content={ LocalizeText('group.youaremember') }><i className="icon icon-group-member" /></Tooltip></div>;
     }
 
     const getButtonText = () =>
@@ -119,9 +119,9 @@ export const GroupInformationView: FC<GroupInformationViewProps> = props =>
                     <Column gap={ 0 }>
                         <Flex alignItems="center" gap={ 1 }>
                             <Flex gap={ 0 }>
-                                <Tooltip windowId="UserProfile" isDraggable={true} content={ LocalizeText(`group.edit.settings.type.${ STATES[groupInformation.type] }.help`) }><i className={ 'icon icon-group-type-' + groupInformation.type } /></Tooltip>
+                                <Tooltip windowId="GroupInfo" isDraggable={true} content={ LocalizeText(`group.edit.settings.type.${ STATES[groupInformation.type] }.help`) }><i className={ 'icon icon-group-type-' + groupInformation.type } /></Tooltip>
                                 { groupInformation.canMembersDecorate &&
-                                    <Tooltip windowId="UserProfile" isDraggable={true} content={ LocalizeText('group.memberscandecorate') }><i className="icon icon-group-decorate" /></Tooltip> }
+                                    <Tooltip windowId="GroupInfo" isDraggable={true} content={ LocalizeText('group.memberscandecorate') }><i className="icon icon-group-decorate" /></Tooltip> }
                             </Flex>
                             <Text bold>{ groupInformation.title }</Text>
                         </Flex>

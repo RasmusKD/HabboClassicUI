@@ -87,14 +87,14 @@ export const UserProfileView: FC<{}> = props =>
     if(!userProfile) return null;
 
     return (
-        <NitroCardView id='UserProfile' uniqueKey="nitro-user-profile" theme="primary" className="user-profile">
+        <NitroCardView id='UserProfile' overflow="visible" uniqueKey="nitro-user-profile" theme="primary" className="user-profile">
             <NitroCardHeaderView headerText={ LocalizeText('extendedprofile.caption') } onCloseClick={ onClose } />
             <NitroCardContentView className="user-profile" overflow="hidden">
                 <Grid fullHeight={ false } gap={ 2 }>
                     <Column size={ 7 } gap={ 1 } className="user-container pe-2">
                         <UserContainerView userProfile={ userProfile } />
                         { userProfile.id === GetSessionDataManager().userId &&
-                          <Flex className="p-0 group-form-margin">
+                          <Flex className="p-0 margin-top-auto">
                             <Text underline className="cursor-pointer font-size-profile" onClick={ event => CreateLinkEvent('avatar-editor/toggle') }>
                               { LocalizeText('habboclassic.dk.clothes') }
                             </Text>
@@ -103,7 +103,7 @@ export const UserProfileView: FC<{}> = props =>
                             </Text>
                           </Flex>
                         }
-                        <Grid columnCount={5} fullHeight className={`profile-grey-bg p-1 ${userProfile.id !== GetSessionDataManager().userId && "group-form-margin"}`}>
+                        <Grid columnCount={5} fullHeight className={`profile-grey-bg p-1 ${userProfile.id !== GetSessionDataManager().userId && "margin-top-auto"}`}>
                           <BadgesContainerView fullWidth center badges={ userBadges } />
                         </Grid>
                     </Column>

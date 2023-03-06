@@ -155,7 +155,7 @@ export const GroupMembersView: FC<{}> = props =>
                     </Flex>
                     <Column fullWidth gap={ 1 }>
                         <input spellCheck="false" type="text" className="form-control form-control-sm w-100" placeholder={ LocalizeText('group.members.searchinfo') } value={ searchQuery } onChange={ event => setSearchQuery(event.target.value) } />
-                        <select className="form-select form-select-sm w-100 group-form-margin" value={ levelId } onChange={ event => setLevelId(parseInt(event.target.value)) }>
+                        <select className="form-select form-select-sm w-100 margin-top-auto" value={ levelId } onChange={ event => setLevelId(parseInt(event.target.value)) }>
                             <option value="0">{ LocalizeText('group.members.search.all') }</option>
                             <option value="1">{ LocalizeText('group.members.search.admins') }</option>
                             <option value="2">{ LocalizeText('group.members.search.pending') }</option>
@@ -191,7 +191,7 @@ export const GroupMembersView: FC<{}> = props =>
                         );
                     }) }
                 </Grid>
-                <Flex gap={ 1 } className="group-member-buttons" justifyContent="between" alignItems="center">
+                <Flex gap={ 1 } className="margin-top-auto" justifyContent="between" alignItems="center">
                     <Button className="btn-thicker button-size" disabled={ (membersData.pageIndex === 0) } onClick={ event => setPageId(prevValue => (prevValue - 1)) }>
                     { (membersData.pageIndex) !== 0 &&
                         <i className="icon icon-context-arrow-left-black mt-auto mb-auto"/>}
