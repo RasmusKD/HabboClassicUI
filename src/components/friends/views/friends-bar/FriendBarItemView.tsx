@@ -41,18 +41,18 @@ export const FriendBarItemView: FC<{ friend: MessengerFriend }> = props =>
     }
 
     return (
-        <div ref={ elementRef } className={ 'btn find-friends-active friend-bar-item ' + (isVisible ? 'friend-bar-item-active' : '') } onClick={ event => setVisible(prevValue => !prevValue) }>
+        <div ref={ elementRef } className={ 'btn find-friends-active friend-bar-item ' + (isVisible ? 'friend-bar-item-active' : 'friend-bar-hover') } onClick={ event => setVisible(prevValue => !prevValue) }>
             <div className={ `friend-bar-item-head position-absolute ${ friend.id > 0 ? 'avatar': 'group' }` }>
                 { (friend.id > 0) && <LayoutAvatarImageView headOnly={ true } figure={ friend.figure } direction={ 2 } /> }
-                { (friend.id <= 0) && <LayoutBadgeImageView isGroup={ true } badgeCode={ friend.figure } /> } 
+                { (friend.id <= 0) && <LayoutBadgeImageView isGroup={ true } badgeCode={ friend.figure } /> }
             </div>
             <div className="friend-bar-text">{ friend.name }</div>
             { isVisible &&
             <div className="d-flex pt-3 justify-content-between">
-                <Base className="nitro-friends-spritesheet icon-friendbar-chat cursor-pointer" onClick={ event => OpenMessengerChat(friend.id) } />
+                <Base className="nitro-friends-spritesheet icon-friendbar-chat cursor-pointer friend-item" onClick={ event => OpenMessengerChat(friend.id) } />
                 { friend.followingAllowed &&
-                <Base className="nitro-friends-spritesheet icon-friendbar-visit cursor-pointer" onClick={ event => followFriend(friend) } /> }
-                <Base className="nitro-friends-spritesheet icon-profile cursor-pointer" onClick={ event => GetUserProfile(friend.id) } />
+                <Base className="nitro-friends-spritesheet icon-friendbar-visit cursor-pointer friend-item" onClick={ event => followFriend(friend) } /> }
+                <Base className="nitro-friends-spritesheet icon-profile cursor-pointer friend-item" onClick={ event => GetUserProfile(friend.id) } />
             </div> }
         </div>
     );

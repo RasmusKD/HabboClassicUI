@@ -89,7 +89,7 @@ export const GroupInformationView: FC<GroupInformationViewProps> = props =>
                 TryVisitRoom(groupInformation.roomId);
                 break;
             case 'furniture':
-                CreateLinkEvent('catalog/open/' + CatalogPageName.GUILD_CUSTOM_FURNI);
+                CreateLinkEvent('catalog/open/group_furni');
                 break;
             case 'popular_groups':
                 CreateLinkEvent('navigator/search/groups');

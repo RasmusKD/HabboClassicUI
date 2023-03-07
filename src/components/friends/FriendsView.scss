@@ -4,6 +4,7 @@
     &.icon-friendbar-visit {
         width: 21px; height: 21px;
         background-position: -38px -5px;
+        filter: drop-shadow(1px 1px 0 rgba(0,0,0,.3));
     }
 
     &.icon-heart {
@@ -24,6 +25,7 @@
     &.icon-profile {
         width: 21px; height: 21px;
         background-position: -5px -36px;
+        filter: drop-shadow(1px 1px 0 rgba(0,0,0,.3));
     }
 
     &.icon-profile-sm {
@@ -83,6 +85,7 @@
     &.icon-friendbar-chat {
         width: 20px; height: 21px;
         background-position: -36px -36px;
+        filter: drop-shadow(1px 1px 0 rgba(0,0,0,.3));
     }
 }
 
@@ -216,11 +219,6 @@
             border-image-width:17px 17px 17px 17px;
             border-image-repeat:repeat repeat;
             min-height: 36px;
-
-            &:hover {
-                border-image-source: url(../../assets/flash/toolbar/friend-bg-hover.png);
-            }
-
         }
 
         .friend-bar-text {
@@ -253,6 +251,11 @@
                 width: 31px;
                 height: 34px;
                 background-image: url('../../assets/images/toolbar/friend-search.png');
+            }
+        }
+            &.friend-bar-hover {
+            &:hover {
+                border-image-source: url(../../assets/flash/toolbar/friend-bg-hover.png);
             }
         }
     }
@@ -525,4 +528,21 @@
 }
 .messenger-height {
 height: calc(100% - 53px);
+}
+
+.friend-item {
+    position: relative;
+
+    &:hover {
+        -webkit-transform: translate(-1px, -1px);
+        transform: translate(-1px, -1px);
+        filter: drop-shadow(2px 2px 0 rgba($black, .6));
+    }
+
+    &.active,
+    &:active {
+        -webkit-transform: unset;
+        transform: unset;
+        filter: none;
+    }
 }
