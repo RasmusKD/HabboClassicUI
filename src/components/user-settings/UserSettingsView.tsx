@@ -127,25 +127,25 @@ export const UserSettingsView: FC<{}> = props =>
                 <Column gap={ 1 }>
                     <Flex alignItems="center" gap={ 1 }>
                         <input className="flash-form-check-input" type="checkbox" checked={ userSettings.roomInvites } onChange={ event => processAction('room_invites', event.target.checked) } />
-                        <Text>{ LocalizeText('memenu.settings.other.ignore.room.invites') }</Text>
+                        <Text small>{ LocalizeText('memenu.settings.other.ignore.room.invites') }</Text>
                     </Flex>
                     <Flex alignItems="center" gap={ 1 }>
                         <input className="flash-form-check-input" type="checkbox" checked={ userSettings.cameraFollow } onChange={ event => processAction('camera_follow', event.target.checked) } />
-                        <Text>{ LocalizeText('memenu.settings.other.disable.room.camera.follow') }</Text>
+                        <Text small>{ LocalizeText('memenu.settings.other.disable.room.camera.follow') }</Text>
                     </Flex>
                     <Flex alignItems="center" gap={ 1 }>
                         <input className="flash-form-check-input" type="checkbox" checked={ catalogPlaceMultipleObjects } onChange={ event => setCatalogPlaceMultipleObjects(event.target.checked) } />
-                        <Text>{ LocalizeText('memenu.settings.other.place.multiple.objects') }</Text>
+                        <Text small>{ LocalizeText('memenu.settings.other.place.multiple.objects') }</Text>
                     </Flex>
                     <Flex alignItems="center" gap={ 1 }>
                         <input className="flash-form-check-input" type="checkbox" checked={ catalogSkipPurchaseConfirmation } onChange={ event => setCatalogSkipPurchaseConfirmation(event.target.checked) } />
-                        <Text>{ LocalizeText('memenu.settings.other.skip.purchase.confirmation') }</Text>
+                        <Text small>{ LocalizeText('memenu.settings.other.skip.purchase.confirmation') }</Text>
                     </Flex>
                 </Column>
                 <Column>
-                    <Text center>{ LocalizeText('widget.memenu.settings.volume') }</Text>
+                    <Text small center>{ LocalizeText('widget.memenu.settings.volume') }</Text>
                     <Flex gap={ 2 }>
-                        <Text className="w-25">{ LocalizeText('widget.memenu.settings.volume.ui') }</Text>
+                        <Text small className="w-25">{ LocalizeText('widget.memenu.settings.volume.ui') }</Text>
                         <Flex alignItems="center" gap={ 1 }>
                             <i className={ (userSettings.volumeSystem > 1) ? 'icon icon-sound-off' : 'icon icon-sound-off-active' } onClick={ event => processAction('system_volume', 0) }/>
                             <Column gap={ 0 }>
@@ -156,7 +156,7 @@ export const UserSettingsView: FC<{}> = props =>
                         </Flex>
                     </Flex>
                     <Flex gap={ 2 }>
-                        <Text className="w-25">{ LocalizeText('widget.memenu.settings.volume.furni') }</Text>
+                        <Text small className="w-25">{ LocalizeText('widget.memenu.settings.volume.furni') }</Text>
                         <Flex alignItems="center" gap={ 1 }>
                             <i className={ (userSettings.volumeFurni > 1) ? 'icon icon-sound-off' : 'icon icon-sound-off-active' } onClick={ event => processAction('furni_volume', 0) }/>
                             <Column gap={ 0 }>
@@ -167,7 +167,7 @@ export const UserSettingsView: FC<{}> = props =>
                         </Flex>
                     </Flex>
                     <Flex gap={ 2 }>
-                        <Text className="w-25">{ LocalizeText('widget.memenu.settings.volume.trax') }</Text>
+                        <Text small className="w-25">{ LocalizeText('widget.memenu.settings.volume.trax') }</Text>
                         <Flex alignItems="center" gap={ 1 }>
                             <i className={ (userSettings.volumeTrax > 1) ? 'icon icon-sound-off' : 'icon icon-sound-off-active' } onClick={ event => processAction('trax_volume', 0) }/>
                             <Column gap={ 0 }>

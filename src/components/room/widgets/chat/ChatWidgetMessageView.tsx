@@ -40,7 +40,7 @@ export const ChatWidgetMessageView: FC<ChatWidgetMessageViewProps> = props =>
         chat.width = width;
         chat.height = height;
         chat.elementRef = element;
-        
+
         let left = chat.left;
         let top = chat.top;
 
@@ -48,7 +48,7 @@ export const ChatWidgetMessageView: FC<ChatWidgetMessageViewProps> = props =>
         {
             left = (chat.location.x - (width / 2));
             top = (element.parentElement.offsetHeight - height);
-            
+
             chat.left = left;
             chat.top = top;
         }

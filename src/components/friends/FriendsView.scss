@@ -150,6 +150,14 @@
             background-position: center;
             margin-right: -4px;
 
+            &:hover {
+                filter: brightness(1.4);
+            }
+            &:active,
+            &.active {
+                filter: brightness(0.9);
+            }
+
             &:disabled {
                 opacity: 0.1;
                 cursor: default!important;
@@ -160,6 +168,14 @@
             background: url(../../assets/flash/toolbar/friendbar_right.png);
             background-position: center;
             margin-left: -4px;
+
+            &:hover {
+                filter: brightness(1.4);
+            }
+            &:active,
+            &.active {
+                filter: brightness(0.9);
+            }
 
             &:disabled {
                 opacity: 0.1;

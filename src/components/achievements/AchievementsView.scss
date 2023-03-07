@@ -1,6 +1,8 @@
 .nitro-achievements {
     width: $achievement-width;
     height: $achievement-height;
+    min-width: $achievement-width;
+    min-height: $achievement-height;
 }
 
 .nitro-achievements-back-arrow {

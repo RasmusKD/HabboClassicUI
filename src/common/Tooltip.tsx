@@ -57,7 +57,7 @@ export function Tooltip({ content, children, isDraggable, windowId, tooltipWidth
     borderImageSlice: '5 fill',
     borderImageWidth: '5px',
     borderImageRepeat: 'repeat repeat',
-    zIndex: '1',
+    zIndex: '5',
     padding: '3px 5px',
     fontSize: '11px',
     width: 'max-content',
