@@ -5,9 +5,10 @@ interface TooltipProps {
   children: React.ReactNode;
   isDraggable?: boolean;
   windowId?: string; // new prop for draggable window id
+  tooltipWidth?: number;
 }
 
-export function Tooltip({ content, children, isDraggable, windowId }: TooltipProps) {
+export function Tooltip({ content, children, isDraggable, windowId, tooltipWidth }: TooltipProps) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [visible, setVisible] = useState(false);
 
@@ -69,27 +70,37 @@ export function Tooltip({ content, children, isDraggable, windowId }: TooltipPro
       onMouseLeave={handleMouseLeave}
     >
       {children}
-      <div style={{ ...tooltipStyle, ...tooltipPosition(position), }} ref={tooltipRef}>
+      <div style={{ ...tooltipStyle, ...tooltipPosition(position, tooltipWidth), }} ref={tooltipRef}>
         {content}
       </div>
     </span>
   );
 }
 
-function tooltipPosition(position: { x: number; y: number }) {
+function tooltipPosition(position: { x: number; y: number }, tooltipWidth: number) {
   const tooltipHeight = 22;
-  const padding = 5;
+  const padding = 1;
+  const toolwidth = tooltipWidth;
 
   const { x, y } = position;
   const { innerWidth, innerHeight } = window;
 
+  let left = x + 20 + padding;
   let top = y + padding;
-  if (top + tooltipHeight > innerHeight) {
-    top = innerHeight - tooltipHeight - 1;
+
+  if (left + toolwidth > innerWidth) {
+    left = innerWidth - toolwidth - padding;
+    if (top + tooltipHeight > innerHeight) {
+      top = innerHeight - tooltipHeight;
+    } else {
+      top = y + tooltipHeight + padding;
+    }
+  } else if (top + tooltipHeight > innerHeight) {
+    top = innerHeight - tooltipHeight - padding;
   }
 
   return {
     top: `${top}px`,
-    left: `${x + 20}px`,
+    left: `${left}px`,
   };
 }

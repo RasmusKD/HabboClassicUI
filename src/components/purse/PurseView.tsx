@@ -1,7 +1,7 @@
 import { FriendlyTime, HabboClubLevelEnum } from '@nitrots/nitro-renderer';
 import { FC, useMemo } from 'react';
 import { CreateLinkEvent, GetConfiguration, LocalizeText, VisitDesktop } from '../../api';
-import { Column, Flex, LayoutCurrencyIcon, Text } from '../../common';
+import { Column, Flex, LayoutCurrencyIcon, Text, Tooltip } from '../../common';
 import { usePurse } from '../../hooks';
 import { CurrencyView } from './views/CurrencyView';
 import { SeasonalView } from './views/SeasonalView';
@@ -64,44 +64,44 @@ export const PurseView: FC<{}> = props =>
         <Column className="nitro-purse-container" gap={ 1 }>
             <Column gap={ 0 } className="nitro-purse">
                 <Flex fullWidth>
-                    <Flex fullWidth className="nitro-notification nitro-purse-box position-relative" onClick={ event => CreateLinkEvent('catalog/toggle') }>
+                    <Tooltip content="Mønter"><Flex className="nitro-notification nitro-purse-box position-relative" onClick={ event => CreateLinkEvent('catalog/toggle') }>
                         <CurrencyView type={ -1 } amount={ purse.credits } short={ currencyDisplayNumberShort } />
                         <Flex className="nitro-purse-box-container coin position-absolute">
                             <LayoutCurrencyIcon pointer className="club-text" type={ -1 } />
                         </Flex>
-                    </Flex>
-                    <Flex fullWidth className="nitro-notification nitro-purse-box position-relative" onClick={ event => CreateLinkEvent('catalog/toggle') }>
+                    </Flex></Tooltip>
+                    <Tooltip tooltipWidth={39} content="Pixels"><Flex className="nitro-notification nitro-purse-box position-relative" onClick={ event => CreateLinkEvent('catalog/toggle') }>
                         { getCurrencyElements(0,1) }
                         <Flex className="nitro-purse-box-container pixel position-absolute">
                             <LayoutCurrencyIcon pointer className="club-text" type={ 0 } />
                         </Flex>
-                    </Flex>
+                    </Flex></Tooltip>
                 </Flex>
                 <Flex>
                     { !hcDisabled &&
-                        <Flex fullWidth className="nitro-notification nitro-purse-box position-relative" onClick={ event => CreateLinkEvent('habboUI/open/hccenter') }>
+                        <Tooltip content="Habbo Club"><Flex className="nitro-notification nitro-purse-box position-relative" onClick={ event => CreateLinkEvent('habboUI/open/hccenter') }>
                             <Text fullWidth pointer className="mt-auto mb-auto club-text nitro-purse-amount" bold truncate textEnd>{ getClubText }</Text>
                             <Flex className="nitro-purse-box-container hc position-absolute">
                                 <LayoutCurrencyIcon pointer className="club-text" type="hc" />
                             </Flex>
-                        </Flex> }
-                    <Flex fullWidth className="nitro-notification nitro-purse-box position-relative" onClick={ event => CreateLinkEvent('catalog/toggle') }>
+                        </Flex></Tooltip> }
+                    <Tooltip tooltipWidth={63} content="Diamanter"><Flex className="nitro-notification nitro-purse-box position-relative" onClick={ event => CreateLinkEvent('catalog/toggle') }>
                         <CurrencyView type={ 5 } amount={ purse.activityPoints.get(5) } short={ currencyDisplayNumberShort } />
                         <Flex className="nitro-purse-box-container diamond position-absolute">
                             <LayoutCurrencyIcon pointer className="club-text" type={ 5 } />
                         </Flex>
-                    </Flex>
+                    </Flex></Tooltip>
                 </Flex>
                 <Flex fullWidth gap={ 1 } className="nitro-notification nitro-purse-box align-items-center justify-content-center">
-                    <Flex center pointer className="nitro-purse-right-button help p-1" onClick={ event => CreateLinkEvent('help/toggle') }>
+                    <Tooltip content="Hjælp"><Flex center pointer className="nitro-purse-right-button help p-1" onClick={ event => CreateLinkEvent('help/toggle') }>
                         <Text small>{ LocalizeText('help.button.cfh') }</Text>
-                    </Flex>
-                    <Flex center pointer className="nitro-purse-right-button settings p-1" onClick={ event => CreateLinkEvent('user-settings/toggle') } >
+                    </Flex></Tooltip>
+                    <Tooltip tooltipWidth={70} content="Indstillinger"><Flex center pointer className="nitro-purse-right-button settings p-1" onClick={ event => CreateLinkEvent('user-settings/toggle') } >
                         <i className="icon icon-purse-settings"/>
-                    </Flex>
-                    <Flex center pointer className="nitro-purse-right-button disconnect p-1" onClick={ event => VisitDesktop() }>
+                    </Flex></Tooltip>
+                    <Tooltip tooltipWidth={119} content="Gå til hoteloversigten"><Flex center pointer className="nitro-purse-right-button disconnect p-1" onClick={ event => VisitDesktop() }>
                         <i className="icon icon-purse-disconnect"/>
-                    </Flex>
+                    </Flex></Tooltip>
                 </Flex>
             </Column>
             { getCurrencyElements(2, -1, true) }
