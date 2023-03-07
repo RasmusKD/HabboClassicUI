@@ -54,11 +54,17 @@ export const CameraWidgetCheckoutView: FC<CameraWidgetCheckoutViewProps> = props
             case 'close':
                 onCloseClick();
                 return;
-            case 'buy':
+            case 'buy1':
                 if(isWaiting) return;
 
                 setIsWaiting(true);
-                SendMessageComposer(new PurchasePhotoMessageComposer(''));
+                SendMessageComposer(new PurchasePhotoMessageComposer(1, ''));
+                return;
+            case 'buy2':
+                if(isWaiting) return;
+
+                setIsWaiting(true);
+                SendMessageComposer(new PurchasePhotoMessageComposer(2, ''));
                 return;
             case 'publish':
                 if(isWaiting) return;
@@ -119,7 +125,36 @@ export const CameraWidgetCheckoutView: FC<CameraWidgetCheckoutViewProps> = props
                             </Text> }
                     </Column>
                     <Flex alignSelf="end">
-                        <Button className="camera-button-width" variant="success-thin" disabled={ isWaiting } onClick={ event => processAction('buy') }>{ LocalizeText(!picturesBought ? 'buy' : 'camera.buy.another.button.text') }</Button>
+                        <Button className="camera-button-width" variant="success-thin" disabled={ isWaiting } onClick={ event => processAction('buy1') }>{ LocalizeText(!picturesBought ? 'buy' : 'camera.buy.another.button.text') }</Button>
+                    </Flex>
+                </Flex>
+                <Flex justifyContent="between" alignItems="center" className="camera-purchase-bg p-2">
+                    <Column size={ publishDisabled ? 7 : 8 } gap={ 1 }>
+                        <Text bold>
+                            { LocalizeText('camera.purchase.header') }
+                        </Text>
+                        { ((price.credits > 0) || (price.duckets > 0)) &&
+                            <Flex gap={ 1 }>
+                                <Text>{ LocalizeText('catalog.purchase.confirmation.dialog.cost') }</Text>
+                                { (price.credits > 0) &&
+                                    <Flex className="camera-price-align" gap={ 1 }>
+                                        <Text bold>{ price.credits }</Text>
+                                        <LayoutCurrencyIconBig type={ -1 } />
+                                    </Flex> }
+                                { (price.duckets > 0) &&
+                                    <Flex gap={ 1 }>
+                                        <Text bold>{ price.duckets }</Text>
+                                        <LayoutCurrencyIconBig type={ 5 } />
+                                    </Flex> }
+                            </Flex> }
+                        { (picturesBought > 0) &&
+                            <Text>
+                                <Text bold>{ LocalizeText('camera.purchase.count.info') }</Text> { picturesBought }
+                                <u className="ms-1 cursor-pointer" onClick={ () => CreateLinkEvent('inventory/toggle') }>{ LocalizeText('camera.open.inventory') }</u>
+                            </Text> }
+                    </Column>
+                    <Flex alignSelf="end">
+                        <Button className="camera-button-width" variant="success-thin" disabled={ isWaiting } onClick={ event => processAction('buy2') }>{ LocalizeText(!picturesBought ? 'buy' : 'camera.buy.another.button.text') }</Button>
                     </Flex>
                 </Flex>
                 { !publishDisabled &&
