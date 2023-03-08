@@ -1,8 +1,8 @@
 import { FC, PropsWithChildren } from 'react';
-import { WiredFurniType, CreateLinkEvent, LocalizeText } from '../../../../api';
+import { WiredFurniType, LocalizeText } from '../../../../api';
 import { WiredBaseView } from '../WiredBaseView';
 import { WiredFurniSelectorView } from '../WiredFurniSelectorView';
-import { Column, Text } from '../../../../common';
+import { Text } from '../../../../common';
 
 export interface WiredConditionBaseViewProps
 {
@@ -23,13 +23,8 @@ export const WiredConditionBaseView: FC<PropsWithChildren<WiredConditionBaseView
             { (requiresFurni > WiredFurniType.STUFF_SELECTION_OPTION_NONE) &&
                     <>
                         <WiredFurniSelectorView />
-                        <hr className="m-0 bg-dark" />
+                        <hr className="m-0 color-dark" />
                     </> }
-                <Column>
-                    <Text underline pointer className="d-flex justify-content-center align-items-center gap-1" onClick={ event => CreateLinkEvent('habboUI/open/wiredhelp') }>
-                        { LocalizeText('wiredfurni.help') }
-                    </Text>
-                </Column>
         </WiredBaseView>
     );
 }

@@ -179,3 +179,55 @@
 		background-position: 0 -197.99px;
 	}
 }
+
+.wired-slider-buttons {
+    justify-content: space-between!important;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: 14px;
+    margin-left: 14px;
+}
+
+.content-area-wired {
+    padding-left: 11px!important;
+    padding-right: 11px!important;
+    padding-top: 4px!important;
+}
+
+.slider-text-margin {
+    margin-left: 4px;
+}
+
+.bottom-gap {
+    gap: 4px!important;
+}
+
+.color-dark {
+    background-color: #232323!important;
+    opacity: 1;
+}
+
+.wired-help-bottom {
+    margin-bottom: 10px;
+}
+
+.wired-align {
+    margin-left: 2px;
+}
+
+.wired-text-bottom {
+    margin-bottom: 30px;
+}
+
+.wired-title-height {
+    margin-bottom: 13px;
+}
+.wired-form {
+    border-image-source: url("../../assets/flash/boxes/card/input4.png");
+    max-height: 16px!important;
+    height: 16px!important;
+    color: white!important;
+    margin-left: 22px;
+    width: 194px;
+    margin-bottom: 10px;
+}

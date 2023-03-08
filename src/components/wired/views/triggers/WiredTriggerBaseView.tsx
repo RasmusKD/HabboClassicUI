@@ -1,8 +1,8 @@
 import { FC, PropsWithChildren } from 'react';
-import { WiredFurniType, CreateLinkEvent, LocalizeText } from '../../../../api';
+import { WiredFurniType, LocalizeText } from '../../../../api';
 import { WiredBaseView } from '../WiredBaseView';
 import { WiredFurniSelectorView } from '../WiredFurniSelectorView';
-import { Column, Text } from '../../../../common';
+import { Text } from '../../../../common';
 
 export interface WiredTriggerBaseViewProps
 {
@@ -22,14 +22,9 @@ export const WiredTriggerBaseView: FC<PropsWithChildren<WiredTriggerBaseViewProp
             { children }
             { (requiresFurni > WiredFurniType.STUFF_SELECTION_OPTION_NONE) &&
                     <>
+                        <hr className="m-0 color-dark" />
                         <WiredFurniSelectorView />
-                        <hr className="m-0 bg-dark" />
                     </> }
-                <Column>
-                    <Text underline pointer className="d-flex justify-content-center align-items-center gap-1" onClick={ event => CreateLinkEvent('habboUI/open/wiredhelp') }>
-                        { LocalizeText('wiredfurni.help') }
-                    </Text>
-                </Column>
         </WiredBaseView>
     );
 }

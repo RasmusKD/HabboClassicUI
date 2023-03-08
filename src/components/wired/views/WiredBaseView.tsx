@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
-import { GetSessionDataManager, LocalizeText, WiredFurniType, WiredSelectionVisualizer } from '../../../api';
+import { CreateLinkEvent, GetSessionDataManager, LocalizeText, WiredFurniType, WiredSelectionVisualizer } from '../../../api';
 import { Column, Flex, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text } from '../../../common';
 import { useWired } from '../../../hooks';
 import { WiredFurniSelectorView } from './WiredFurniSelectorView';
@@ -91,20 +91,24 @@ export const WiredBaseView: FC<PropsWithChildren<WiredBaseViewProps>> = props =>
     return (
         <NitroCardView uniqueKey="nitro-wired" className="nitro-wired" theme="wired">
             <NitroCardHeaderView headerText={ LocalizeText('wiredfurni.title') } onCloseClick={ onClose } />
-            <NitroCardContentView>
-                <Column gap={ 1 }>
-                    <Flex alignItems="center" gap={ 1 }>
+            <NitroCardContentView gap={ 1 }className='content-area-wired'>
+                <Column className='wired-title-height' gap={ 1 }>
+                    <Flex gap={ 1 }>
                         <i className={ `icon icon-wired-${ wiredType }` } />
                         <Text gfbold>{ wiredName }</Text>
                     </Flex>
-                    <Text>{ wiredDescription }</Text>
                 </Column>
-                { !!children && <hr className="m-0 bg-dark" /> }
                 { children }
-                <Flex alignItems="center" gap={ 1 }>
-                    <button type="button" className="btn btn-primary notification-buttons w-100" onClick={ onSave }>{ LocalizeText('wiredfurni.ready') }</button>
-                    <button type="button" className="btn btn-primary notification-buttons w-100" onClick={ onClose }>{ LocalizeText('cancel') }</button>
-                </Flex>
+                <Column className='bottom-gap'>
+                    <Text underline pointer className="d-flex justify-content-center align-items-center gap-1" onClick={ event => CreateLinkEvent('habboUI/open/wiredhelp') }>
+                        { LocalizeText('wiredfurni.help') }
+                    </Text>
+                    <hr className="m-0 color-dark" />
+                    <Flex alignItems="center" gap={ 1 }>
+                        <button type="button" className="btn btn-primary notification-buttons w-100" onClick={ onSave }>{ LocalizeText('wiredfurni.ready') }</button>
+                        <button type="button" className="btn btn-primary notification-buttons w-100" onClick={ onClose }>{ LocalizeText('cancel') }</button>
+                    </Flex>
+                </Column>
             </NitroCardContentView>
         </NitroCardView>
     );

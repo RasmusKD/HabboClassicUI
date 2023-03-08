@@ -1,8 +1,8 @@
 import { WiredActionDefinition } from '@nitrots/nitro-renderer';
 import { FC, PropsWithChildren, useEffect } from 'react';
 import ReactSlider from 'react-slider';
-import { GetWiredTimeLocale, LocalizeText, WiredFurniType, CreateLinkEvent } from '../../../../api';
-import { Column, Text } from '../../../../common';
+import { GetWiredTimeLocale, LocalizeText, WiredFurniType } from '../../../../api';
+import { Text } from '../../../../common';
 import { useWired } from '../../../../hooks';
 import { WiredBaseView } from '../WiredBaseView';
 import { WiredFurniSelectorView } from '../WiredFurniSelectorView';
@@ -33,7 +33,6 @@ export const WiredActionBaseView: FC<PropsWithChildren<WiredActionBaseViewProps>
                         <WiredFurniSelectorView />
                         <hr className="m-0 bg-dark" />
                     </> }
-            <Column>
                 <Text gfbold>{ LocalizeText('wiredfurni.params.delay', [ 'seconds' ], [ GetWiredTimeLocale(actionDelay) ]) }</Text>
                 <ReactSlider
                     className={ 'wired-slider' }
@@ -41,11 +40,6 @@ export const WiredActionBaseView: FC<PropsWithChildren<WiredActionBaseViewProps>
                     max={ 20 }
                     value={ actionDelay }
                     onChange={ event => setActionDelay(event) } />
-
-                <Text underline pointer className="d-flex justify-content-center align-items-center gap-1" onClick={ event => CreateLinkEvent('habboUI/open/wiredhelp') }>
-                      { LocalizeText('wiredfurni.help') }
-                </Text>
-            </Column>
         </WiredBaseView>
     );
 }

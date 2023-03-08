@@ -69,11 +69,13 @@ export const LayoutFurniImageView: FC<LayoutFurniImageViewProps> = props =>
         }
 
         if(imageResult)
-        {
-            const image = imageResult.getImage();
+                {
+                    const image = imageResult.getImage();
 
-            image.onload = () => setImageElement(image);
-        }
+                    if(image) {
+                        image.onload = () => setImageElement(image);
+                    }
+                }
     }, [ productType, productClassId, direction, extraData ]);
 
     if(!imageElement) return null;

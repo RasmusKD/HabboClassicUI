@@ -102,7 +102,7 @@ export const CameraWidgetCheckoutView: FC<CameraWidgetCheckoutViewProps> = props
                 <Flex justifyContent="between" alignItems="center" className="camera-purchase-bg p-2">
                     <Column size={ publishDisabled ? 7 : 8 } gap={ 1 }>
                         <Text bold>
-                            { LocalizeText('camera.purchase.header') }
+                            { LocalizeText('habboclassic.dk.camera.purchase.header1') }
                         </Text>
                         { ((price.credits > 0) || (price.duckets > 0)) &&
                             <Flex gap={ 1 }>
@@ -118,11 +118,6 @@ export const CameraWidgetCheckoutView: FC<CameraWidgetCheckoutViewProps> = props
                                         <LayoutCurrencyIconBig type={ 5 } />
                                     </Flex> }
                             </Flex> }
-                        { (picturesBought > 0) &&
-                            <Text>
-                                <Text bold>{ LocalizeText('camera.purchase.count.info') }</Text> { picturesBought }
-                                <u className="ms-1 cursor-pointer" onClick={ () => CreateLinkEvent('inventory/toggle') }>{ LocalizeText('camera.open.inventory') }</u>
-                            </Text> }
                     </Column>
                     <Flex alignSelf="end">
                         <Button className="camera-button-width" variant="success-thin" disabled={ isWaiting } onClick={ event => processAction('buy1') }>{ LocalizeText(!picturesBought ? 'buy' : 'camera.buy.another.button.text') }</Button>
@@ -131,7 +126,7 @@ export const CameraWidgetCheckoutView: FC<CameraWidgetCheckoutViewProps> = props
                 <Flex justifyContent="between" alignItems="center" className="camera-purchase-bg p-2">
                     <Column size={ publishDisabled ? 7 : 8 } gap={ 1 }>
                         <Text bold>
-                            { LocalizeText('camera.purchase.header') }
+                            { LocalizeText('habboclassic.dk.camera.purchase.header2') }
                         </Text>
                         { ((price.credits > 0) || (price.duckets > 0)) &&
                             <Flex gap={ 1 }>
@@ -147,16 +142,18 @@ export const CameraWidgetCheckoutView: FC<CameraWidgetCheckoutViewProps> = props
                                         <LayoutCurrencyIconBig type={ 5 } />
                                     </Flex> }
                             </Flex> }
-                        { (picturesBought > 0) &&
-                            <Text>
-                                <Text bold>{ LocalizeText('camera.purchase.count.info') }</Text> { picturesBought }
-                                <u className="ms-1 cursor-pointer" onClick={ () => CreateLinkEvent('inventory/toggle') }>{ LocalizeText('camera.open.inventory') }</u>
-                            </Text> }
                     </Column>
                     <Flex alignSelf="end">
                         <Button className="camera-button-width" variant="success-thin" disabled={ isWaiting } onClick={ event => processAction('buy2') }>{ LocalizeText(!picturesBought ? 'buy' : 'camera.buy.another.button.text') }</Button>
                     </Flex>
                 </Flex>
+                { (picturesBought > 0) &&
+                <Column className="camera-purchase-bg p-2">
+                    <Text>
+                        <Text bold>{ LocalizeText('camera.purchase.count.info') }</Text> { picturesBought }
+                        <u className="ms-1 cursor-pointer" onClick={ () => CreateLinkEvent('inventory/toggle') }>{ LocalizeText('camera.open.inventory') }</u>
+                    </Text>
+                </Column>}
                 { !publishDisabled &&
                 <Flex justifyContent="between" alignItems="center" className="bg-muted rounded p-2">
                     <Column gap={ 1 }>
