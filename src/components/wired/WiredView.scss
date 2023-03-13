@@ -1,5 +1,6 @@
 .nitro-wired {
     width: 240px;
+    min-width: 240px;
     resize: none;
     height: auto!important;
 
@@ -212,7 +213,7 @@
 }
 
 .wired-align {
-    margin-left: 2px;
+    margin-left: 3px;
 }
 
 .wired-text-bottom {
@@ -222,12 +223,14 @@
 .wired-title-height {
     margin-bottom: 13px;
 }
+.wired-form2 {
+    margin-left: 22px;
+    width: 194px;
+    margin-bottom: 10px;
+}
 .wired-form {
     border-image-source: url("../../assets/flash/boxes/card/input4.png");
     max-height: 16px!important;
     height: 16px!important;
     color: white!important;
-    margin-left: 22px;
-    width: 194px;
-    margin-bottom: 10px;
 }

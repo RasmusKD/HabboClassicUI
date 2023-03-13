@@ -25,6 +25,26 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
     const { showConfirm = null } = useNotification();
     const { categories = null } = useNavigator();
 
+    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+    const [isVisitorsCountOpen, setIsVisitorsCountOpen] = useState(false);
+    const [isTradesSettingOpen, setIsTradesSettingOpen] = useState(false);
+
+    const handleSelectToggle = (selectName) => {
+        switch (selectName) {
+            case 'category':
+                setIsCategoryOpen(!isCategoryOpen);
+                break;
+            case 'visitorsCount':
+                setIsVisitorsCountOpen(!isVisitorsCountOpen);
+                break;
+            case 'tradesSetting':
+                setIsTradesSettingOpen(!isTradesSettingOpen);
+                break;
+            default:
+                break;
+        }
+    };
+
     const deleteRoom = () =>
     {
         showConfirm(LocalizeText('navigator.roomsettings.deleteroom.confirm.message', [ 'room_name' ], [ roomData.roomName ] ), () =>
@@ -76,19 +96,19 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
             </Column>
             <Column gap={ 1 }>
                 <Text bold>{ LocalizeText('navigator.category') }</Text>
-                <select className="form-select form-select-sm select-width" value={ roomData.categoryId } onChange={ event => handleChange('category', event.target.value) }>
+                <select className={`form-select form-select-sm ${isCategoryOpen ? 'active' : ''}`} value={ roomData.categoryId } onChange={ event => handleChange('category', event.target.value) } onClick={() => handleSelectToggle('category')} onBlur={() => setIsCategoryOpen(false)}>
                     { categories && categories.map(category => <option key={ category.id } value={ category.id }>{ LocalizeText(category.name) }</option>) }
                 </select>
             </Column>
             <Column gap={ 1 }>
                 <Text bold>{ LocalizeText('navigator.maxvisitors') }</Text>
-                <select className="form-select form-select-sm select-width" value={ roomData.userCount } onChange={ event => handleChange('max_visitors', event.target.value) }>
+                <select className={`form-select form-select-sm ${isVisitorsCountOpen ? 'active' : ''}`} value={ roomData.userCount } onChange={ event => handleChange('max_visitors', event.target.value) } onClick={() => handleSelectToggle('visitorsCount')} onBlur={() => setIsVisitorsCountOpen(false)}>
                     { GetMaxVisitorsList && GetMaxVisitorsList.map(value => <option key={ value } value={ value }>{ value }</option>) }
                 </select>
             </Column>
             <Column gap={ 1 }>
                 <Text bold>{ LocalizeText('navigator.tradesettings') }</Text>
-                <select className="form-select form-select-sm select-width" value={ roomData.tradeState } onChange={ event => handleChange('trade_state', event.target.value) }>
+                <select className={`form-select form-select-sm ${isTradesSettingOpen ? 'active' : ''}`} value={ roomData.tradeState } onChange={ event => handleChange('trade_state', event.target.value) } onClick={() => handleSelectToggle('tradesSetting')} onBlur={() => setIsTradesSettingOpen(false)}>
                     <option value="0">{ LocalizeText('navigator.roomsettings.trade_not_allowed') }</option>
                     <option value="1">{ LocalizeText('navigator.roomsettings.trade_not_with_Controller') }</option>
                     <option value="2">{ LocalizeText('navigator.roomsettings.trade_allowed') }</option>

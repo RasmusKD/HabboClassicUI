@@ -24,6 +24,7 @@ import { WiredActionResetView } from './WiredActionResetView';
 import { WiredActionSetFurniStateToView } from './WiredActionSetFurniStateToView';
 import { WiredActionTeleportView } from './WiredActionTeleportView';
 import { WiredActionToggleFurniStateView } from './WiredActionToggleFurniStateView';
+import { WiredActionToggleFurniStateNewView } from './WiredActionToggleFurniStateNewView';
 import { WiredActionRotationView } from './WiredActionRotationView';
 import { WiredActionRollerSpeedView } from './WiredActionRollerSpeedView';
 import { WiredActionPointsNoGameView } from './WiredActionPointsNoGameView';
@@ -87,6 +88,8 @@ export const WiredActionLayoutView = (code: number) =>
             return <WiredActionTeleportView />;
         case WiredActionLayoutCode.TOGGLE_FURNI_STATE:
             return <WiredActionToggleFurniStateView />;
+        case WiredActionLayoutCode.NEW_TOGGLE_FURNI_STATE:
+            return <WiredActionToggleFurniStateNewView />;
         case WiredActionLayoutCode.ROTATION:
             return <WiredActionRotationView />;
         case WiredActionLayoutCode.ROLLERSPEED:

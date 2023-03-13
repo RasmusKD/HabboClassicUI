@@ -16,6 +16,15 @@ export const SearchFormView: FC<SearchFormViewProps> = props =>
     const [ searchQuery, setSearchQuery ] = useState('');
     const [ min, setMin ] = useState(0);
     const [ max, setMax ] = useState(0);
+    const [ isOpen, setIsOpen ] = useState(false);
+
+    function handleSelectClick() {
+        setIsOpen(!isOpen);
+    }
+
+    function handleSelectBlur() {
+        setIsOpen(false);
+    }
 
     const onSortTypeChange = useCallback((sortType: number) =>
     {
@@ -47,7 +56,7 @@ export const SearchFormView: FC<SearchFormViewProps> = props =>
         <Column gap={ 1 }>
             <Flex alignItems="center" gap={ 1 }>
                 <Text className="col-3">{ LocalizeText('catalog.marketplace.sort_order') }</Text>
-                <select className="form-select form-select-sm width-select" value={ sortType } onChange={ event => onSortTypeChange(parseInt(event.target.value)) }>
+                <select className={`form-select form-select-sm width-select ${isOpen ? 'active' : ''}`} value={ sortType } onChange={ event => onSortTypeChange(parseInt(event.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
                     { sortTypes.map(type => <option key={ type } value={ type }>{ LocalizeText(`catalog.marketplace.sort.${ type }`) }</option>) }
                 </select>
             </Flex>

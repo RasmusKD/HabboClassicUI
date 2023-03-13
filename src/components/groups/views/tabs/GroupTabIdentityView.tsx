@@ -22,6 +22,15 @@ export const GroupTabIdentityView: FC<GroupTabIdentityViewProps> = props =>
     const [ groupDescription, setGroupDescription ] = useState<string>('');
     const [ groupHomeroomId, setGroupHomeroomId ] = useState<number>(-1);
     const { showConfirm = null } = useNotification();
+    const [ isOpen, setIsOpen ] = useState(false);
+
+    function handleSelectClick() {
+        setIsOpen(!isOpen);
+    }
+
+    function handleSelectBlur() {
+        setIsOpen(false);
+    }
 
     const deleteGroup = () =>
     {
@@ -96,7 +105,7 @@ export const GroupTabIdentityView: FC<GroupTabIdentityViewProps> = props =>
                         <Column gap={ 1 }>
                             <Text bold>{ LocalizeText('group.edit.base') }</Text>
                             <Column fullWidth gap={ 1 }>
-                                <select className="form-select form-select-sm select-width" value={ groupHomeroomId } onChange={ event => setGroupHomeroomId(parseInt(event.target.value)) }>
+                                <select className={`form-select form-select-sm ${isOpen ? 'active' : ''}`} value={ groupHomeroomId } onChange={ event => setGroupHomeroomId(parseInt(event.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
                                     <option value={ -1 } disabled>{ LocalizeText('group.edit.base.select.room') }</option>
                                     { availableRooms && availableRooms.map((room, index) => <option key={ index } value={ room.id }>{ room.name }</option>) }
                                 </select>

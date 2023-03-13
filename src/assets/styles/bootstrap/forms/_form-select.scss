@@ -5,14 +5,19 @@
 
 .form-select {
   height: 24px;
-  width: 110px;
-  border-image-slice:4 4 4 4 fill;
-  border-image-width:4px 4px 4px 4px;
+  width: 100%;
+  cursor: pointer;
+  border-image-slice:4 21 4 3 fill;
+  border-image-width:4px 21px 4px 3px;
   border-image-repeat:repeat repeat;
-  border-image-source: url("../../../flash/boxes/card/dropdown.png");
+  border-image-source: url("../../../flash/boxes/dropdown_regular.png");
   background-color: transparent;
   appearance: none;
 
+  &.active,
+  &:active {
+      border-image-source: url("../../../flash/boxes/dropdown_regular_active.png");
+  }
 
   &:focus {
     border-color: $form-select-focus-border-color;
@@ -121,4 +126,7 @@
     color: transparent;
     text-shadow: 0 0 0 $form-select-color;
   }
+}
+.form-select-navigator {
+    width: 110px!important;
 }

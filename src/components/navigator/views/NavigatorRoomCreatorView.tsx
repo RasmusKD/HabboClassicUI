@@ -19,6 +19,26 @@ export const NavigatorRoomCreatorView: FC<{}> = props =>
     const [ selectedModelName, setSelectedModelName ] = useState<string>('');
     const { categories = null } = useNavigator();
 
+    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+    const [isVisitorsCountOpen, setIsVisitorsCountOpen] = useState(false);
+    const [isTradesSettingOpen, setIsTradesSettingOpen] = useState(false);
+
+    const handleSelectToggle = (selectName) => {
+        switch (selectName) {
+            case 'category':
+                setIsCategoryOpen(!isCategoryOpen);
+                break;
+            case 'visitorsCount':
+                setIsVisitorsCountOpen(!isVisitorsCountOpen);
+                break;
+            case 'tradesSetting':
+                setIsTradesSettingOpen(!isTradesSettingOpen);
+                break;
+            default:
+                break;
+        }
+    };
+
     const hcDisabled = GetConfiguration<boolean>('hc.disabled', false);
 
     const getRoomModelImage = (name: string) => GetConfiguration<string>('images.url') + `/navigator/models/model_${ name }.png`;
@@ -95,7 +115,7 @@ export const NavigatorRoomCreatorView: FC<{}> = props =>
                             </Column>
                             <Column gap={ 1 }>
                                 <Text gfbold>{ LocalizeText('navigator.category') }</Text>
-                                <select className="form-select form-select-sm" onChange={ event => setCategory(Number(event.target.value)) }>
+                                <select className={`form-select form-select-sm ${isCategoryOpen ? 'active' : ''}`} onChange={ event => setCategory(Number(event.target.value)) } onClick={() => handleSelectToggle('category')} onBlur={() => setIsCategoryOpen(false)}>
                                     { categories && (categories.length > 0) && categories.map(category =>
                                     {
                                         return <option key={ category.id } value={ category.id }>{ LocalizeText(category.name) }</option>
@@ -104,7 +124,7 @@ export const NavigatorRoomCreatorView: FC<{}> = props =>
                             </Column>
                             <Column gap={ 1 }>
                                 <Text gfbold>{ LocalizeText('navigator.maxvisitors') }</Text>
-                                <select value={ visitorsCount } className="form-select form-select-sm" onChange={ event => setVisitorsCount(Number(event.target.value)) }>
+                                <select value={ visitorsCount } className={`form-select form-select-sm ${isVisitorsCountOpen ? 'active' : ''}`} onChange={ event => setVisitorsCount(Number(event.target.value)) } onClick={() => handleSelectToggle('visitorsCount')} onBlur={() => setIsVisitorsCountOpen(false)}>
                                     { maxVisitorsList && maxVisitorsList.map(value =>
                                     {
                                         return <option key={ value } value={ value }>{ value }</option>
@@ -113,7 +133,7 @@ export const NavigatorRoomCreatorView: FC<{}> = props =>
                             </Column>
                             <Column gap={ 1 }>
                                 <Text gfbold>{ LocalizeText('navigator.tradesettings') }</Text>
-                                <select className="form-select form-select-sm" onChange={ event => setTradesSetting(Number(event.target.value)) }>
+                                <select className={`form-select form-select-sm ${isTradesSettingOpen ? 'active' : ''}`} onChange={ event => setTradesSetting(Number(event.target.value)) } onClick={() => handleSelectToggle('tradesSetting')} onBlur={() => setIsTradesSettingOpen(false)}>
                                     <option value="0">{ LocalizeText('navigator.roomsettings.trade_not_allowed') }</option>
                                     <option value="1">{ LocalizeText('navigator.roomsettings.trade_not_with_Controller') }</option>
                                     <option value="2">{ LocalizeText('navigator.roomsettings.trade_allowed') }</option>

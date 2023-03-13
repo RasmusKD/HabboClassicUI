@@ -19,11 +19,12 @@ export const WiredActionTeamTeleportView: FC<{}> = props =>
     return (
         <WiredActionBaseView requiresFurni={ WiredFurniType.STUFF_SELECTION_OPTION_BY_ID } hasSpecialInput={ true } save={ save }>
             <Column gap={ 1 }>
+                <hr className="m-0 color-dark" />
                 <Text gfbold>{ LocalizeText('wiredfurni.params.team') }</Text>
                 { [ 1, 2, 3, 4 ].map(team =>
                 {
                     return (
-                        <Flex key={ team } gap={ 1 }>
+                        <Flex className="mb-1" key={ team } gap={ 1 }>
                             <input className="flash-wired-form-check-radio-input" type="radio" name="selectedTeam" id={ `selectedTeam${ team }` } checked={ (selectedTeam === team) } onChange={ event => setSelectedTeam(team) } />
                             <Text>{ LocalizeText(`wiredfurni.params.team.${ team }`) }</Text>
                         </Flex>

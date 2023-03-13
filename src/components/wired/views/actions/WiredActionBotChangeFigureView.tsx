@@ -25,12 +25,13 @@ export const WiredActionBotChangeFigureView: FC<{}> = props =>
     return (
         <WiredActionBaseView requiresFurni={ WiredFurniType.STUFF_SELECTION_OPTION_NONE } hasSpecialInput={ true } save={ save }>
             <Column gap={ 1 }>
-                <Text gfbold>{ LocalizeText('wiredfurni.params.bot.name') }</Text>
-                <input spellCheck="false" type="text" className="form-control form-control-sm" maxLength={ 32 } value={ botName } onChange={ event => setBotName(event.target.value) } />
+                <hr className="m-0 color-dark" />
+                <Text className='wired-align' gfbold>{ LocalizeText('wiredfurni.params.bot.name') }</Text>
+                <input spellCheck="false" type="text" className="form-control wired-form" maxLength={ 32 } value={ botName } onChange={ event => setBotName(event.target.value) } />
             </Column>
-            <Flex center>
-                <LayoutAvatarImageView figure={ figure } direction={ 4 } />
-                <Button onClick={ event => setFigure(GetSessionDataManager().figure) }>{ LocalizeText('wiredfurni.params.capture.figure') }</Button>
+            <Flex alignItems="center">
+                <LayoutAvatarImageView figure={ figure } direction={ 2 } />
+                <Button className="wired-help-bottom margin-top-auto volter-button" onClick={ event => setFigure(GetSessionDataManager().figure) }>{ LocalizeText('wiredfurni.params.capture.figure') }</Button>
             </Flex>
         </WiredActionBaseView>
     );

@@ -33,6 +33,21 @@ export const ModToolsUserModActionView: FC<ModToolsUserModActionViewProps> = pro
     const [ message, setMessage ] = useState<string>('');
     const { cfhCategories = null, settings = null } = useModTools();
     const { simpleAlert = null } = useNotification();
+    const [isSelectedActionOpen, setIsSelectedActionOpen] = useState(false);
+    const [isSelectedTopicOpen, setIsSelectedTopicOpen] = useState(false);
+
+    const handleSelectToggle = (selectName) => {
+        switch (selectName) {
+            case 'SelectedAction':
+                setIsSelectedActionOpen(!isSelectedActionOpen);
+                break;
+            case 'SelectedTopic':
+                setIsSelectedTopicOpen(!isSelectedTopicOpen);
+                break;
+            default:
+                break;
+        }
+    };
 
     const topics = useMemo(() =>
     {
@@ -154,16 +169,16 @@ export const ModToolsUserModActionView: FC<ModToolsUserModActionViewProps> = pro
         <NitroCardView className="nitro-mod-tools-user-action" theme="modtool-windows" windowPosition={ DraggableWindowPosition.TOP_CENTER }>
             <NitroCardHeaderView headerText={ 'Mod Action: ' + (user ? user.username : '') } onCloseClick={ () => onCloseClick() } />
             <NitroCardContentView className="text-black">
-                <select className="form-select form-select-sm form-width" value={ selectedTopic } onChange={ event => setSelectedTopic(parseInt(event.target.value)) }>
+                <select className={`form-select form-select-sm ${isSelectedTopicOpen ? 'active' : ''}`} value={ selectedTopic } onChange={ event => setSelectedTopic(parseInt(event.target.value)) } onClick={() => handleSelectToggle('SelectedTopic')} onBlur={() => setIsSelectedTopicOpen(false)}>
                     <option value={ -1 } disabled>CFH Emne</option>
                     { topics.map((topic, index) => <option key={ index } value={ index }>{ LocalizeText('help.cfh.topic.' + topic.id) }</option>) }
                 </select>
-                <select className="form-select form-select-sm form-width" value={ selectedAction } onChange={ event => setSelectedAction(parseInt(event.target.value)) }>
+                <select className={`form-select form-select-sm ${isSelectedActionOpen ? 'active' : ''}`} value={ selectedAction } onChange={ event => setSelectedAction(parseInt(event.target.value)) } onClick={() => handleSelectToggle('SelectedAction')} onBlur={() => setIsSelectedActionOpen(false)}>
                     <option value={ -1 } disabled>Sanktionstype</option>
                     { MOD_ACTION_DEFINITIONS.map((action, index) => <option key={ index } value={ index }>{ action.name }</option>) }
                 </select>
                 <Column gap={ 1 }>
-                    <Text small>Valgfri besked, overskriver standard</Text>
+                    <Text variant="white">Valgfri besked, overskriver standard</Text>
                     <textarea spellCheck="false" className="form-control" value={ message } onChange={ event => setMessage(event.target.value) }/>
                 </Column>
                 <Flex justifyContent="between" gap={ 1 }>

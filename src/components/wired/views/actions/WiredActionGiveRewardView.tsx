@@ -8,6 +8,7 @@ import { WiredActionBaseView } from './WiredActionBaseView';
 
 export const WiredActionGiveRewardView: FC<{}> = props =>
 {
+    const [ isOpen, setIsOpen ] = useState(false);
     const [ limitEnabled, setLimitEnabled ] = useState(false);
     const [ rewardTime, setRewardTime ] = useState(1);
     const [ uniqueRewards, setUniqueRewards ] = useState(false);
@@ -18,6 +19,13 @@ export const WiredActionGiveRewardView: FC<{}> = props =>
 
     const addReward = () => setRewards(rewards => [ ...rewards, { isBadge: false, itemCode: '', probability: null } ]);
 
+    function handleSelectClick() {
+        setIsOpen(!isOpen);
+    }
+
+    function handleSelectBlur() {
+        setIsOpen(false);
+    }
     const removeReward = (index: number) =>
     {
         setRewards(prevValue =>
@@ -112,7 +120,7 @@ export const WiredActionGiveRewardView: FC<{}> = props =>
             <Column gap={ 1 }>
                 <Text gfbold>Hvor ofte kan en bruger blive belønnet?</Text>
                 <Flex gap={ 1 }>
-                    <select className="form-select form-select-sm w-100" value={ rewardTime } onChange={ (e) => setRewardTime(Number(e.target.value)) }>
+                    <select className={`form-select form-select-sm ${isOpen ? 'active' : ''}`} value={ rewardTime } onChange={ (e) => setRewardTime(Number(e.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
                         <option value="0">Èn gang</option>
                         <option value="3">Èn gang hver { limitationInterval } minutter</option>
                         <option value="2">Èn gang hver { limitationInterval } timer</option>

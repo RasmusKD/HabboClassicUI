@@ -15,6 +15,15 @@ export const NavigatorSearchView: FC<NavigatorSearchViewProps> = props =>
     const [ searchFilterIndex, setSearchFilterIndex ] = useState(0);
     const [ searchValue, setSearchValue ] = useState('');
     const { topLevelContext = null, searchResult = null } = useNavigator();
+    const [ isOpen, setIsOpen ] = useState(false);
+
+    function handleSelectClick() {
+        setIsOpen(!isOpen);
+    }
+
+    function handleSelectBlur() {
+        setIsOpen(false);
+    }
 
     const processSearch = () =>
     {
@@ -66,7 +75,7 @@ export const NavigatorSearchView: FC<NavigatorSearchViewProps> = props =>
     return (
         <Flex fullWidth gap={ 1 }>
             <Flex shrink>
-                <select className="form-select form-select-sm" value={ searchFilterIndex } onChange={ event => setSearchFilterIndex(parseInt(event.target.value)) }>
+                <select className={`form-select form-select-sm form-select-navigator ${isOpen ? 'active' : ''}`} value={ searchFilterIndex } onChange={ event => setSearchFilterIndex(parseInt(event.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
                     { SearchFilterOptions.map((filter, index) =>
                     {
                         return <option key={ index } value={ index }>{ LocalizeText('navigator.filter.' + filter.name) }</option>

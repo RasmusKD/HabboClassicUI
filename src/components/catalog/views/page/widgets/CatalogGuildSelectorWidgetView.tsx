@@ -9,6 +9,15 @@ export const CatalogGuildSelectorWidgetView: FC<{}> = props =>
     const [ selectedGroupIndex, setSelectedGroupIndex ] = useState<number>(0);
     const { currentOffer = null, catalogOptions = null, setPurchaseOptions = null } = useCatalog();
     const { groups = null } = catalogOptions;
+    const [ isOpen, setIsOpen ] = useState(false);
+
+    function handleSelectClick() {
+        setIsOpen(!isOpen);
+    }
+
+    function handleSelectBlur() {
+        setIsOpen(false);
+    }
 
     const previewStuffData = useMemo(() =>
     {
@@ -67,7 +76,7 @@ export const CatalogGuildSelectorWidgetView: FC<{}> = props =>
                     <Base fullHeight style={ { width: '20px', backgroundColor: '#' + selectedGroup.colorA } } />
                     <Base fullHeight style={ { width: '20px', backgroundColor: '#' + selectedGroup.colorB } } />
                 </Flex> }
-            <select className="form-select form-select-sm" value={ selectedGroupIndex } onChange={ event => setSelectedGroupIndex(parseInt(event.target.value)) }>
+            <select className={`form-select form-select-sm ${isOpen ? 'active' : ''}`} value={ selectedGroupIndex } onChange={ event => setSelectedGroupIndex(parseInt(event.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
                 { groups.map((group, index) => <option key={ index } value={ index }>{ group.groupName }</option>) }
             </select>
         </Flex>

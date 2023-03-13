@@ -15,7 +15,21 @@ export const CatalogLayoutRoomAdsView: FC<CatalogLayoutProps> = props =>
     const [ extended, setExtended ] = useState<boolean>(false);
     const [ categoryId, setCategoryId ] = useState<number>(1);
     const [ categories, setCategories ] = useState<INavigatorCategory[]>(null);
+    const [isCategoryIdOpen, setIsCategoryIdOpen] = useState(false);
+    const [isRoomIdOpen, setIsRoomIdOpen] = useState(false);
 
+    const handleSelectToggle = (selectName) => {
+        switch (selectName) {
+            case 'CategoryId':
+                setIsCategoryIdOpen(!isCategoryIdOpen);
+                break;
+            case 'RoomId':
+                setIsRoomIdOpen(!isRoomIdOpen);
+                break;
+            default:
+                break;
+        }
+    };
     const purchaseAd = () =>
     {
         const pageId = page.pageId;
@@ -57,7 +71,7 @@ export const CatalogLayoutRoomAdsView: FC<CatalogLayoutProps> = props =>
             <Base>{ LocalizeText('roomad.catalog_text') }</Base>
             <Base className="bg-muted rounded p-1">
                 <Column gap={ 2 }>
-                    <select className="form-select form-select-sm" value={ categoryId } onChange={ event => setCategoryId(parseInt(event.target.value)) }>
+                    <select className={`form-select form-select-sm ${isCategoryIdOpen ? 'active' : ''}`} value={ categoryId } onChange={ event => setCategoryId(parseInt(event.target.value)) } onClick={() => handleSelectToggle('CategoryId')} onBlur={() => setIsCategoryIdOpen(false)}>
                         { categories && categories.map((cat, index) => <option key={ index } value={ cat.id }>{ cat.name }</option>) }
                     </select>
                 </Column>
@@ -71,7 +85,7 @@ export const CatalogLayoutRoomAdsView: FC<CatalogLayoutProps> = props =>
                 </Column>
                 <Column gap={ 1 }>
                     <Text bold>{ LocalizeText('roomad.catalog_roomname') }</Text>
-                    <select className="form-select form-select-sm" value={ roomId } onChange={ event => setRoomId(parseInt(event.target.value)) }>
+                    <select className={`form-select form-select-sm ${isRoomIdOpen ? 'active' : ''}`} value={ roomId } onChange={ event => setRoomId(parseInt(event.target.value)) } onClick={() => handleSelectToggle('RoomId')} onBlur={() => setIsRoomIdOpen(false)}>
                         <option value={ -1 } disabled>{ LocalizeText('roomad.catalog_roomname') }</option>
                         { availableRooms && availableRooms.map((room, index) => <option key={ index } value={ room.roomId }>{ room.roomName }</option>) }
                     </select>

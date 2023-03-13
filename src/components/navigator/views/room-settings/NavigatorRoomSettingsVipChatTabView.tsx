@@ -13,7 +13,37 @@ export const NavigatorRoomSettingsVipChatTabView: FC<NavigatorRoomSettingsTabVie
 {
     const { roomData = null, handleChange = null } = props;
     const [ chatDistance, setChatDistance ] = useState<number>(0);
+    const [isChat1Open, setIsChat1Open] = useState(false);
+    const [isChat2Open, setIsChat2Open] = useState(false);
+    const [isChat3Open, setIsChat3Open] = useState(false);
+    const [isChat4Open, setIsChat4Open] = useState(false);
+    const [isWallsOpen, setIsWallsOpen] = useState(false);
+    const [isFloorOpen, setIsFloorOpen] = useState(false);
 
+        const handleSelectToggle = (selectName) => {
+            switch (selectName) {
+                case 'Chat1':
+                    setIsChat1Open(!isChat1Open);
+                    break;
+                case 'Chat2':
+                    setIsChat2Open(!isChat2Open);
+                    break;
+                case 'Chat3':
+                    setIsChat3Open(!isChat3Open);
+                    break;
+                case 'Chat4':
+                    setIsChat4Open(!isChat4Open);
+                    break;
+                case 'Walls':
+                    setIsWallsOpen(!isWallsOpen);
+                    break;
+                case 'Floor':
+                    setIsFloorOpen(!isFloorOpen);
+                    break;
+                default:
+                    break;
+            }
+        };
     useEffect(() =>
     {
         setChatDistance(roomData.chatSettings.distance);
@@ -29,21 +59,21 @@ export const NavigatorRoomSettingsVipChatTabView: FC<NavigatorRoomSettingsTabVie
                 <Column size={ 6 } gap={ 1 }>
                     <Text bold>{ LocalizeText('navigator.roomsettings.chat_settings') }</Text>
                     <Text>{ LocalizeText('navigator.roomsettings.chat_settings.info') }</Text>
-                    <select className="form-select form-select-sm" value={ roomData.chatSettings.mode } onChange={ event => handleChange('bubble_mode', event.target.value) }>
+                    <select className={`form-select form-select-sm ${isChat1Open ? 'active' : ''}`} value={ roomData.chatSettings.mode } onChange={ event => handleChange('bubble_mode', event.target.value) } onClick={() => handleSelectToggle('Chat1')} onBlur={() => setIsChat1Open(false)}>
                         <option value={ RoomChatSettings.CHAT_MODE_FREE_FLOW }>{ LocalizeText('navigator.roomsettings.chat.mode.free.flow') }</option>
                         <option value={ RoomChatSettings.CHAT_MODE_LINE_BY_LINE }>{ LocalizeText('navigator.roomsettings.chat.mode.line.by.line') }</option>
                     </select>
-                    <select className="form-select form-select-sm" value={ roomData.chatSettings.weight } onChange={ event => handleChange('chat_weight', event.target.value) }>
+                    <select className={`form-select form-select-sm ${isChat2Open ? 'active' : ''}`} value={ roomData.chatSettings.weight } onChange={ event => handleChange('chat_weight', event.target.value) } onClick={() => handleSelectToggle('Chat2')} onBlur={() => setIsChat2Open(false)}>
                         <option value={ RoomChatSettings.CHAT_BUBBLE_WIDTH_NORMAL }>{ LocalizeText('navigator.roomsettings.chat.bubbles.width.normal') }</option>
                         <option value={ RoomChatSettings.CHAT_BUBBLE_WIDTH_THIN }>{ LocalizeText('navigator.roomsettings.chat.bubbles.width.thin') }</option>
                         <option value={ RoomChatSettings.CHAT_BUBBLE_WIDTH_WIDE }>{ LocalizeText('navigator.roomsettings.chat.bubbles.width.wide') }</option>
                     </select>
-                    <select className="form-select form-select-sm" value={ roomData.chatSettings.speed } onChange={ event => handleChange('bubble_speed', event.target.value) }>
+                    <select className={`form-select form-select-sm ${isChat3Open ? 'active' : ''}`} value={ roomData.chatSettings.speed } onChange={ event => handleChange('bubble_speed', event.target.value) } onClick={() => handleSelectToggle('Chat3')} onBlur={() => setIsChat3Open(false)}>
                         <option value={ RoomChatSettings.CHAT_SCROLL_SPEED_FAST }>{ LocalizeText('navigator.roomsettings.chat.speed.fast') }</option>
                         <option value={ RoomChatSettings.CHAT_SCROLL_SPEED_NORMAL }>{ LocalizeText('navigator.roomsettings.chat.speed.normal') }</option>
                         <option value={ RoomChatSettings.CHAT_SCROLL_SPEED_SLOW }>{ LocalizeText('navigator.roomsettings.chat.speed.slow') }</option>
                     </select>
-                    <select className="form-select form-select-sm" value={ roomData.chatSettings.protection } onChange={ event => handleChange('flood_protection', event.target.value) }>
+                    <select className={`form-select form-select-sm ${isChat4Open ? 'active' : ''}`} value={ roomData.chatSettings.protection } onChange={ event => handleChange('flood_protection', event.target.value) } onClick={() => handleSelectToggle('Chat4')} onBlur={() => setIsChat4Open(false)}>
                         <option value={ RoomChatSettings.FLOOD_FILTER_LOOSE }>{ LocalizeText('navigator.roomsettings.chat.flood.loose') }</option>
                         <option value={ RoomChatSettings.FLOOD_FILTER_NORMAL }>{ LocalizeText('navigator.roomsettings.chat.flood.normal') }</option>
                         <option value={ RoomChatSettings.FLOOD_FILTER_STRICT }>{ LocalizeText('navigator.roomsettings.chat.flood.strict') }</option>
@@ -57,13 +87,13 @@ export const NavigatorRoomSettingsVipChatTabView: FC<NavigatorRoomSettingsTabVie
                         <input className="flash-form-check-input" type="checkbox" checked={ roomData.hideWalls } onChange={ event => handleChange('hide_walls', event.target.checked) } />
                         <Text>{ LocalizeText('navigator.roomsettings.hide_walls') }</Text>
                     </Flex>
-                    <select className="form-select form-select-sm" value={ roomData.wallThickness } onChange={ event => handleChange('wall_thickness', event.target.value) }>
+                    <select className={`form-select form-select-sm ${isWallsOpen ? 'active' : ''}`} value={ roomData.wallThickness } onChange={ event => handleChange('wall_thickness', event.target.value) } onClick={() => handleSelectToggle('Walls')} onBlur={() => setIsWallsOpen(false)}>
                         <option value="0">{ LocalizeText('navigator.roomsettings.wall_thickness.normal') }</option>
                         <option value="1">{ LocalizeText('navigator.roomsettings.wall_thickness.thick') }</option>
                         <option value="-1">{ LocalizeText('navigator.roomsettings.wall_thickness.thin') }</option>
                         <option value="-2">{ LocalizeText('navigator.roomsettings.wall_thickness.thinnest') }</option>
                     </select>
-                    <select className="form-select form-select-sm" value={ roomData.floorThickness } onChange={ event => handleChange('floor_thickness', event.target.value) }>
+                    <select className={`form-select form-select-sm ${isFloorOpen ? 'active' : ''}`} value={ roomData.floorThickness } onChange={ event => handleChange('floor_thickness', event.target.value) } onClick={() => handleSelectToggle('Floor')} onBlur={() => setIsFloorOpen(false)}>
                         <option value="0">{ LocalizeText('navigator.roomsettings.floor_thickness.normal') }</option>
                         <option value="1">{ LocalizeText('navigator.roomsettings.floor_thickness.thick') }</option>
                         <option value="-1">{ LocalizeText('navigator.roomsettings.floor_thickness.thin') }</option>

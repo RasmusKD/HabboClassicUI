@@ -1,6 +1,8 @@
 .nitro-wired-help {
     height: $wired-help-height;
     width: $wired-help-width;
+    min-height: $wired-help-height;
+    min-width: $wired-help-width;
     resize: none;
 
     .wired-help-image1 {
@@ -34,6 +36,8 @@
         align-self: center;
         background-repeat: no-repeat;
         background-position: bottom;
+        position: relative;
+        right: 2px;
     }
 }
 

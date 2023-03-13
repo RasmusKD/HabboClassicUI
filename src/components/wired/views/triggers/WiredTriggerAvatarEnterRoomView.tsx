@@ -32,7 +32,7 @@ export const WiredTriggerAvatarEnterRoomView: FC<{}> = props =>
                     <Text>{ LocalizeText('wiredfurni.params.certainavatar') }</Text>
                 </Flex>
                 { (avatarMode === 1) &&
-                    <input spellCheck="false" type="text" className="form-control wired-form" value={ username } onChange={ event => setUsername(event.target.value) } /> }
+                    <input spellCheck="false" type="text" className="form-control wired-form wired-form2" value={ username } onChange={ event => setUsername(event.target.value) } /> }
             </Column>
         </WiredTriggerBaseView>
     );

@@ -11,6 +11,15 @@ export const WiredActionBotGiveHandItemView: FC<{}> = props =>
     const [ botName, setBotName ] = useState('');
     const [ handItemId, setHandItemId ] = useState(-1);
     const { trigger = null, setStringParam = null, setIntParams = null } = useWired();
+    const [ isOpen, setIsOpen ] = useState(false);
+
+    function handleSelectClick() {
+        setIsOpen(!isOpen);
+    }
+
+    function handleSelectBlur() {
+        setIsOpen(false);
+    }
 
     const save = () =>
     {
@@ -27,15 +36,18 @@ export const WiredActionBotGiveHandItemView: FC<{}> = props =>
     return (
         <WiredActionBaseView requiresFurni={ WiredFurniType.STUFF_SELECTION_OPTION_NONE } hasSpecialInput={ true } save={ save }>
             <Column gap={ 1 }>
-                <Text gfbold>{ LocalizeText('wiredfurni.params.bot.name') }</Text>
-                <input spellCheck="false" type="text" className="form-control form-control-sm" maxLength={ 32 } value={ botName } onChange={ event => setBotName(event.target.value) } />
+                <hr className="m-0 color-dark" />
+                <Text className='wired-align' gfbold>{ LocalizeText('wiredfurni.params.bot.name') }</Text>
+                <input spellCheck="false" type="text" className="form-control wired-form" maxLength={ 32 } value={ botName } onChange={ event => setBotName(event.target.value) } />
             </Column>
             <Column gap={ 1 }>
+                <hr className="m-0 color-dark" />
                 <Text gfbold>{ LocalizeText('wiredfurni.params.handitem') }</Text>
-                <select className="form-select form-select-sm" value={ handItemId } onChange={ event => setHandItemId(parseInt(event.target.value)) }>
+                <select className={`form-select form-select-sm ${isOpen ? 'active' : ''}`} value={ handItemId } onChange={ event => setHandItemId(parseInt(event.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
                     <option value="0">------</option>
                     { ALLOWED_HAND_ITEM_IDS.map(value => <option key={ value } value={ value }>{ LocalizeText(`handitem${ value }`) }</option>) }
                 </select>
+                <hr className="m-0 color-dark" />
             </Column>
         </WiredActionBaseView>
     );

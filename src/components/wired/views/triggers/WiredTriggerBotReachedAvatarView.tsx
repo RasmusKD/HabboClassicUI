@@ -18,9 +18,9 @@ export const WiredTriggerBotReachedAvatarView: FC<{}> = props =>
 
     return (
         <WiredTriggerBaseView requiresFurni={ WiredFurniType.STUFF_SELECTION_OPTION_NONE } hasSpecialInput={ true } save={ save }>
-            <Column gap={ 1 }>
+            <Column className="mb-1" gap={ 1 }>
                 <Text gfbold>{ LocalizeText('wiredfurni.params.bot.name') }</Text>
-                <input spellCheck="false" type="text" className="form-control form-control-sm" maxLength={ 32 } value={ botName } onChange={ event => setBotName(event.target.value) } />
+                <input spellCheck="false" type="text" className="form-control wired-form wired-help-bottom" maxLength={ 32 } value={ botName } onChange={ event => setBotName(event.target.value) } />
             </Column>
         </WiredTriggerBaseView>
     );

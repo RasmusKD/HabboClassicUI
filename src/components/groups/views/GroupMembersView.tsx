@@ -16,6 +16,16 @@ export const GroupMembersView: FC<{}> = props =>
     const [ removingMemberName, setRemovingMemberName ] = useState<string>(null);
     const { showConfirm = null } = useNotification();
 
+    const [ isOpen, setIsOpen ] = useState(false);
+
+        function handleSelectClick() {
+            setIsOpen(!isOpen);
+        }
+
+        function handleSelectBlur() {
+            setIsOpen(false);
+        }
+
     const getRankDescription = (member: GroupMemberParser) =>
     {
         if(member.rank === GroupRank.OWNER) return 'group.members.owner';
@@ -155,7 +165,7 @@ export const GroupMembersView: FC<{}> = props =>
                     </Flex>
                     <Column fullWidth gap={ 1 }>
                         <input spellCheck="false" type="text" className="form-control form-control-sm w-100" placeholder={ LocalizeText('group.members.searchinfo') } value={ searchQuery } onChange={ event => setSearchQuery(event.target.value) } />
-                        <select className="form-select form-select-sm w-100 margin-top-auto" value={ levelId } onChange={ event => setLevelId(parseInt(event.target.value)) }>
+                        <select className={`form-select form-select-sm margin-top-auto ${isOpen ? 'active' : ''}`} value={ levelId } onChange={ event => setLevelId(parseInt(event.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
                             <option value="0">{ LocalizeText('group.members.search.all') }</option>
                             <option value="1">{ LocalizeText('group.members.search.admins') }</option>
                             <option value="2">{ LocalizeText('group.members.search.pending') }</option>

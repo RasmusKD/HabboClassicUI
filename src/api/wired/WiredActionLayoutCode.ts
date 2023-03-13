@@ -1,6 +1,6 @@
 export class WiredActionLayoutCode
 {
-    public static TOGGLE_FURNI_STATE: number = 0;
+    public static NEW_TOGGLE_FURNI_STATE: number = 0;
     public static RESET: number = 1;
     public static SET_FURNI_STATE: number = 3;
     public static MOVE_FURNI: number = 4;
@@ -34,4 +34,5 @@ export class WiredActionLayoutCode
     public static TAGS: number = 33;
     public static DISTANCE: number = 34;
     public static TEAM_TELEPORT: number = 35;
+    public static TOGGLE_FURNI_STATE: number = 36;
 }
