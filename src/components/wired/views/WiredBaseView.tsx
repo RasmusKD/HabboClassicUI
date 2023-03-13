@@ -81,6 +81,7 @@ export const WiredBaseView: FC<PropsWithChildren<WiredBaseViewProps>> = props =>
                 return [];
             });
         }
+        setAllowsFurni(requiresFurni);
     }, [ trigger, hasSpecialInput, requiresFurni, setIntParams, setStringParam, setFurniIds, setAllowsFurni ]);
 
     return (
