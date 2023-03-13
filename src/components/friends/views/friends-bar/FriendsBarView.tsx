@@ -12,8 +12,8 @@ export const FriendBarView: FC<{ onlineFriends: MessengerFriend[] }> = (props) =
     function handleResize() {
       const windowWidth = window.innerWidth || 0;
       const maxItemCount = Math.floor((windowWidth - 730) / 127);
-      setMaxDisplayCount(maxItemCount);
-      setIndexOffset(0); // set indexOffset to 0 on resize
+      setMaxDisplayCount(Math.min(maxItemCount, onlineFriends.length)); // update maxDisplayCount
+      setIndexOffset(0);
     }
 
     handleResize(); // initial calculation
@@ -21,13 +21,10 @@ export const FriendBarView: FC<{ onlineFriends: MessengerFriend[] }> = (props) =
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [onlineFriends]);
 
   const maxIndexOffset = onlineFriends.length - Math.max(maxDisplayCount, 0);
-  const displayedFriends = onlineFriends.slice(
-    Math.min(indexOffset, maxIndexOffset),
-    Math.min(indexOffset + Math.max(maxDisplayCount, 0), onlineFriends.length)
-  );
+  const displayedFriends = onlineFriends.slice(indexOffset, indexOffset + maxDisplayCount);
 
   if (onlineFriends.length < 3) {
     // add dummy friends to the array

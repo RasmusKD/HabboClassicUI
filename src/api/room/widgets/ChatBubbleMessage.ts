@@ -8,12 +8,11 @@ export class ChatBubbleMessage
     public width: number = 0;
     public height: number = 0;
     public elementRef: HTMLDivElement = null;
-    public visible: boolean = false;
     public skipMovement: boolean = false;
 
     private _top: number = 0;
     private _left: number = 0;
-    
+
     constructor(
         public senderId: number = -1,
         public senderCategory: number = -1,
@@ -26,7 +25,7 @@ export class ChatBubbleMessage
         public styleId: number = 0,
         public imageUrl: string = null,
         public color: string = null
-    ) 
+    )
     {
         this.id = ++ChatBubbleMessage.BUBBLE_COUNTER;
     }

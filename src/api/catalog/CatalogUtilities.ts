@@ -156,7 +156,8 @@ export function GetPetAvailableColors(petIndex: number, palettes: SellablePetPal
 //             return [ ];
 //         case 35: //Cow
 //             return [ ];
-
+         case 36: //Dragon Dog
+             return [ [ 2263071 ], [ 11153456 ], [ 4210760 ], [ 12969962 ], [ 1339561 ] ];
 
         default: {
             const colors: number[][] = [];

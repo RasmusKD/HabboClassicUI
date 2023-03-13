@@ -61,17 +61,19 @@ export const WiredActionMoveFurniView: FC<{}> = props =>
 
     return (
         <WiredActionBaseView requiresFurni={ WiredFurniType.STUFF_SELECTION_OPTION_BY_ID_BY_TYPE_OR_FROM_CONTEXT } hasSpecialInput={ true } save={ save }>
-            <Column gap={ 1 }>
+            <Column className='wired-align' gap={ 1 }>
+                <hr className="m-0 color-dark"/>
                 <Text gfbold>{ LocalizeText('wiredfurni.params.movefurni') }</Text>
+                <Column gap={ 2 }>
                 <Flex alignItems="center" gap={ 1 }>
                     <input className="flash-wired-form-check-radio-input" type="radio" name="selectedTeam" id="movement0" checked={ (movement === 0) } onChange={ event => setMovement(0) } />
                     <Text>{ LocalizeText('wiredfurni.params.movefurni.0') }</Text>
                 </Flex>
-                <Flex gap={ 1 }>
+                <Flex className='mb-1 wired-wrap wired-gap'>
                     { directionOptions.map(option =>
                     {
                         return (
-                            <Flex alignItems="center" key={ option.value } gap={ 1 }>
+                            <Flex alignItems="center" key={ option.value }>
                                 <input className="flash-wired-form-check-radio-input" type="radio" name="movement" id={ `movement${ option.value }` } checked={ (movement === option.value) } onChange={ event => setMovement(option.value) } />
                                 <i className={ `icon icon-${ option.icon }` } />
                             </Flex>
@@ -79,9 +81,12 @@ export const WiredActionMoveFurniView: FC<{}> = props =>
                     }) }
                     <div className="col" />
                 </Flex>
+                </Column>
             </Column>
-            <Column gap={ 1 }>
+            <Column className='wired-align' gap={ 1 }>
+                <hr className="m-0 color-dark"/>
                 <Text gfbold>{ LocalizeText('wiredfurni.params.rotatefurni') }</Text>
+                <Column className="mb-1" gap={ 2 }>
                 { rotationOptions.map(option =>
                 {
                     return (
@@ -94,6 +99,7 @@ export const WiredActionMoveFurniView: FC<{}> = props =>
                         </Flex>
                     )
                 }) }
+                </Column>
             </Column>
         </WiredActionBaseView>
     );

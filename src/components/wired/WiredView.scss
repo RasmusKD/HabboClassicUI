@@ -15,36 +15,43 @@
 		&.icon-mv-1 {
             width: 22px;
             height: 13px;
+            margin-right: 11px;
 			background-image: url('../../assets/images/wired/icon_wired_around.png');
 		}
 		&.icon-mv-2 {
             width: 18px;
             height: 11px;
+            margin-right: 15px;
 			background-image: url('../../assets/images/wired/icon_wired_up_down.png');
 		}
 		&.icon-mv-3 {
             width: 18px;
             height: 11px;
+            margin-right: 15px;
 			background-image: url('../../assets/images/wired/icon_wired_left_right.png');
 		}
 		&.icon-ne {
             width: 13px;
             height: 7px;
+			margin-right: 20px;
 			background-image: url('../../assets/images/wired/icon_wired_north_east.png');
 		}
 		&.icon-se {
             width: 13px;
             height: 7px;
+            margin-right: 20px;
 			background-image: url('../../assets/images/wired/icon_wired_south_east.png');
 		}
 		&.icon-sw {
             width: 13px;
             height: 7px;
+            margin-right: 20px;
 			background-image: url('../../assets/images/wired/icon_wired_south_west.png');
 		}
 		&.icon-nw {
             width: 13px;
             height: 7px;
+            margin-right: 20px;
 			background-image: url('../../assets/images/wired/icon_wired_north_west.png');
 		}
 		&.icon-rot-1 {
@@ -223,14 +230,28 @@
 .wired-title-height {
     margin-bottom: 13px;
 }
+
 .wired-form2 {
     margin-left: 22px;
     width: 194px;
     margin-bottom: 10px;
 }
+
 .wired-form {
     border-image-source: url("../../assets/flash/boxes/card/input4.png");
     max-height: 16px!important;
     height: 16px!important;
     color: white!important;
+}
+
+.bot-handitem-selector {
+    height: 22px!important;
+}
+
+.wired-wrap {
+    flex-wrap: wrap;
+}
+
+.wired-gap {
+    grid-row-gap: 0.5rem;
 }

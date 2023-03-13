@@ -227,7 +227,7 @@ export const CatalogLayoutPetView: FC<CatalogLayoutProps> = props =>
                                 <HCColorGridItem itemHighlight key={ index } itemActive={ (selectedColorIndex === index) } itemColor={ ColorConverter.int2rgb(colorSet[0]) } className="clear-bg" onClick={ event => setSelectedColorIndex(index) } />) }
                             </AutoGrid>
                         </Column>}
-                        {[8, 10, 12, 14, 17, 18, 19, 20, 21, 22, 23, 25, 32].includes(petIndex) &&
+                        {[8, 10, 12, 14, 17, 18, 19, 20, 21, 22, 23, 25, 32, 36].includes(petIndex) &&
                         <Column className="grid-bg h-itemgrid-pets" size={ 7 } overflow="hidden">
                             <AutoGrid className="colors-padding" gap={ 1 } columnCount={ 11 } columnMinWidth={ 25 } columnMinHeight={ 40 }>
                                 { (sellableColors.length > 0) && sellableColors.map((colorSet, index) =>

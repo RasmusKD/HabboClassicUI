@@ -43,7 +43,7 @@ export const WiredActionBotGiveHandItemView: FC<{}> = props =>
             <Column gap={ 1 }>
                 <hr className="m-0 color-dark" />
                 <Text gfbold>{ LocalizeText('wiredfurni.params.handitem') }</Text>
-                <select className={`form-select form-select-sm ${isOpen ? 'active' : ''}`} value={ handItemId } onChange={ event => setHandItemId(parseInt(event.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
+                <select className={`form-select form-select-sm bot-handitem-selector ${isOpen ? 'active' : ''}`} value={ handItemId } onChange={ event => setHandItemId(parseInt(event.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
                     <option value="0">------</option>
                     { ALLOWED_HAND_ITEM_IDS.map(value => <option key={ value } value={ value }>{ LocalizeText(`handitem${ value }`) }</option>) }
                 </select>

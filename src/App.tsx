@@ -5,8 +5,6 @@ import { Base, TransitionAnimation, TransitionAnimationTypes } from './common';
 import { LoadingView } from './components/loading/LoadingView';
 import { MainView } from './components/main/MainView';
 import { useConfigurationEvent, useLocalizationEvent, useMainEvent, useRoomEngineEvent } from './hooks';
-import IntervalWebWorker from './workers/IntervalWebWorker';
-import { WorkerBuilder } from './workers/WorkerBuilder';
 
 NitroVersion.UI_VERSION = GetUIVersion();
 
@@ -24,13 +22,9 @@ export const App: FC<{}> = props =>
         if(!NitroConfig) throw new Error('NitroConfig is not defined!');
 
         Nitro.bootstrap();
-
-        const worker = new WorkerBuilder(IntervalWebWorker);
-
-        Nitro.instance.setWorker(worker);
     }
 
-    const handler = useCallback((event: NitroEvent) =>
+    const handler = useCallback(async (event: NitroEvent) =>
     {
         switch(event.type)
         {
@@ -88,20 +82,19 @@ export const App: FC<{}> = props =>
 
                 if(assetUrls && assetUrls.length) for(const url of assetUrls) urls.push(NitroConfiguration.interpolate(url));
 
-                GetAssetManager().downloadAssets(urls, (status: boolean) =>
-                {
-                    if(status)
-                    {
-                        GetCommunication().init();
+                const status = await GetAssetManager().downloadAssets(urls);
 
-                        setPercent(prevValue => (prevValue + 20))
-                    }
-                    else
-                    {
-                        setIsError(true);
-                        setMessage('Assets Failed');
-                    }
-                });
+                if(status)
+                {
+                    GetCommunication().init();
+
+                    setPercent(prevValue => (prevValue + 20))
+                }
+                else
+                {
+                    setIsError(true);
+                    setMessage('Assets Failed');
+                }
                 return;
             }
         }
