@@ -11,11 +11,12 @@ export interface WiredBaseViewProps
     hasSpecialInput: boolean;
     save: () => void;
     validate?: () => boolean;
+    hasDelay?: boolean;
 }
 
 export const WiredBaseView: FC<PropsWithChildren<WiredBaseViewProps>> = props =>
 {
-    const { wiredType = '', requiresFurni = WiredFurniType.STUFF_SELECTION_OPTION_NONE, save = null, validate = null, children = null, hasSpecialInput = false } = props;
+    const { wiredType = '', requiresFurni = WiredFurniType.STUFF_SELECTION_OPTION_NONE, save = null, validate = null, children = null, hasSpecialInput = false, hasDelay = true } = props;
     const [ wiredName, setWiredName ] = useState<string>(null);
     const [ wiredDescription, setWiredDescription ] = useState<string>(null);
     const [ needsSave, setNeedsSave ] = useState<boolean>(false);

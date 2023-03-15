@@ -33,7 +33,8 @@ import { WiredActionStackChanceView } from './WiredActionStackChanceView';
 import { WiredActionTagsView } from './WiredActionTagsView';
 import { WiredActionDistanceView } from './WiredActionDistanceView';
 import { WiredActionTeamTeleportView } from './WiredActionTeamTeleportView';
-
+import { WiredActionStateIsView } from './WiredActionStateIsView';
+import { WiredActionCountView } from './WiredActionCountView';
 export const WiredActionLayoutView = (code: number) =>
 {
     switch(code)
@@ -106,6 +107,10 @@ export const WiredActionLayoutView = (code: number) =>
             return <WiredActionDistanceView />;
         case WiredActionLayoutCode.TEAM_TELEPORT:
             return <WiredActionTeamTeleportView />;
+        case WiredActionLayoutCode.STATE_IS:
+            return <WiredActionStateIsView />;
+        case WiredActionLayoutCode.COUNT:
+            return <WiredActionCountView />;
     }
 
     return null;

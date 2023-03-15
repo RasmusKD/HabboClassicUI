@@ -23,7 +23,6 @@ export const WiredConditionBaseView: FC<PropsWithChildren<WiredConditionBaseView
             { (requiresFurni > WiredFurniType.STUFF_SELECTION_OPTION_NONE) &&
                     <>
                         <WiredFurniSelectorView />
-                        <hr className="m-0 color-dark" />
                     </> }
         </WiredBaseView>
     );

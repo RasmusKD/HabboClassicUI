@@ -12,11 +12,12 @@ export interface WiredActionBaseViewProps
     hasSpecialInput: boolean;
     requiresFurni: number;
     save: () => void;
+    hasDelay?: boolean;
 }
 
 export const WiredActionBaseView: FC<PropsWithChildren<WiredActionBaseViewProps>> = props =>
 {
-    const { requiresFurni = WiredFurniType.STUFF_SELECTION_OPTION_NONE, save = null, hasSpecialInput = false, children = null } = props;
+    const { requiresFurni = WiredFurniType.STUFF_SELECTION_OPTION_NONE, save = null, hasSpecialInput = false, children = null, hasDelay = true } = props;
     const { trigger = null, actionDelay = 0, setActionDelay = null } = useWired();
 
     useEffect(() =>
@@ -32,13 +33,16 @@ export const WiredActionBaseView: FC<PropsWithChildren<WiredActionBaseViewProps>
         setActionDelay(actionDelay - 1);
     }
     return (
-        <WiredBaseView wiredType="action" requiresFurni={ requiresFurni } save={ save } hasSpecialInput={ hasSpecialInput }>
+        <WiredBaseView wiredType="action" requiresFurni={ requiresFurni } save={ save } hasSpecialInput={ hasSpecialInput } hasDelay={ hasDelay }>
             { children }
                 { (requiresFurni > WiredFurniType.STUFF_SELECTION_OPTION_NONE) &&
                     <>  <hr className="m-0 color-dark" />
                         <WiredFurniSelectorView />
-                        <hr className="m-0 color-dark" />
+                        { hasDelay &&
+                        <hr className="m-0 color-dark" />}
                     </> }
+                { hasDelay &&
+                <>
                 <Text className='slider-text-margin' gfbold>{ LocalizeText('wiredfurni.params.delay', [ 'seconds' ], [ GetWiredTimeLocale(actionDelay) ]) }</Text>
                 <Flex className='wired-slider-buttons wired-help-bottom'>
                     <Button disabled={ ((actionDelay === 0)) } className="notification-buttons help-button-size" onClick={ handlePrev }>
@@ -53,7 +57,7 @@ export const WiredActionBaseView: FC<PropsWithChildren<WiredActionBaseViewProps>
                     <Button disabled={ ((actionDelay === 20)) }className="notification-buttons help-button-size" onClick={ handleNext }>
                         <i className="icon button-next"/>
                     </Button>
-                </Flex>
+                </Flex></>}
         </WiredBaseView>
     );
 }

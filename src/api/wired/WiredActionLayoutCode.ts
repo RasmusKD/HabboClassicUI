@@ -35,4 +35,6 @@ export class WiredActionLayoutCode
     public static DISTANCE: number = 34;
     public static TEAM_TELEPORT: number = 35;
     public static TOGGLE_FURNI_STATE: number = 36;
+    public static STATE_IS: number = 37;
+    public static COUNT: number = 38;
 }

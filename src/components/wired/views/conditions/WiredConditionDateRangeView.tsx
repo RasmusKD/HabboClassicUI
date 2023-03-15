@@ -45,13 +45,15 @@ export const WiredConditionDateRangeView: FC<{}> = props =>
 
     return (
         <WiredConditionBaseView requiresFurni={ WiredFurniType.STUFF_SELECTION_OPTION_NONE } hasSpecialInput={ true } save={ save }>
-            <Column gap={ 1 }>
-                <Text gfbold>{ LocalizeText('wiredfurni.params.startdate') }</Text>
-                <input spellCheck="false" type="text" className="form-control form-control-sm" value={ startDate } onChange={ (e) => setStartDate(e.target.value) } />
+            <Column className='mb-1' gap={ 1 }>
+                <hr className="m-0 color-dark" />
+                <Text className='wired-align' gfbold>{ LocalizeText('wiredfurni.params.startdate') }</Text>
+                <input spellCheck="false" type="text" className="form-control wired-form" value={ startDate } onChange={ (e) => setStartDate(e.target.value) } />
             </Column>
-            <Column gap={ 1 }>
-                <Text gfbold>{ LocalizeText('wiredfurni.params.enddate') }</Text>
-                <input spellCheck="false" type="text" className="form-control form-control-sm" value={ endDate } onChange={ (e) => setEndDate(e.target.value) } />
+            <Column className='wired-help-bottom' gap={ 1 }>
+                <hr className="m-0 color-dark" />
+                <Text className='wired-align' gfbold>{ LocalizeText('wiredfurni.params.enddate') }</Text>
+                <input spellCheck="false" type="text" className="form-control wired-form" value={ endDate } onChange={ (e) => setEndDate(e.target.value) } />
             </Column>
         </WiredConditionBaseView>
     );
