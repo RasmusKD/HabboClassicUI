@@ -17,10 +17,11 @@ export const WiredActionDistanceView: FC<{}> = props =>
     }, [ trigger ]);
 
     return (
-        <WiredActionBaseView requiresFurni={ WiredFurniType.STUFF_SELECTION_OPTION_BY_ID } hasSpecialInput={ true } save={ save }>
+        <WiredActionBaseView requiresFurni={ WiredFurniType.STUFF_SELECTION_OPTION_BY_ID } hasSpecialInput={ true } save={ save } hasDelay={ false }>
             <Column gap={ 1 }>
-                <Text gfbold>{ LocalizeText('wiredfurni.params.distance') }</Text>
-                <input spellCheck="false" type="text" className="form-control form-control-sm" maxLength={ 32 } value={ botName } onChange={ event => setBotName(event.target.value) } />
+                <hr className="m-0 color-dark" />
+                <Text className='wired-align' gfbold>{ LocalizeText('wiredfurni.params.distance') }</Text>
+                <input spellCheck="false" type="text" className="form-control wired-form" maxLength={ 32 } value={ botName } onChange={ event => setBotName(event.target.value) } />
             </Column>
         </WiredActionBaseView>
     );

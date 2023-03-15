@@ -29,7 +29,7 @@ export const WiredConditionTimeElapsedLessView: FC<{}> = props =>
         <WiredConditionBaseView requiresFurni={ WiredFurniType.STUFF_SELECTION_OPTION_NONE } hasSpecialInput={ true } save={ save }>
             <hr className="m-0 color-dark" />
             <Text className='slider-text-margin' gfbold>{ LocalizeText('wiredfurni.params.allowbefore', [ 'seconds' ], [ GetWiredTimeLocale(time) ]) }</Text>
-            <Flex className='wired-help-bottom wired-slider-buttons '>
+            <Flex className='wired-help-bottom wired-slider-buttons'>
                 <Button disabled={ ((time === 1)) } className="notification-buttons help-button-size" onClick={ handlePrev }>
                     <i className="icon button-prev"/>
                 </Button>
