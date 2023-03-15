@@ -92,10 +92,12 @@ export const WiredActionMoveFurniView: FC<{}> = props =>
                     return (
                         <Flex alignItems="center" key={ option } gap={ 1 }>
                             <input className="flash-wired-form-check-radio-input" type="radio" name="rotation" id={ `rotation${ option }` } checked={ (rotation === option) } onChange={ event => setRotation(option) } />
+                            <Flex gap={ 0 }>
+                            { [ 1, 2 ].includes(option) && <i className={ `icon icon-rot-${ option }` } /> }
                             <Text>
-                                { [ 1, 2 ].includes(option) && <i className={ `icon icon-rot-${ option }` } /> }
                                 { LocalizeText(`wiredfurni.params.rotatefurni.${ option }`) }
                             </Text>
+                            </Flex>
                         </Flex>
                     )
                 }) }

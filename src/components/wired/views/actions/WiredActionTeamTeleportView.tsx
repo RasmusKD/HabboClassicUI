@@ -18,19 +18,32 @@ export const WiredActionTeamTeleportView: FC<{}> = props =>
 
     return (
         <WiredActionBaseView requiresFurni={ WiredFurniType.STUFF_SELECTION_OPTION_BY_ID } hasSpecialInput={ true } save={ save }>
-            <Column gap={ 1 }>
-                <hr className="m-0 color-dark" />
-                <Text gfbold>{ LocalizeText('wiredfurni.params.team') }</Text>
-                { [ 1, 2, 3, 4 ].map(team =>
+            <hr className="m-0 color-dark" />
+            <Text className='wired-align' gfbold>{ LocalizeText('wiredfurni.params.team') }</Text>
+            <Flex className='wired-align mb-1 wired-team-width'>
+            <Column fullWidth gap={ 2 }>
+                { [ 1, 3 ].map(value =>
                 {
                     return (
-                        <Flex className="mb-1" key={ team } gap={ 1 }>
-                            <input className="flash-wired-form-check-radio-input" type="radio" name="selectedTeam" id={ `selectedTeam${ team }` } checked={ (selectedTeam === team) } onChange={ event => setSelectedTeam(team) } />
-                            <Text>{ LocalizeText(`wiredfurni.params.team.${ team }`) }</Text>
+                        <Flex key={ value } gap={ 1 }>
+                            <input className="flash-wired-form-check-radio-input" type="radio" name="selectedTeam" id={ `selectedTeam${ value }` } checked={ (selectedTeam === value) } onChange={ event => setSelectedTeam(value) } />
+                            <Text>{ LocalizeText('wiredfurni.params.team.' + value) }</Text>
                         </Flex>
-                    )
+                    );
+                }) }
+                </Column>
+                <Column fullWidth gap={ 2 }>
+                { [ 2, 4 ].map(value =>
+                {
+                    return (
+                        <Flex key={ value } gap={ 1 }>
+                            <input className="flash-wired-form-check-radio-input" type="radio" name="selectedTeam" id={ `selectedTeam${ value }` } checked={ (selectedTeam === value) } onChange={ event => setSelectedTeam(value) } />
+                            <Text>{ LocalizeText('wiredfurni.params.team.' + value) }</Text>
+                        </Flex>
+                    );
                 }) }
             </Column>
+            </Flex>
         </WiredActionBaseView>
     );
 }

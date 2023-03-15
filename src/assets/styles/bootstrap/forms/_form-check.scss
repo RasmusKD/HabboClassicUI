@@ -44,12 +44,13 @@
 .flash-wired-form-check-input {
     min-width: 14px;
     min-height: 12px;
+    max-width: 14px;
+    max-height: 12px;
     background: transparent url('../../../flash/boxes/UI-KIT.png') no-repeat;
     background-position: -411px -101px;
     -webkit-appearance: none;
     cursor: pointer;
     margin-left: 1px;
-    margin-right: 9px;
 
     &:checked {
       background-position: -411px -117px;

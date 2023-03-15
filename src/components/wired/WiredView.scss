@@ -55,14 +55,20 @@
 			background-image: url('../../assets/images/wired/icon_wired_north_west.png');
 		}
 		&.icon-rot-1 {
-            width: 12px;
-            height: 11px;
+            width: 18px;
+            height: 12px;
 			background-image: url('../../assets/images/wired/icon_wired_rotate_clockwise.png');
+            position: relative;
+            right: 4px;
+            margin-right: 1px;
 		}
 		&.icon-rot-2 {
-            width: 12px;
+            width: 18px;
             height: 12px;
 			background-image: url('../../assets/images/wired/icon_wired_rotate_counter_clockwise.png');
+            position: relative;
+            right: 4px;
+            margin-right: 1px;
 		}
 	}
 
@@ -222,9 +228,16 @@
 .wired-align {
     margin-left: 3px;
 }
+.wired-align2 {
+    margin-left: 10px;
+}
 
 .wired-text-bottom {
     margin-bottom: 30px;
+}
+
+.wired-input-bottom {
+    margin-bottom: 20px;
 }
 
 .wired-title-height {
@@ -254,4 +267,32 @@
 
 .wired-gap {
     grid-row-gap: 0.5rem;
+}
+
+.wired-team-width {
+    width: 98%;
+}
+
+.wired-checkbox-margin {
+    margin-right: 9px;
+}
+
+.wired-margin {
+    margin-right: 11px;
+}
+
+.wired-checkbox-margin2 {
+    margin-right: 20px;
+}
+
+.wired-reward-text {
+    margin-left: 19px;
+    height: 24px;
+    font-family: 'Goldfish-Bold';
+    align-content: center;
+    display: grid;
+}
+
+.wired-text {
+    margin-left: 19px;
 }

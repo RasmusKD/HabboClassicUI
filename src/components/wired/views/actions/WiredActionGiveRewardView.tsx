@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useEffect, useState } from 'react';
 import ReactSlider from 'react-slider';
 import { LocalizeText, WiredFurniType } from '../../../../api';
-import { Button, Column, Flex, Text } from '../../../../common';
+import { Base, Button, Column, Flex, Text } from '../../../../common';
 import { useWired } from '../../../../hooks';
 import { WiredActionBaseView } from './WiredActionBaseView';
 
@@ -99,66 +99,77 @@ export const WiredActionGiveRewardView: FC<{}> = props =>
         setRewards(readRewards);
     }, [ trigger ]);
 
+    const handleNext = () => {
+        setRewardsLimit(rewardsLimit + 1);
+    }
+
+    const handlePrev = () => {
+        setRewardsLimit(rewardsLimit - 1);
+    }
     return (
         <WiredActionBaseView requiresFurni={ WiredFurniType.STUFF_SELECTION_OPTION_NONE } hasSpecialInput={ true } save={ save }>
-            <Flex alignItems="center" gap={ 1 }>
+            <Flex className='mb-1' alignItems="center" gap={ 1 }>
                 <input className="flash-wired-form-check-input" type="checkbox" id="limitEnabled" onChange={ event => setLimitEnabled(event.target.checked) } />
                 <Text>{ LocalizeText('wiredfurni.params.prizelimit', [ 'amount' ], [ limitEnabled ? rewardsLimit.toString() : '' ]) }</Text>
             </Flex>
             { !limitEnabled &&
-                <Text center  className="bg-muted rounded p-1">
-                    Præmie-grænse ikke fastsat.
-                </Text> }
+                <Text className='wired-reward-text'>Præmie-grænse ikke fastsat.</Text> }
             { limitEnabled &&
+            <Flex className='mb-1 wired-slider-buttons'>
+                <Button disabled={ ((rewardsLimit === 1)) } className="notification-buttons help-button-size" onClick={ handlePrev }>
+                    <i className="icon button-prev"/>
+                </Button>
                 <ReactSlider
                     className={ 'wired-slider' }
                     min={ 1 }
                     max={ 1000 }
                     value={ rewardsLimit }
-                    onChange={ event => setRewardsLimit(event) } /> }
-            <hr className="m-0 bg-dark" />
-            <Column gap={ 1 }>
-                <Text gfbold>Hvor ofte kan en bruger blive belønnet?</Text>
-                <Flex gap={ 1 }>
+                    onChange={ event => setRewardsLimit(event) } />
+                <Button disabled={ ((rewardsLimit === 1000)) } className="notification-buttons help-button-size" onClick={ handleNext }>
+                    <i className="icon button-next"/>
+                </Button>
+            </Flex>}
+            <Column className={rewardTime === 0 ? 'wired-input-bottom' : ''} gap={ 1 }>
+                <hr className="m-0 color-dark" />
+                <Text className='wired-align' gfbold>Hvor ofte kan en bruger belønnes?</Text>
+                <Column gap={ 1 }>
                     <select className={`form-select form-select-sm ${isOpen ? 'active' : ''}`} value={ rewardTime } onChange={ (e) => setRewardTime(Number(e.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
                         <option value="0">Èn gang</option>
                         <option value="3">Èn gang hver { limitationInterval } minutter</option>
                         <option value="2">Èn gang hver { limitationInterval } timer</option>
                         <option value="1">Èn gang hver { limitationInterval } dage</option>
                     </select>
-                    { (rewardTime > 0) && <input type="number" className="form-control form-control-sm" value={ limitationInterval } onChange={ event => setLimitationInterval(Number(event.target.value)) } /> }
-                </Flex>
+                    { (rewardTime > 0) && <input type="number" className="form-control wired-form" value={ limitationInterval } onChange={ event => setLimitationInterval(Number(event.target.value)) } /> }
+                </Column>
             </Column>
-            <hr className="m-0 bg-dark" />
+            <hr className="m-0 color-dark" />
             <Flex alignItems="center" gap={ 1 }>
                 <input className="flash-wired-form-check-input" type="checkbox" id="uniqueRewards" checked={ uniqueRewards } onChange={ (e) => setUniqueRewards(e.target.checked) } />
                 <Text>Unikke belønninger</Text>
             </Flex>
-            <Text center  className="bg-muted rounded p-1">
+            <Text className='wired-text'>
                 Hvis markeret vil hver belønning blive givet én gang til hver bruger. Dette vil deaktivere muligheden for sandsynligheder.
             </Text>
-            <hr className="m-0 bg-dark" />
+            <hr className="m-0 color-dark" />
             <Flex justifyContent="between" alignItems="center">
                 <Text gfbold>Præmier</Text>
-                <Button variant="success" onClick={ addReward }>
-                    <FontAwesomeIcon icon="plus" />
-                </Button>
+                <Base pointer onClick={ addReward }><FontAwesomeIcon icon="plus" /></Base>
             </Flex>
-            <Column gap={ 1 }>
+            <Flex fullWidth>
+                <Text>Skilt?</Text>
+                <Text className='wired-align2'>Skilt/møbel kode</Text>
+                <Text className='wired-align2'>Sandsynlighed</Text>
+            </Flex>
+            <Column className='mb-1' gap={ 1 }>
                 { rewards && rewards.map((reward, index) =>
                 {
                     return (
-                        <Flex key={ index } gap={ 1 }>
-                            <Flex alignItems="center" gap={ 1 }>
-                                <input className="flash-wired-form-check-input" type="checkbox" checked={ reward.isBadge } onChange={ (e) => updateReward(index, e.target.checked, reward.itemCode, reward.probability) } />
-                                <Text >Skilt?</Text>
-                            </Flex>
-                            <input spellCheck="false" type="text" className="form-control form-control-sm" value={ reward.itemCode } onChange={ e => updateReward(index, reward.isBadge, e.target.value, reward.probability) } placeholder="Item Code" />
-                            <input type="number" className="form-control form-control-sm" value={ reward.probability } onChange={ e => updateReward(index, reward.isBadge, reward.itemCode, Number(e.target.value)) } placeholder="Probability" />
+                        <Flex alignItems="center" className={index === 0 ? 'wired-margin' : ''} key={ index } gap={ 1 }>
+                            <input className="flash-wired-form-check-input wired-checkbox-margin2" type="checkbox" checked={ reward.isBadge } onChange={ (e) => updateReward(index, e.target.checked, reward.itemCode, reward.probability) } />
+                            <input spellCheck="false" type="text" className="form-control wired-form" value={ reward.itemCode } onChange={ e => updateReward(index, reward.isBadge, e.target.value, reward.probability) } />
+                            <input type="number" className="form-control wired-form" value={ reward.probability } onChange={ e => updateReward(index, reward.isBadge, reward.itemCode, Number(e.target.value)) }/>
                             { (index > 0) &&
-                            <Button variant="danger" onClick={ event => removeReward(index) }>
-                                <FontAwesomeIcon icon="trash" />
-                            </Button> }
+                            <Base pointer onClick={ event => removeReward(index) }><FontAwesomeIcon icon="x" /></Base> }
                         </Flex>
                     )
                 }) }

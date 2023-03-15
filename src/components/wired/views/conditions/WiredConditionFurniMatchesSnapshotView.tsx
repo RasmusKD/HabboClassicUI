@@ -25,15 +25,15 @@ export const WiredConditionFurniMatchesSnapshotView: FC<{}> = props =>
             <Column gap={ 1 }>
                 <Text gfbold>{ LocalizeText('wiredfurni.params.conditions') }</Text>
                 <Flex alignItems="center" gap={ 1 }>
-                    <input className="flash-wired-form-check-input" type="checkbox" id="stateFlag" checked={ !!stateFlag } onChange={ event => setStateFlag(event.target.checked ? 1 : 0) } />
+                    <input className="flash-wired-form-check-input wired-checkbox-margin" type="checkbox" id="stateFlag" checked={ !!stateFlag } onChange={ event => setStateFlag(event.target.checked ? 1 : 0) } />
                     <Text>{ LocalizeText('wiredfurni.params.condition.state') }</Text>
                 </Flex>
                 <Flex alignItems="center" gap={ 1 }>
-                    <input className="flash-wired-form-check-input" type="checkbox" id="directionFlag" checked={ !!directionFlag } onChange={ event => setDirectionFlag(event.target.checked ? 1 : 0) } />
+                    <input className="flash-wired-form-check-input wired-checkbox-margin" type="checkbox" id="directionFlag" checked={ !!directionFlag } onChange={ event => setDirectionFlag(event.target.checked ? 1 : 0) } />
                     <Text>{ LocalizeText('wiredfurni.params.condition.direction') }</Text>
                 </Flex>
                 <Flex alignItems="center" gap={ 1 }>
-                    <input className="flash-wired-form-check-input" type="checkbox" id="positionFlag" checked={ !!positionFlag } onChange={ event => setPositionFlag(event.target.checked ? 1 : 0) } />
+                    <input className="flash-wired-form-check-input wired-checkbox-margin" type="checkbox" id="positionFlag" checked={ !!positionFlag } onChange={ event => setPositionFlag(event.target.checked ? 1 : 0) } />
                     <Text>{ LocalizeText('wiredfurni.params.condition.position') }</Text>
                 </Flex>
             </Column>

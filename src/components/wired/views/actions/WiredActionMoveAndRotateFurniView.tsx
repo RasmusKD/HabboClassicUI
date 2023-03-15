@@ -49,13 +49,14 @@ export const WiredActionMoveAndRotateFurniView: FC<{}> = props =>
 
     return (
         <WiredActionBaseView requiresFurni={ WiredFurniType.STUFF_SELECTION_OPTION_BY_ID_BY_TYPE_OR_FROM_CONTEXT } hasSpecialInput={ true } save={ save }>
-            <Column gap={ 1 }>
+            <Column className='wired-align' gap={ 1 }>
+                <hr className="m-0 color-dark"/>
                 <Text gfbold>{ LocalizeText('wiredfurni.params.startdir') }</Text>
-                <Flex gap={ 1 }>
+                <Flex className='mb-1' gap={ 1 }>
                     { directionOptions.map(option =>
                     {
                         return (
-                            <Flex key={ option.value } alignItems="center" gap={ 1 }>
+                            <Flex key={ option.value } alignItems="center" gap={ 0 }>
                                 <input className="flash-wired-form-check-radio-input" type="radio" name="movement" id={ `movement${ option.value }` } checked={ (movement === option.value) } onChange={ event => setMovement(option.value) } />
                                 <Text>
                                     <i className={ `icon icon-${ option.icon }` } />
@@ -65,8 +66,10 @@ export const WiredActionMoveAndRotateFurniView: FC<{}> = props =>
                     }) }
                 </Flex>
             </Column>
-            <Column gap={ 1 }>
+            <Column className='wired-align mb-1' gap={ 1 }>
+                <hr className="m-0 color-dark"/>
                 <Text gfbold>{ LocalizeText('wiredfurni.params.turn') }</Text>
+                <Column gap={ 2 }>
                 { rotationOptions.map(option =>
                 {
                     return (
@@ -76,6 +79,7 @@ export const WiredActionMoveAndRotateFurniView: FC<{}> = props =>
                         </Flex>
                     )
                 }) }
+                </Column>
             </Column>
         </WiredActionBaseView>
     );
