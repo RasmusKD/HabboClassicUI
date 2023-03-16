@@ -38,21 +38,13 @@ export const GameView = () =>
     }
 
     return <Flex className="game-view py-4" fullHeight style={ { backgroundColor: getBgColour(), backgroundImage: getBgImage(), color: getColor() } }>
-        <Flex className="w-75" column alignItems="center" gap={ 2 }>
-            <Text bold>{ LocalizeText(`gamecenter.${ selectedGame.gameNameId }.description_title`) }</Text>
+        <Flex className="w-100" column alignItems="center" alignSelf="center" gap={ 2 }>
             <img src={ selectedGame.assetUrl + selectedGame.gameNameId + '_logo.png' }/>
             { (accountStatus.hasUnlimitedGames || accountStatus.freeGamesLeft > 0) && <>
-                <Button variant="light" position="relative" className="px-4" onClick={ onPlay }>
+                <Button variant="success" position="relative" className="px-4" onClick={ onPlay }>
                     { LocalizeText('gamecenter.play_now') }
-                    { !accountStatus.hasUnlimitedGames &&
-                    <LayoutItemCountView className="me-n1 mt-n1" count={ accountStatus.freeGamesLeft }/> }
                 </Button>
             </> }
-            <Text bold className="w-50" center>{ LocalizeText(`gamecenter.${ selectedGame.gameNameId }.description_content`) }</Text>
         </Flex>
-        <Base className="w-25">
-
-        </Base>
-
     </Flex>
 }
