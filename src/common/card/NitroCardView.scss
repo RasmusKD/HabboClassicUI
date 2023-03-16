@@ -472,6 +472,20 @@ $nitro-card-tabs-height: 35px;
                 width: calc(100% - 10px);
             }
 
+            .requests-active-tab {
+                border-image-source: url("../../assets/flash/friendlist/friend_active_bg.png");
+                border-image-slice: 7 7 7 7 fill;
+                border-image-width: 7px 7px 7px 7px;
+                border-image-repeat: repeat repeat;
+                max-height: 57px;
+                height: 57px;
+                position: absolute;
+                bottom: 51px;
+                width: calc(100% - 10px);
+                padding-right: 4px;
+                padding-left: 4px;
+            }
+
             .search-active-tab {
                 border-image-source: url("../../assets/flash/friendlist/search_active_bg.png");
                 border-image-slice: 7 7 7 7 fill;
@@ -862,10 +876,29 @@ $nitro-card-tabs-height: 35px;
     padding-bottom: 40px;
 }
 
+.requests-bottom-padding {
+    padding-bottom: 65px;
+}
+
 .search-bottom-padding {
     padding-bottom: 38px;
 }
 
 .friends-box-placement {
     bottom: 72px!important;
+}
+.button-margin {
+    margin-top: 4px!important;
+}
+
+.decline-button {
+    margin-right: 13px;
+    position: relative;
+    bottom: 1px;
+}
+
+.accept-button {
+    margin-right: 10px!important;
+    position: relative;
+    bottom: 1px;
 }

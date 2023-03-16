@@ -11,6 +11,8 @@ const useFriendsState = () =>
     const [ sentRequests, setSentRequests ] = useState<number[]>([]);
     const [ dismissedRequestIds, setDismissedRequestIds ] = useState<number[]>([]);
     const [ settings, setSettings ] = useState<MessengerSettings>(null);
+    const [acceptingAllRequests, setAcceptingAllRequests] = useState<boolean>(false);
+
 
     const onlineFriends = useMemo(() =>
     {
@@ -87,11 +89,32 @@ const useFriendsState = () =>
         SendMessageComposer(new RequestFriendComposer(userName));
     }
 
-    const requestResponse = (requestId: number, flag: boolean) =>
+    const acceptAllRequests = async (requestsToAccept) => {
+        setAcceptingAllRequests(true);
+        const batchSize = 1;
+        for (let i = 0; i < requestsToAccept.length; i += batchSize) {
+            const batch = requestsToAccept.slice(i, i + batchSize);
+            for (const request of batch) {
+                SendMessageComposer(new AcceptFriendMessageComposer(request.id));
+            }
+            await new Promise((resolve) => setTimeout(resolve, 200));
+        }
+        setAcceptingAllRequests(false);
+    }
+
+    const requestResponse = async (requestId: number, flag: boolean) =>
     {
-        if(requestId === -1 && !flag)
+        if (requestId === -1)
         {
-            SendMessageComposer(new DeclineFriendMessageComposer(true));
+            if (flag)
+            {
+                await acceptAllRequests(requests);
+                SendMessageComposer(new FriendListUpdateComposer());
+            }
+            else
+            {
+                SendMessageComposer(new DeclineFriendMessageComposer(true));
+            }
 
             setRequests([]);
         }
@@ -99,12 +122,12 @@ const useFriendsState = () =>
         {
             setRequests(prevValue =>
             {
-                const newRequests = [ ...prevValue ];
+                const newRequests = [...prevValue];
                 const index = newRequests.findIndex(request => (request.id === requestId));
 
-                if(index === -1) return prevValue;
+                if (index === -1) return prevValue;
 
-                if(flag)
+                if (flag)
                 {
                     SendMessageComposer(new AcceptFriendMessageComposer(newRequests[index].id));
                 }
@@ -260,7 +283,7 @@ const useFriendsState = () =>
         }
     }, []);
 
-    return { friends, requests, sentRequests, dismissedRequestIds, setDismissedRequestIds, settings, onlineFriends, offlineFriends, getFriend, canRequestFriend, requestFriend, requestResponse, followFriend, updateRelationship };
+    return { friends, requests, sentRequests, dismissedRequestIds, setDismissedRequestIds, settings, onlineFriends, offlineFriends, getFriend, canRequestFriend, requestFriend, requestResponse, followFriend, updateRelationship, acceptingAllRequests };
 }
 
 export const useFriends = () => useBetween(useFriendsState);

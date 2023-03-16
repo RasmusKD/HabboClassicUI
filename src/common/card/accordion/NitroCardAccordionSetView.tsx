@@ -28,7 +28,7 @@ export const NitroCardAccordionSetView: FC<NitroCardAccordionSetViewProps> = pro
     {
         const newClassNames = [ 'nitro-card-accordion-set' ];
 
-        if(isOpen) newClassNames.push('active', 'friends-height');
+        if(isOpen) newClassNames.push('active', 'friends-height', 'requests-bottom-padding');
 
         if(classNames && classNames.length) newClassNames.push(...classNames);
 

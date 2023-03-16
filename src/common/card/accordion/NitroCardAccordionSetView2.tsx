@@ -1,7 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { Column, ColumnProps, Flex, Text } from '../..';
 import { useNitroCardAccordionContext } from './NitroCardAccordionContext';
+import { useFriends } from '../../../hooks';
 
 export interface NitroCardAccordionSetView2Props extends ColumnProps
 {
@@ -14,6 +15,7 @@ export const NitroCardAccordionSetView2: FC<NitroCardAccordionSetView2Props> = p
     const { headerText = '', isExpanded = false, gap = 0, classNames = [], children = null, ...rest } = props;
     const [ isOpen, setIsOpen ] = useState(false);
     const { setClosers = null, closeAll = null } = useNitroCardAccordionContext();
+    const { acceptingAllRequests } = useFriends();
 
     const onClick = () =>
     {
@@ -23,6 +25,15 @@ export const NitroCardAccordionSetView2: FC<NitroCardAccordionSetView2Props> = p
     }
 
     const onClose = useCallback(() => setIsOpen(false), []);
+
+    const hasTriggered = useRef(false);
+
+    useEffect(() => {
+        if (acceptingAllRequests && !hasTriggered.current) {
+            onClick();
+            hasTriggered.current = true;
+        }
+    }, [acceptingAllRequests, onClick]);
 
     const getClassNames = useMemo(() =>
     {

@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import { ProductTypeEnum, LocalizeText } from '../../../../../api';
-import { Base, Column, Flex, Grid, LayoutImage, LayoutCatalogueDiscountView, Text } from '../../../../../common';
+import { Base, Column, Flex, Grid, LayoutImage, LayoutFurniImageView, LayoutCatalogueDiscountView, Text } from '../../../../../common';
 import { useCatalog } from '../../../../../hooks';
 import { CatalogAddOnBadgeWidgetView } from '../widgets/CatalogAddOnBadgeWidgetView';
 import { CatalogItemGridWidgetView } from '../widgets/CatalogItemGridWidgetView';
@@ -25,15 +25,17 @@ export const CatalogLayoutRaresView: FC<CatalogLayoutProps> = props =>
 
     return (
         <Column>
-            <Text className="catalog-rare-text" dangerouslySetInnerHTML={ { __html: page.localization.getText(1) } } />
+            <Text gfnb dangerouslySetInnerHTML={ { __html: page.localization.getText(1) } } />
             <Column className="position-relative catalog-rare-image" center size={ 5 } overflow="hidden">
-                { currentOffer &&
-                    <>
-                        { !!page.localization.getImage(1) &&
-                            <LayoutImage imageUrl={ page.localization.getImage(1) } /> }
-                    </> }
+                    { currentPage.offers && currentPage.offers.length > 0 && currentPage.offers.map(offer => <Base key={ offer.localizationId }>
+                    <LayoutFurniImageView productType={ offer.product.productType } productClassId={ offer.product.productClassId } extraData={ offer.product.extraParam } />
+                    </Base>) }
             </Column>
-            <Text center className="catalog-rare-text2" dangerouslySetInnerHTML={ { __html: page.localization.getText(2) } } />
+            {currentOffer && (
+                <Column gap={ 0 }>
+                    <Text center className="catalog-rare-text">{ currentOffer.localizationName }</Text>
+                    <Text center gfnb>{ currentOffer.localizationDescription }</Text>
+                </Column> ) }
             <Flex gap={ 1 } className="quanity-container" justifyContent="center">
                  <CatalogTotalPriceWidget />
             </Flex>

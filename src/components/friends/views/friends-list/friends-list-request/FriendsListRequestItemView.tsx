@@ -6,12 +6,12 @@ import { useFriends } from '../../../../../hooks';
 export const FriendsListRequestItemView: FC<{ request: MessengerRequest }> = props =>
 {
     const { request = null } = props;
-    const { requestResponse = null } = useFriends();
+    const { requestResponse = null, acceptingAllRequests } = useFriends();
 
-    if(!request) return null;
+    if(!request || acceptingAllRequests) return null;
 
     return (
-        <NitroCardAccordionItemView justifyContent="between" className="px-2 py-1">
+        <NitroCardAccordionItemView justifyContent="between" className="request-tab px-1 py-1">
             <Flex alignItems="center" gap={ 1 }>
                 <UserProfileIconView userId={ request.id } />
                 <div>{ request.name }</div>

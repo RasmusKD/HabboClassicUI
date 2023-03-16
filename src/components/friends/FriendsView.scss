@@ -48,8 +48,10 @@
     }
 
     &.icon-accept {
-        width: 13px; height: 14px;
-        background-position: -5px -91px;
+        background: url('../../assets/flash/buttons/accept.png') transparent no-repeat!important;
+        width: 16px;
+        height: 13px;
+        margin-right: 5px;
     }
 
     &.icon-add {
@@ -73,8 +75,9 @@
     }
 
     &.icon-deny {
-        width: 13px; height: 14px;
-        background-position: -28px -91px;
+        background: url('../../assets/flash/buttons/decline.png') transparent no-repeat!important;
+        width: 13px;
+        height: 13px;
     }
 
     &.icon-follow {
@@ -544,5 +547,10 @@ height: calc(100% - 53px);
         -webkit-transform: unset;
         transform: unset;
         filter: none;
+    }
+}
+.request-tab {
+    &:nth-child(odd) {
+        background: #eeeeee;
     }
 }

@@ -20,13 +20,14 @@ export const FriendsListView: FC<{}> = props =>
     };
     const [ isSearch, setIsSearch ] = useState(false);
     const [ isFriends, setIsFriends ] = useState(false);
+    const [ isRequest, setIsRequest ] = useState(false);
     const [ isScrollbarFriends, setIsScrollbarFriends ] = useState(false);
     const [ selectedFriendsIds, setSelectedFriendsIds ] = useState<number[]>([]);
     const [ showRoomInvite, setShowRoomInvite ] = useState<boolean>(false);
     const [ showRemoveFriendsConfirmation, setShowRemoveFriendsConfirmation ] = useState<boolean>(false);
-    const { onlineFriends = [], offlineFriends = [], requests = [], requestFriend = null } = useFriends();
+    const { onlineFriends = [], offlineFriends = [], requests = [], requestFriend = null, acceptingAllRequests } = useFriends();
 
-    const handleAccordionSetViewChange = (isExpanded) => {
+        const handleAccordionSetViewChange = (isExpanded) => {
       if (isExpanded) {
         setIsScrollbarFriends(true);
       } else {
@@ -192,19 +193,19 @@ export const FriendsListView: FC<{}> = props =>
                             </Column>
                             <Column>
                             { selectedFriendsIds && selectedFriendsIds.length === 0 &&
-                        <Flex gap={ 1 } className={ requests.length === 0 ? 'friend-active-tab p-1' : 'friend-active-tab p-1 friends-box-placement' }>
+                        <Flex gap={ 1 } className={ requests.length === 0 || acceptingAllRequests ? 'friend-active-tab p-1' : 'friend-active-tab p-1 friends-box-placement' }>
                             <div className="friend-follow-icon" />
                             <div className="friend-profile-icon" />
                             <div className="friend-delete-icon" />
                         </Flex> }
                             { selectedFriendsIds && selectedFriendsIds.length === 1 &&
-                        <Flex gap={ 1 } className={ requests.length === 0 ? 'friend-active-tab p-1' : 'friend-active-tab p-1 friends-box-placement' }>
+                        <Flex gap={ 1 } className={ requests.length === 0 || acceptingAllRequests ? 'friend-active-tab p-1' : 'friend-active-tab p-1 friends-box-placement' }>
                             <div onMouseOver={() => handleHover(1, true)} onMouseOut={() => handleHover(1, false)} className="friend-follow-icon active" onClick={ () => setShowRoomInvite(true) } />
                             <div onMouseOver={() => handleHover(2, true)} onMouseOut={() => handleHover(2, false)} className="friend-profile-icon active" onClick={ event => window.open('https://habboclassic.dk/user/' + LinkText) }  />
                             <div onMouseOver={() => handleHover(3, true)} onMouseOut={() => handleHover(3, false)} className="friend-delete-icon active" onClick={ event => setShowRemoveFriendsConfirmation(true) } />
                         </Flex> }
                             { selectedFriendsIds && selectedFriendsIds.length > 1 &&
-                        <Flex gap={ 1 } className={ requests.length === 0 ? 'friend-active-tab p-1' : 'friend-active-tab p-1 friends-box-placement' }>
+                        <Flex gap={ 1 } className={ requests.length === 0 || acceptingAllRequests ? 'friend-active-tab p-1' : 'friend-active-tab p-1 friends-box-placement' }>
                             <div onMouseOver={() => handleHover(1, true)} onMouseOut={() => handleHover(1, false)} className="friend-follow-icon active" onClick={ () => setShowRoomInvite(true) } />
                             <div className="friend-profile-icon" />
                             <div onMouseOver={() => handleHover(3, true)} onMouseOut={() => handleHover(3, false)} className="friend-delete-icon active" onClick={ event => setShowRemoveFriendsConfirmation(true) } />
@@ -212,7 +213,8 @@ export const FriendsListView: FC<{}> = props =>
                         }
                         </Column>
                         </NitroCardAccordionSetView2>
-                        <FriendsListRequestView className="friend-headers" headerText={ LocalizeText('friendlist.tab.friendrequests') + ` (${ requests.length })` } isExpanded={ false } />
+                        { !acceptingAllRequests &&
+                        <FriendsListRequestView className="friend-headers" headerText={ LocalizeText('friendlist.tab.friendrequests') + ` (${ requests.length })` } onClick={handleAccordionSetViewChange} isExpanded={ isRequest } />}
                         <FriendsSearchView className="search-headers" headerText={ LocalizeText('people.search.title') } onClick={handleAccordionSetViewChange2} isExpanded={ isSearch } setIsHovering={ setIsHovering }/>
                     </NitroCardAccordionView>
                 </NitroCardContentView>
