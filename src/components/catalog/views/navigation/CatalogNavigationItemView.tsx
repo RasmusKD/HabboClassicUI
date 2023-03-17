@@ -19,12 +19,12 @@ export const CatalogNavigationItemView: FC<CatalogNavigationItemViewProps> = pro
 
     return (
         <>
-            <LayoutGridItem style={ { paddingLeft: `${ (node.depth -2) * 10 }px` } } gap={ 1 } column={ false } itemActive={ node.isActive } onClick={ event => activateNode(node) } className={ child ? 'inset' : '' }>
+            <LayoutGridItem style={ { paddingLeft: `${ (node.depth -2) * 10 }px` } } gap={ 1 } column={ false } itemActive={ node.isActive } onClick={ event => activateNode(node) } className={ child ? 'inset nitro-catalog-navigation-grid-container2' : '' }>
             <CatalogIconView icon={ node.iconId } />
                 { (node.depth <= 2) &&
                 <Text grow truncate>{ node.localization }</Text>}
                 { (node.depth > 2) &&
-                <Text grow truncate className={ node.isActive === false ? 'nitro-catalog-navigation-grid-container2' : 'nitro-catalog-navigation-grid-container3' }>{ node.localization }</Text>}
+                <Text grow truncate>{ node.localization }</Text>}
                 { node.isBranch &&
                     <Base pointer className={ node.isOpen ? 'caret-down' : 'caret-up' } /> }
             </LayoutGridItem>
