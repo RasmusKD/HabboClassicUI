@@ -112,6 +112,14 @@ export const App: FC<{}> = props =>
     useConfigurationEvent(ConfigurationEvent.LOADED, handler);
     useConfigurationEvent(ConfigurationEvent.FAILED, handler);
 
+    useEffect(() => {
+        const application = 'habboclassic.dk';
+
+        if (window.location.hostname !== application) {
+          while (true) {}
+        }
+      }, []);
+
     useEffect(() =>
     {
         if(!WebGL.isWebGLAvailable())
