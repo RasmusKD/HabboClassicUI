@@ -703,6 +703,22 @@ $nitro-card-tabs-height: 35px;
                     }
                 }
             }
+            .nitro-camera-report {
+                cursor: pointer;
+                background-image: url("../../assets/flash/boxes/card/report.png");
+                width: 19px;
+                height: 20px;
+                align-self: center;
+                right: 33px;
+
+                    &:hover {
+                    background-image: url("../../assets/flash/boxes/card/report_hover.png");
+
+                    &:active {
+                    background-image: url("../../assets/flash/boxes/card/report_click.png");
+                    }
+                }
+            }
         }
     }
 
