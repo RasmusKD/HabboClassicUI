@@ -35,9 +35,15 @@ export const UserContainerView: FC<UserContainerViewProps> = props =>
             <Column gap={ 0 }>
                 <Column gap={ 0 }>
                     <Text bold className='font-size-profile'>{ userProfile.username }</Text>
-                    <Text italics textBreak className='font-size-profile motto-height'>{ userProfile.motto }&nbsp;</Text>
+                    <Text italics textBreak className='font-size-profile'>{ userProfile.motto }&nbsp;</Text>
                 </Column>
                 <Column gap={ 0 }>
+                    <Text className='font-size-profile'>
+                        <b>Level:</b> { userProfile.level }
+                    </Text>
+                    <Text className='font-size-profile'>
+                        <b>Respekt:</b> { userProfile.respectReceived }
+                    </Text>
                     <Text className='font-size-profile'>
                         <b>{ LocalizeText('extendedprofile.created') }</b> { userProfile.registration }
                     </Text>

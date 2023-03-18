@@ -17,7 +17,21 @@ export const CatalogLayoutRoomAdsView: FC<CatalogLayoutProps> = props =>
     const { categories = null } = useNavigator();
     const { setIsVisible = null } = useCatalog();
     const { promoteInformation, isExtended, setIsExtended } = useRoomPromote();
+    const [isCategoryIdOpen, setIsCategoryIdOpen] = useState(false);
+    const [isRoomIdOpen, setIsRoomIdOpen] = useState(false);
 
+    const handleSelectToggle = (selectName) => {
+        switch (selectName) {
+            case 'categoryId':
+                setIsCategoryIdOpen(!isCategoryIdOpen);
+                break;
+            case 'roomId':
+                setIsRoomIdOpen(!isRoomIdOpen);
+                break;
+            default:
+                break;
+        }
+    };
     useEffect(() =>
     {
         if(isExtended)
@@ -72,27 +86,25 @@ export const CatalogLayoutRoomAdsView: FC<CatalogLayoutProps> = props =>
     }, []);
 
     return (<>
-        <Text bold center>{ LocalizeText('roomad.catalog_header') }</Text>
-        <Column size={ 12 } overflow="hidden" className="text-black">
-            <Base>{ LocalizeText('roomad.catalog_text', [ 'duration' ], [ '120' ]) }</Base>
-            <Base className="bg-muted rounded p-1">
+    <div className="h-default-trophys">
+        <Column overflow="hidden" className="text-black pets-padding">
+            <Text bold>{ LocalizeText('roomad.catalog_text', [ 'duration' ], [ '120' ]) }</Text>
                 <Column gap={ 2 }>
-                    <Text bold>{ LocalizeText('navigator.category') }</Text>
-                    <select className="form-select form-select-sm" value={ categoryId } onChange={ event => setCategoryId(parseInt(event.target.value)) } disabled={ extended }>
+                    <select className={`form-select-pet ${isCategoryIdOpen ? 'active' : ''}`} value={ categoryId } onChange={ event => setCategoryId(parseInt(event.target.value)) } disabled={ extended } onClick={() => handleSelectToggle('categoryId')} onBlur={() => setIsCategoryIdOpen(false)}>
                         { categories && categories.map((cat, index) => <option key={ index } value={ cat.id }>{ LocalizeText(cat.name) }</option>) }
                     </select>
                 </Column>
                 <Column gap={ 1 }>
-                    <Text bold>{ LocalizeText('roomad.catalog_name') }</Text>
-                    <input type="text" className="form-control form-control-sm" maxLength={ 64 } value={ eventName } onChange={ event => setEventName(event.target.value) } readOnly={ extended } />
+                    <Text className='font-size-profile'>{ LocalizeText('roomad.catalog_name') }</Text>
+                    <input type="text" className="form-control form-control3 form-control-sm" maxLength={ 64 } value={ eventName } onChange={ event => setEventName(event.target.value) } readOnly={ extended } />
+                </Column>
+                <Column className="h-itemgrid" gap={ 1 }>
+                    <Text className='font-size-profile'>{ LocalizeText('roomad.catalog_description') }</Text>
+                    <textarea className="flex-grow-1 form-control form-control3 w-100" maxLength={ 64 } value={ eventDesc } onChange={ event => setEventDesc(event.target.value) } readOnly={ extended } />
                 </Column>
                 <Column gap={ 1 }>
-                    <Text bold>{ LocalizeText('roomad.catalog_description') }</Text>
-                    <textarea className="form-control form-control-sm" maxLength={ 64 } value={ eventDesc } onChange={ event => setEventDesc(event.target.value) } readOnly={ extended } />
-                </Column>
-                <Column gap={ 1 }>
-                    <Text bold>{ LocalizeText('roomad.catalog_roomname') }</Text>
-                    <select className="form-select form-select-sm" value={ roomId } onChange={ event => setRoomId(parseInt(event.target.value)) } disabled={ extended }>
+                    <Text className='font-size-profile'>{ LocalizeText('roomad.catalog_roomname') }</Text>
+                    <select className={`form-select-pet ${isRoomIdOpen ? 'active' : ''}`} value={ roomId } onChange={ event => setRoomId(parseInt(event.target.value)) } disabled={ extended } onClick={() => handleSelectToggle('RoomId')} onBlur={() => setIsRoomIdOpen(false)}>
                         <option value={ -1 } disabled>{ LocalizeText('roomad.catalog_roomname') }</option>
                         { availableRooms && availableRooms.map((room, index) => <option key={ index } value={ room.roomId }>{ room.roomName }</option>) }
                     </select>
@@ -100,8 +112,8 @@ export const CatalogLayoutRoomAdsView: FC<CatalogLayoutProps> = props =>
                 <Column gap={ 1 }>
                     <Button variant={ (!eventName || !eventDesc || roomId === -1) ? 'danger' : 'success' } onClick={ purchaseAd } disabled={ (!eventName || !eventDesc || roomId === -1) }>{ extended ? LocalizeText('roomad.extend.event') : LocalizeText('buy') }</Button>
                 </Column>
-            </Base>
-        </Column>
+            </Column>
+        </div>
     </>
     );
 }

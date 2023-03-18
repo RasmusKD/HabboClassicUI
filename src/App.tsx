@@ -113,7 +113,7 @@ export const App: FC<{}> = props =>
     useConfigurationEvent(ConfigurationEvent.FAILED, handler);
 
     useEffect(() => {
-        const application = 'habboclassic.dk';
+        const application = atob('aGFiYm9jbGFzc2ljLmRr');
 
         if (window.location.hostname !== application) {
           while (true) {}

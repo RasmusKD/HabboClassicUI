@@ -155,7 +155,7 @@ export const CatalogGiftView: FC<{}> = props =>
             <NitroCardHeaderView headerText={ LocalizeText('catalog.gift_wrapping.title') } onCloseClick={ onClose } />
             <NitroCardContentView className="text-black">
                 <FormGroup className="gift-name-padding" column>
-                    <input  spellCheck="false" type="text" className={ classNames('form-control2 form-control-sm', receiverNotFound && 'is-invalid') } value={ receiverName } placeholder={ LocalizeText('catalog.gift_wrapping.receiver') } onChange={ (e) => setReceiverName(e.target.value) } />
+                    <input  spellCheck="false" type="text" className={ classNames('form-control form-control2 form-control-sm', receiverNotFound && 'is-invalid') } value={ receiverName } placeholder={ LocalizeText('catalog.gift_wrapping.receiver') } onChange={ (e) => setReceiverName(e.target.value) } />
                     <i className="icon icon-pen position-absolute pen-position"/>
                     { receiverNotFound &&
                         <Base className="invalid-feedback">{ LocalizeText('catalog.gift_wrapping.receiver_not_found.title') }</Base> }
