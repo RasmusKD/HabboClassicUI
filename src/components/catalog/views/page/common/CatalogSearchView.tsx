@@ -7,8 +7,15 @@ import { useCatalog } from '../../../../../hooks';
 
 export const CatalogSearchView: FC<{}> = props =>
 {
-    const [ searchValue, setSearchValue ] = useState('');
+    const [searchValue, setSearchValue] = useState(() => {
+        return sessionStorage.getItem("CatalogSearchValue") || "";
+    });
     const { currentType = null, rootNode = null, offersToNodes = null, searchResult = null, setSearchResult = null, setCurrentPage = null } = useCatalog();
+
+
+    useEffect(() => {
+        sessionStorage.setItem("CatalogSearchValue", searchValue);
+    }, [searchValue]);
 
     useEffect(() =>
     {

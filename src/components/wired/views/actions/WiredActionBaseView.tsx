@@ -51,10 +51,10 @@ export const WiredActionBaseView: FC<PropsWithChildren<WiredActionBaseViewProps>
                     <ReactSlider
                         className={ 'wired-slider' }
                         min={ 0 }
-                        max={ 20 }
+                        max={ 600 }
                         value={ actionDelay }
                         onChange={ event => setActionDelay(event) } />
-                    <Button disabled={ ((actionDelay === 20)) }className="notification-buttons help-button-size" onClick={ handleNext }>
+                    <Button disabled={ ((actionDelay === 600)) }className="notification-buttons help-button-size" onClick={ handleNext }>
                         <i className="icon button-next"/>
                     </Button>
                 </Flex></>}

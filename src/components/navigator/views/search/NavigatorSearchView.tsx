@@ -13,9 +13,12 @@ export const NavigatorSearchView: FC<NavigatorSearchViewProps> = props =>
 {
     const { sendSearch = null } = props;
     const [ searchFilterIndex, setSearchFilterIndex ] = useState(0);
-    const [ searchValue, setSearchValue ] = useState('');
+    const [searchValue, setSearchValue] = useState(() => {
+        return sessionStorage.getItem("NavigatorSearchValue") || "";
+    });
     const { topLevelContext = null, searchResult = null } = useNavigator();
     const [ isOpen, setIsOpen ] = useState(false);
+    const [clearedSearch, setClearedSearch] = useState(false);
 
     function handleSelectClick() {
         setIsOpen(!isOpen);
@@ -45,6 +48,13 @@ export const NavigatorSearchView: FC<NavigatorSearchViewProps> = props =>
         processSearch();
     };
 
+    useEffect(() => {
+        if (searchValue === '' && clearedSearch) {
+            processSearch();
+            setClearedSearch(false);
+        }
+    }, [searchValue, clearedSearch]);
+
     useEffect(() =>
     {
         if(!searchResult) return;
@@ -72,6 +82,10 @@ export const NavigatorSearchView: FC<NavigatorSearchViewProps> = props =>
         setSearchValue(value);
     }, [ searchResult ]);
 
+    useEffect(() => {
+        sessionStorage.setItem("NavigatorSearchValue", searchValue);
+    }, [searchValue]);
+
     return (
         <Flex fullWidth gap={ 1 }>
             <Flex shrink>
@@ -84,7 +98,10 @@ export const NavigatorSearchView: FC<NavigatorSearchViewProps> = props =>
             </Flex>
             <Flex fullWidth gap={ 2 }>
                 <input spellCheck="false" type="text" className="form-control form-control-sm" placeholder={ LocalizeText('navigator.filter.input.placeholder') } value={ searchValue } onChange={ event => setSearchValue(event.target.value) } onKeyDown={ event => handleKeyDown(event) } />
-                <i className="icon icon-pen navigator-search-button position-absolute" onClick={ processSearch } />
+            { (!searchValue || !searchValue.length) &&
+                <i className="icon icon-pen position-absolute navigator-search-button"/> }
+            { searchValue && !!searchValue.length &&
+                <i className="icon icon-clear position-absolute navigator-clear-button" onClick={event => { setSearchValue(''); setClearedSearch(true); }} /> }
             </Flex>
         </Flex>
     );

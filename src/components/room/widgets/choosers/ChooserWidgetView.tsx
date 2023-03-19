@@ -14,7 +14,9 @@ export const ChooserWidgetView: FC<ChooserWidgetViewProps> = props =>
 {
     const { title = null, items = [], selectItem = null, onClose = null } = props;
     const [ selectedItem, setSelectedItem ] = useState<RoomObjectItem>(null);
-    const [ searchValue, setSearchValue ] = useState('');
+    const [searchValue, setSearchValue] = useState(() => {
+        return sessionStorage.getItem("ChooserSearchValue") || "";
+    });
     const canSeeId = GetSessionDataManager().isModerator;
 
     const filteredItems = useMemo(() =>
@@ -23,6 +25,10 @@ export const ChooserWidgetView: FC<ChooserWidgetViewProps> = props =>
 
         return items.filter(item => item.name.toLocaleLowerCase().includes(value));
     }, [ items, searchValue ]);
+
+    useEffect(() => {
+        sessionStorage.setItem("ChooserSearchValue", searchValue);
+    }, [searchValue]);
 
     useEffect(() =>
     {

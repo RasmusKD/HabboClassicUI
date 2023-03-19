@@ -12,7 +12,13 @@ export interface InventoryFurnitureSearchViewProps
 export const InventoryFurnitureSearchView: FC<InventoryFurnitureSearchViewProps> = props =>
 {
     const { groupItems = [], setGroupItems = null } = props;
-    const [ searchValue, setSearchValue ] = useState('');
+    const [searchValue, setSearchValue] = useState(() => {
+        return sessionStorage.getItem("inventorySearchValue") || "";
+    });
+
+    useEffect(() => {
+        sessionStorage.setItem("inventorySearchValue", searchValue);
+    }, [searchValue]);
 
     useEffect(() =>
     {
@@ -39,6 +45,8 @@ export const InventoryFurnitureSearchView: FC<InventoryFurnitureSearchViewProps>
     return (
         <Flex gap={ 1 }>
             <input spellCheck="false" type="text" className="form-control form-control-sm" placeholder={ LocalizeText('generic.search') } value={ searchValue } onChange={ event => setSearchValue(event.target.value) } />
+        { searchValue && !!searchValue.length &&
+            <i className="icon icon-clear position-absolute clear-button" onClick={ event => setSearchValue('') }/> }
         </Flex>
     );
 }

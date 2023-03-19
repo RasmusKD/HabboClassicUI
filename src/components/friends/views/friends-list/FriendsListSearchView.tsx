@@ -12,8 +12,9 @@ interface FriendsSearchViewProps extends NitroCardAccordionSetViewProps
 export const FriendsSearchView: FC<{ setIsHovering: any } & FriendsSearchViewProps> = props =>
 {
     const { setIsHovering, ...rest } = props;
-    const [ searchValue, setSearchValue ] = useState('');
-
+    const [searchValue, setSearchValue] = useState(() => {
+        return sessionStorage.getItem("FriendSearchValue") || "";
+    });
     const handleHover = (index, value) => {
         setIsHovering(prevValue => ({ ...prevValue, [index]: value }));
     };
@@ -28,6 +29,10 @@ export const FriendsSearchView: FC<{ setIsHovering: any } & FriendsSearchViewPro
         setFriendResults(parser.friends);
         setOtherResults(parser.others);
     });
+
+    useEffect(() => {
+        sessionStorage.setItem("FriendSearchValue", searchValue);
+    }, [searchValue]);
 
     useEffect(() =>
     {

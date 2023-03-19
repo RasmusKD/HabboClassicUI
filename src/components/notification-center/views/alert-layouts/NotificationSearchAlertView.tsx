@@ -11,7 +11,9 @@ export const NotificationSeachAlertView: FC<NotificationDefaultAlertViewProps> =
 {
     const { item = null, title = ((props.item && props.item.title) || ''), onClose = null, ...rest } = props;
 
-    const [ searchValue, setSearchValue ] = useState('');
+    const [searchValue, setSearchValue] = useState(() => {
+        return sessionStorage.getItem("NotificationSearchValue") || "";
+    });
     const [ results, setResults ] = useState<string[]>([]);
 
     const visitUrl = () =>
@@ -28,6 +30,10 @@ export const NotificationSeachAlertView: FC<NotificationDefaultAlertViewProps> =
         setResults(res.filter((val: string) => val.includes(value)));
         setSearchValue(value);
     }
+
+    useEffect(() => {
+        sessionStorage.setItem("NotificationSearchValue", searchValue);
+    }, [searchValue]);
 
     useEffect(() =>
     {
