@@ -8,6 +8,7 @@ import { InventoryBotView } from './views/bot/InventoryBotView';
 import { InventoryFurnitureView } from './views/furniture/InventoryFurnitureView';
 import { InventoryTradeView } from './views/furniture/InventoryTradeView';
 import { InventoryPetView } from './views/pet/InventoryPetView';
+import { InventoryFurnitureDeleteView } from './views/furniture/InventoryFurnitureDeleteView';
 
 const TAB_FURNITURE: string = 'inventory.furni';
 const TAB_BOTS: string = 'inventory.bots';
@@ -118,6 +119,7 @@ export const InventoryView: FC<{}> = props =>
     if(!isVisible) return null;
 
     return (
+    <>
         <NitroCardView uniqueKey={ 'inventory' } className={ isTrading ? 'nitro-inventory trading' : 'nitro-inventory' } theme={ isTrading ? 'primary' : '' } >
             <NitroCardHeaderView headerText={ LocalizeText('inventory.title') } onCloseClick={ onClose } />
             { !isTrading &&
@@ -148,5 +150,7 @@ export const InventoryView: FC<{}> = props =>
                     <InventoryTradeView cancelTrade={ onClose } />
                 </NitroCardContentView> }
         </NitroCardView>
+        <InventoryFurnitureDeleteView />
+        </>
     );
 }

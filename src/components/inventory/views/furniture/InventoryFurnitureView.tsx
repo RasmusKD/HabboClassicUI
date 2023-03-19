@@ -1,8 +1,8 @@
 import { IRoomSession, RoomObjectVariable, RoomPreviewer, Vector3d } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
 import { attemptItemPlacement, DispatchUiEvent, FurniCategory, GetRoomEngine, GetSessionDataManager, GroupItem, LocalizeText, UnseenItemCategory } from '../../../../api';
-import { AutoGrid, Button, Column, Flex, LayoutLimitedEditionCompactPlateView, LayoutRarityLevelView, LayoutRoomPreviewerView, Text } from '../../../../common';
-import { CatalogPostMarketplaceOfferEvent } from '../../../../events';
+import { AutoGrid, Base, Button, Column, Flex, LayoutLimitedEditionCompactPlateView, LayoutRarityLevelView, LayoutRoomPreviewerView, Text } from '../../../../common';
+import { CatalogPostMarketplaceOfferEvent, DeleteItemConfirmEvent } from '../../../../events';
 import { useInventoryFurni, useInventoryUnseenTracker } from '../../../../hooks';
 import { InventoryCategoryEmptyView } from '../InventoryCategoryEmptyView';
 import { InventoryFurnitureItemView } from './InventoryFurnitureItemView';
@@ -23,6 +23,13 @@ const attemptPlaceMarketplaceOffer = (groupItem: GroupItem) =>
     if(!item.sellable) return false;
 
     DispatchUiEvent(new CatalogPostMarketplaceOfferEvent(item));
+}
+
+const attemptDeleteItem = (groupItem: GroupItem) =>
+{
+    const item = groupItem.getLastItem();
+    if(!item) return false;
+    DispatchUiEvent(new DeleteItemConfirmEvent(item, groupItem.getTotalCount()));
 }
 
 export const InventoryFurnitureView: FC<InventoryFurnitureViewProps> = props =>
@@ -125,6 +132,8 @@ export const InventoryFurnitureView: FC<InventoryFurnitureViewProps> = props =>
                         <LayoutLimitedEditionCompactPlateView className="top-2 end-2" position="absolute" uniqueNumber={ selectedItem.stuffData.uniqueNumber } uniqueSeries={ selectedItem.stuffData.uniqueSeries } /> }
                     { (selectedItem && selectedItem.stuffData.rarityLevel > -1) &&
                         <LayoutRarityLevelView className="top-2 end-2" position="absolute" level={ selectedItem.stuffData.rarityLevel } /> }
+                    { (selectedItem && selectedItem.stuffData.rarityLevel === -1) &&
+                        <Base className="top-1 end-1 delete-icon" onClick={ event => attemptDeleteItem(selectedItem) }/>}
                 </Column>
                 { selectedItem &&
                     <Column grow justifyContent="between" gap={ 2 }>

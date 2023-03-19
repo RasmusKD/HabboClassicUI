@@ -3,12 +3,9 @@ import { ProductTypeEnum, LocalizeText } from '../../../../../api';
 import { Base, Column, Flex, Grid, LayoutImage, LayoutFurniImageView, LayoutCatalogueDiscountView, Text } from '../../../../../common';
 import { useCatalog } from '../../../../../hooks';
 import { CatalogAddOnBadgeWidgetView } from '../widgets/CatalogAddOnBadgeWidgetView';
-import { CatalogItemGridWidgetView } from '../widgets/CatalogItemGridWidgetView';
 import { CatalogLimitedItemWidgetView } from '../widgets/CatalogLimitedItemWidgetView';
 import { CatalogPurchaseRareView } from '../widgets/CatalogPurchaseRareView';
-import { CatalogSpinnerWidgetView } from '../widgets/CatalogSpinnerWidgetView';
 import { CatalogTotalPriceWidget } from '../widgets/CatalogTotalPriceWidget';
-import { CatalogViewProductWidgetView } from '../widgets/CatalogViewProductWidgetView';
 import { CatalogLayoutProps } from './CatalogLayout.types';
 
 export const CatalogLayoutRaresView: FC<CatalogLayoutProps> = props =>

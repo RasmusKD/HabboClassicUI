@@ -1,4 +1,4 @@
-import { GetGuestRoomResultEvent, RateFlatMessageComposer } from '@nitrots/nitro-renderer';
+import { GetGuestRoomResultEvent, NavigatorSearchComposer, RateFlatMessageComposer } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
 import { CreateLinkEvent, GetRoomEngine, LocalizeText, SendMessageComposer } from '../../../../api';
 import { Base, classNames, Column, Flex, Text, TransitionAnimation, TransitionAnimationTypes } from '../../../../common';
@@ -16,7 +16,7 @@ export const RoomToolsWidgetView: FC<{}> = props =>
     const [ show, setShow ] = useState(false);
 
 
-    const handleToolClick = (action: string) =>
+    const handleToolClick = (action: string, value?: string) =>
     {
         switch(action)
         {
@@ -44,6 +44,10 @@ export const RoomToolsWidgetView: FC<{}> = props =>
                 return;
             case 'toggle_room_link':
                 CreateLinkEvent('navigator/toggle-room-link');
+                return;
+            case 'navigator_search_tag':
+                CreateLinkEvent(`navigator/search/${ value }`);
+                SendMessageComposer(new NavigatorSearchComposer('hotel_view', `tag:${ value }`));
                 return;
         }
     }
@@ -84,7 +88,7 @@ export const RoomToolsWidgetView: FC<{}> = props =>
                                 </Column>
                                 { roomTags && roomTags.length > 0 &&
                                                     <Flex gap={ 2 }>
-                                                        { roomTags.map((tag, index) => <Text key={ index } small variant="white" className="rounded bg-primary p-1">#{ tag }</Text>) }
+                                    { roomTags.map((tag, index) => <Text key={ index } small pointer variant="white" className="rounded bg-primary p-1" onClick={ () => handleToolClick('navigator_search_tag', tag) }>#{ tag }</Text>) }
                                                     </Flex> }
                             </Column>
                         </Column>

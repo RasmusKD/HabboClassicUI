@@ -273,6 +273,9 @@
         width: 82px;
         height: 82px;
         overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .gift-color {
@@ -618,6 +621,10 @@
 
 .gift-bg-margin {
     margin-top: 2px;
+}
+
+.gift-bg-margin2 {
+    margin-right: 8px;
 }
 
 .gift-btn-margin {

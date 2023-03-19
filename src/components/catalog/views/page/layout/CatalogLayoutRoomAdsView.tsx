@@ -1,9 +1,10 @@
 import { GetRoomAdPurchaseInfoComposer, GetUserEventCatsMessageComposer, PurchaseRoomAdMessageComposer, RoomAdPurchaseInfoEvent, RoomEntryData } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
 import { LocalizeText, SendMessageComposer } from '../../../../../api';
-import { Base, Button, Column, Text } from '../../../../../common';
+import { Base, Button, Column, Flex, LayoutCurrencyIconBig, Text } from '../../../../../common';
 import { useCatalog, useMessageEvent, useNavigator, useRoomPromote } from '../../../../../hooks';
 import { CatalogLayoutProps } from './CatalogLayout.types';
+import { CatalogTotalPriceWidget } from '../widgets/CatalogTotalPriceWidget';
 
 export const CatalogLayoutRoomAdsView: FC<CatalogLayoutProps> = props =>
 {
@@ -86,17 +87,17 @@ export const CatalogLayoutRoomAdsView: FC<CatalogLayoutProps> = props =>
     }, []);
 
     return (<>
-    <div className="h-default-trophys">
+    <div className="h-100">
         <Column overflow="hidden" className="text-black pets-padding">
             <Text bold>{ LocalizeText('roomad.catalog_text', [ 'duration' ], [ '120' ]) }</Text>
                 <Column gap={ 2 }>
-                    <select className={`form-select-pet ${isCategoryIdOpen ? 'active' : ''}`} value={ categoryId } onChange={ event => setCategoryId(parseInt(event.target.value)) } disabled={ extended } onClick={() => handleSelectToggle('categoryId')} onBlur={() => setIsCategoryIdOpen(false)}>
+                    <select className={`form-select-pet ${isCategoryIdOpen ? 'mb-1 active' : 'mb-1'}`} value={ categoryId } onChange={ event => setCategoryId(parseInt(event.target.value)) } disabled={ extended } onClick={() => handleSelectToggle('categoryId')} onBlur={() => setIsCategoryIdOpen(false)}>
                         { categories && categories.map((cat, index) => <option key={ index } value={ cat.id }>{ LocalizeText(cat.name) }</option>) }
                     </select>
                 </Column>
                 <Column gap={ 1 }>
                     <Text className='font-size-profile'>{ LocalizeText('roomad.catalog_name') }</Text>
-                    <input type="text" className="form-control form-control3 form-control-sm" maxLength={ 64 } value={ eventName } onChange={ event => setEventName(event.target.value) } readOnly={ extended } />
+                    <input type="text" className="mb-1 form-control form-control3 form-control-sm" maxLength={ 64 } value={ eventName } onChange={ event => setEventName(event.target.value) } readOnly={ extended } />
                 </Column>
                 <Column className="h-itemgrid" gap={ 1 }>
                     <Text className='font-size-profile'>{ LocalizeText('roomad.catalog_description') }</Text>
@@ -104,12 +105,16 @@ export const CatalogLayoutRoomAdsView: FC<CatalogLayoutProps> = props =>
                 </Column>
                 <Column gap={ 1 }>
                     <Text className='font-size-profile'>{ LocalizeText('roomad.catalog_roomname') }</Text>
-                    <select className={`form-select-pet ${isRoomIdOpen ? 'active' : ''}`} value={ roomId } onChange={ event => setRoomId(parseInt(event.target.value)) } disabled={ extended } onClick={() => handleSelectToggle('RoomId')} onBlur={() => setIsRoomIdOpen(false)}>
+                    <select className={`form-select-pet ${isRoomIdOpen ? 'active mb-1' : 'mb-1'}`} value={ roomId } onChange={ event => setRoomId(parseInt(event.target.value)) } disabled={ extended } onClick={() => handleSelectToggle('roomId')} onBlur={() => setIsRoomIdOpen(false)}>
                         <option value={ -1 } disabled>{ LocalizeText('roomad.catalog_roomname') }</option>
                         { availableRooms && availableRooms.map((room, index) => <option key={ index } value={ room.roomId }>{ room.roomName }</option>) }
                     </select>
                 </Column>
-                <Column gap={ 1 }>
+                <Column gap={ 2 }>
+                    <Flex alignItems="center" alignSelf="center" gap={ 1 }>
+                        <Text bold>1</Text>
+                        <LayoutCurrencyIconBig type={ -1 } />
+                    </Flex>
                     <Button variant={ (!eventName || !eventDesc || roomId === -1) ? 'danger' : 'success' } onClick={ purchaseAd } disabled={ (!eventName || !eventDesc || roomId === -1) }>{ extended ? LocalizeText('roomad.extend.event') : LocalizeText('buy') }</Button>
                 </Column>
             </Column>

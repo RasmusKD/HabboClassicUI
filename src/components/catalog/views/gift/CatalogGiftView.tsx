@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { GiftReceiverNotFoundEvent, PurchaseFromCatalogAsGiftComposer } from '@nitrots/nitro-renderer';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { GetSessionDataManager, LocalizeText, ProductTypeEnum, SendMessageComposer } from '../../../../api';
+import { ColorUtils, GetSessionDataManager, LocalizeText, ProductTypeEnum, SendMessageComposer } from '../../../../api';
 import { Base, Button, ButtonGroup, classNames, Column, Flex, FormGroup, LayoutCurrencyIconBig, LayoutCurrencyIcon, LayoutFurniImageView, LayoutGiftTagView, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text } from '../../../../common';
 import { GiftColorButton } from '../../../../common/GiftColorButton';
 import { CatalogEvent, CatalogInitGiftEvent, CatalogPurchasedEvent } from '../../../../events';
@@ -25,6 +25,7 @@ export const CatalogGiftView: FC<{}> = props =>
     const [ receiverNotFound, setReceiverNotFound ] = useState<boolean>(false);
     const { catalogOptions = null } = useCatalog();
     const { giftConfiguration = null } = catalogOptions;
+    const [ boxTypes, setBoxTypes ] = useState<number[]>([]);
 
     const onClose = useCallback(() =>
     {
@@ -43,52 +44,71 @@ export const CatalogGiftView: FC<{}> = props =>
 
     const isBoxDefault = useMemo(() =>
     {
-        return giftConfiguration ? (giftConfiguration.defaultStuffTypes.findIndex(s => (s === giftConfiguration.boxTypes[selectedBoxIndex])) > -1) : true;
-    }, [ giftConfiguration, selectedBoxIndex ]);
+        return giftConfiguration ? (giftConfiguration.defaultStuffTypes.findIndex(s => (s === boxTypes[selectedBoxIndex])) > -1) : false;
+    }, [ boxTypes, giftConfiguration, selectedBoxIndex ]);
 
     const boxExtraData = useMemo(() =>
     {
         if(!giftConfiguration) return '';
 
-        return ((giftConfiguration.boxTypes[selectedBoxIndex] * 1000) + giftConfiguration.ribbonTypes[selectedRibbonIndex]).toString();
-    }, [ giftConfiguration, selectedBoxIndex, selectedRibbonIndex ]);
+        return ((boxTypes[selectedBoxIndex] * 1000) + giftConfiguration.ribbonTypes[selectedRibbonIndex]).toString();
+    }, [ giftConfiguration, selectedBoxIndex, selectedRibbonIndex, boxTypes ]);
 
     const isColorable = useMemo(() =>
     {
-        if(!giftConfiguration) return false;
+        if (!giftConfiguration) return false;
 
-        const boxType = giftConfiguration.boxTypes[selectedBoxIndex];
+        if (isBoxDefault) return false;
+
+        const boxType = boxTypes[selectedBoxIndex];
 
         return (boxType === 8 || (boxType >= 3 && boxType <= 6)) ? false : true;
-    }, [ giftConfiguration, selectedBoxIndex ]);
+    }, [ giftConfiguration, selectedBoxIndex, isBoxDefault, boxTypes ]);
 
-    const handleAction = useCallback((action: string) =>
+    const colourId = useMemo(() =>
     {
-        switch(action)
-        {
-            case 'prev_box':
-                setSelectedBoxIndex(value => (value === 0 ? maxBoxIndex : value - 1));
-                return;
-            case 'next_box':
-                setSelectedBoxIndex(value => (value === maxBoxIndex ? 0 : value + 1));
-                return;
-            case 'prev_ribbon':
-                setSelectedRibbonIndex(value => (value === 0 ? maxRibbonIndex : value - 1));
-                return;
-            case 'next_ribbon':
-                setSelectedRibbonIndex(value => (value === maxRibbonIndex ? 0 : value + 1));
-                return;
-            case 'buy':
-                if(!receiverName || (receiverName.length === 0))
-                {
-                    setReceiverNotFound(true);
-                    return;
-                }
+        return isBoxDefault ? boxTypes[selectedBoxIndex] : selectedColorId;
+    },[ isBoxDefault, boxTypes, selectedBoxIndex, selectedColorId ])
 
-                SendMessageComposer(new PurchaseFromCatalogAsGiftComposer(pageId, offerId, extraData, receiverName, message, selectedColorId, selectedBoxIndex, selectedRibbonIndex, showMyFace));
+const handleAction = useCallback((action: string) =>
+{
+    switch(action)
+    {
+        case 'prev_box':
+            setSelectedBoxIndex(prevValue => {
+                const newValue = (prevValue === 0 ? maxBoxIndex : prevValue - 1);
+                if (boxTypes[newValue] === 8) {
+                    setSelectedRibbonIndex(10);
+                }
+                return newValue;
+            });
+            return;
+        case 'next_box':
+            setSelectedBoxIndex(prevValue => {
+                const newValue = (prevValue === maxBoxIndex ? 0 : prevValue + 1);
+                if (boxTypes[newValue] === 8) {
+                    setSelectedRibbonIndex(10);
+                }
+                return newValue;
+            });
+            return;
+        case 'prev_ribbon':
+            setSelectedRibbonIndex(value => (value === 0 ? maxRibbonIndex : value - 1));
+            return;
+        case 'next_ribbon':
+            setSelectedRibbonIndex(value => (value === maxRibbonIndex ? 0 : value + 1));
+            return;
+        case 'buy':
+            if(!receiverName || (receiverName.length === 0))
+            {
+                setReceiverNotFound(true);
                 return;
-        }
-    }, [ extraData, maxBoxIndex, maxRibbonIndex, message, offerId, pageId, receiverName, selectedBoxIndex, selectedColorId, selectedRibbonIndex, showMyFace ]);
+            }
+
+            SendMessageComposer(new PurchaseFromCatalogAsGiftComposer(pageId, offerId, extraData, receiverName, message, colourId, selectedBoxIndex, selectedRibbonIndex, showMyFace));
+            return;
+    }
+}, [ colourId, extraData, maxBoxIndex, maxRibbonIndex, message, offerId, pageId, receiverName, selectedBoxIndex, selectedRibbonIndex, showMyFace, boxTypes ]);
 
     useMessageEvent<GiftReceiverNotFoundEvent>(GiftReceiverNotFoundEvent, event => setReceiverNotFound(true));
 
@@ -119,6 +139,23 @@ export const CatalogGiftView: FC<{}> = props =>
         setReceiverNotFound(false);
     }, [ receiverName ]);
 
+    const createBoxTypes = useCallback(() =>
+    {
+        if (!giftConfiguration) return;
+
+        setBoxTypes(prev =>
+        {
+            let newPrev = giftConfiguration.boxTypes.filter(boxType => boxType !== 7);
+
+            newPrev.push(giftConfiguration.defaultStuffTypes[ Math.floor((Math.random() * (giftConfiguration.defaultStuffTypes.length - 1))) ]);
+
+            setMaxBoxIndex(newPrev.length - 1);
+            setMaxRibbonIndex(newPrev.length + 1);
+
+            return newPrev;
+        })
+    },[ giftConfiguration ])
+
     useEffect(() =>
     {
         if(!giftConfiguration) return;
@@ -131,24 +168,30 @@ export const CatalogGiftView: FC<{}> = props =>
 
             if(!giftData) continue;
 
-            if(giftData.colors && giftData.colors.length > 0) newColors.push({ id: colorId, color: `#${ giftData.colors[0].toString(16) }` });
+            if(giftData.colors && giftData.colors.length > 0) newColors.push({ id: colorId, color: ColorUtils.makeColorNumberHex(giftData.colors[0]) });
         }
 
-        setMaxBoxIndex(giftConfiguration.boxTypes.length - 1);
-        setMaxRibbonIndex(giftConfiguration.ribbonTypes.length - 1);
+        createBoxTypes();
 
         if(newColors.length)
         {
             setSelectedColorId(newColors[0].id);
             setColors(newColors);
         }
-    }, [ giftConfiguration ]);
+    }, [ giftConfiguration, createBoxTypes ]);
+
+    useEffect(() =>
+    {
+        if (!isVisible) return;
+
+        createBoxTypes();
+    },[ createBoxTypes, isVisible ])
 
     if(!giftConfiguration || !giftConfiguration.isEnabled || !isVisible) return null;
 
-    const boxName = 'catalog.gift_wrapping_new.box.' + (isBoxDefault ? 'default' : selectedBoxIndex);
+    const boxName = 'catalog.gift_wrapping_new.box.' + (isBoxDefault ? 'default' : boxTypes[selectedBoxIndex]);
     const ribbonName = `catalog.gift_wrapping_new.ribbon.${ selectedRibbonIndex }`;
-    const priceText = 'catalog.gift_wrapping_new.' + (isBoxDefault ? 'freeprice' : 'price');
+    const priceText = 'catalog.gift_wrapping_new.' + (isBoxDefault ? 'freeprice' : 'price');;
 
     return (
         <NitroCardView uniqueKey="catalog-gift" className="nitro-catalog-gift no-resize" theme="primary2">
@@ -168,7 +211,7 @@ export const CatalogGiftView: FC<{}> = props =>
                 <Flex alignItems="center" gap={ 2 }>
                     { selectedColorId &&
                         <Base className="gift-preview gift-bg">
-                            <LayoutFurniImageView className="gift-bg-margin" productType={ ProductTypeEnum.FLOOR } productClassId={ selectedColorId } extraData={ boxExtraData } />
+                            <LayoutFurniImageView className={`gift-bg-margin${boxTypes[selectedBoxIndex] === 8 ? ' gift-bg-margin2' : ''}`} productType={ ProductTypeEnum.FLOOR } productClassId={ colourId } extraData={ boxExtraData } />
                         </Base> }
                     <Column gap={ 1 }>
                         <Flex gap={ 2 }>
@@ -190,10 +233,10 @@ export const CatalogGiftView: FC<{}> = props =>
                         </Flex>
                         <Flex alignItems="center" gap={ 2 }>
                             <ButtonGroup>
-                                <Button className="volter-button gift-btn-margin gift-btn-params" onClick={ () => handleAction('prev_ribbon') }>
+                                <Button className="volter-button gift-btn-margin gift-btn-params" disabled={ isBoxDefault || boxTypes[selectedBoxIndex] === 8 } onClick={ () => handleAction('prev_ribbon') }>
                                     <i className="gift-arrow-left"/>
                                 </Button>
-                                <Button className="volter-button gift-btn-params" onClick={ () => handleAction('next_ribbon') }>
+                                <Button className="volter-button gift-btn-params" disabled={ isBoxDefault || boxTypes[selectedBoxIndex] === 8 } onClick={ () => handleAction('next_ribbon') }>
                                     <i className="gift-arrow-right"/>
                                 </Button>
                             </ButtonGroup>
@@ -201,7 +244,7 @@ export const CatalogGiftView: FC<{}> = props =>
                         </Flex>
                     </Column>
                 </Flex>
-                <Column gap={ 1 }>
+                <Column gap={ 1 } className={ isColorable ? '' : 'opacity-50 pointer-events-none' }>
                     <Text className="gift-text-size" fontWeight="bold">
                         { LocalizeText('catalog.gift_wrapping.pick_color') }
                     </Text>
