@@ -39,6 +39,42 @@ export const InventoryFurnitureView: FC<InventoryFurnitureViewProps> = props =>
     const [ filteredGroupItems, setFilteredGroupItems ] = useState<GroupItem[]>([]);
     const { groupItems = [], selectedItem = null, activate = null, deactivate = null } = useInventoryFurni();
     const { resetItems = null } = useInventoryUnseenTracker();
+    const [favoritedItems, setFavoritedItems] = useState<GroupItem[]>([]);
+
+    useEffect(() => {
+        const loadFavoritedItems = () => {
+            const storedFavoritedItems = localStorage.getItem('favoritedItems');
+            const favoritedItemsData = storedFavoritedItems ? JSON.parse(storedFavoritedItems) : [];
+            favoritedItemsData.sort((a, b) => a.timestamp - b.timestamp);
+            const favoritedItemIds = favoritedItemsData.map(item => item.id);
+            return groupItems.filter(groupItem => {
+                const itemIds = groupItem.items.map(item => item.id);
+                return itemIds.some(id => favoritedItemIds.includes(id));
+            });
+        };
+
+        setFavoritedItems(loadFavoritedItems());
+    }, [groupItems]);
+
+    const toggleFavoriteItem = (groupItem: GroupItem) => {
+      setFavoritedItems(prevFavoritedItems => {
+        let newFavoritedItems;
+        if (prevFavoritedItems.includes(groupItem)) {
+          newFavoritedItems = prevFavoritedItems.filter(favGroupItem => favGroupItem !== groupItem);
+        } else {
+          newFavoritedItems = [...prevFavoritedItems, groupItem];
+        }
+        const newFavoritedItemsData = newFavoritedItems.flatMap(favGroupItem => {
+          return favGroupItem.items.map(item => ({ id: item.id, timestamp: Date.now() }));
+        });
+        localStorage.setItem('favoritedItems', JSON.stringify(newFavoritedItemsData));
+        return newFavoritedItems;
+      });
+    };
+
+    useEffect(() => {
+      setFilteredGroupItems([...favoritedItems, ...groupItems.filter(item => !favoritedItems.includes(item))]);
+    }, [groupItems, favoritedItems]);
 
     useEffect(() =>
     {
@@ -122,7 +158,7 @@ export const InventoryFurnitureView: FC<InventoryFurnitureViewProps> = props =>
             <Column className="inventory-furni-size" overflow="hidden" gap={ 1 }>
                 <InventoryFurnitureSearchView groupItems={ groupItems } setGroupItems={ setFilteredGroupItems }/>
                 <AutoGrid columnCount={ 5 } gap={ 1 } className="flash-inventory">
-                    { filteredGroupItems && (filteredGroupItems.length > 0) && filteredGroupItems.map((item, index) => <InventoryFurnitureItemView key={ index } groupItem={ item } />) }
+                    {filteredGroupItems && (filteredGroupItems.length > 0) && filteredGroupItems.map((item, index) => <InventoryFurnitureItemView key={ index } groupItem={ item } toggleFavorite={toggleFavoriteItem} favoritedItems={favoritedItems} />)}
                 </AutoGrid>
             </Column>
             <Column className="inventory-preview-size" overflow="auto">

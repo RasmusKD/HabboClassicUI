@@ -1,12 +1,12 @@
 import { MouseEventType } from '@nitrots/nitro-renderer';
 import { FC, MouseEvent, useState } from 'react';
 import { attemptItemPlacement, GroupItem } from '../../../../api';
-import { LayoutGridFurni } from '../../../../common';
+import { Base, LayoutGridFurni } from '../../../../common';
 import { useInventoryFurni } from '../../../../hooks';
 
-export const InventoryFurnitureItemView: FC<{ groupItem: GroupItem }> = props =>
+export const InventoryFurnitureItemView: FC<{ groupItem: GroupItem, toggleFavorite: (item: GroupItem) => void, favoritedItems: GroupItem[] }> = props =>
 {
-    const { groupItem = null, ...rest } = props;
+    const { groupItem = null, toggleFavorite, favoritedItems, ...rest } = props;
     const [ isMouseDown, setMouseDown ] = useState(false);
     const { selectedItem = null, setSelectedItem = null } = useInventoryFurni();
 
@@ -34,5 +34,29 @@ export const InventoryFurnitureItemView: FC<{ groupItem: GroupItem }> = props =>
 
     const count = groupItem.getUnlockedCount();
 
-    return <LayoutGridFurni className={ !count ? 'opacity-0-5 ' : '' } itemImage={ groupItem.iconUrl } itemCount={ groupItem.getUnlockedCount() } itemActive={ (groupItem === selectedItem) } itemUniqueNumber={ groupItem.stuffData.uniqueNumber } itemUnseen={ groupItem.hasUnseenItems } onMouseDown={ onMouseEvent } onMouseUp={ onMouseEvent } onMouseOut={ onMouseEvent } { ...rest } />;
-}
+     return (
+          <LayoutGridFurni
+            className={!count ? "opacity-0-5 " : ""}
+            itemImage={groupItem.iconUrl}
+            itemCount={groupItem.getUnlockedCount()}
+            itemActive={groupItem === selectedItem}
+            itemUniqueNumber={groupItem.stuffData.uniqueNumber}
+            itemUnseen={groupItem.hasUnseenItems}
+            onMouseDown={onMouseEvent}
+            onMouseUp={onMouseEvent}
+            onMouseOut={onMouseEvent}
+            {...rest}
+          >
+        <Base
+          className="favorite-button"
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleFavorite(groupItem);
+          }}
+          style={{ color: favoritedItems.includes(groupItem) ? "orange" : "inherit" }}
+        >
+          {favoritedItems.includes(groupItem) ? "★" : "☆"}
+        </Base>
+          </LayoutGridFurni>
+        );
+    };

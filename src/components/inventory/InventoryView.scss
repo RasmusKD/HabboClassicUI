@@ -84,3 +84,10 @@
     cursor: pointer;
     position: absolute;
 }
+.favorite-button {
+    top: -5px;
+    cursor: pointer;
+    position: absolute;
+    z-index: 5;
+    left: 0px;
+}
