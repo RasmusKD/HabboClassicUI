@@ -742,3 +742,19 @@
     font-size: 11px;
     padding: 2px 5px 2px 5px;
 }
+
+.gift-coin {
+    background-image: url("../../assets/flash/purse/coin.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+}
+
+.gift-error {
+    width: 100%;
+    font-size: 12.5px;
+    color: #a81a12;
+    position: absolute;
+    top: 73px;
+}

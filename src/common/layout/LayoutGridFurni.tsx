@@ -66,7 +66,7 @@ export const LayoutGridFurni: FC<LayoutGridFurniProps> = props =>
             { (itemUniqueNumber > 0) &&
                 <>
                     <Base fit className="unique-bg-override" style={ { backgroundImage: `url(${ itemImage })` } } />
-                    <div className="position-absolute bottom-0 unique-item-counter">
+                    <div className={`position-absolute bottom-0 unique-item-counter${itemUniqueNumber === 1 ? ' unique-item-counter-gold' : ''}`}>
                         <LayoutLimitedEditionStyledNumberView value={ itemUniqueNumber } />
                     </div>
                 </> }

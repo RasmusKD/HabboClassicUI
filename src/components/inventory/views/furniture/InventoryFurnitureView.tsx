@@ -132,7 +132,7 @@ export const InventoryFurnitureView: FC<InventoryFurnitureViewProps> = props =>
                         <LayoutLimitedEditionCompactPlateView className="top-2 end-2" position="absolute" uniqueNumber={ selectedItem.stuffData.uniqueNumber } uniqueSeries={ selectedItem.stuffData.uniqueSeries } /> }
                     { (selectedItem && selectedItem.stuffData.rarityLevel > -1) &&
                         <LayoutRarityLevelView className="top-2 end-2" position="absolute" level={ selectedItem.stuffData.rarityLevel } /> }
-                    { (selectedItem && selectedItem.stuffData.rarityLevel === -1) &&
+                    { selectedItem && !selectedItem.stuffData.isUnique &&
                         <Base className="top-1 end-1 delete-icon" onClick={ event => attemptDeleteItem(selectedItem) }/>}
                 </Column>
                 { selectedItem &&

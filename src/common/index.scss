@@ -476,6 +476,7 @@
     background-repeat: no-repeat;
     width: 15px;
     height: 15px;
+    filter: drop-shadow(0px 1px 0 rgba(0,0,0,.3));
 }
 
 .nitro-currency-icon-big {
@@ -634,8 +635,8 @@
         height: 100%;
         background: url("../assets/images/unique/grid-bg.png") center no-repeat;
         z-index: 1;
-        bottom: 10px;
-        right: 0.2px;
+        bottom: -1px;
+        right: 0px;
 
     }
 
@@ -647,8 +648,8 @@
         background: url("../assets/images/unique/grid-bg-glass.png") center
             no-repeat;
         z-index: 4;
-        bottom: 10px;
-        right: 0.2px;
+        bottom: -1px;
+        right: 0px;
 
     }
 
@@ -662,16 +663,18 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        bottom: 23.5px;
+        bottom: 0px;
         width: 100%;
         height: 9px;
-        right: 0.2px;
+        right: 0px;
         background: url("../assets/images/unique/grid-count-bg.png") center
             no-repeat;
         z-index: 3;
     }
 }
-
+.unique-item-counter-gold {
+    background: url("../assets/images/unique/grid-count-bg-gold.png") center no-repeat!important;
+}
 .unique-sold-out-blocker {
     width: 364px;
     height: 30px;
@@ -704,6 +707,10 @@
         align-items: center;
         height: 9.5px;
     }
+}
+
+.unique-compact-plate-gold {
+    background: url("../assets/images/unique/inventory-info-amount-bg-gold.png")!important;
 }
 
 .unique-complete-plate {

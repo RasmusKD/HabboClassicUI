@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { GiftReceiverNotFoundEvent, PurchaseFromCatalogAsGiftComposer } from '@nitrots/nitro-renderer';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { ColorUtils, GetSessionDataManager, LocalizeText, ProductTypeEnum, SendMessageComposer } from '../../../../api';
-import { Base, Button, ButtonGroup, classNames, Column, Flex, FormGroup, LayoutCurrencyIconBig, LayoutCurrencyIcon, LayoutFurniImageView, LayoutGiftTagView, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text } from '../../../../common';
+import { Base, Button, ButtonGroup, classNames, Column, Flex, FormGroup, LayoutCurrencyIcon, LayoutFurniImageView, LayoutGiftTagView, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text } from '../../../../common';
 import { GiftColorButton } from '../../../../common/GiftColorButton';
 import { CatalogEvent, CatalogInitGiftEvent, CatalogPurchasedEvent } from '../../../../events';
 import { useCatalog, useMessageEvent, useUiEvent } from '../../../../hooks';
@@ -197,11 +197,11 @@ const handleAction = useCallback((action: string) =>
         <NitroCardView uniqueKey="catalog-gift" className="nitro-catalog-gift no-resize" theme="primary2">
             <NitroCardHeaderView headerText={ LocalizeText('catalog.gift_wrapping.title') } onCloseClick={ onClose } />
             <NitroCardContentView className="text-black">
-                <FormGroup className="gift-name-padding" column>
+                <FormGroup className="mb-1 gift-name-padding" column>
                     <input  spellCheck="false" type="text" className={ classNames('form-control form-control2 form-control-sm', receiverNotFound && 'is-invalid') } value={ receiverName } placeholder={ LocalizeText('catalog.gift_wrapping.receiver') } onChange={ (e) => setReceiverName(e.target.value) } />
                     <i className="icon icon-pen position-absolute pen-position"/>
                     { receiverNotFound &&
-                        <Base className="invalid-feedback">{ LocalizeText('catalog.gift_wrapping.receiver_not_found.title') }</Base> }
+                        <Base className="gift-error">{ LocalizeText('catalog.gift_wrapping.receiver_not_found.title') }</Base> }
                 </FormGroup>
                 <LayoutGiftTagView figure={ GetSessionDataManager().figure } userName={ GetSessionDataManager().userName } message={ message } editable={ true } onChange={ (value) => setMessage(value) } />
                 <Flex alignItems="center">
@@ -223,11 +223,12 @@ const handleAction = useCallback((action: string) =>
                                     <i className="gift-arrow-right"/>
                                 </Button>
                             </ButtonGroup>
-                            <Column>
+                            <Column gap={ 0 }>
                                 <Text className="gift-text-size" fontWeight="bold">{ LocalizeText(boxName) }</Text>
                                 <Flex alignItems="center" className="gift-text-size" gap={ 1 }>
                                     { LocalizeText(priceText, [ 'price' ], [ giftConfiguration.price.toString() ]) }
-                                    <LayoutCurrencyIconBig type={ -1 } />
+                                    { !isBoxDefault &&
+                                    <Base className="gift-coin"/>}
                                 </Flex>
                             </Column>
                         </Flex>

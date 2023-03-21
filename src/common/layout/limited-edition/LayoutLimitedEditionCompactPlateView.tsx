@@ -16,10 +16,14 @@ export const LayoutLimitedEditionCompactPlateView: FC<LayoutLimitedEditionCompac
     {
         const newClassNames: string[] = [ 'unique-compact-plate', 'z-index-1' ];
 
-        if(classNames.length) newClassNames.push(...classNames);
+        if (uniqueNumber === 1) {
+            newClassNames.push('unique-compact-plate-gold');
+        }
+
+        if (classNames.length) newClassNames.push(...classNames);
 
         return newClassNames;
-    }, [ classNames ]);
+    }, [ uniqueNumber, classNames ]);
 
     return (
         <Base classNames={ getClassNames } { ...rest }>
