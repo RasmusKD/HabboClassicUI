@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
 import { ICatalogNode } from '../../../../api';
 import { LayoutGridItem, Text, Base } from '../../../../common';

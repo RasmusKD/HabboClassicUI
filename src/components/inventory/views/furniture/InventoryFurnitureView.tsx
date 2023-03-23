@@ -47,14 +47,20 @@ export const InventoryFurnitureView: FC<InventoryFurnitureViewProps> = props =>
             const favoritedItemsData = storedFavoritedItems ? JSON.parse(storedFavoritedItems) : [];
             favoritedItemsData.sort((a, b) => a.timestamp - b.timestamp);
             const favoritedItemIds = favoritedItemsData.map(item => item.id);
-            return groupItems.filter(groupItem => {
-                const itemIds = groupItem.items.map(item => item.id);
-                return itemIds.some(id => favoritedItemIds.includes(id));
-            });
+            return groupItems
+                .filter(groupItem => {
+                    const itemIds = groupItem.items.map(item => item.id);
+                    return itemIds.some(id => favoritedItemIds.includes(id));
+                })
+                .sort(
+                    (a, b) =>
+                        favoritedItemIds.indexOf(a.items[0].id) -
+                        favoritedItemIds.indexOf(b.items[0].id)
+                );
         };
 
         setFavoritedItems(loadFavoritedItems());
-    }, [groupItems]);
+      }, [groupItems]);
 
     const toggleFavoriteItem = (groupItem: GroupItem) => {
       setFavoritedItems(prevFavoritedItems => {
@@ -108,7 +114,7 @@ export const InventoryFurnitureView: FC<InventoryFurnitureViewProps> = props =>
 
             if(furnitureItem.category === FurniCategory.LANDSCAPE)
             {
-                const data = GetSessionDataManager().getWallItemDataByName('noob_window_double');
+                const data = GetSessionDataManager().getWallItemDataByName('window_double_default');
 
                 if(data) roomPreviewer.addWallItemIntoRoom(data.id, new Vector3d(90, 0, 0), data.customParams);
             }

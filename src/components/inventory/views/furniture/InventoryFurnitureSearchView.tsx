@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { GroupItem, LocalizeText } from '../../../../api';
 import { Button, Flex } from '../../../../common';

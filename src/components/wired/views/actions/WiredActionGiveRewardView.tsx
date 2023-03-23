@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useEffect, useState } from 'react';
+import { FaPlus, FaTimes } from 'react-icons/fa';
 import ReactSlider from 'react-slider';
 import { LocalizeText, WiredFurniType } from '../../../../api';
 import { Base, Button, Column, Flex, Text } from '../../../../common';
@@ -153,7 +153,7 @@ export const WiredActionGiveRewardView: FC<{}> = props =>
             <hr className="m-0 color-dark" />
             <Flex justifyContent="between" alignItems="center">
                 <Text gfbold>Præmier</Text>
-                <Base pointer onClick={ addReward }><FontAwesomeIcon icon="plus" /></Base>
+                <Base pointer onClick={ addReward }><FaPlus className="fa-icon" /></Base>
             </Flex>
             <Flex fullWidth>
                 <Text>Skilt?</Text>
@@ -169,7 +169,7 @@ export const WiredActionGiveRewardView: FC<{}> = props =>
                             <input spellCheck="false" type="text" className="form-control wired-form" value={ reward.itemCode } onChange={ e => updateReward(index, reward.isBadge, e.target.value, reward.probability) } />
                             <input type="number" className="form-control wired-form" value={ reward.probability } onChange={ e => updateReward(index, reward.isBadge, reward.itemCode, Number(e.target.value)) }/>
                             { (index > 0) &&
-                            <Base pointer onClick={ event => removeReward(index) }><FontAwesomeIcon icon="x" /></Base> }
+                            <Base pointer onClick={ event => removeReward(index) }><FaTimes className="fa-icon" /></Base> }
                         </Flex>
                     )
                 }) }

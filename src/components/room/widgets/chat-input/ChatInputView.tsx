@@ -1,9 +1,9 @@
 import { HabboClubLevelEnum, RoomControllerLevel } from '@nitrots/nitro-renderer';
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { ChatMessageTypeEnum, GetClubMemberLevel, GetConfiguration, GetRoomSession, GetSessionDataManager, LocalizeText, RoomWidgetUpdateChatInputContentEvent } from '../../../../api';
+import { ChatMessageTypeEnum, GetClubMemberLevel, GetConfiguration, GetSessionDataManager, LocalizeText, RoomWidgetUpdateChatInputContentEvent } from '../../../../api';
 import { Base, Text } from '../../../../common';
-import { useChatInputWidget, useSessionInfo, useUiEvent } from '../../../../hooks';
+import { useChatInputWidget, useRoom, useSessionInfo, useUiEvent } from '../../../../hooks';
 import { ChatInputStyleSelectorView } from './ChatInputStyleSelectorView';
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
@@ -14,6 +14,7 @@ export const ChatInputView: FC<{}> = props =>
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const { chatStyleId = 0, updateChatStyleId = null } = useSessionInfo();
     const { selectedUsername = '', floodBlocked = false, floodBlockedSeconds = 0, setIsTyping = null, setIsIdle = null, sendChat = null } = useChatInputWidget();
+    const { roomSession = null } = useRoom();
     const inputRef = useRef<HTMLInputElement>();
     const chatModeIdWhisper = useMemo(() => LocalizeText('widgets.chatinput.mode.whisper'), []);
     const chatModeIdShout = useMemo(() => LocalizeText('widgets.chatinput.mode.shout'), []);
@@ -299,7 +300,7 @@ function handleEmojiSelect(emoji) {
       };
     }, []);
 
-    if(GetRoomSession().isSpectator) return null;
+    if(!roomSession || roomSession.isSpectator) return null;
 
     return (
         createPortal(

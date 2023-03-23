@@ -8,7 +8,7 @@
   border-image-slice:6 6 6 6 fill;
   border-image-width:6px 6px 6px 6px;
   border-image-repeat:repeat repeat;
-  border-image-source: url("../../../flash/boxes/card/input.png");
+  border-image-source: url('@/assets/flash/boxes/card/input.png');
   background: transparent;
 
   &[type="file"] {
@@ -103,11 +103,11 @@
 }
 
 .form-control2 {
-    border-image-source: url("../../../flash/boxes/card/input2.png")!important;
+    border-image-source: url('@/assets/flash/boxes/card/input2.png')!important;
 }
 
 .form-control3 {
-    border-image-source: url("../../../flash/boxes/card/input3.png")!important;
+    border-image-source: url('@/assets/flash/boxes/card/input3.png')!important;
 }
 // Readonly controls as plain text
 //

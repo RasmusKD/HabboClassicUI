@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { RoomObjectCategory } from '@nitrots/nitro-renderer';
 import { FC } from 'react';
 import { LocalizeText, MessengerRequest } from '../../../../api';

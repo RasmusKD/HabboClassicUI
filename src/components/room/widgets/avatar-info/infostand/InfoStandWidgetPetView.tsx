@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { PetRespectComposer, PetType } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
 import { AvatarInfoPet, ConvertSeconds, CreateLinkEvent, GetConfiguration, LocalizeText, SendMessageComposer } from '../../../../../api';
@@ -53,10 +52,10 @@ export const InfoStandWidgetPetView: FC<InfoStandWidgetPetViewProps> = props =>
                 if((petRespectRemaining - 1) >= 1) hideMenu = false;
                 break;
             case 'buyfood':
-                CreateLinkEvent('catalog/open/' + GetConfiguration('catalog.links')['pets.buy_saddle']);
+                CreateLinkEvent('catalog/open/' + GetConfiguration('catalog.links')['pets.buy_food']);
                 break;
             case 'train':
-                // not coded
+                roomSession?.requestPetCommands(avatarInfo.id);
                 break;
             case 'treat':
                 SendMessageComposer(new PetRespectComposer(avatarInfo.id));

@@ -21,19 +21,19 @@
         }
 
         .coin {
-            border-image-source: url(../../assets/flash/purse/seasonal_bg_coin.png);
+            border-image-source: url('@/assets/flash/purse/seasonal_bg_coin.png');
         }
 
         .pixel {
-            border-image-source: url(../../assets/flash/purse/seasonal_bg_pixel.png);
+            border-image-source: url('@/assets/flash/purse/seasonal_bg_pixel.png');
         }
 
         .hc {
-            border-image-source: url(../../assets/flash/purse/seasonal_bg_hc.png);
+            border-image-source: url('@/assets/flash/purse/seasonal_bg_hc.png');
         }
 
         .diamond {
-            border-image-source: url(../../assets/flash/purse/seasonal_bg_diamond.png);
+            border-image-source: url('@/assets/flash/purse/seasonal_bg_diamond.png');
         }
     }
 
@@ -49,7 +49,7 @@
         }
 
         .nitro-purse-subscription {
-            border-image-source: url(../../assets/flash/purse/hc_bg.png);
+            border-image-source: url('@/assets/flash/purse/hc_bg.png');
             border-image-slice: 7 7 7 7 fill;
             border-image-width: 7px 7px 7px 7px;
         }
@@ -62,32 +62,32 @@
         }
     }
     .nitro-purse-right-button.help {
-      border-image-source: url(../../assets/flash/purse/help_button.png);
+      border-image-source: url('@/assets/flash/purse/help_button.png');
       &:hover {
-        border-image-source: url(../../assets/flash/purse/help_button_hover.png);
+        border-image-source: url('@/assets/flash/purse/help_button_hover.png');
       }
       &:active {
-        border-image-source: url(../../assets/flash/purse/help_button_active.png);
+        border-image-source: url('@/assets/flash/purse/help_button_active.png');
       }
     }
 
     .nitro-purse-right-button.disconnect {
-      border-image-source: url(../../assets/flash/purse/disconnect_button.png);
+      border-image-source: url('@/assets/flash/purse/disconnect_button.png');
       &:hover {
-        border-image-source: url(../../assets/flash/purse/disconnect_button_hover.png);
+        border-image-source: url('@/assets/flash/purse/disconnect_button_hover.png');
       }
       &:active {
-        border-image-source: url(../../assets/flash/purse/disconnect_button_active.png);
+        border-image-source: url('@/assets/flash/purse/disconnect_button_active.png');
       }
     }
 
     .nitro-purse-right-button.settings {
-      border-image-source: url(../../assets/flash/purse/settings_button.png);
+      border-image-source: url('@/assets/flash/purse/settings_button.png');
       &:hover {
-        border-image-source: url(../../assets/flash/purse/settings_button_hover.png);
+        border-image-source: url('@/assets/flash/purse/settings_button_hover.png');
       }
       &:active {
-        border-image-source: url(../../assets/flash/purse/settings_button_active.png);
+        border-image-source: url('@/assets/flash/purse/settings_button_active.png');
       }
     }
     .nitro-purse-seasonal-currency {
@@ -120,7 +120,7 @@
         &.purple {
 
             .nitro-seasonal-box{
-                border-image-source: url(../../assets/flash/purse/seasonal_bg_purple.png);
+                border-image-source: url('@/assets/flash/purse/seasonal_bg_purple.png');
             }
 
             .seasonal-bold {
@@ -131,7 +131,7 @@
         &.bronze {
 
             .nitro-seasonal-box{
-                border-image-source: url(../../assets/flash/purse/seasonal_bg_bronze.png);
+                border-image-source: url('@/assets/flash/purse/seasonal_bg_bronze.png');
             }
 
             .seasonal-bold {
@@ -142,7 +142,7 @@
         &.pink {
 
             .nitro-seasonal-box{
-                border-image-source: url(../../assets/flash/purse/seasonal_bg_pink.png);
+                border-image-source: url('@/assets/flash/purse/seasonal_bg_pink.png');
             }
 
             .seasonal-bold {
@@ -153,7 +153,7 @@
         &.blue {
 
             .nitro-seasonal-box{
-                border-image-source: url(../../assets/flash/purse/seasonal_bg_blue.png);
+                border-image-source: url('@/assets/flash/purse/seasonal_bg_blue.png');
             }
 
             .seasonal-bold {
@@ -164,7 +164,7 @@
         &.red {
 
             .nitro-seasonal-box{
-                border-image-source: url(../../assets/flash/purse/seasonal_bg_red.png);
+                border-image-source: url('@/assets/flash/purse/seasonal_bg_red.png');
             }
 
             .seasonal-bold {

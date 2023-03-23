@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
 import { IPurchasableOffer } from '../../../../../api';
 import { Flex, LayoutCurrencyIconBig, Text } from '../../../../../common';

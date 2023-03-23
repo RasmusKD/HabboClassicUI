@@ -1,6 +1,6 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { GroupDeleteComposer, GroupSaveInformationComposer } from '@nitrots/nitro-renderer';
 import { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { FaTimes } from 'react-icons/fa';
 import { CreateLinkEvent, IGroupData, LocalizeText, SendMessageComposer } from '../../../../api';
 import { Base, Column, Flex, Text } from '../../../../common';
 import { useNotification } from '../../../../hooks';
@@ -119,7 +119,7 @@ export const GroupTabIdentityView: FC<GroupTabIdentityViewProps> = props =>
             </Column>
             { !isCreator &&
                 <Text variant="danger" underline bold pointer className="d-flex justify-content-center align-items-center gap-1" onClick={ deleteGroup }>
-                    <FontAwesomeIcon icon="times" />
+                    <FaTimes className="fa-icon" />
                     { LocalizeText('group.delete') }
                 </Text> }
             { isCreator &&

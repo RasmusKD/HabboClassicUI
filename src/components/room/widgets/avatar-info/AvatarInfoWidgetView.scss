@@ -7,7 +7,7 @@
         align-items: center;
         width: 122px;
         height: 130px;
-        background: url('../../../../assets/images/room-widgets/avatar-info/preview-background.png') no-repeat center;
+        background: url('@/assets/images/room-widgets/avatar-info/preview-background.png') no-repeat center;
 
         .pet-image {
             width: 122px;
@@ -17,7 +17,7 @@
         .monsterplant-image {
             width: 122px;
             height: 130px;
-            background: url('../../../../assets/images/room-widgets/furni-context-menu/monsterplant-preview.png') no-repeat center;
+            background: url('@/assets/images/room-widgets/furni-context-menu/monsterplant-preview.png') no-repeat center;
         }
     }
 }
@@ -36,7 +36,7 @@
         max-width: 190px;
         z-index: $infostand-zindex;
 	    pointer-events: auto;
-        border-image-source: url(../../../../assets/flash/infostand/info_bg.png);
+        border-image-source: url('@/assets/flash/infostand/info_bg.png');
         border-image-slice: 6 6 6 6 fill;
         border-image-width: 6px 6px 6px 6px;
         font-family: Goldfish;
@@ -50,13 +50,13 @@
         }
 
         .infostand-thumb-bg {
-            border-image-source: url(../../../../assets/flash/infostand/thumb_bg.png);
+            border-image-source: url('@/assets/flash/infostand/thumb_bg.png');
             border-image-slice: 6 6 6 6 fill;
             border-image-width: 6px 6px 6px 6px;
         }
 
         .infostand-close {
-            background: url(../../../../assets/flash/infostand/info_close.png);
+            background: url('@/assets/flash/infostand/info_close.png');
             width: 13px;
             height: 13px;
             cursor: pointer;
@@ -76,7 +76,7 @@
             }
 
             &.bot {
-                background-image: url('../../../../assets/images/infostand/bot_background.png');
+                background-image: url('@/assets/images/infostand/bot_background.png');
                 background-repeat: no-repeat;
                 background-position: center;
             }
@@ -129,6 +129,22 @@
 
             &:focus {
                 font-style: italic;
+            }
+        }
+
+        .flex-tags
+        {
+            flex-wrap: wrap;
+            margin-bottom: -10px;
+
+            .text-tags
+            {
+                padding: 2px;
+                border-radius: 3px;
+                background: #333;
+                margin-right: 5px;
+                margin-bottom: 10px;
+                cursor: pointer;
             }
         }
     }
@@ -187,13 +203,13 @@
 }
 
 .pet-scratched {
-    background: url(../../../../assets/flash/pet/pet_respect.png);
+    background: url('@/assets/flash/pet/pet_respect.png');
     width: 13px;
     height: 21px;
 }
 
 .pet-happiness {
-    background: url(../../../../assets/flash/pet/pet_happiness.png);
+    background: url('@/assets/flash/pet/pet_happiness.png');
     width: 18px;
     height: 18px;
     position: fixed;
@@ -202,7 +218,7 @@
 }
 
 .pet-experience {
-    background: url(../../../../assets/flash/pet/pet_experience.png);
+    background: url('@/assets/flash/pet/pet_experience.png');
     width: 18px;
     height: 18px;
     position: fixed;
@@ -211,7 +227,7 @@
 }
 
 .pet-energy {
-    background: url(../../../../assets/flash/pet/pet_energy.png);
+    background: url('@/assets/flash/pet/pet_energy.png');
     width: 18px;
     height: 18px;
     position: fixed;

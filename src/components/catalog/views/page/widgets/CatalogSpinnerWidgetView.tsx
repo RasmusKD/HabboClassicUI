@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
 import { CalculateDiscount, LocalizeText } from '../../../../../api';
 import { Flex, Text } from '../../../../../common';

@@ -1,5 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NavigatorSearchComposer, RoomMuteComposer, RoomSettingsComposer, SecurityLevel, ToggleStaffPickMessageComposer, UpdateHomeRoomMessageComposer } from '@nitrots/nitro-renderer';import { FC, useEffect, useState } from 'react';
+import { GetCustomRoomFilterMessageComposer, NavigatorSearchComposer, RoomMuteComposer, RoomSettingsComposer, SecurityLevel, ToggleStaffPickMessageComposer, UpdateHomeRoomMessageComposer } from '@nitrots/nitro-renderer';
 import { CreateLinkEvent, DispatchUiEvent, GetGroupInformation, GetSessionDataManager, LocalizeText, ReportType, SendMessageComposer } from '../../../api';
 import { Base, Button, classNames, Column, Flex, LayoutBadgeImageView, LayoutRoomThumbnailView, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text, UserProfileIconView } from '../../../common';
 import { RoomWidgetThumbnailEvent } from '../../../events';
@@ -69,6 +68,9 @@ export const NavigatorRoomInfoView: FC<NavigatorRoomInfoViewProps> = props =>
             case 'toggle_mute':
                 setIsRoomMuted(value => !value);
                 SendMessageComposer(new RoomMuteComposer());
+                return;
+            case 'room_filter':
+                SendMessageComposer(new GetCustomRoomFilterMessageComposer(navigatorData.enteredGuestRoom.roomId));
                 return;
             case 'open_floorplan_editor':
                 CreateLinkEvent('floor-editor/toggle');
@@ -166,6 +168,9 @@ export const NavigatorRoomInfoView: FC<NavigatorRoomInfoViewProps> = props =>
                                 </Button>
                                 <Button onClick={ () => processAction('toggle_mute') }>
                                     { LocalizeText(isRoomMuted ? 'navigator.muteall_on' : 'navigator.muteall_off') }
+                                </Button>
+                                <Button onClick={ () => processAction('room_filter') }>
+                                    { LocalizeText('navigator.roomsettings.roomfilter') }
                                 </Button>
                                 <Button onClick={ () => processAction('open_floorplan_editor') }>
                                     { LocalizeText('open.floor.plan.editor') }

@@ -1,7 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRoomCameraWidgetEffect, IRoomCameraWidgetSelectedEffect, RoomCameraWidgetSelectedEffect } from '@nitrots/nitro-renderer';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import ReactSlider from 'react-slider';
+import { FaSave, FaSearchMinus, FaSearchPlus, FaTrash } from 'react-icons/fa';
 import { CameraEditorTabs, CameraPicture, CameraPictureThumbnail, CreateLinkEvent, GetRoomCameraWidgetManager, LocalizeText } from '../../../../api';
 import { Base, Button, ButtonGroup, Column, Flex, Grid, LayoutImage, NitroCardContentView, NitroCardHeaderView, NitroCardTabsItemView, HabboClassicCardTabsView, NitroCardView, Text } from '../../../../common';
 import { CameraWidgetEffectListView } from './effect-list/CameraWidgetEffectListView';
@@ -205,13 +205,14 @@ export const CameraWidgetEditorView: FC<CameraWidgetEditorViewProps> = props =>
                         <Flex justifyContent="between">
                             <ButtonGroup>
                                 <Button onClick={ event => processAction('clear_effects') }>
-                                    <FontAwesomeIcon icon="trash" />
+                                    <FaTrash className="fa-icon" />
                                 </Button>
                                 <Button onClick={ event => processAction('download') }>
-                                    <FontAwesomeIcon icon="save" />
+                                    <FaSave className="fa-icon" />
                                 </Button>
                                 <Button onClick={ event => processAction('zoom') }>
-                                    <FontAwesomeIcon icon={ isZoomed ? 'search-minus' : 'search-plus' } />
+                                    { isZoomed && <FaSearchMinus className="fa-icon" /> }
+                                    { !isZoomed && <FaSearchPlus className="fa-icon" /> }
                                 </Button>
                             </ButtonGroup>
                             <Flex gap={ 1 }>

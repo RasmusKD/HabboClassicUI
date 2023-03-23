@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, MouseEvent, useMemo } from 'react';
 import { Base, Column, ColumnProps, Flex } from '..';
 import { Text } from '../../common';

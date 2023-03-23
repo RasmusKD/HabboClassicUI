@@ -47,16 +47,7 @@ export const InventoryFurnitureItemView: FC<{ groupItem: GroupItem, toggleFavori
             onMouseOut={onMouseEvent}
             {...rest}
           >
-        <Base
-          className="favorite-button"
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleFavorite(groupItem);
-          }}
-          style={{ color: favoritedItems.includes(groupItem) ? "orange" : "inherit" }}
-        >
-          {favoritedItems.includes(groupItem) ? "★" : "☆"}
-        </Base>
+        <Base className="favorite-button" onClick={(e) => { e.stopPropagation(); toggleFavorite(groupItem);}} style={{ color: favoritedItems.includes(groupItem) ? "orange" : "inherit" }}> {favoritedItems.includes(groupItem) ? "★" : "☆"}</Base>
           </LayoutGridFurni>
         );
     };

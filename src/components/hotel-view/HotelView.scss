@@ -64,7 +64,7 @@
 	}
 
 	.rooftop {
-		background-image: url(../../assets/flash/hotelview/rooftop.png);
+		background-image: url('@/assets/flash/hotelview/rooftop.png');
 		background-repeat: no-repeat;
 		width: 120px;
 		height: 164px;
@@ -93,7 +93,7 @@
 	}
 
 	.rooftop-pool {
-		background-image: url(../../assets/flash/hotelview/rooftop_pool.png);
+		background-image: url('@/assets/flash/hotelview/rooftop_pool.png');
 		background-repeat: no-repeat;
 		width: 183px;
 		height: 164px;
@@ -122,7 +122,7 @@
 	}
 
 	.pool {
-		background-image: url(../../assets/flash/hotelview/pool.png);
+		background-image: url('@/assets/flash/hotelview/pool.png');
 		background-repeat: no-repeat;
 		width: 433px;
 		height: 361px;
@@ -151,7 +151,7 @@
 	}
 
 	.picnic {
-		background-image: url(../../assets/flash/hotelview/picnic2.png);
+		background-image: url('@/assets/flash/hotelview/picnic2.png');
 		background-repeat: no-repeat;
 		width: 547px;
 		height: 355px;
@@ -181,7 +181,7 @@
 	}
 
 	.peaceful {
-		background-image: url(../../assets/flash/hotelview/peacefulpark.png);
+		background-image: url('@/assets/flash/hotelview/peacefulpark.png');
 		background-repeat: no-repeat;
 		width: 384px;
 		height: 269px;
@@ -210,7 +210,7 @@
 	}
 
 	.infobus {
-		background-image: url(../../assets/flash/hotelview/infobus.png);
+		background-image: url('@/assets/flash/hotelview/infobus.png');
 		background-repeat: no-repeat;
 		width: 181px;
 		height: 175px;
@@ -240,7 +240,7 @@
 	}
 
 	.lobby {
-    	background-image: url(../../assets/flash/hotelview/lobby.png);
+    	background-image: url('@/assets/flash/hotelview/lobby.png');
     	background-repeat: no-repeat;
     	width: 73px;
     	height: 65px;
@@ -270,7 +270,7 @@
     }
 
 	.active-arrow {
-		background-image: url(../../assets/flash/hotelview/arrow_down.png);
+		background-image: url('@/assets/flash/hotelview/arrow_down.png');
 		background-repeat: no-repeat;
 		animation: MoveUpDown 1s linear infinite;
 

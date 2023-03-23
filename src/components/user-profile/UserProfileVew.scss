@@ -7,27 +7,27 @@
     resize: none;
 
     .profile-grey-bg {
-        border-image-source: url(../../assets/flash/profile/grey-bg.png);
+        border-image-source: url('@/assets/flash/profile/grey-bg.png');
         border-image-slice: 6 6 6 6 fill;
         border-image-width: 6px 6px 6px 6px;
         height: 55px!important;
     }
 
     .profile-grey-bg-2 {
-        border-image-source: url(../../assets/flash/profile/grey-bg.png);
+        border-image-source: url('@/assets/flash/profile/grey-bg.png');
         border-image-slice: 6 6 6 6 fill;
         border-image-width: 6px 6px 6px 6px;
         min-height: 50px;
     }
 
     .profile-white-bg {
-        border-image-source: url(../../assets/flash/profile/white_bg.png);
+        border-image-source: url('@/assets/flash/profile/white_bg.png');
         border-image-slice: 6 6 6 6 fill;
         border-image-width: 6px 6px 6px 6px;
     }
 
     .profile-grey-bg-border {
-        border-image-source: url(../../assets/flash/profile/grey_bg_border.png);
+        border-image-source: url('@/assets/flash/profile/grey_bg_border.png');
         border-image-slice: 6 6 6 6 fill;
         border-image-width: 6px 6px 6px 6px;
         max-height: 240px;
@@ -82,7 +82,7 @@
     }
 
     .no-group-spritesheet {
-        background: transparent url('../../assets/images/groups/no-group-spritesheet.png') no-repeat;
+        background: transparent url('@/assets/images/groups/no-group-spritesheet.png') no-repeat;
 
         &.image-1 {
             width: 95px;

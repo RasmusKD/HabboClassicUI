@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { GetSessionDataManager, ReportType } from 'api';
+import { GetSessionDataManager, ReportType } from '../../../../api';
 import { NitroCardContentView, NitroCardHeaderView, NitroCardView } from '../../../../common';
 import { useFurnitureExternalImageWidget, useHelp } from '../../../../hooks';
 import { CameraWidgetShowPhotoView } from '../../../camera/views/CameraWidgetShowPhotoView';

@@ -1,5 +1,5 @@
 import { ILinkEventTracker } from '@nitrots/nitro-renderer';
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { AddEventLinkTracker, ChatEntryType, RemoveLinkEventTracker } from '../../api';
 import { Column, Flex, InfiniteScroll, Text } from '../../common';
 import { useChatHistory } from '../../hooks';
@@ -9,6 +9,7 @@ export const ChatHistoryView: FC<{}> = props =>
     const [ isVisible, setIsVisible ] = useState(false);
     const [ searchText, setSearchText ] = useState<string>('');
     const { chatHistory = [] } = useChatHistory();
+    const elementRef = useRef<HTMLDivElement>(null);
 
     const filteredChatHistory = useMemo(() =>
     {
@@ -19,10 +20,10 @@ export const ChatHistoryView: FC<{}> = props =>
         return chatHistory.filter(entry => ((entry.message && entry.message.toLowerCase().includes(text))) || (entry.name && entry.name.toLowerCase().includes(text)));
     }, [ chatHistory, searchText ]);
 
-    /* useEffect(() =>
+    useEffect(() =>
     {
         if(elementRef && elementRef.current && isVisible) elementRef.current.scrollTop = elementRef.current.scrollHeight;
-    }, [ isVisible ]); */
+    }, [ isVisible ]);
 
     useEffect(() =>
     {
@@ -61,8 +62,8 @@ export const ChatHistoryView: FC<{}> = props =>
             { isVisible &&
             <Flex gap={ 2 } className="nitro-chat-history">
                 <Column className="chat-history-content h-100">
-                    <Column className="h-100">
-                        <InfiniteScroll rows={ filteredChatHistory } estimateSize={ 22 } rowRender={ row =>
+                    <Column innerRef={ elementRef } className="h-100">
+                        <InfiniteScroll rows={ filteredChatHistory } scrollToBottom={ true } rowRender={ row =>
                         {
                             return (
                                 <Flex alignItems="center" className="p-1" gap={ 2 }>

@@ -4,7 +4,7 @@
     position: absolute;
     top: 150px;
     left: 0;
-    border-image-source: url(../../assets/flash/purse/purse-bg.png);
+    border-image-source: url('@/assets/flash/purse/purse-bg.png');
     border-image-slice:6 6 6 6 fill;
     border-image-width:6px 6px 6px 6px;
     transition: all .2s ease;
@@ -15,26 +15,26 @@
 }
 
 .roomtoolicon {
-    background-image: url(../../assets/flash/modtools/room.png);
+    background-image: url('@/assets/flash/modtools/room.png');
     width: 16px;
     height: 17px;
 }
 
 .chatlogicon {
-    background-image: url(../../assets/flash/modtools/chatlog.png);
+    background-image: url('@/assets/flash/modtools/chatlog.png');
     width: 17px;
     height: 21px;
 
 }
 
 .usericon {
-    background-image: url(../../assets/flash/modtools/userinfo.png);
+    background-image: url('@/assets/flash/modtools/userinfo.png');
     width: 18px;
     height: 19px;
 }
 
 .ticketicon {
-    background-image: url(../../assets/flash/modtools/tickets.png);
+    background-image: url('@/assets/flash/modtools/tickets.png');
     width: 12px;
     height: 16px;
 }

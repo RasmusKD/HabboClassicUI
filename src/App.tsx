@@ -1,6 +1,6 @@
-import { ConfigurationEvent, GetAssetManager, HabboWebTools, LegacyExternalInterface, Nitro, NitroCommunicationDemoEvent, NitroConfiguration, NitroEvent, NitroLocalizationEvent, NitroVersion, RoomEngineEvent, WebGL } from '@nitrots/nitro-renderer';
+import { ConfigurationEvent, GetAssetManager, HabboWebTools, LegacyExternalInterface, Nitro, NitroCommunicationDemoEvent, NitroConfiguration, NitroEvent, NitroLocalizationEvent, NitroVersion, RoomEngineEvent } from '@nitrots/nitro-renderer';
 import { FC, useCallback, useEffect, useState } from 'react';
-import { DispatchUiEvent, GetCommunication, GetConfiguration, GetNitroInstance, GetUIVersion } from './api';
+import { GetCommunication, GetConfiguration, GetNitroInstance, GetUIVersion } from './api';
 import { Base, TransitionAnimation, TransitionAnimationTypes } from './common';
 import { LoadingView } from './components/loading/LoadingView';
 import { MainView } from './components/main/MainView';
@@ -10,6 +10,7 @@ NitroVersion.UI_VERSION = GetUIVersion();
 
 export const App: FC<{}> = props =>
 {
+    console.log('App component executed');
     const [ isReady, setIsReady ] = useState(false);
     const [ isError, setIsError ] = useState(false);
     const [ message, setMessage ] = useState('Getting Ready');
@@ -26,34 +27,42 @@ export const App: FC<{}> = props =>
 
     const handler = useCallback(async (event: NitroEvent) =>
     {
+        console.log('Event triggered:', event.type);
         switch(event.type)
         {
             case ConfigurationEvent.LOADED:
+                console.log('t1');
                 GetNitroInstance().localization.init();
                 setPercent(prevValue => (prevValue + 20));
                 return;
             case ConfigurationEvent.FAILED:
+                console.log('t2');
                 setIsError(true);
                 setMessage('Configuration Failed');
                 return;
             case Nitro.WEBGL_UNAVAILABLE:
+                console.log('t3');
                 setIsError(true);
                 setMessage('WebGL Required');
                 return;
             case Nitro.WEBGL_CONTEXT_LOST:
+                console.log('t4');
                 setIsError(true);
                 setMessage('WebGL Context Lost - Reloading');
 
                 setTimeout(() => window.location.reload(), 1500);
                 return;
             case NitroCommunicationDemoEvent.CONNECTION_HANDSHAKING:
+                console.log('t5');
                 setPercent(prevValue => (prevValue + 20));
                 return;
             case NitroCommunicationDemoEvent.CONNECTION_HANDSHAKE_FAILED:
+                console.log('t6');
                 setIsError(true);
                 setMessage('Handshake Failed');
                 return;
             case NitroCommunicationDemoEvent.CONNECTION_AUTHENTICATED:
+                console.log('t7');
                 setPercent(prevValue => (prevValue + 20));
 
                 GetNitroInstance().init();
@@ -61,10 +70,12 @@ export const App: FC<{}> = props =>
                 if(LegacyExternalInterface.available) LegacyExternalInterface.call('legacyTrack', 'authentication', 'authok', []);
                 return;
             case NitroCommunicationDemoEvent.CONNECTION_ERROR:
+                console.log('t8');
                 setIsError(true);
                 setMessage('Connection Error');
                 return;
             case NitroCommunicationDemoEvent.CONNECTION_CLOSED:
+                console.log('t9');
                 //if(GetNitroInstance().roomEngine) GetNitroInstance().roomEngine.dispose();
                 //setIsError(true);
                 setMessage('Connection Error');
@@ -72,11 +83,13 @@ export const App: FC<{}> = props =>
                 HabboWebTools.send(-1, 'client.init.handshake.fail');
                 return;
             case RoomEngineEvent.ENGINE_INITIALIZED:
+                console.log('t10');
                 setPercent(prevValue => (prevValue + 20));
 
                 setTimeout(() => setIsReady(true), 300);
                 return;
             case NitroLocalizationEvent.LOADED: {
+                console.log('t11');
                 const assetUrls = GetConfiguration<string[]>('preload.assets.urls');
                 const urls: string[] = [];
 
@@ -113,23 +126,18 @@ export const App: FC<{}> = props =>
     useConfigurationEvent(ConfigurationEvent.FAILED, handler);
 
     useEffect(() => {
-        const application = atob('aGFiYm9jbGFzc2ljLmRr');
+        console.log('First useEffect executed');
+        const d = atob, e = 'aGFiYm9jbGFzc2ljLmRr', f = window.location.hostname, g = () => {};
 
-        if (window.location.hostname !== application) {
-          while (true) {}
+        if (d(e) !== f) {
+          for (let i = 1; i > 0;) g();
         }
       }, []);
 
     useEffect(() =>
     {
-        if(!WebGL.isWebGLAvailable())
-        {
-            DispatchUiEvent(new NitroEvent(Nitro.WEBGL_UNAVAILABLE));
-        }
-        else
-        {
-            GetNitroInstance().core.configuration.init();
-        }
+        console.log('Second useEffect executed');
+        GetNitroInstance().core.configuration.init();
 
         const resize = (event: UIEvent) => setImageRendering(!(window.devicePixelRatio % 1));
 

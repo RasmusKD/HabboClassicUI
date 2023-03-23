@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NitroRectangle, TextureUtils } from '@nitrots/nitro-renderer';
 import { FC, useRef } from 'react';
 import { CameraPicture, CreateLinkEvent, GetRoomEngine, GetRoomSession, LocalizeText, PlaySound, SoundNames } from '../../../api';

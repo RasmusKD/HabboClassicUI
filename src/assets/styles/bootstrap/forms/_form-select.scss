@@ -10,13 +10,13 @@
   border-image-slice:4 21 4 3 fill;
   border-image-width:4px 21px 4px 3px;
   border-image-repeat:repeat repeat;
-  border-image-source: url("../../../flash/boxes/dropdown_regular.png");
+  border-image-source: url('@/assets/flash/boxes/dropdown_regular.png');
   background-color: transparent;
   appearance: none;
 
   &.active,
   &:active {
-      border-image-source: url("../../../flash/boxes/dropdown_regular_active.png");
+      border-image-source: url('@/assets/flash/boxes/dropdown_regular_active.png');
   }
 
   &:focus {
@@ -50,7 +50,7 @@
 }
 
 .form-dropdown-button {
-  background-image: url("../../../flash/boxes/card/dropdown_button.png");
+  background-image: url('@/assets/flash/boxes/card/dropdown_button.png');
   background-repeat: no-repeat;
   float: left;
   position: absolute;
@@ -82,7 +82,7 @@
   border-image-slice:4 24 4 4 fill;
   border-image-width:4px 24px 4px 4px;
   border-image-repeat:repeat repeat;
-  border-image-source: url("../../../flash/boxes/dropdown.png");
+  border-image-source: url('@/assets/flash/boxes/dropdown.png');
   background-color: transparent;
   appearance: none;
   cursor: pointer;
@@ -90,12 +90,12 @@
   font-size: 13.5px;
 
 &:hover {
-    border-image-source: url("../../../flash/boxes/dropdownhover.png");
+    border-image-source: url('@/assets/flash/boxes/dropdownhover.png');
 }
 
 &.active,
 &:active {
-    border-image-source: url("../../../flash/boxes/dropdownactive.png");
+    border-image-source: url('@/assets/flash/boxes/dropdownactive.png');
 }
 
 &:focus {

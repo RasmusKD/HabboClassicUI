@@ -44,7 +44,7 @@ export const ModToolsUserRoomVisitsView: FC<ModToolsUserRoomVisitsViewProps> = p
                             <Base className="g-col-3">Rum besøg</Base>
                         </Grid>
                     </Column>
-                    <InfiniteScroll rows={ roomVisitData?.rooms ?? [] } estimateSize={ 25 } rowRender={ row =>
+                    <InfiniteScroll rows={ roomVisitData?.rooms ?? [] } rowRender={ row =>
                     {
                         return (
                             <Grid fullHeight={ false } gap={ 1 } alignItems="center" className="text-black py-1 border-bottom">

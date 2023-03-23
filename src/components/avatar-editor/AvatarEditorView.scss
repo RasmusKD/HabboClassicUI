@@ -1,5 +1,5 @@
 .nitro-avatar-editor-spritesheet {
-    background: url('../../assets/images/avatareditor/avatar-editor-spritesheet.png') transparent no-repeat;
+    background: url('@/assets/images/avatareditor/avatar-editor-spritesheet.png') transparent no-repeat;
 
     &.arrow-left-icon {
         width: 28px;
@@ -250,7 +250,7 @@
 
 .nitro-avatar-editor-wardrobe-figure-preview {
     padding: 12px;
-    border-image-source: url(../../assets/flash/avatareditor/wardrobe_user_bg.png);
+    border-image-source: url('@/assets/flash/avatareditor/wardrobe_user_bg.png');
     border-image-slice: 4 4 4 4 fill;
     border-image-width: 4px 4px 4px 4px;
     background-color: transparent;
@@ -316,7 +316,7 @@ cursor: pointer;
             z-index: 5;
 
             .arrow-left {
-                background-image: url(../../assets/flash/avatareditor/rotation_arrow.png);
+                background-image: url('@/assets/flash/avatareditor/rotation_arrow.png');
                 width: 44px;
                 height: 29px;
                 margin-left: auto;
@@ -345,7 +345,7 @@ cursor: pointer;
             width: 68px;
             height: 34px;
             margin: 0 auto;
-            background: url(../../assets/flash/avatareditor/avatar_shadow.png);
+            background: url('@/assets/flash/avatareditor/avatar_shadow.png');
             z-index: 2;
         }
     }
@@ -356,7 +356,7 @@ cursor: pointer;
     }
 
     .color-picker-frame {
-        border-image-source: url(../../assets/flash/avatareditor/color_frame.png);
+        border-image-source: url('@/assets/flash/avatareditor/color_frame.png');
         border-image-slice: 6 6 6 6 fill;
         border-image-width: 6px 6px 6px 6px;
         width: 13px;
@@ -364,20 +364,20 @@ cursor: pointer;
         border-radius: 4px;
 
         &.active {
-            border-image-source: url(../../assets/flash/avatareditor/color_frame_active.png);
+            border-image-source: url('@/assets/flash/avatareditor/color_frame_active.png');
             height: 21px;
             margin-top: -2px;
         }
 
         &:hover {
-            border-image-source: url(../../assets/flash/avatareditor/color_frame_active.png);
+            border-image-source: url('@/assets/flash/avatareditor/color_frame_active.png');
             height: 21px;
             margin-top: -2px;
         }
     }
 
     .hc-icon {
-        background-image: url(../../assets/flash/avatareditor/hc_icon.png);
+        background-image: url('@/assets/flash/avatareditor/hc_icon.png');
         height: 9px;
         width: 10px;
         bottom: 2px;
@@ -385,7 +385,7 @@ cursor: pointer;
     }
 
     .hc2-icon {
-        background-image: url(../../assets/flash/avatareditor/hc_icon.png);
+        background-image: url('@/assets/flash/avatareditor/hc_icon.png');
         height: 9px;
         width: 10px;
         bottom: 28px;
@@ -399,7 +399,7 @@ cursor: pointer;
 
         .nav-tabs .nav-link {
             position: relative;
-            border-image-source: url(../../assets/flash/boxes/card/tabs_avatareditor.png);
+            border-image-source: url('@/assets/flash/boxes/card/tabs_avatareditor.png');
             border-image-slice: 7 7 7 7 fill;
             border-image-width: 7px 7px 7px 7px;
             border-image-outset: 0px 0px 0px 0px;
@@ -408,11 +408,11 @@ cursor: pointer;
         }
 
         .nav-tabs .nav-link:hover {
-            border-image-source: url(../../assets/flash/boxes/card/tabs_hover.png);
+            border-image-source: url('@/assets/flash/boxes/card/tabs_hover.png');
         }
 
         .nav-tabs .nav-link.active {
-            border-image-source: url(../../assets/flash/boxes/card/tabs_active.png);
+            border-image-source: url('@/assets/flash/boxes/card/tabs_active.png');
             margin-right: 0px!important;
         }
     }
@@ -424,18 +424,18 @@ cursor: pointer;
     }
 
     .randomize-icon {
-        background-image: url(../../assets/flash/avatareditor/randomize_transparent.png);
+        background-image: url('@/assets/flash/avatareditor/randomize_transparent.png');
         height: 33px;
         width: 39px;
 
         &:hover {
             cursor:pointer;
-            background-image: url(../../assets/flash/avatareditor/randomize.png);
+            background-image: url('@/assets/flash/avatareditor/randomize.png');
         }
     }
 
 .avatar-wardrobe {
-    border-image-source: url(../../assets/flash/avatareditor/wardrobe_bg.png);
+    border-image-source: url('@/assets/flash/avatareditor/wardrobe_bg.png');
     border-image-slice: 6 6 6 6 fill;
     border-image-width: 6px 6px 6px 6px;
 }
@@ -467,28 +467,28 @@ cursor: pointer;
 .nitro-wardrobe-tab-image {
 
     &.tab-hd {
-        background: url('../../assets/flash/avatareditor/body.png') no-repeat;
+        background: url('@/assets/flash/avatareditor/body.png') no-repeat;
         background-position: center;
         width: 34px;
         height: 22px;
     }
 
     &.tab-torso {
-        background: url('../../assets/flash/avatareditor/shirts.png') no-repeat;
+        background: url('@/assets/flash/avatareditor/shirts.png') no-repeat;
         background-position: center;
         width: 34px;
         height: 22px;
     }
 
     &.tab-legs {
-        background: url('../../assets/flash/avatareditor/legs.png') no-repeat;
+        background: url('@/assets/flash/avatareditor/legs.png') no-repeat;
         background-position: center;
         width: 34px;
         height: 22px;
     }
 
     &.tab-head {
-        background: url('../../assets/flash/avatareditor/head.png') no-repeat;
+        background: url('@/assets/flash/avatareditor/head.png') no-repeat;
         background-position: center;
         width: 34px;
         height: 22px;
@@ -496,7 +496,7 @@ cursor: pointer;
 }
 
 .testwardrobe {
-        border-image-source: url(../../assets/flash/profile/grey_bg_border2.png);
+        border-image-source: url('@/assets/flash/profile/grey_bg_border2.png');
         border-image-slice: 6 6 6 6 fill;
         border-image-width: 6px 6px 6px 6px;
 }
@@ -522,7 +522,7 @@ cursor: pointer;
 }
 
 .wardrobe-save-button {
-    background: url('../../assets/flash/avatareditor/wardrobe_right.png') no-repeat;
+    background: url('@/assets/flash/avatareditor/wardrobe_right.png') no-repeat;
     background-position: center;
     width: 5px;
     height: 7px;
@@ -534,7 +534,7 @@ cursor: pointer;
 }
 
 .wardrobe-wear-button {
-    background: url('../../assets/flash/avatareditor/wardrobe_left.png') no-repeat;
+    background: url('@/assets/flash/avatareditor/wardrobe_left.png') no-repeat;
     background-position: center;
     width: 5px;
     height: 7px;
@@ -545,7 +545,7 @@ cursor: pointer;
 }
 
 .wardrobe-icon {
-    background: url('../../assets/flash/avatareditor/hanger.png') no-repeat;
+    background: url('@/assets/flash/avatareditor/hanger.png') no-repeat;
     background-position: center;
     width: 42px;
     min-height: 37px;

@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ColorConverter } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useMemo, useState } from 'react';
 import { IPurchasableOffer } from '../../../../../api';
@@ -79,15 +78,13 @@ export const CatalogLayoutColorGroupingView : FC<CatalogLayoutColorGroupViewProp
 
         page.offers.sort(sortByColorIndex);
 
-        let selectedColor = 0;
-
         page.offers.forEach(offer =>
         {
             if(!offer.product) return;
 
             const furniData = offer.product.furnitureData;
 
-            if(((!(furniData)) || (!furniData.hasIndexedColor)))
+            if(!furniData || !furniData.hasIndexedColor)
             {
                 offers.push(offer);
             }
@@ -101,11 +98,13 @@ export const CatalogLayoutColorGroupingView : FC<CatalogLayoutColorGroupViewProp
                     updatedColorableItems.set(name, []);
                 }
 
+                let selectedColor = 0xFFFFFF;
+
                 if(furniData.colors)
                 {
                     for(let color of furniData.colors)
                     {
-                        if(color !== 0xFFFFF0) // for some reason we hate the color white
+                        if(color !== 0xFFFFFF) // skip the white colors
                         {
                             selectedColor = color;
                         }

@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 import { Column, ColumnProps, Flex, Text } from '../..';
 import { useNitroCardAccordionContext } from './NitroCardAccordionContext';
 
@@ -71,7 +71,8 @@ export const NitroCardAccordionSetInnerView: FC<NitroCardAccordionSetInnerViewPr
         <Column classNames={ getClassNames } gap={ gap } { ...rest }>
             <Flex pointer justifyContent="between" className="nitro-card-accordion-set-header px-2 py-1" onClick={ onClick }>
                 <Text>{ headerText }</Text>
-                <FontAwesomeIcon icon={ isOpen ? 'caret-up' : 'caret-down' } />
+                { isOpen && <FaCaretUp className="fa-icon" /> }
+                { !isOpen && <FaCaretDown className="fa-icon" /> }
             </Flex>
             { isOpen &&
                 <Column gap={ 0 }>

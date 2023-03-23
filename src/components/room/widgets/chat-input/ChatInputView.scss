@@ -6,7 +6,7 @@
     left: 30vw;
     right: 30vw;
     height: 38px;
-    border-image-source: url(../../../../assets/flash/room/chatinput.png);
+    border-image-source: url('@/assets/flash/room/chatinput.png');
     border-image-slice:8 8 8 8 fill;
     border-image-width:8px 8px 8px 8px;
     background: #e4e4e4;
@@ -85,7 +85,7 @@
 }
 
 .chatstyles-selector {
-    background: url(../../../../assets/flash/room/chatstyles_selector.png);
+    background: url('@/assets/flash/room/chatstyles_selector.png');
     background-repeat: no-repeat;
     min-width: 42px;
     height: 34px;
@@ -93,7 +93,7 @@
 }
 
 .emoji-selector {
-    background: url(../../../../assets/flash/room/emoji_selector.png);
+    background: url('@/assets/flash/room/emoji_selector.png');
     background-repeat: no-repeat;
     min-width: 37px;
     height: 34px;
@@ -101,7 +101,7 @@
 }
 
 .bubble-window {
-    border-image-source: url(../../../../assets/flash/room/chatstyles_selector_window.png);
+    border-image-source: url('@/assets/flash/room/chatstyles_selector_window.png');
     border-image-slice:9 9 9 9 fill;
     border-image-width:9px 9px 9px 9px;
     margin-bottom: -13px;
@@ -123,14 +123,14 @@
 .emoji-image {
     filter: grayscale(100%);
     transition: filter .3s ease-in-out;
-    font-Size: 1.3em;
+    font-size: 1.3em;
     text-align: center;
     top: 4px;
     position: relative;
 
     &:hover {
       filter: grayscale(0%);
-      font-Size: 1.5em;
+      font-size: 1.5em;
       top: 2px;
     }
 }

@@ -31,7 +31,7 @@
 
     &.has-highlight {
         &:after {
-            content: "";
+            content: '';
             z-index: 2;
             position: absolute;
             top: 2px;
@@ -88,7 +88,7 @@
 
     &.has-highlight {
         &:after {
-            content: "";
+            content: '';
             z-index: 2;
             position: absolute;
             top: 2px;
@@ -142,7 +142,7 @@
 
     &.has-highlight {
         &:after {
-            content: "";
+            content: '';
             z-index: 2;
             position: absolute;
             top: 2px;
@@ -184,17 +184,17 @@
     height: var(--nitro-grid-column-min-height, unset);
     background-position: center;
     background-repeat: no-repeat;
-    border-image-source: url(../assets/flash/navigator/room-creator/room-bg.png);
+    border-image-source: url('@/assets/flash/navigator/room-creator/room-bg.png');
     border-image-slice:6 6 6 6 fill;
     border-image-width:6px 6px 6px 6px;
     overflow: hidden;
 
     &.active {
-        border-image-source: url(../assets/flash/navigator/room-creator/room-bg-active.png) !important;
+        border-image-source: url('@/assets/flash/navigator/room-creator/room-bg-active.png') !important;
         color: #fff !important;
 
         .active-arrow {
-            background-image: url(../assets/flash/navigator/room-creator/arrow.png);
+            background-image: url('@/assets/flash/navigator/room-creator/arrow.png');
             width: 18px;
             height: 20px;
             position: absolute;
@@ -232,7 +232,7 @@
 
     &.has-highlight {
         &:after {
-            content: "";
+            content: '';
             z-index: 2;
             position: absolute;
             top: 2px;
@@ -248,7 +248,7 @@
 .catalog-grid-active {
 
     &.active {
-        border-image-source: url(../assets/flash/catalogue/item_grid_highlight.png);
+        border-image-source: url('@/assets/flash/catalogue/item_grid_highlight.png');
         border-image-slice: 6 6 6 6 fill;
         border-image-width: 6px 6px 6px 6px;
 
@@ -266,7 +266,7 @@
     padding: 2px;
 
     &.active {
-        border-image-source: url(../assets/flash/catalogue/item_grid_highlight.png);
+        border-image-source: url('@/assets/flash/catalogue/item_grid_highlight.png');
         border-image-slice: 6 6 6 6 fill;
         border-image-width: 6px 6px 6px 6px;
 
@@ -288,7 +288,7 @@
 .nitro-room-thumbnail-camera {
     width: 132px;
     height: 192px;
-    background-image: url("../assets/images/room-widgets/thumbnail-widget/thumbnail-camera-spritesheet.png");
+    background-image: url('@/assets/images/room-widgets/thumbnail-widget/thumbnail-camera-spritesheet.png');
 
     .camera-frame {
         position: absolute;
@@ -312,7 +312,7 @@
     pointer-events: all;
 
     background-position: 0px 0px;
-    background-image: url("../assets/images/room-widgets/trophy-widget/trophy-spritesheet.png");
+    background-image: url('@/assets/images/room-widgets/trophy-widget/trophy-spritesheet.png');
 
     &.trophy-2 {
         background-position: 0px 173px;
@@ -348,7 +348,7 @@
 .nitro-gift-card {
     width: 306px;
     height: 159px;
-    background: url("../assets/images/gift/gift_tag.png") center no-repeat;
+    background: url('@/assets/images/gift/gift_tag.png') center no-repeat;
 
     .gift-face {
         width: 65px;
@@ -356,7 +356,7 @@
         .gift-incognito {
             width: 37px;
             height: 48px;
-            background: url("../assets/images/gift/incognito.png") center no-repeat;
+            background: url('@/assets/images/gift/incognito.png') center no-repeat;
         }
 
         .gift-avatar {
@@ -444,7 +444,7 @@
     position: relative;
     width: 110px;
     height: 110px;
-    background: url("../assets/flash/navigator/room_thumbnail.png")
+    background: url('@/assets/flash/navigator/room_thumbnail.png')
         no-repeat center;
     background-color: #b4b3aa;
 }
@@ -487,7 +487,7 @@
 }
 
 .nitro-item-count {
-    border-image-source: url(../assets/flash/toolbar/notification-bg.png);
+    border-image-source: url('@/assets/flash/toolbar/notification-bg.png');
     border-image-slice:6 6 6 6 fill;
     border-image-width:6px 6px 6px 6px;
     top: 2px;
@@ -501,7 +501,7 @@
 }
 
 .nitro-furni-count {
-    border-image-source: url(../assets/flash/toolbar/furni-bg.png);
+    border-image-source: url('@/assets/flash/toolbar/furni-bg.png');
     border-image-slice:6 6 6 6 fill;
     border-image-width:6px 6px 6px 6px;
     top: 1px;
@@ -537,7 +537,7 @@
         pointer-events: none;
         user-select: none;
         width: 210px;
-        border-image-source: url(../assets/flash/infostand/badge_info_bg.png);
+        border-image-source: url('@/assets/flash/infostand/badge_info_bg.png');
         border-image-slice: 6 6 6 6 fill;
         border-image-width: 6px 6px 6px 6px;
         left: -210px;
@@ -562,7 +562,7 @@
 .nitro-rarity-level {
     width: 36px;
     height: 28px;
-    background: url("../assets/images/infostand/rarity-level.png");
+    background: url('@/assets/images/infostand/rarity-level.png');
 
     div {
         line-height: 28px;
@@ -575,7 +575,7 @@
 .nitro-catalogue-discount {
     width: 36px;
     height: 28px;
-    background: url("../assets/images/catalog/discount.png");
+    background: url('@/assets/images/catalog/discount.png');
     background-repeat: no-repeat;
     background-position: center;
     margin-left: -22px;
@@ -630,10 +630,10 @@
 
     &:before {
         position: absolute;
-        content: "";
+        content: '';
         width: 100%;
         height: 100%;
-        background: url("../assets/images/unique/grid-bg.png") center no-repeat;
+        background: url('@/assets/images/unique/grid-bg.png') center no-repeat;
         z-index: 1;
         bottom: -1px;
         right: 0px;
@@ -642,10 +642,10 @@
 
     &:after {
         position: absolute;
-        content: "";
+        content: '';
         width: 100%;
         height: 100%;
-        background: url("../assets/images/unique/grid-bg-glass.png") center
+        background: url('@/assets/images/unique/grid-bg-glass.png') center
             no-repeat;
         z-index: 4;
         bottom: -1px;
@@ -654,8 +654,8 @@
     }
 
     &.sold-out:after {
-        background: url("../assets/images/unique/grid-bg-sold-out.png") center no-repeat,
-            url("../assets/images/unique/grid-bg-glass.png") center no-repeat;
+        background: url('@/assets/images/unique/grid-bg-sold-out.png') center no-repeat,
+            url('@/assets/images/unique/grid-bg-glass.png') center no-repeat;
     }
 
     .unique-item-counter {
@@ -667,18 +667,18 @@
         width: 100%;
         height: 9px;
         right: 0px;
-        background: url("../assets/images/unique/grid-count-bg.png") center
+        background: url('@/assets/images/unique/grid-count-bg.png') center
             no-repeat;
         z-index: 3;
     }
 }
 .unique-item-counter-gold {
-    background: url("../assets/images/unique/grid-count-bg-gold.png") center no-repeat!important;
+    background: url('@/assets/images/unique/grid-count-bg-gold.png') center no-repeat!important;
 }
 .unique-sold-out-blocker {
     width: 364px;
     height: 30px;
-    background: url("../assets/images/unique/catalog-info-sold-out.png");
+    background: url('@/assets/images/unique/catalog-info-sold-out.png');
 
     div {
         float: right;
@@ -699,7 +699,7 @@
     right: 16px;
     width: 34px;
     height: 37px;
-    background: url("../assets/images/unique/inventory-info-amount-bg.png");
+    background: url('@/assets/images/unique/inventory-info-amount-bg.png');
 
     div {
         display: flex;
@@ -710,13 +710,13 @@
 }
 
 .unique-compact-plate-gold {
-    background: url("../assets/images/unique/inventory-info-amount-bg-gold.png")!important;
+    background: url('@/assets/images/unique/inventory-info-amount-bg-gold.png')!important;
 }
 
 .unique-complete-plate {
     width: 170px;
     height: 29px;
-    background: url("../assets/images/unique/catalog-info-amount-bg.png") no-repeat center;
+    background: url('@/assets/images/unique/catalog-info-amount-bg.png') no-repeat center;
     z-index: 1;
     padding-top: 3px;
 
@@ -737,7 +737,7 @@
     outline: 0;
     height: 5px;
     margin-right: 1px;
-    background-image: url("../assets/images/unique/numbers.png");
+    background-image: url('@/assets/images/unique/numbers.png');
     background-repeat: no-repeat;
 
     &:last-child {
@@ -842,7 +842,7 @@
 }
 
 .nitro-notification {
-    border-image-source: url(../assets/flash/purse/purse-bg.png);
+    border-image-source: url('@/assets/flash/purse/purse-bg.png');
     border-image-slice:6 6 6 6 fill;
     border-image-width:6px 6px 6px 6px;
 }

@@ -4,6 +4,7 @@ import { AvatarInfoUser, CloneObject, GetConfiguration, GetGroupInformation, Get
 import { Base, Column, Flex, LayoutAvatarImageView, LayoutBadgeImageView, Text } from '../../../../../common';
 import { useMessageEvent, useRoom, useRoomSessionManagerEvent } from '../../../../../hooks';
 import { InfoStandWidgetUserRelationshipsView } from './InfoStandWidgetUserRelationshipsView';
+import { InfoStandWidgetUserTagsView } from './InfoStandWidgetUserTagsView';
 
 interface InfoStandWidgetUserViewProps
 {
@@ -196,6 +197,11 @@ export const InfoStandWidgetUserView: FC<InfoStandWidgetUserViewProps> = props =
                         </> }
                     <InfoStandWidgetUserRelationshipsView relationships={ relationships } />
                 </Column>
+                { GetConfiguration('user.tags.enabled') &&
+                    <Column gap={ 1 } className="mt-1">
+                        <InfoStandWidgetUserTagsView tags={ GetSessionDataManager().tags } />
+                    </Column>
+                }
             </Column>
         </Column>
     );

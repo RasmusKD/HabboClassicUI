@@ -54,13 +54,13 @@
     }
 
     .grid-bg {
-        border-image-source: url(../../assets/flash/catalogue/cata_bg.png);
+        border-image-source: url('@/assets/flash/catalogue/cata_bg.png');
         border-image-slice: 6 6 6 6 fill;
         border-image-width: 6px 6px 6px 6px;
     }
 
     .credits-bg {
-        border-image-source: url(../../assets/flash/catalogue/credits_bg.png);
+        border-image-source: url('@/assets/flash/catalogue/credits_bg.png');
         border-image-slice: 6 6 6 6 fill;
         border-image-width: 6px 6px 6px 6px;
         padding-top: .25rem!important;
@@ -175,13 +175,13 @@
     }
 
     .grid-bg {
-        border-image-source: url(../../assets/flash/catalogue/cata_bg.png);
+        border-image-source: url('@/assets/flash/catalogue/cata_bg.png');
         border-image-slice: 6 6 6 6 fill;
         border-image-width: 6px 6px 6px 6px;
     }
 
     .credits-bg {
-        border-image-source: url(../../assets/flash/catalogue/credits_bg.png);
+        border-image-source: url('@/assets/flash/catalogue/credits_bg.png');
         border-image-slice: 6 6 6 6 fill;
         border-image-width: 6px 6px 6px 6px;
         padding-top: .25rem!important;
@@ -373,14 +373,14 @@
     .info-loyalty-content {
         background-repeat: no-repeat;
         background-position: top right;
-        background-image: url('../../assets/images/catalog/diamond_info_illustration.gif');
+        background-image: url('@/assets/images/catalog/diamond_info_illustration.gif');
         padding-right:123px;
     }
 
     .info-image {
         width: 123px;
         height:350px;
-        background-image: url('../../assets/images/catalog/diamond_info_illustration.gif');
+        background-image: url('@/assets/images/catalog/diamond_info_illustration.gif');
     }
 }
 
@@ -390,7 +390,7 @@
         border-image-slice:6 6 6 6 fill;
         border-image-width:6px 6px 6px 6px;
         border-image-repeat:repeat repeat;
-        border-image-source: url("../../assets/flash/boxes/card/hc-cata-bg.png");
+        border-image-source: url('@/assets/flash/boxes/card/hc-cata-bg.png');
         background: transparent;
         height: 75px !important;
         max-height: 75px !important;
@@ -398,11 +398,11 @@
         .icon-hc-small-banner {
             height: 17px;
             width: 31px;
-            background: url('../../assets/images/catalog/hc_small.png') no-repeat;
+            background: url('@/assets/images/catalog/hc_small.png') no-repeat;
         }
 
         .hc-title-bg {
-            border-image-source: url(../../assets/flash/catalogue/hc_cata_title_bg.png);
+            border-image-source: url('@/assets/flash/catalogue/hc_cata_title_bg.png');
             border-image-slice: 6 6 6 6 fill;
             border-image-width: 6px 6px 6px 6px;
             height: 25px;
@@ -440,7 +440,7 @@
 }
 
 .nitro-front-page-item-text {
-    border-image-source: url(../../assets/flash/catalogue/cata_feature_text_bg.png);
+    border-image-source: url('@/assets/flash/catalogue/cata_feature_text_bg.png');
     border-image-slice: 6 6 6 6 fill;
     border-image-width: 6px 6px 6px 6px;
     width: 96%;
@@ -449,7 +449,7 @@
 }
 
 .voucher-box {
-    border-image-source: url(../../assets/flash/catalogue/voucer_bg.png);
+    border-image-source: url('@/assets/flash/catalogue/voucer_bg.png');
     border-image-slice: 6 6 6 6 fill;
     border-image-width: 6px 6px 6px 6px;
     font-size: 13px;
@@ -589,7 +589,7 @@
 .caret-up {
     width: 10px;
     height: 10px;
-    background: url("../../assets/images/catalog/caret-up.png");
+    background: url('@/assets/images/catalog/caret-up.png');
     background-repeat: no-repeat;
     margin-right: 19px;
 }
@@ -597,7 +597,7 @@
 .caret-down {
     width: 10px;
     height: 10px;
-    background: url("../../assets/images/catalog/caret-down.png");
+    background: url('@/assets/images/catalog/caret-down.png');
     background-repeat: no-repeat;
     margin-right: 19px;
 }
@@ -640,7 +640,7 @@
   border-image-slice:6 6 6 6 fill;
   border-image-width:6px 6px 6px 6px;
   border-image-repeat:repeat repeat;
-  border-image-source: url("../../assets/flash/boxes/card/gift_bg.png")!important;
+  border-image-source: url('@/assets/flash/boxes/card/gift_bg.png')!important;
   background: transparent;
 }
 
@@ -656,14 +656,14 @@
 .gift-arrow-left {
     width: 11px;
     height: 9px;
-    background: url("../../assets/flash/boxes/card/arrow_left.png");
+    background: url('@/assets/flash/boxes/card/arrow_left.png');
     background-repeat: no-repeat;
 }
 
 .gift-arrow-right {
     width: 10px;
     height: 9px;
-    background: url("../../assets/flash/boxes/card/arrow_right.png");
+    background: url('@/assets/flash/boxes/card/arrow_right.png');
     background-repeat: no-repeat;
 }
 
@@ -707,7 +707,7 @@
 .bundle-deals {
     width: 145px;
     height: 114px;
-    background: url("../../assets/flash/catalogue/Bundle_deals.gif");
+    background: url('@/assets/flash/catalogue/Bundle_deals.gif');
     position: relative;
     left: 60px;
     margin-top: 60px;
@@ -716,7 +716,7 @@
 .bundle {
     width: 30px;
     height: 30px;
-    background-image: url("../../assets/flash/catalogue/Bundle.png");
+    background-image: url('@/assets/flash/catalogue/Bundle.png');
     background-repeat: no-repeat;
     align-self: center;
     background-position: center;
@@ -744,7 +744,7 @@
 }
 
 .gift-coin {
-    background-image: url("../../assets/flash/purse/coin.png");
+    background-image: url('@/assets/flash/purse/coin.png');
     background-position: center;
     background-repeat: no-repeat;
     width: 16px;
@@ -759,4 +759,32 @@
     top: 73px;
 }
 
-@import "./views/targeted-offer/Offer.scss";
+.autocomplete-gift-container {
+    background: #fff;
+    padding: 8px;
+    list-style-type: none;
+    min-width: 307px;
+    border-radius: 0.2rem;
+    position: absolute;
+    font-size: 0.7875rem;
+    top: 81px;
+    left: 8px;
+    border: 1px solid #b6c1ce;
+    margin: 0;
+    border-radius: 2px;
+    margin: 0;
+    box-sizing: border-box;
+    max-height: 280px;
+    overflow-y: auto;
+    z-index: 1;
+
+    .autocomplete-gift-item {
+        width: 100%;
+        box-sizing: border-box;
+        &:hover {
+            background-color: #ebf4ff;
+        }
+    }
+}
+
+@import './views/targeted-offer/Offer.scss';

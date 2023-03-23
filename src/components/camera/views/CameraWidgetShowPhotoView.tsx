@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, useEffect, useState } from 'react';
 import { CreateLinkEvent, GetUserProfile, IPhotoData, LocalizeText } from '../../../api';
 import { Base, Flex, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text } from '../../../common';
