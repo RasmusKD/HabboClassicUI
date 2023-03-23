@@ -31,7 +31,6 @@
     transition: top 0.2s ease 0s;
     user-select: none;
     pointer-events: all;
-
     // -webkit-animation-duration: 0.2s;
     // animation-duration: 0.2s;
     // -webkit-animation-fill-mode: both;
@@ -1400,4 +1399,8 @@
 .username {
     font-family: UbuntuBold;
     font-weight: unset;
+}
+
+.room-chatlog {
+    width: calc(100% - 45px);
 }

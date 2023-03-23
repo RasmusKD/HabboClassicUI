@@ -69,7 +69,7 @@ export const ChatHistoryView: FC<{}> = props =>
                                 <Flex alignItems="center" className="p-1" gap={ 2 }>
                                     <Text variant="muted">{ row.timestamp }</Text>
                                     { (row.type === ChatEntryType.TYPE_CHAT) &&
-                                <div className="bubble-container" style={ { position: 'relative' } }>
+                                <div className="bubble-container room-chatlog" style={ { position: 'relative' } }>
                                     { (row.style === 0) &&
                                     <div className="user-container-bg" style={ { backgroundColor: row.color } } /> }
                                     <div className={ `chat-bubble bubble-${ row.style } type-${ row.chatType }` } style={ { maxWidth: '100%' } }>

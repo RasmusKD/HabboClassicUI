@@ -181,7 +181,7 @@ export const NavigatorRoomSettingsView: FC<{}> = props =>
     if(!roomData) return null;
 
     return (
-        <NitroCardView uniqueKey="nitro-room-settings" className="nitro-room-settings">
+        <NitroCardView uniqueKey="nitro-room-settings" className="nitro-room-settings no-resize">
             <NitroCardHeaderView headerText={ LocalizeText('navigator.roomsettings') } onCloseClick={ onClose } />
             <NitroCardTabsView>
                 { TABS.map(tab =>

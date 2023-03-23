@@ -31,7 +31,7 @@ export const HelpIndexView: FC<{}> = props =>
                 <Button variant="success" onClick={ () => DispatchUiEvent(new GuideToolEvent(GuideToolEvent.CREATE_HELP_REQUEST)) } disabled={ !GetConfiguration('guides.enabled') }>{ LocalizeText('help.main.help.title') }</Button>
                 <Button variant="success" onClick={ () => CreateLinkEvent('habbopages/help') }>{ LocalizeText('Habboclassic.dk.help') }</Button>
                 <Button variant="success" onClick={ () => CreateLinkEvent('habbopages/rules') }>{ LocalizeText('Habboclassic.dk.rules') }</Button>
-                <Button variant="discord" onClick={ event => window.open('https://discord.com/invite/habboclassic') }>{ LocalizeText('help.main.help.title') }</Button>
+                <Button variant="discord" onClick={ event => window.open('https://discord.com/invite/habboclassic') }>{ LocalizeText('habboclassic.discord') }</Button>
             </Column>
             <Button variant="link" textColor="black" onClick={ () => SendMessageComposer(new GetCfhStatusMessageComposer(false)) }>{ LocalizeText('help.main.my.sanction.status') }</Button>
         </>

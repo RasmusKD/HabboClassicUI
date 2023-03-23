@@ -15,7 +15,7 @@ export default defineConfig({
         assetsInlineLimit: 102400,
         rollupOptions: {
             output: {
-                assetFileNames: 'src/assets/[name].[ext]',
+                assetFileNames: 'hotel/flashui/src/assets/[name].[ext]',
                 manualChunks: id =>
                 {
                     if(id.includes('node_modules'))
