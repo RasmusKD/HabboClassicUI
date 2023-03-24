@@ -24,7 +24,7 @@ export const RoomPromoteEditWidgetView: FC<RoomPromoteEditWidgetViewProps> = pro
     }
 
     return (
-        <NitroCardView className="nitro-guide-tool" theme="primary-slim">
+        <NitroCardView className="nitro-guide-tool" theme="primary">
             <NitroCardHeaderView headerText={ LocalizeText('navigator.eventsettings.editcaption') } onCloseClick={ () => setIsEditingPromote(false) } />
             <NitroCardContentView className="text-black">
                 <Column>

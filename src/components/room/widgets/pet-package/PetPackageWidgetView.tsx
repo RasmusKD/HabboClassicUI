@@ -11,7 +11,7 @@ export const PetPackageWidgetView: FC<{}> = props =>
     return (
         <>
             { isVisible &&
-                <NitroCardView className="nitro-pet-package no-resize" theme="primary-slim">
+                <NitroCardView className="nitro-pet-package no-resize" theme="primary">
                     <NitroCardHeaderView center headerText={ objectType === 'gnome_box' ? LocalizeText('widgets.gnomepackage.name.title') : LocalizeText('furni.petpackage.open') } onCloseClick={ () => onClose() } />
                     <NitroCardContentView>
                         <Flex className="pet-package-container-top p-3">

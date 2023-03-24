@@ -1,5 +1,6 @@
 import { DeleteItemMessageComposer } from '@nitrots/nitro-renderer';
 import { FC, useState } from 'react';
+import { FaCaretLeft, FaCaretRight } from 'react-icons/fa';
 import { FurnitureItem, LocalizeText, ProductTypeEnum, SendMessageComposer } from '../../../../api';
 import { Base, Button, Column, Flex, Grid, LayoutFurniImageView, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text } from '../../../../common';
 import { DeleteItemConfirmEvent } from '../../../../events';
@@ -61,7 +62,7 @@ export const InventoryFurnitureDeleteView : FC<{}> = props =>
     }
 
     return (
-        <NitroCardView className="nitro-catalog-layout-marketplace-post-offer" theme="primary-slim">
+        <NitroCardView className="nitro-catalog-layout-marketplace-post-offer no-resize" theme="primary">
             <NitroCardHeaderView headerText={ LocalizeText('inventory.delete.confirm_delete.title') } onCloseClick={ event => { setItem(null); setAmount(1); setMaxAmount(1); setTempAmount('1'); } } />
             <NitroCardContentView overflow="hidden">
                 <Grid fullHeight>
@@ -70,15 +71,15 @@ export const InventoryFurnitureDeleteView : FC<{}> = props =>
                     </Column>
                     <Column size={ 8 } justifyContent="between" overflow="hidden">
                         <Column grow gap={ 1 }>
-                            <Text fontWeight="bold">{ getFurniTitle }</Text>
+                            <Text className='font-bold'>{ getFurniTitle }</Text>
                             <Text truncate shrink>{ getFurniDescription }</Text>
                         </Column>
-                        <Column overflow="auto">
+                        <Column overflow="auto" gap={ 1 }>
                             <Text>{ LocalizeText('inventory.delete.amount') }</Text>
                             <Flex alignItems="center" gap={ 1 }>
-                                <Base className="text-black cursor-pointer fa-icon" onClick={ event => updateAmount((amount - 1).toString()) } />
+                                <FaCaretLeft className="text-black cursor-pointer fa-icon" onClick={ event => updateAmount((amount - 1).toString()) } />
                                 <input className="form-control form-control-sm quantity-input" type="number" min={ 1 } max={ maxAmount } value={ tempAmount } onChange={ event => updateAmount(event.target.value) } placeholder={ LocalizeText('inventory.delete.amount') } />
-                                <Base className="text-black cursor-pointer fa-icon" onClick={ event => updateAmount((amount + 1).toString()) } />
+                                <FaCaretRight className="text-black cursor-pointer fa-icon" onClick={ event => updateAmount((amount + 1).toString()) } />
                                 <Button onClick={ event => updateAmount(maxAmount.toString()) }>
                                     { LocalizeText('inventory.delete.max_amount.button') }
                                 </Button>

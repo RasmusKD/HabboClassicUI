@@ -51,7 +51,7 @@ export const FurnitureCraftingView: FC<{}> = props =>
     if(objectId === -1) return null;
 
     return (
-        <NitroCardView className="nitro-widget-crafting" theme="primary-slim">
+        <NitroCardView className="nitro-widget-crafting" theme="primary">
             <NitroCardHeaderView headerText={ LocalizeText('crafting.title') } onCloseClick={ onClose } />
             <NitroCardContentView>
                 <Flex grow overflow="hidden" gap={ 2 }>

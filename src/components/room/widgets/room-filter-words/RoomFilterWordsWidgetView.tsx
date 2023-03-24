@@ -48,7 +48,7 @@ export const RoomFilterWordsWidgetView: FC<{}> = props =>
     if (!isVisible) return null;
 
     return (
-        <NitroCardView className="nitro-guide-tool no-resize" theme="primary-slim">
+        <NitroCardView className="nitro-guide-tool no-resize" theme="primary">
             <NitroCardHeaderView headerText={ LocalizeText('navigator.roomsettings.roomfilter') } onCloseClick={ () => onClose() } />
             <NitroCardContentView className="text-black">
                 <Grid className="d-flex align-items-center justify-content-end gap-2">

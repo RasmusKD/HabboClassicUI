@@ -35,7 +35,7 @@ export const AvatarInfoPetTrainingPanelView: FC<{}> = props =>
     if(!petData || !petTrainInformation) return null;
 
     return (
-        <NitroCardView uniqueKey="user-settings" className="user-settings-window no-resize" theme="primary-slim">
+        <NitroCardView uniqueKey="user-settings" className="user-settings-window no-resize" theme="primary">
             <NitroCardHeaderView headerText={ LocalizeText('widgets.pet.commands.title') } onCloseClick={ () => setPetTrainInformation(null) } />
             <NitroCardContentView className="text-black">
                 <Flex alignItems="center" justifyContent="center" gap={ 2 }>

@@ -57,7 +57,7 @@ export const FurnitureMysteryBoxOpenDialogView: FC<FurnitureMysteryBoxOpenDialog
     if(mode === ViewMode.HIDDEN) return null;
 
     return (
-        <NitroCardView className="nitro-mysterybox-dialog" theme="primary-slim">
+        <NitroCardView className="nitro-mysterybox-dialog" theme="primary">
             <NitroCardHeaderView headerText={ mode === ViewMode.WAITING ? LocalizeText(`mysterybox.dialog.${ isOwner ? 'owner' : 'other' }.title`) : LocalizeText('mysterybox.reward.title') } onCloseClick={ close } />
             <NitroCardContentView>
                 { mode === ViewMode.WAITING && <>
