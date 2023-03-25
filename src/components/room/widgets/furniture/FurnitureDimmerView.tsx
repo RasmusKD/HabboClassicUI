@@ -47,7 +47,7 @@ export const FurnitureDimmerView: FC<{}> = props =>
                 { (dimmerState === 1) &&
                     <>
                         <Column gap={ 1 }>
-                            <Text fontWeight="bold">{ LocalizeText('widget.backgroundcolor.hue') }</Text>
+                            <Text className="font-bold">{ LocalizeText('widget.backgroundcolor.hue') }</Text>
                             { isFreeColorMode &&
                                 <input type="color" className="form-control" value={ ColorUtils.makeColorNumberHex(selectedColor) } onChange={ event => setSelectedColor(ColorUtils.convertFromHex(event.target.value)) } /> }
                             { !isFreeColorMode &&
@@ -61,7 +61,7 @@ export const FurnitureDimmerView: FC<{}> = props =>
                                 </Grid> }
                         </Column>
                         <Column gap={ 1 }>
-                            <Text fontWeight="bold">{ LocalizeText('widget.backgroundcolor.lightness') }</Text>
+                            <Text className="font-bold">{ LocalizeText('widget.backgroundcolor.lightness') }</Text>
                             <ReactSlider
                                 className="nitro-slider"
                                 min={ FurnitureDimmerUtilities.MIN_BRIGHTNESS }

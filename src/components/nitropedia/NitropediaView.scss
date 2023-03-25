@@ -5,29 +5,34 @@
     min-width: 300px;
 
     h1 {
-        font-weight: bold;
+        font-family: ubuntuBold;
         font-size: 23px;
         color: #fc6204;
     }
 
     h2 {
-        font-weight: bold;
-        font-size: 19px;
+        font-family: ubuntuBold;
+        font-size: 18px;
         color: #fc6204;
     }
 
     h3 {
-        font-weight: bold;
+        font-family: ubuntuBold;
         font-size: 15px;
         color: #fc6204;
     }
 
     p {
-        font-size: 12px;
+        font-size: 12.5px;
+    }
+
+    b {
+        font-family: ubuntuBold;
+        font-weight: 100!important;
     }
 
     a {
-        font-weight: bold;
+        font-family: ubuntuBold;
         color: #fc6204;
         text-decoration: underline;
     }

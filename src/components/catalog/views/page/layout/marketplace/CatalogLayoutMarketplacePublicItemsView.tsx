@@ -147,7 +147,7 @@ export const CatalogLayoutMarketplacePublicItemsView: FC<CatalogLayoutMarketplac
             </ButtonGroup>
             <SearchFormView sortTypes={ getSortTypes } searchType={ searchType } onSearch={ requestOffers } />
             <Column gap={ 1 } overflow="hidden">
-                <Text truncate shrink fontWeight="bold">
+                <Text truncate shrink className='font-bold'>
                     { LocalizeText('catalog.marketplace.items_found', [ 'count' ], [ offers.size.toString() ]) }
                 </Text>
                 <Column className="nitro-catalog-layout-marketplace-grid" overflow="auto">

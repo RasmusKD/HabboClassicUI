@@ -50,7 +50,7 @@ export const AchievementsView: FC<{}> = props =>
                 <NitroCardSubHeaderView position="relative" className="justify-content-center align-items-center cursor-pointer" gap={ 3 }>
                     <Base onClick={ event => setSelectedCategoryCode(null) } className="nitro-achievements-back-arrow" />
                     <Column grow gap={ 0 }>
-                        <Text fontSize={ 4 } fontWeight="bold" className="text-small">{ LocalizeText(`quests.${ selectedCategory.code }.name`) }</Text>
+                        <Text fontSize={ 4 } className="text-small font-bold">{ LocalizeText(`quests.${ selectedCategory.code }.name`) }</Text>
                         <Text>{ LocalizeText('achievements.details.categoryprogress', [ 'progress', 'limit' ], [ selectedCategory.getProgress().toString(), selectedCategory.getMaxProgress().toString() ]) }</Text>
                     </Column>
                     <LayoutImage imageUrl={ AchievementUtilities.getAchievementCategoryImageUrl(selectedCategory, null,true) } />

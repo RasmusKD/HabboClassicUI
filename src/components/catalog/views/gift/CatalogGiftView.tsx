@@ -259,7 +259,7 @@ const handleAction = useCallback((action: string) =>
                                 </Button>
                             </ButtonGroup>
                             <Column gap={ 0 }>
-                                <Text className="gift-text-size" fontWeight="bold">{ LocalizeText(boxName) }</Text>
+                                <Text className="gift-text-size font-bold">{ LocalizeText(boxName) }</Text>
                                 <Flex alignItems="center" className="gift-text-size" gap={ 1 }>
                                     { LocalizeText(priceText, [ 'price' ], [ giftConfiguration.price.toString() ]) }
                                     { !isBoxDefault &&
@@ -276,12 +276,12 @@ const handleAction = useCallback((action: string) =>
                                     <i className="gift-arrow-right"/>
                                 </Button>
                             </ButtonGroup>
-                            <Text className="gift-text-size" fontWeight="bold">{ LocalizeText(ribbonName) }</Text>
+                            <Text className="gift-text-size font-bold">{ LocalizeText(ribbonName) }</Text>
                         </Flex>
                     </Column>
                 </Flex>
                 <Column gap={ 1 } className={ isColorable ? '' : 'opacity-50 pointer-events-none' }>
-                    <Text className="gift-text-size" fontWeight="bold">
+                    <Text className="gift-text-size font-bold">
                         { LocalizeText('catalog.gift_wrapping.pick_color') }
                     </Text>
                     <ButtonGroup fullWidth className="gift-color-center gap-1">

@@ -117,7 +117,7 @@ export const GroupRoomInformationView: FC<{}> = props =>
                             <Base className="group-badge">
                                 <LayoutBadgeImageView badgeCode={ groupInformation.badge } isGroup={ true } />
                             </Base>
-                            <Text bold variant="white">{ groupInformation.title }</Text>
+                            <Text className='font-bold' variant="white">{ groupInformation.title }</Text>
                         </Flex>
                         { (groupInformation.type !== GroupType.PRIVATE || isRealOwner) &&
                             <Button fullWidth className="btn-flash fw-bold" disabled={ (groupInformation.membershipType === GroupMembershipType.REQUEST_PENDING) } onClick={ handleButtonClick }>

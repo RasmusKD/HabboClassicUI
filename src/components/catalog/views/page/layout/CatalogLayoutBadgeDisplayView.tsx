@@ -23,7 +23,7 @@ export const CatalogLayoutBadgeDisplayView: FC<CatalogLayoutProps> = props =>
                 <Column size={ 7 } overflow="hidden">
                     <CatalogItemGridWidgetView shrink />
                     <Column gap={ 1 } overflow="hidden">
-                        <Text truncate shrink fontWeight="bold">{ LocalizeText('catalog_selectbadge') }</Text>
+                        <Text truncate shrink className='font-bold'>{ LocalizeText('catalog_selectbadge') }</Text>
                         <CatalogBadgeSelectorWidgetView />
                     </Column>
                 </Column>

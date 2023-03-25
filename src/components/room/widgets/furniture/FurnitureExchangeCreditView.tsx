@@ -19,7 +19,7 @@ export const FurnitureExchangeCreditView: FC<{}> = props =>
                     </Column>
                     <Column grow justifyContent="between" overflow="hidden">
                         <Column gap={ 1 } overflow="auto">
-                            <Text fontWeight="bold">{ LocalizeText('creditfurni.description', [ 'credits' ], [ value.toString() ]) }</Text>
+                            <Text className='font-bold'>{ LocalizeText('creditfurni.description', [ 'credits' ], [ value.toString() ]) }</Text>
                             <Text>{ LocalizeText('creditfurni.prompt') }</Text>
                         </Column>
                         <Button variant="success" onClick={ redeem }>

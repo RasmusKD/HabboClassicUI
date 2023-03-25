@@ -129,7 +129,7 @@ export const CatalogPurchaseWidgetView: FC<CatalogPurchaseWidgetViewProps> = pro
         return (
             <>
             <Column className="grid-bg purchase-placeholder p-1" size={ 7 } overflow="hidden">
-                <Text fontWeight="bold" className="placeholer-color">{ LocalizeText('catalog.purchase.select.info') }</Text>
+                <Text className="placeholer-color font-bold">{ LocalizeText('catalog.purchase.select.info') }</Text>
             </Column>
             </>
                 );

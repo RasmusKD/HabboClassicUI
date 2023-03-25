@@ -1,6 +1,6 @@
 import { GetCfhStatusMessageComposer } from '@nitrots/nitro-renderer';
 import { FC } from 'react';
-import { DispatchUiEvent, GetConfiguration, LocalizeText, ReportState, ReportType, SendMessageComposer } from '../../../api';
+import { CreateLinkEvent, DispatchUiEvent, GetConfiguration, LocalizeText, ReportState, ReportType, SendMessageComposer } from '../../../api';
 import { Button, Column, Text } from '../../../common';
 import { GuideToolEvent } from '../../../events';
 import { useHelp } from '../../../hooks';

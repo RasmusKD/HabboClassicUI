@@ -51,7 +51,7 @@ export const CatalogLayoutMarketplaceItemView: FC<MarketplaceItemViewProps> = pr
                 <LayoutGridItem column={ false } itemImage={ GetImageIconUrlForProduct(((offerData.furniType === MarketplaceOfferData.TYPE_FLOOR) ? ProductTypeEnum.FLOOR : ProductTypeEnum.WALL), offerData.furniId, offerData.extraData) } itemUniqueNumber={ offerData.isUniqueLimitedItem ? offerData.stuffData.uniqueNumber : 0 } />
             </Column>
             <Column grow gap={ 0 }>
-                <Text fontWeight="bold">{ getMarketplaceOfferTitle }</Text>
+                <Text className='font-bold'>{ getMarketplaceOfferTitle }</Text>
                 { (type === OWN_OFFER) &&
                     <>
                         <Text>{ LocalizeText('catalog.marketplace.offer.price_own_item', [ 'price' ], [ offerData.price.toString() ]) }</Text>

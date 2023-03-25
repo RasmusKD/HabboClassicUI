@@ -211,10 +211,6 @@ export const AvatarInfoWidgetOwnPetView: FC<AvatarInfoWidgetOwnPetViewProps> = p
                             </ContextMenuListItemView>
                         </> }
                 </> }
-            { canGiveHandItem &&
-                <ContextMenuListItemView onClick={ event => processAction('pass_hand_item') }>
-                    { LocalizeText('infostand.button.pass_hand_item') }
-                </ContextMenuListItemView> }
         </ContextMenuView>
     );
 }

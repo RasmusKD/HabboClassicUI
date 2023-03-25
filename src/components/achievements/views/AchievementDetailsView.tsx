@@ -19,13 +19,13 @@ export const AchievementDetailsView: FC<AchievementDetailsViewProps> = props =>
         <Flex shrink className="achievement-badge-bg p-2 text-black" gap={ 2 } overflow="hidden">
             <Column center gap={ 1 }>
                 <AchievementBadgeView className="nitro-achievements-badge-image" achievement={ achievement } scale={ 2 } />
-                <Text className="achievement-font-size" fontWeight="bold">
+                <Text className="achievement-font-size font-bold">
                     { LocalizeText('achievements.details.level', [ 'level', 'limit' ], [ AchievementUtilities.getAchievementLevel(achievement).toString(), achievement.levelCount.toString() ]) }
                 </Text>
             </Column>
             <Column fullWidth justifyContent="center" overflow="hidden">
                 <Column gap={ 1 }>
-                    <Text fontWeight="bold" truncate>
+                    <Text className='font-bold' truncate>
                         { LocalizeBadgeName(AchievementUtilities.getAchievementBadgeCode(achievement)) }                    </Text>
                     <Text className="achievement-font-size" textBreak>
                         { LocalizeBadgeDescription(AchievementUtilities.getAchievementBadgeCode(achievement)) }                    </Text>

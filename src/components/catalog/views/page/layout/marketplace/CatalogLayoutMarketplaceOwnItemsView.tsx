@@ -90,7 +90,7 @@ export const CatalogLayoutMarketplaceOwnItemsView: FC<CatalogLayoutProps> = prop
                     </Button>
                 </Column> }
             <Column gap={ 1 } overflow="hidden">
-                <Text truncate shrink fontWeight="bold">
+                <Text truncate shrink className='font-bold'>
                     { LocalizeText('catalog.marketplace.items_found', [ 'count' ], [ offers.length.toString() ]) }
                 </Text>
                 <Column overflow="auto" className="nitro-catalog-layout-marketplace-grid">

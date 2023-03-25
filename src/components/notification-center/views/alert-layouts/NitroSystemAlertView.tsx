@@ -12,7 +12,7 @@ export const NitroSystemAlertView: FC<NotificationDefaultAlertViewProps> = props
     const { title = 'Nitro', onClose = null, ...rest } = props;
 
     return (
-        <LayoutNotificationAlertView title={ title } onClose={ onClose } { ...rest }>
+        <LayoutNotificationAlertView className='no-resize' title={ title } onClose={ onClose } { ...rest }>
             <Grid>
                 <Column center size={ 5 }>
                     <object data="https://assets.nitrodev.co/logos/nitro-n-dark.svg" width="100" height="100">&nbsp;</object>

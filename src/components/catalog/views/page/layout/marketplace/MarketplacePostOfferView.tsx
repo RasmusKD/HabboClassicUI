@@ -78,7 +78,7 @@ export const MarketplacePostOfferView : FC<{}> = props =>
     }
     
     return (
-        <NitroCardView className="nitro-catalog-layout-marketplace-post-offer" theme="primary">
+        <NitroCardView className="nitro-catalog-layout-marketplace-post-offer no-resize" theme="primary">
             <NitroCardHeaderView headerText={ LocalizeText('inventory.marketplace.make_offer.title') } onCloseClick={ event => setItem(null) } />
             <NitroCardContentView overflow="hidden">
                 <Grid fullHeight>
@@ -87,7 +87,7 @@ export const MarketplacePostOfferView : FC<{}> = props =>
                     </Column>
                     <Column size={ 8 } justifyContent="between" overflow="hidden">
                         <Column grow gap={ 1 }>
-                            <Text fontWeight="bold">{ getFurniTitle }</Text>
+                            <Text className='font-bold'>{ getFurniTitle }</Text>
                             <Text truncate shrink>{ getFurniDescription }</Text>
                         </Column>
                         <Column overflow="auto">
