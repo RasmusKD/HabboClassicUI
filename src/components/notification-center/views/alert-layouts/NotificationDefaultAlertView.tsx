@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import { LocalizeText, NotificationAlertItem, NotificationAlertType, OpenUrl } from '../../../../api';
-import { Base, Button, Column, Flex, LayoutNotificationAlertView, LayoutNotificationAlertViewProps, Text } from '../../../../common';
+import { Base, Button, Column, Flex, LayoutAvatarImageView, LayoutNotificationAlertView, LayoutNotificationAlertViewProps, Text } from '../../../../common';
 
 interface NotificationDefaultAlertViewProps extends LayoutNotificationAlertViewProps
 {

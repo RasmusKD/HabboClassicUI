@@ -3,9 +3,9 @@ import { LocalizeText, MessengerFriend, OpenMessengerChat } from '../../../../..
 import { Base, Flex, LayoutAvatarImageView, NitroCardAccordionItemView, UserProfileIconView } from '../../../../../common';
 import { useFriends } from '../../../../../hooks';
 
-export const FriendsListGroupItemView: FC<{ friend: MessengerFriend, selected: boolean, selectFriend: (userId: number) => void, setIsHovering: any }> = props =>
+export const FriendsListGroupItemView2: FC<{ friend: MessengerFriend, selected: boolean, selectFriend: (userId: number) => void, setIsHovering: any, onlineFriends: MessengerFriend[];}> = props =>
 {
-    const { friend = null, selected = false, selectFriend = null, setIsHovering } = props;
+    const { friend = null, selected = false, selectFriend = null, setIsHovering, onlineFriends } = props;
     const [ isRelationshipOpen, setIsRelationshipOpen ] = useState<boolean>(false);
     const { followFriend = null, updateRelationship = null } = useFriends();
     const handleHover = (index, value) => {
@@ -59,7 +59,9 @@ export const FriendsListGroupItemView: FC<{ friend: MessengerFriend, selected: b
     if(!friend) return null;
 
     return (
-        <NitroCardAccordionItemView justifyContent="between" className={ `friend-tab-height friend-tab px-2 py-1 ${ selected && 'bg-friends text-white' }` } onClick={ event => selectFriend(friend.id) }>
+        <NitroCardAccordionItemView justifyContent="between" className={`friend-tab-height friend-tab px-2 py-1 ${
+                                                                         selected && "bg-friends text-white"
+                                                                     } ${onlineFriends.length % 2 === 1 ? "friend-tab" : "friend-tab2"}`} onClick={ event => selectFriend(friend.id) }>
             { friend.online &&
             <Flex alignItems="center" className="test-relative friend-tab-height2" gap={ 1 }>
                 <Flex className="friend-head px-1">

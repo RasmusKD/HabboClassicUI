@@ -6,6 +6,7 @@ interface TooltipProps {
   isDraggable?: boolean;
   windowId?: string; // new prop for draggable window id
   tooltipWidth?: number;
+  style?: React.CSSProperties;
 }
 
 export function Tooltip({ content, children, isDraggable, windowId, tooltipWidth }: TooltipProps) {

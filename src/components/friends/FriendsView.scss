@@ -29,7 +29,9 @@
     }
 
     &.icon-profile-sm {
-        width: 13px; height: 11px;
+        width: 13px;
+        min-width: 13px;
+        height: 11px;
         background-position: -51px -91px;
 
         &:hover {
@@ -281,6 +283,22 @@
         }
     }
 
+.friend-tab2 {
+
+    .friend-head {
+        position: absolute;
+        top: -34px;
+        left: -22px;
+        width: 47px;
+        height: 65px;
+        background-repeat: no-repeat;
+        background-position: 50%;
+        transform: scale(.5);
+        overflow: hidden;
+        image-rendering: auto;
+        pointer-events: none;
+        }
+    }
 .nitro-friends-messenger {
     width: $messenger-width;
     height: $messenger-height;
@@ -526,9 +544,18 @@
 .bg-friends {
     background-color: #3cb8ff!important;
 }
-.search-tab-color {
-    background: #9f9f9f;
+
+.friend-tab-color {
+    background: #eeeeee!important;
 }
+.friend-tab-color2 {
+    background: #fff!important;
+}
+
+.friend-tab-color3 {
+  background: #fff!important;
+}
+
 .messenger-height {
 height: calc(100% - 53px);
 }
@@ -553,4 +580,8 @@ height: calc(100% - 53px);
     &:nth-child(odd) {
         background: #eeeeee;
     }
+}
+.friend-req-position {
+    top: 4px;
+    position: relative;
 }

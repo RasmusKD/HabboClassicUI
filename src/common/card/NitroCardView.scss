@@ -448,11 +448,19 @@ $nitro-card-tabs-height: 35px;
             .nitro-card-accordion-set-content2 {
                 background: #b6b6b6;
             }
-
             .friend-tab:nth-of-type(odd) {
+                background: #fff;
+            }
+            .friend-tab:nth-of-type(even) {
                 background: #eeeeee;
             }
 
+            .friend-tab2:nth-of-type(even) {
+                background: #fff;
+            }
+            .friend-tab2:nth-of-type(odd) {
+                background: #eeeeee;
+            }
             .friend-active {
                 background: #3cb8ff !important;
             }

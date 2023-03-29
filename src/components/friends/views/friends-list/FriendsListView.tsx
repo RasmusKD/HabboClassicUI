@@ -5,6 +5,7 @@ import { Column, Flex, NitroCardAccordionSetView, NitroCardAccordionSetView2, Ni
 import { NitroCardAccordionSetInnerView } from '../../../../common/card/accordion/NitroCardAccordionSetInnerView';
 import { useFriends } from '../../../../hooks';
 import { FriendsListGroupView } from './friends-list-group/FriendsListGroupView';
+import { FriendsListGroupView2 } from './friends-list-group/FriendsListGroupView2';
 import { FriendsListRequestView } from './friends-list-request/FriendsListRequestView';
 import { FriendsRemoveConfirmationView } from './FriendsListRemoveConfirmationView';
 import { FriendsRoomInviteView } from './FriendsListRoomInviteView';
@@ -184,11 +185,11 @@ export const FriendsListView: FC<{}> = props =>
                     <NitroCardAccordionView fullHeight className={`friendbars ${isScrollbarFriends ? 'something1' : 'something2'}` }>
                         <NitroCardAccordionSetView2 className="friend-headers" headerText={ LocalizeText('friendlist.friends') } onClick={handleAccordionSetViewChange} isExpanded={ isFriends }>
                             <Column gap={ 0 }>
-                            <NitroCardAccordionSetInnerView headerText={ LocalizeText('friendlist.friends') + ` (${ onlineFriends.length })` } isExpanded={ true }>
+                            <NitroCardAccordionSetInnerView headerText={ LocalizeText('friendlist.friends') + ` (${ onlineFriends.length })` } isExpanded={ true } className="friend-tab-color">
                                 <FriendsListGroupView list={ onlineFriends } selectedFriendsIds={ selectedFriendsIds } selectFriend={ selectFriend } setIsHovering={ setIsHovering }/>
                             </NitroCardAccordionSetInnerView>
-                            <NitroCardAccordionSetInnerView headerText={ LocalizeText('friendlist.friends.offlinecaption') + ` (${ offlineFriends.length })` } isExpanded={ true }>
-                                <FriendsListGroupView list={ offlineFriends } selectedFriendsIds={ selectedFriendsIds } selectFriend={ selectFriend } setIsHovering={ setIsHovering }/>
+                            <NitroCardAccordionSetInnerView headerText={ LocalizeText('friendlist.friends.offlinecaption') + ` (${ offlineFriends.length })` } isExpanded={ true } className={`${onlineFriends.length % 2 === 1 ? "friend-tab-color" : "friend-tab-color2"}`}>
+                                <FriendsListGroupView2 list={ offlineFriends } selectedFriendsIds={ selectedFriendsIds } selectFriend={ selectFriend } setIsHovering={ setIsHovering } onlineFriends={onlineFriends}/>
                             </NitroCardAccordionSetInnerView>
                             </Column>
                             <Column>
