@@ -108,6 +108,22 @@
   }
 
 }
+
+.btn-illumina {
+    border-image-source: url('@/assets/flash/messenger/button.png');
+    border-image-slice:6 6 6 6 fill;
+    border-image-width:6px 6px 6px 6px;
+    border-image-repeat:stretch stretch;
+    text-shadow: 0px 1px 0px #fff, 1px 0px 1px #aaaaaa;
+
+    &:hover {
+        border-image-source: url('@/assets/flash/messenger/button.png');
+        filter: drop-shadow(0px 0px 5px #fff);
+   }
+    &:active {
+        border-image-source: url('@/assets/flash/messenger/button_active.png');
+   }
+}
 // scss-docs-end btn-variant-loops
 
 
