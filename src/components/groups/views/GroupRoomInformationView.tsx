@@ -107,6 +107,7 @@ export const GroupRoomInformationView: FC<{}> = props =>
         <Base className="nitro-group-bubble">
             <Column>
                 <Flex className={ isOpen ? 'grouproom-header' : 'grouproom-header-open' } alignItems="center" justifyContent="between" pointer onClick={ event => setIsOpen(value => !value) }>
+                    <Base className="nitro-group-right-side-img"/>
                     <Text bold small className="header-text p-1" variant="white">{ LocalizeText('group.homeroominfo.title') }</Text>
                     <i className={ isOpen ? 'arrow-down' : 'arrow-left' } />
                 </Flex>
