@@ -123,10 +123,10 @@ export const NavigatorRoomInfoView: FC<NavigatorRoomInfoViewProps> = props =>
                                             <Text small>{ navigatorData.currentRoomRating }</Text>
                                         </Flex>
                                         { (navigatorData.enteredGuestRoom.tags.length > 0) &&
-                                            <Flex alignItems="center" gap={ 1 }>
+                                            <Flex className='tag-wrap' alignItems="center">
                                                 { navigatorData.enteredGuestRoom.tags.map(tag =>
                                                 {
-                                                    return <Text key={ tag } pointer className="bg-muted rounded p-1" onClick={ event => processAction('navigator_search_tag', tag) }>#{ tag }</Text>
+                                                    return <Text key={ tag } pointer className="tag-bg" onClick={ event => processAction('navigator_search_tag', tag) }>#{ tag }</Text>
                                                 }) }
                                             </Flex> }
                                     </Column>

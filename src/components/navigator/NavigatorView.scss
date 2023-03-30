@@ -312,6 +312,11 @@ white-space: nowrap;
     cursor: pointer;
 }
 
+.basis-font {
+    font-size: 12.5px;
+    font-family: UbuntuBold;
+}
+
 .report-button {
     min-height: 33px;
     height: 33px;
@@ -326,4 +331,24 @@ white-space: nowrap;
 
 .report-text {
     margin-left: 25px;
+}
+
+.tag-size {
+    height: 16px;
+    min-height: 16px;
+}
+.tag-bg {
+    background-color: #cee9fa;
+    border-radius: .15rem!important;
+    font-size: 11px;
+    height: 13px;
+    line-height: 14px;
+
+    &:hover {
+        background-color: #449fcf;
+        }
+}
+.tag-wrap {
+    flex-wrap: wrap;
+    gap: 1px!important;
 }

@@ -8,7 +8,7 @@ import { useMessageEvent, useNavigator, useNotification } from '../../../../hook
 const ROOM_NAME_MIN_LENGTH = 3;
 const ROOM_NAME_MAX_LENGTH = 60;
 const DESC_MAX_LENGTH = 255;
-const TAGS_MAX_LENGTH = 15;
+const TAGS_MAX_LENGTH = 22;
 
 interface NavigatorRoomSettingsTabViewProps
 {
@@ -120,9 +120,9 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
     return (
         <>
             <Column gap={ 1 }>
-                <Text bold>{ LocalizeText('navigator.roomname') }</Text>
+                <Text className='basis-font'>{ LocalizeText('navigator.roomname') }</Text>
                 <Column fullWidth gap={ 0 }>
-                    <input spellCheck="false" className="form-control form-control-sm squared-form" value={ roomName } maxLength={ ROOM_NAME_MAX_LENGTH } onChange={ event => setRoomName(event.target.value) } onBlur={ saveRoomName } />
+                    <input spellCheck="false" className="form-control form-control-sm form-control5" value={ roomName } maxLength={ ROOM_NAME_MAX_LENGTH } onChange={ event => setRoomName(event.target.value) } onBlur={ saveRoomName } />
                     { (roomName.length < ROOM_NAME_MIN_LENGTH) &&
                         <Text bold small variant="danger">
                             { LocalizeText('navigator.roomsettings.roomnameismandatory') }
@@ -130,33 +130,34 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
                 </Column>
             </Column>
             <Column gap={ 1 }>
-                <Text bold>{ LocalizeText('navigator.roomsettings.desc') }</Text>
-                <textarea spellCheck="false" className="form-control form-control-sm trophy-text2 squared-form" value={ roomDescription } maxLength={ DESC_MAX_LENGTH } onChange={ event => setRoomDescription(event.target.value) } onBlur={ saveRoomDescription } />
+                <Text className='basis-font'>{ LocalizeText('navigator.roomsettings.desc') }</Text>
+                <textarea spellCheck="false" className="form-control form-control-sm trophy-text2 form-control5" value={ roomDescription } maxLength={ DESC_MAX_LENGTH } onChange={ event => setRoomDescription(event.target.value) } onBlur={ saveRoomDescription } />
             </Column>
             <Column gap={ 1 }>
-                <Text bold>{ LocalizeText('navigator.category') }</Text>
+                <Text className='basis-font'>{ LocalizeText('navigator.category') }</Text>
                 <select className={`form-select form-select-sm ${isCategoryOpen ? 'active' : ''}`} value={ roomData.categoryId } onChange={ event => handleChange('category', event.target.value) } onClick={() => handleSelectToggle('category')} onBlur={() => setIsCategoryOpen(false)}>
                     { categories && categories.map(category => <option key={ category.id } value={ category.id }>{ LocalizeText(category.name) }</option>) }
                 </select>
             </Column>
             <Column gap={ 1 }>
-                <Text bold>{ LocalizeText('navigator.maxvisitors') }</Text>
+                <Text className='basis-font'>{ LocalizeText('navigator.maxvisitors') }</Text>
                 <select className={`form-select form-select-sm ${isVisitorsCountOpen ? 'active' : ''}`} value={ roomData.userCount } onChange={ event => handleChange('max_visitors', event.target.value) } onClick={() => handleSelectToggle('visitorsCount')} onBlur={() => setIsVisitorsCountOpen(false)}>
                     { GetMaxVisitorsList && GetMaxVisitorsList.map(value => <option key={ value } value={ value }>{ value }</option>) }
                 </select>
             </Column>
             <Column gap={ 1 }>
-                <Text bold>{ LocalizeText('navigator.tradesettings') }</Text>
+                <Text className='basis-font'>{ LocalizeText('navigator.tradesettings') }</Text>
                 <select className={`form-select form-select-sm ${isTradesSettingOpen ? 'active' : ''}`} value={ roomData.tradeState } onChange={ event => handleChange('trade_state', event.target.value) } onClick={() => handleSelectToggle('tradesSetting')} onBlur={() => setIsTradesSettingOpen(false)}>
                     <option value="0">{ LocalizeText('navigator.roomsettings.trade_not_allowed') }</option>
                     <option value="1">{ LocalizeText('navigator.roomsettings.trade_not_with_Controller') }</option>
                     <option value="2">{ LocalizeText('navigator.roomsettings.trade_allowed') }</option>
                 </select>
             </Column>
-            <Flex alignItems="center" gap={ 1 }>
-                <Text className="col-3">{ LocalizeText('navigator.tags') }</Text>
+            <Column gap={ 1 }>
+                <Text className='basis-font'>{ LocalizeText('navigator.tags') }</Text>
+                <Flex gap={ 1 }>
                 <Column fullWidth gap={ 0 }>
-                    <input className="form-control form-control-sm" value={ roomTag1 } onChange={ event => setRoomTag1(event.target.value) } onBlur={ () => saveTags(0) } />
+                    <input spellCheck="false" maxLength={ 22 } className="form-control form-control5 form-control-sm tag-size" value={ roomTag1 } onChange={ event => setRoomTag1(event.target.value) } onBlur={ () => saveTags(0) } />
                     { (roomTag1.length > TAGS_MAX_LENGTH) &&
                         <Text bold small variant="danger">
                             { LocalizeText('navigator.roomsettings.toomanycharacters') }
@@ -167,7 +168,7 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
                         </Text> }
                 </Column>
                 <Column fullWidth gap={ 0 }>
-                    <input className="form-control form-control-sm" value={ roomTag2 } onChange={ event => setRoomTag2(event.target.value) } onBlur={ () => saveTags(1) } />
+                    <input spellCheck="false" maxLength={ 22 } className="form-control form-control5 form-control-sm tag-size" value={ roomTag2 } onChange={ event => setRoomTag2(event.target.value) } onBlur={ () => saveTags(1) } />
                     { (roomTag2.length > TAGS_MAX_LENGTH) &&
                         <Text bold small variant="danger">
                             { LocalizeText('navigator.roomsettings.toomanycharacters') }
@@ -177,13 +178,14 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
                         { LocalizeText(typeError) }
                     </Text> }
                 </Column>
-            </Flex>
+                </Flex>
+            </Column>
             <Flex alignItems="center" gap={ 1 }>
                 <Base/>
                 <input className="flash-form-check-input" type="checkbox" checked={ roomData.allowWalkthrough } onChange={ event => handleChange('allow_walkthrough', event.target.checked) } />
-                <Text>{ LocalizeText('navigator.roomsettings.allow_walk_through') }</Text>
+                <Text small>{ LocalizeText('navigator.roomsettings.allow_walk_through') }</Text>
             </Flex>
-            <Text variant="danger" underline bold pointer className="d-flex justify-content-center align-items-center gap-1" onClick={ deleteRoom }>
+            <Text small variant="danger" underline bold pointer className="d-flex justify-content-center align-items-center gap-1" onClick={ deleteRoom }>
                 <FaTimes className="fa-icon" />
                 { LocalizeText('navigator.roomsettings.delete') }
             </Text>

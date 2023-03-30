@@ -34,7 +34,7 @@ export const NavigatorRoomSettingsAccessTabView: FC<NavigatorRoomSettingsTabView
         <>
             <Column gap={ 1 }>
                 <Text bold>{ LocalizeText('navigator.roomsettings.roomaccess.caption') }</Text>
-                <Text>{ LocalizeText('navigator.roomsettings.roomaccess.info') }</Text>
+                <Text small>{ LocalizeText('navigator.roomsettings.roomaccess.info') }</Text>
             </Column>
             <Column overflow="auto">
                 <Column gap={ 1 }>

@@ -109,6 +109,11 @@
 .form-control3 {
     border-image-source: url('@/assets/flash/boxes/card/input3.png')!important;
 }
+
+.form-control5 {
+    border-image-source: url('@/assets/flash/boxes/card/input5.png')!important;
+    padding: 0.25rem!important;
+}
 // Readonly controls as plain text
 //
 // Apply class to a readonly input to make it appear like regular plain
