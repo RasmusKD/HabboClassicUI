@@ -177,8 +177,9 @@ export const NavigatorRoomInfoView: FC<NavigatorRoomInfoViewProps> = props =>
                                 <Button onClick={ () => processAction('open_floorplan_editor') }>
                                     { LocalizeText('open.floor.plan.editor') }
                                 </Button>
-                                <Button variant='illumina' className='report-button' onClick={ () => processAction('report_room') }>
-                                    { LocalizeText('help.emergency.main.report.room') }
+                                <Button variant='illumina button-seperator' className='report-button' onClick={ () => processAction('report_room') }>
+                                    <Base className='report-image'/>
+                                    <Base className='report-text'>{ LocalizeText('help.emergency.main.report.room') }</Base>
                                 </Button>
                                 <Button onClick={ () => processAction('toggle_mute') }>
                                     { LocalizeText(isRoomMuted ? 'navigator.muteall_on' : 'navigator.muteall_off') }

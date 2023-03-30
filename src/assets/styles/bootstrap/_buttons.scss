@@ -110,20 +110,38 @@
 }
 
 .btn-illumina {
+    position: relative;
     border-image-source: url('@/assets/flash/messenger/button.png');
-    border-image-slice:6 6 6 6 fill;
-    border-image-width:6px 6px 6px 6px;
-    border-image-repeat:stretch stretch;
+    border-image-slice: 6 6 6 6 fill;
+    border-image-width: 6px 6px 6px 6px;
+    border-image-repeat: stretch stretch;
     text-shadow: 0px 1px 0px #fff, 1px 0px 1px #aaaaaa;
+
+ &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        filter: drop-shadow(0px 0px 5px #fff);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
 
     &:hover {
         border-image-source: url('@/assets/flash/messenger/button.png');
         filter: drop-shadow(0px 0px 5px #fff);
+
+   &::before {
+               opacity: 1;
+           }
+       }
+       &:active {
+           border-image-source: url('@/assets/flash/messenger/button_active.png');
+       }
    }
-    &:active {
-        border-image-source: url('@/assets/flash/messenger/button_active.png');
-   }
-}
 // scss-docs-end btn-variant-loops
 
 

@@ -54,7 +54,7 @@
 }
 
 .nitro-room-settings {
-    width: 400px;
+    width: 362px;
 
     .list-container {
         height: 100px;
@@ -284,6 +284,27 @@ white-space: nowrap;
     top: 21px;
     left: 43px;
 }
+
+.report-image {
+    background-image: url('@/assets/flash/room-info/room_report.png');
+    background-repeat: no-repeat;
+    height: 22px!important;
+    width: 23px!important;
+    left: 5px!important;
+    position: absolute!important;
+}
+
+.report-image::after {
+    content: '';
+    position: absolute;
+    left: calc(100% + 3px);
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-image: linear-gradient(to right, #878787 1px, #e7e7e7 1px);
+    background-size: 2px 100%;
+}
+
 .room-settings-font {
     font-size: 12.5px;
     font-family: UbuntuBold;
@@ -295,6 +316,14 @@ white-space: nowrap;
     min-height: 33px;
     height: 33px;
     margin: 10px;
-    font-size: 15px;
+    font-size: 14.5px;
     font-family: 'UbuntuBold';
+}
+
+.button-seperator {
+    border-right: 1px solid #afafaf;
+}
+
+.report-text {
+    margin-left: 25px;
 }
