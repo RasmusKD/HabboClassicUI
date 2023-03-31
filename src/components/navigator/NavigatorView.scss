@@ -348,7 +348,63 @@ white-space: nowrap;
         background-color: #449fcf;
         }
 }
+.tag-bg2 {
+    background-color: #1b2834;
+    color: #1a78aa;
+    border-radius: .15rem!important;
+    font-size: 11px;
+    height: 13px;
+    line-height: 14px;
+
+    &:hover {
+        color: #45a5e1;
+        }
+}
 .tag-wrap {
     flex-wrap: wrap;
     gap: 1px!important;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+.animate__animated {
+  animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

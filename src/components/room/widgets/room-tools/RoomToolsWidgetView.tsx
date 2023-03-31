@@ -14,7 +14,7 @@ export const RoomToolsWidgetView: FC<{}> = props =>
     const { navigatorData = null } = useNavigator();
     const { roomSession = null } = useRoom();
     const [ show, setShow ] = useState(false);
-
+    const [hideTools, setHideTools] = useState(false);
 
     const handleToolClick = (action: string, value?: string) =>
     {
@@ -63,6 +63,14 @@ export const RoomToolsWidgetView: FC<{}> = props =>
         if(roomTags !== parser.data.tags) setRoomTags(parser.data.tags);
     });
 
+    useEffect(() => {
+        if (show) {
+            setHideTools(false);
+            const timer = setTimeout(() => setHideTools(true), 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [show]);
+
     useEffect(() =>
     {
         setIsOpen(true);
@@ -87,8 +95,8 @@ export const RoomToolsWidgetView: FC<{}> = props =>
                                     <Text variant="muted" fontSize={ 5 }>{ roomOwner }</Text>
                                 </Column>
                                 { roomTags && roomTags.length > 0 &&
-                                                    <Flex gap={ 2 }>
-                                    { roomTags.map((tag, index) => <Text key={ index } small pointer variant="white" className="rounded bg-primary p-1" onClick={ () => handleToolClick('navigator_search_tag', tag) }>#{ tag }</Text>) }
+                                                    <Flex className='tag-wrap'>
+                                    { roomTags.map((tag, index) => <Text key={ index } pointer className="tag-bg2" onClick={ () => handleToolClick('navigator_search_tag', tag) }>#{ tag }</Text>) }
                                                     </Flex> }
                             </Column>
                         </Column>
@@ -125,7 +133,7 @@ export const RoomToolsWidgetView: FC<{}> = props =>
 
 
                 </Flex><Column justifyContent="center">
-                    <TransitionAnimation type={ TransitionAnimationTypes.SLIDE_LEFT } inProp={ isOpen } timeout={ 300 }>
+                    <TransitionAnimation type={ TransitionAnimationTypes.SLIDE_LEFT } inProp={ !hideTools } timeout={ 300 }>
                         <Column center gap={ 2 }>
                             <Column className="nitro-room-tools-info py-2 px-3">
                                 <Column gap={ 1 }>
@@ -133,8 +141,8 @@ export const RoomToolsWidgetView: FC<{}> = props =>
                                     <Text variant="muted" fontSize={ 5 }>{ roomOwner }</Text>
                                 </Column>
                                 { roomTags && roomTags.length > 0 &&
-                                        <Flex gap={ 2 }>
-                                            { roomTags.map((tag, index) => <Text key={ index } small variant="white" className="rounded bg-primary p-1">#{ tag }</Text>) }
+                                        <Flex className='tag-wrap'>
+                                            { roomTags.map((tag, index) => <Text key={ index } pointer className="tag-bg2">#{ tag }</Text>) }
                                         </Flex> }
                             </Column>
                         </Column>
