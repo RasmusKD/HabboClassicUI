@@ -16,16 +16,15 @@ export const NavigatorRoomLinkView: FC<NavigatorRoomLinkViewProps> = props =>
     if(!navigatorData.enteredGuestRoom) return null;
 
     return (
-        <NitroCardView className="nitro-room-link" theme="primary">
+        <NitroCardView className="nitro-room-link no-resize" theme="primary">
             <NitroCardHeaderView headerText={ LocalizeText('navigator.embed.title') } onCloseClick={ onCloseClick } />
             <NitroCardContentView className="text-black d-flex align-items-center">
                 <Flex gap={ 2 }>
                     <LayoutRoomThumbnailView roomId={ navigatorData.enteredGuestRoom.roomId } customUrl={ navigatorData.enteredGuestRoom.officialRoomPicRef } />
-                    <Column>
+                    <Column gap={ 1 }>
                         <Text bold fontSize={ 5 }>{ LocalizeText('navigator.embed.headline') }</Text>
-                        <Text>{ LocalizeText('navigator.embed.info') }</Text>
-                        <Text> { LocalizeText('navigator.embed.direct.info') }</Text>
-                        <input  spellCheck="false" type="text" readOnly className="form-control form-control-sm" value={ LocalizeText('navigator.embed.src', [ 'roomId' ], [ navigatorData.enteredGuestRoom.roomId.toString() ]) } />
+                        <Text small> { LocalizeText('navigator.embed.direct.info') }</Text>
+                        <input spellCheck="false" type="text" readOnly className="form-control form-control-sm margin-top-auto" value={ LocalizeText('navigator.embed.src', [ 'roomId' ], [ navigatorData.enteredGuestRoom.roomId.toString() ]) } />
                     </Column>
                 </Flex>
             </NitroCardContentView>

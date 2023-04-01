@@ -86,7 +86,7 @@ export const RoomToolsWidgetView: FC<{}> = props =>
                 <div className={ classNames('toggle-icon', (!show && 'right'), (show && 'left')) }/>
             </div>
             { !show && (
-                <Column justifyContent="center">
+                <Column justifyContent="end">
                     <TransitionAnimation type={ TransitionAnimationTypes.SLIDE_LEFT } inProp={ isOpen } timeout={ 300 }>
                         <Column center gap={ 2 }>
                             <Column className="nitro-room-tools-info py-2 px-3">
@@ -132,7 +132,7 @@ export const RoomToolsWidgetView: FC<{}> = props =>
                     </Column>
 
 
-                </Flex><Column justifyContent="center">
+                </Flex><Column justifyContent="end">
                     <TransitionAnimation type={ TransitionAnimationTypes.SLIDE_LEFT } inProp={ !hideTools } timeout={ 300 }>
                         <Column center gap={ 2 }>
                             <Column className="nitro-room-tools-info py-2 px-3">

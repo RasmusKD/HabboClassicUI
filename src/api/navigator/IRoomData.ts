@@ -6,13 +6,13 @@ export interface IRoomData
     roomId: number;
     roomName: string;
     roomDescription: string;
+    password: string;
     categoryId: number;
     userCount: number;
     tags: string[];
     tradeState: number;
     allowWalkthrough: boolean;
     lockState: number;
-    password: string;
     allowPets: boolean;
     allowPetsEat: boolean;
     hideWalls: boolean;
