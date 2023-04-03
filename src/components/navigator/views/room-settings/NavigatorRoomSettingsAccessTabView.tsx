@@ -1,5 +1,5 @@
 import { RoomDataParser } from '@nitrots/nitro-renderer';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState, useRef } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { IRoomData, LocalizeText } from '../../../../api';
 import { Column, Flex, Text } from '../../../../common';
@@ -16,9 +16,10 @@ export const NavigatorRoomSettingsAccessTabView: FC<NavigatorRoomSettingsTabView
     const [ password, setPassword ] = useState<string>('');
     const [ isTryingPassword, setIsTryingPassword ] = useState(false);
     const [ showPassword, setShowPassword ] = useState(false);
+    const passwordInputRef = useRef(null);
 
-    const saveRoomPassword = () => {
-        if (!isTryingPassword || (password.length <= 0)) return;
+    const saveRoomPassword = (forceSave = false) => {
+        if ((!isTryingPassword && !forceSave) || (password.length <= 0)) return;
 
         handleChange('password', password);
     }
@@ -35,6 +36,14 @@ export const NavigatorRoomSettingsAccessTabView: FC<NavigatorRoomSettingsTabView
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
+
+    const handlePasswordRadioChange = (event) => {
+        setIsTryingPassword(event.target.checked);
+        if (event.target.checked) {
+            saveRoomPassword(true);
+        }
+    };
+
 
     return (
         <>
@@ -58,7 +67,7 @@ export const NavigatorRoomSettingsAccessTabView: FC<NavigatorRoomSettingsTabView
                         <Text small>{ LocalizeText('navigator.roomsettings.doormode.invisible') }</Text>
                     </Flex>
                     <Flex fullWidth gap={ 1 }>
-                        <input className="flash-form-check-radio-input" type="radio" name="lockState" checked={ (roomData.lockState === RoomDataParser.PASSWORD_STATE) || isTryingPassword } onChange={ event => setIsTryingPassword(event.target.checked) } />
+                        <input className="flash-form-check-radio-input" type="radio" name="lockState" checked={ (roomData.lockState === RoomDataParser.PASSWORD_STATE) || isTryingPassword } onChange={handlePasswordRadioChange} />
                         { !isTryingPassword && (roomData.lockState !== RoomDataParser.PASSWORD_STATE) &&
                             <Text className='password-bottom' small>{ LocalizeText('navigator.roomsettings.doormode.password') }</Text> }
                         { (isTryingPassword || (roomData.lockState === RoomDataParser.PASSWORD_STATE)) &&
@@ -66,7 +75,7 @@ export const NavigatorRoomSettingsAccessTabView: FC<NavigatorRoomSettingsTabView
                                 <Text small>{ LocalizeText('navigator.roomsettings.doormode.password') }</Text>
                                 <Text small>{ LocalizeText('navigator.roomsettings.password') }</Text>
                                 <Flex className={`input-icon-wrapper ${password.length > 0 ? 'password-bottom2' : ''}`} gap={ 1 }>
-                                        <input spellCheck="false" type="text" className={`form-control form-control5 form-control-sm password-size ${showPassword ? '' : 'password-font'}`} value={ password } onChange={ event => setPassword(event.target.value) } onFocus={ event => setIsTryingPassword(true) } onBlur={ saveRoomPassword }/>
+                                        <input ref={passwordInputRef} spellCheck="false" type="text" className={`form-control form-control5 form-control-sm password-size ${showPassword ? '' : 'password-font'}`} value={ password } onChange={ event => setPassword(event.target.value) } onFocus={ event => setIsTryingPassword(true) } onBlur={ saveRoomPassword }/>
                                         <Text small pointer className="d-flex justify-content-center align-items-center gap-1" onClick={toggleShowPassword}>
                                             {showPassword ? <FaEyeSlash className="fa-icon eye-position" /> : <FaEye className="fa-icon eye-position" />}
                                         </Text>

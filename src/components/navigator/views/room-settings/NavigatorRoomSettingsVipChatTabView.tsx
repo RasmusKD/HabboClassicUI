@@ -60,18 +60,18 @@ export const NavigatorRoomSettingsVipChatTabView: FC<NavigatorRoomSettingsTabVie
             </Column>
                 <Column gap={ 1 }>
                     <Text small bold>{ LocalizeText('navigator.roomsettings.vip_settings') }</Text>
-                    <Flex alignItems="center" gap={ 1 }>
-                        <input disabled={!HC} className={`flash-form-check-input ${disabled}`} type="checkbox" checked={ roomData.hideWalls } onChange={ event => { if (HC) handleChange('hide_walls', event.target.checked) }} />
-                        <Text className={disabled} small>{ LocalizeText('navigator.roomsettings.hide_walls') }</Text>
+                    <Flex className={disabled} alignItems="center" gap={ 1 }>
+                        <input disabled={!HC} className="flash-form-check-input" type="checkbox" checked={ roomData.hideWalls } onChange={ event => { if (HC) handleChange('hide_walls', event.target.checked) }} />
+                        <Text small>{ LocalizeText('navigator.roomsettings.hide_walls') }</Text>
                     </Flex>
-                    <Column gap={ 2 }>
-                    <select disabled={!HC} className={`form-select form-select-sm ${isWallsOpen ? 'active' : ''} ${disabled}`} value={ roomData.wallThickness } onChange={ event => { if (HC) handleChange('wall_thickness', event.target.value) }} onClick={() => handleSelectToggle('Walls')} onBlur={() => setIsWallsOpen(false)}>
+                    <Column className={disabled} gap={ 2 }>
+                    <select disabled={!HC} className={`form-select form-select-sm ${isWallsOpen ? 'active' : ''}`} value={ roomData.wallThickness } onChange={ event => { if (HC) handleChange('wall_thickness', event.target.value) }} onClick={() => handleSelectToggle('Walls')} onBlur={() => setIsWallsOpen(false)}>
                         <option value="0">{ LocalizeText('navigator.roomsettings.wall_thickness.normal') }</option>
                         <option value="1">{ LocalizeText('navigator.roomsettings.wall_thickness.thick') }</option>
                         <option value="-1">{ LocalizeText('navigator.roomsettings.wall_thickness.thin') }</option>
                         <option value="-2">{ LocalizeText('navigator.roomsettings.wall_thickness.thinnest') }</option>
                     </select>
-                    <select disabled={!HC} className={`form-select form-select-sm ${isFloorOpen ? 'active' : ''} ${disabled}`} value={ roomData.floorThickness } onChange={ event => { if (HC) handleChange('floor_thickness', event.target.value) }} onClick={() => handleSelectToggle('Floor')} onBlur={() => setIsFloorOpen(false)}>
+                    <select disabled={!HC} className={`form-select form-select-sm ${isFloorOpen ? 'active' : ''}`} value={ roomData.floorThickness } onChange={ event => { if (HC) handleChange('floor_thickness', event.target.value) }} onClick={() => handleSelectToggle('Floor')} onBlur={() => setIsFloorOpen(false)}>
                         <option value="0">{ LocalizeText('navigator.roomsettings.floor_thickness.normal') }</option>
                         <option value="1">{ LocalizeText('navigator.roomsettings.floor_thickness.thick') }</option>
                         <option value="-1">{ LocalizeText('navigator.roomsettings.floor_thickness.thin') }</option>
