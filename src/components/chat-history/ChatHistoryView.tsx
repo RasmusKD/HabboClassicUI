@@ -66,7 +66,7 @@ export const ChatHistoryView: FC<{}> = props =>
                         <InfiniteScroll rows={ filteredChatHistory } scrollToBottom={ true } rowRender={ row =>
                         {
                             return (
-                                <Flex alignItems="center" className="p-1" gap={ 2 }>
+                                <Flex alignItems="center" className="chat-history-padding" gap={ 2 }>
                                     <Text variant="muted">{ row.timestamp }</Text>
                                     { (row.type === ChatEntryType.TYPE_CHAT) &&
                                 <div className="bubble-container room-chatlog" style={ { position: 'relative' } }>

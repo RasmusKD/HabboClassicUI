@@ -65,14 +65,14 @@ export const NavigatorRoomSettingsAccessTabView: FC<NavigatorRoomSettingsTabView
                             <Column gap={ 1 }>
                                 <Text small>{ LocalizeText('navigator.roomsettings.doormode.password') }</Text>
                                 <Text small>{ LocalizeText('navigator.roomsettings.password') }</Text>
-                                <Flex gap={ 1 }>
-                                    <input spellCheck="false" type="text" className={`form-control form-control5 form-control-sm password-size ${showPassword ? '' : 'password-font'}`} value={ password } onChange={ event => setPassword(event.target.value) } onFocus={ event => setIsTryingPassword(true) } onBlur={ saveRoomPassword }/>
-                                    <Text small pointer className="d-flex justify-content-center align-items-center gap-1" onClick={toggleShowPassword}>
-                                        {showPassword ? <FaEyeSlash className="fa-icon" /> : <FaEye className="fa-icon" />}
-                                    </Text>
+                                <Flex className={`input-icon-wrapper ${password.length > 0 ? 'password-bottom2' : ''}`} gap={ 1 }>
+                                        <input spellCheck="false" type="text" className={`form-control form-control5 form-control-sm password-size ${showPassword ? '' : 'password-font'}`} value={ password } onChange={ event => setPassword(event.target.value) } onFocus={ event => setIsTryingPassword(true) } onBlur={ saveRoomPassword }/>
+                                        <Text small pointer className="d-flex justify-content-center align-items-center gap-1" onClick={toggleShowPassword}>
+                                            {showPassword ? <FaEyeSlash className="fa-icon eye-position" /> : <FaEye className="fa-icon eye-position" />}
+                                        </Text>
                                 </Flex>
                                 { isTryingPassword && (password.length <= 0) &&
-                                    <Text bold small variant="danger">
+                                    <Text small variant="danger">
                                         { LocalizeText('navigator.roomsettings.passwordismandatory') }
                                     </Text> }
                             </Column> }

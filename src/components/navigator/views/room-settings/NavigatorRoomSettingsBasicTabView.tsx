@@ -156,32 +156,31 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
             <Column gap={ 1 }>
                 <Text className='basis-font'>{ LocalizeText('navigator.tags') }</Text>
                 <Flex gap={ 1 }>
-                <Column fullWidth gap={ 0 }>
-                    <input spellCheck="false" maxLength={ 22 } className="form-control form-control5 form-control-sm tag-size" value={ roomTag1 } onChange={ event => setRoomTag1(event.target.value) } onBlur={ () => saveTags(0) } />
-                    { (roomTag1.length > TAGS_MAX_LENGTH) &&
-                        <Text bold small variant="danger">
-                            { LocalizeText('navigator.roomsettings.toomanycharacters') }
-                        </Text> }
-                    { (tagIndex === 0 && typeError != '') &&
+                    <Column fullWidth gap={ 0 }>
+                        <input spellCheck="false" maxLength={ 22 } className="form-control form-control5 form-control-sm tag-size" value={ roomTag1 } onChange={ event => setRoomTag1(event.target.value) } onBlur={ () => saveTags(0) } />
+                        { (roomTag1.length > TAGS_MAX_LENGTH) &&
+                            <Text bold small variant="danger">
+                                { LocalizeText('navigator.roomsettings.toomanycharacters') }
+                            </Text> }
+                        { (tagIndex === 0 && typeError != '') &&
+                            <Text bold small variant="danger">
+                                { LocalizeText(typeError) }
+                            </Text> }
+                    </Column>
+                    <Column fullWidth gap={ 0 }>
+                        <input spellCheck="false" maxLength={ 22 } className="form-control form-control5 form-control-sm tag-size" value={ roomTag2 } onChange={ event => setRoomTag2(event.target.value) } onBlur={ () => saveTags(1) } />
+                        { (roomTag2.length > TAGS_MAX_LENGTH) &&
+                            <Text bold small variant="danger">
+                                { LocalizeText('navigator.roomsettings.toomanycharacters') }
+                            </Text> }
+                        { (tagIndex === 1 && typeError != '') &&
                         <Text bold small variant="danger">
                             { LocalizeText(typeError) }
                         </Text> }
-                </Column>
-                <Column fullWidth gap={ 0 }>
-                    <input spellCheck="false" maxLength={ 22 } className="form-control form-control5 form-control-sm tag-size" value={ roomTag2 } onChange={ event => setRoomTag2(event.target.value) } onBlur={ () => saveTags(1) } />
-                    { (roomTag2.length > TAGS_MAX_LENGTH) &&
-                        <Text bold small variant="danger">
-                            { LocalizeText('navigator.roomsettings.toomanycharacters') }
-                        </Text> }
-                    { (tagIndex === 1 && typeError != '') &&
-                    <Text bold small variant="danger">
-                        { LocalizeText(typeError) }
-                    </Text> }
-                </Column>
+                    </Column>
                 </Flex>
             </Column>
             <Flex alignItems="center" gap={ 1 }>
-                <Base/>
                 <input className="flash-form-check-input" type="checkbox" checked={ roomData.allowWalkthrough } onChange={ event => handleChange('allow_walkthrough', event.target.checked) } />
                 <Text small>{ LocalizeText('navigator.roomsettings.allow_walk_through') }</Text>
             </Flex>

@@ -157,7 +157,7 @@ export const NavigatorRoomInfoView: FC<NavigatorRoomInfoViewProps> = props =>
                                 </Flex>
                             </Column>
                         </Flex>
-                        <Column gap={ 1 }>
+                        <Column className='button-gap'>
                             { hasPermission('staff_pick') &&
                             <Button onClick={ () => processAction('toggle_pick') }>
                                 { LocalizeText(isRoomPicked ? 'navigator.staffpicks.unpick' : 'navigator.staffpicks.pick') }

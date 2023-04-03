@@ -1,6 +1,6 @@
 import { RoomChatSettings } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
-import { IRoomData, LocalizeText } from '../../../../api';
+import { IRoomData, LocalizeText, GetClubMemberLevel } from '../../../../api';
 import { Column, Flex, Grid, Text } from '../../../../common';
 
 interface NavigatorRoomSettingsTabViewProps
@@ -19,6 +19,8 @@ export const NavigatorRoomSettingsVipChatTabView: FC<NavigatorRoomSettingsTabVie
     const [isChat4Open, setIsChat4Open] = useState(false);
     const [isWallsOpen, setIsWallsOpen] = useState(false);
     const [isFloorOpen, setIsFloorOpen] = useState(false);
+    const HC = GetClubMemberLevel();
+    const disabled = HC ? '' : 'muted-color';
 
         const handleSelectToggle = (selectName) => {
             switch (selectName) {
@@ -51,14 +53,35 @@ export const NavigatorRoomSettingsVipChatTabView: FC<NavigatorRoomSettingsTabVie
 
     return (
         <>
-            <Column gap={ 1 }>
+            <Column gap={ 0 }>
                 <Text bold>{ LocalizeText('navigator.roomsettings.vip.caption') }</Text>
-                <Text>{ LocalizeText('navigator.roomsettings.vip.info') }</Text>
+                <Text small>{ LocalizeText('navigator.roomsettings.vip.info') }</Text>
             </Column>
-            <Grid overflow="auto">
-                <Column size={ 6 } gap={ 1 }>
-                    <Text bold>{ LocalizeText('navigator.roomsettings.chat_settings') }</Text>
-                    <Text>{ LocalizeText('navigator.roomsettings.chat_settings.info') }</Text>
+                <Column gap={ 1 }>
+                    <Text small bold>{ LocalizeText('navigator.roomsettings.vip_settings') }</Text>
+                    <Flex alignItems="center" gap={ 1 }>
+                        <input disabled={!HC} className={`flash-form-check-input ${disabled}`} type="checkbox" checked={ roomData.hideWalls } onChange={ event => handleChange('hide_walls', event.target.checked) } />
+                        <Text className={disabled} small>{ LocalizeText('navigator.roomsettings.hide_walls') }</Text>
+                    </Flex>
+                    <Column gap={ 2 }>
+                    <select disabled={!HC} className={`form-select form-select-sm ${isWallsOpen ? 'active' : ''} ${disabled}`} value={ roomData.wallThickness } onChange={ event => handleChange('wall_thickness', event.target.value) } onClick={() => handleSelectToggle('Walls')} onBlur={() => setIsWallsOpen(false)}>
+                        <option value="0">{ LocalizeText('navigator.roomsettings.wall_thickness.normal') }</option>
+                        <option value="1">{ LocalizeText('navigator.roomsettings.wall_thickness.thick') }</option>
+                        <option value="-1">{ LocalizeText('navigator.roomsettings.wall_thickness.thin') }</option>
+                        <option value="-2">{ LocalizeText('navigator.roomsettings.wall_thickness.thinnest') }</option>
+                    </select>
+                    <select disabled={!HC} className={`form-select form-select-sm ${isWallsOpen ? 'active' : ''} ${disabled}`} value={ roomData.floorThickness } onChange={ event => handleChange('floor_thickness', event.target.value) } onClick={() => handleSelectToggle('Floor')} onBlur={() => setIsFloorOpen(false)}>
+                        <option value="0">{ LocalizeText('navigator.roomsettings.floor_thickness.normal') }</option>
+                        <option value="1">{ LocalizeText('navigator.roomsettings.floor_thickness.thick') }</option>
+                        <option value="-1">{ LocalizeText('navigator.roomsettings.floor_thickness.thin') }</option>
+                        <option value="-2">{ LocalizeText('navigator.roomsettings.floor_thickness.thinnest') }</option>
+                    </select>
+                </Column>
+            </Column>
+                <Column gap={ 1 }>
+                    <Text small bold>{ LocalizeText('navigator.roomsettings.chat_settings') }</Text>
+                    <Text small>{ LocalizeText('navigator.roomsettings.chat_settings.info') }</Text>
+                    <Column gap={ 2 }>
                     <select className={`form-select form-select-sm ${isChat1Open ? 'active' : ''}`} value={ roomData.chatSettings.mode } onChange={ event => handleChange('bubble_mode', event.target.value) } onClick={() => handleSelectToggle('Chat1')} onBlur={() => setIsChat1Open(false)}>
                         <option value={ RoomChatSettings.CHAT_MODE_FREE_FLOW }>{ LocalizeText('navigator.roomsettings.chat.mode.free.flow') }</option>
                         <option value={ RoomChatSettings.CHAT_MODE_LINE_BY_LINE }>{ LocalizeText('navigator.roomsettings.chat.mode.line.by.line') }</option>
@@ -78,29 +101,12 @@ export const NavigatorRoomSettingsVipChatTabView: FC<NavigatorRoomSettingsTabVie
                         <option value={ RoomChatSettings.FLOOD_FILTER_NORMAL }>{ LocalizeText('navigator.roomsettings.chat.flood.normal') }</option>
                         <option value={ RoomChatSettings.FLOOD_FILTER_STRICT }>{ LocalizeText('navigator.roomsettings.chat.flood.strict') }</option>
                     </select>
-                    <Text>{ LocalizeText('navigator.roomsettings.chat_settings.hearing.distance') }</Text>
-                    <input type="number" min="0" className="form-control form-control-sm" value={ chatDistance } onChange={ event => setChatDistance(event.target.valueAsNumber) } onBlur={ event => handleChange('chat_distance', chatDistance) } />
-                </Column>
-                <Column size={ 6 } gap={ 1 }>
-                    <Text bold>{ LocalizeText('navigator.roomsettings.vip_settings') }</Text>
                     <Flex alignItems="center" gap={ 1 }>
-                        <input className="flash-form-check-input" type="checkbox" checked={ roomData.hideWalls } onChange={ event => handleChange('hide_walls', event.target.checked) } />
-                        <Text>{ LocalizeText('navigator.roomsettings.hide_walls') }</Text>
+                        <input type="number" min="0" max="99" className="form-control form-control6 form-control-sm hearing-distance-size" value={ chatDistance } onChange={ event => setChatDistance(event.target.valueAsNumber) } onBlur={ event => handleChange('chat_distance', chatDistance) } />
+                        <Text small>{ LocalizeText('navigator.roomsettings.chat_settings.hearing.distance') }</Text>
                     </Flex>
-                    <select className={`form-select form-select-sm ${isWallsOpen ? 'active' : ''}`} value={ roomData.wallThickness } onChange={ event => handleChange('wall_thickness', event.target.value) } onClick={() => handleSelectToggle('Walls')} onBlur={() => setIsWallsOpen(false)}>
-                        <option value="0">{ LocalizeText('navigator.roomsettings.wall_thickness.normal') }</option>
-                        <option value="1">{ LocalizeText('navigator.roomsettings.wall_thickness.thick') }</option>
-                        <option value="-1">{ LocalizeText('navigator.roomsettings.wall_thickness.thin') }</option>
-                        <option value="-2">{ LocalizeText('navigator.roomsettings.wall_thickness.thinnest') }</option>
-                    </select>
-                    <select className={`form-select form-select-sm ${isFloorOpen ? 'active' : ''}`} value={ roomData.floorThickness } onChange={ event => handleChange('floor_thickness', event.target.value) } onClick={() => handleSelectToggle('Floor')} onBlur={() => setIsFloorOpen(false)}>
-                        <option value="0">{ LocalizeText('navigator.roomsettings.floor_thickness.normal') }</option>
-                        <option value="1">{ LocalizeText('navigator.roomsettings.floor_thickness.thick') }</option>
-                        <option value="-1">{ LocalizeText('navigator.roomsettings.floor_thickness.thin') }</option>
-                        <option value="-2">{ LocalizeText('navigator.roomsettings.floor_thickness.thinnest') }</option>
-                    </select>
+                    </Column>
                 </Column>
-            </Grid>
         </>
     );
 }

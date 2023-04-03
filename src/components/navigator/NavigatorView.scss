@@ -55,6 +55,7 @@
 
 .nitro-room-settings {
     width: 362px;
+    min-width: 362px;
 
     .list-container {
         height: 100px;
@@ -290,7 +291,7 @@ white-space: nowrap;
     background-repeat: no-repeat;
     height: 22px!important;
     width: 23px!important;
-    left: 5px!important;
+    left: 4px!important;
     position: absolute!important;
 }
 
@@ -315,12 +316,13 @@ white-space: nowrap;
 .basis-font {
     font-size: 12.5px;
     font-family: UbuntuBold;
+    margin-left: 3px;
 }
 
 .report-button {
     min-height: 33px;
     height: 33px;
-    margin: 10px;
+    margin: 11px;
     font-size: 14.5px;
     font-family: 'UbuntuBold';
 }
@@ -330,7 +332,7 @@ white-space: nowrap;
 }
 
 .report-text {
-    margin-left: 25px;
+    margin-left: 23px;
 }
 
 .tag-size {
@@ -342,10 +344,30 @@ white-space: nowrap;
     width: 240px;
     height: 19px;
     min-height: 19px;
+    padding-right: 20px;
+}
+
+.hearing-distance-size {
+    width: 23px;
+    height: 20px;
+    min-height: 20px;
+}
+
+.muted-color {
+    filter: opacity(0.5);
+    pointer-events: none;
 }
 
 .password-bottom {
-    margin-bottom: 44px;
+    margin-bottom: 65px;
+}
+
+.password-bottom2 {
+    margin-bottom: 21px;
+}
+
+.button-gap {
+    gap: 3px!important;
 }
 
 .tag-bg {
@@ -374,6 +396,20 @@ white-space: nowrap;
 .tag-wrap {
     flex-wrap: wrap;
     gap: 1px!important;
+}
+
+.eye-position {
+    position: absolute;
+    right: 10px;
+}
+
+.input-icon-wrapper {
+  position: relative;
+}
+
+.content-padding {
+  padding-right: 16px;
+  padding-left: 16px;
 }
 
 @keyframes slideInLeft {
