@@ -48,47 +48,45 @@ export const AvatarInfoWidgetView: FC<{}> = props =>
 
     useUiEvent<RoomWidgetUpdateRentableBotChatEvent>(RoomWidgetUpdateRentableBotChatEvent.UPDATE_CHAT, event => setRentableBotChatEvent(event));
 
-    const getMenuView = () =>
-    {
-        if(!roomSession || isGameMode) return null;
+   const getMenuView = () =>
+   {
+       if(!roomSession || isGameMode) return null;
 
-        if(activeNameBubble) return <AvatarInfoWidgetNameView nameInfo={ activeNameBubble } onClose={ () => setActiveNameBubble(null) } />;
+       if(avatarInfo)
+       {
+           switch(avatarInfo.type)
+           {
+               case AvatarInfoFurni.FURNI: {
+                   const info = (avatarInfo as AvatarInfoFurni);
 
-        if(avatarInfo)
-        {
-            switch(avatarInfo.type)
-            {
-                case AvatarInfoFurni.FURNI: {
-                    const info = (avatarInfo as AvatarInfoFurni);
+                   if(!isDecorating) return null;
 
-                    if(!isDecorating) return null;
+                   return <AvatarInfoWidgetFurniView avatarInfo={ info } onClose={ () => setAvatarInfo(null) } />;
+               }
+               case AvatarInfoUser.OWN_USER:
+               case AvatarInfoUser.PEER: {
+                   const info = (avatarInfo as AvatarInfoUser);
+                   if (GetConfiguration('user.tags.enabled')) GetSessionDataManager().getUserTags(info.roomIndex);
 
-                    return <AvatarInfoWidgetFurniView avatarInfo={ info } onClose={ () => setAvatarInfo(null) } />;
-                }
-                case AvatarInfoUser.OWN_USER:
-                case AvatarInfoUser.PEER: {
-                    const info = (avatarInfo as AvatarInfoUser);
-                    if (GetConfiguration('user.tags.enabled')) GetSessionDataManager().getUserTags(info.roomIndex);
+                   if(info.isSpectatorMode) return null;
 
-                    if(info.isSpectatorMode) return null;
+                   if(info.isOwnUser)
+                   {
+                       if(RoomEnterEffect.isRunning()) return null;
 
-                    if(info.isOwnUser)
-                    {
-                        if(RoomEnterEffect.isRunning()) return null;
+                       return <AvatarInfoWidgetOwnAvatarView avatarInfo={ info } isDancing={ isDancing } setIsDecorating={ setIsDecorating } onClose={ () => setAvatarInfo(null) } />;
+                   }
 
-                        return <AvatarInfoWidgetOwnAvatarView avatarInfo={ info } isDancing={ isDancing } setIsDecorating={ setIsDecorating } onClose={ () => setAvatarInfo(null) } />;
-                    }
+                   return <AvatarInfoWidgetAvatarView avatarInfo={ info } onClose={ () => setAvatarInfo(null) } />;
+               }
+               case AvatarInfoPet.PET_INFO: {
+                   const info = (avatarInfo as AvatarInfoPet);
 
-                    return <AvatarInfoWidgetAvatarView avatarInfo={ info } onClose={ () => setAvatarInfo(null) } />;
-                }
-                case AvatarInfoPet.PET_INFO: {
-                    const info = (avatarInfo as AvatarInfoPet);
+                   if(info.isOwner) return <AvatarInfoWidgetOwnPetView avatarInfo={ info } onClose={ () => setAvatarInfo(null) } />;
 
-                    if(info.isOwner) return <AvatarInfoWidgetOwnPetView avatarInfo={ info } onClose={ () => setAvatarInfo(null) } />;
-
-                    return <AvatarInfoWidgetPetView avatarInfo={ info } onClose={ () => setAvatarInfo(null) } />;
-                }
-                case AvatarInfoRentableBot.RENTABLE_BOT: {
+                   return <AvatarInfoWidgetPetView avatarInfo={ info } onClose={ () => setAvatarInfo(null) } />;
+               }
+               case AvatarInfoRentableBot.RENTABLE_BOT: {
                     return <AvatarInfoWidgetRentableBotView avatarInfo={ (avatarInfo as AvatarInfoRentableBot) } onClose={ () => setAvatarInfo(null) } />
                 }
             }
@@ -121,6 +119,8 @@ export const AvatarInfoWidgetView: FC<{}> = props =>
         <>
             { isDecorating &&
                 <AvatarInfoWidgetDecorateView userId={ GetSessionDataManager().userId } userName={ GetSessionDataManager().userName } roomIndex={ roomSession.ownRoomIndex } setIsDecorating={ setIsDecorating } /> }
+            { activeNameBubble &&
+                <AvatarInfoWidgetNameView nameInfo={ activeNameBubble } onClose={ () => setActiveNameBubble(null) } /> }
             { getMenuView() }
             { avatarInfo &&
                 <Column alignItems="end" className="nitro-infostand-container">
@@ -135,5 +135,5 @@ export const AvatarInfoWidgetView: FC<{}> = props =>
             { confirmingProduct && <AvatarInfoUseProductConfirmView item={ confirmingProduct } onClose={ () => updateConfirmingProduct(null) } /> }
             <AvatarInfoPetTrainingPanelView />
         </>
-    )
+    );
 }

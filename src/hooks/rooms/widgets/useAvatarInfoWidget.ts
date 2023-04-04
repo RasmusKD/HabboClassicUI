@@ -166,31 +166,10 @@ const useAvatarInfoWidgetState = () =>
 
     useRoomSessionManagerEvent<RoomSessionPetStatusUpdateEvent>(RoomSessionPetStatusUpdateEvent.PET_STATUS_UPDATE, event =>
     {
-    /*     var _local_2:Boolean;
-        var _local_3:Boolean;
-        var _local_4:Boolean;
-        var _local_5:Boolean;
-        var _local_6:RoomUserData;
-        var _local_7:_Str_4828;
-        if (((!(this._container == null)) && (!(this._container.events == null))))
-        {
-            _local_2 = k.canBreed;
-            _local_3 = k.canHarvest;
-            _local_4 = k.canRevive;
-            _local_5 = k.hasBreedingPermission;
-            _local_6 = this._Str_19958(k.petId);
-            if (_local_6 == null)
-            {
-                Logger.log((("Could not find pet with the id: " + k.petId) + " given by petStatusUpdate"));
-                return;
-            }
-            _local_7 = new _Str_4828(_local_6.roomObjectId, _local_2, _local_3, _local_4, _local_5);
-            this._container.events.dispatchEvent(_local_7); */
     });
 
     useRoomEngineEvent<RoomEngineUseProductEvent>(RoomEngineUseProductEvent.USE_PRODUCT_FROM_INVENTORY, event =>
     {
-        // this._Str_23199((k as RoomEngineUseProductEvent).inventoryStripId, (k as RoomEngineUseProductEvent).furnitureTypeId);
     });
 
     useRoomEngineEvent<RoomEngineUseProductEvent>(RoomEngineUseProductEvent.USE_PRODUCT_FROM_ROOM, event =>
@@ -275,12 +254,17 @@ const useAvatarInfoWidgetState = () =>
         setProductBubbles([]);
     });
 
+
     useObjectRollOverEvent(event =>
     {
-        if(avatarInfo || (event.category !== RoomObjectCategory.UNIT)) return;
+        if(event.category !== RoomObjectCategory.UNIT) return;
+
+        if(avatarInfo instanceof AvatarInfoUser && avatarInfo.roomIndex === event.id) return;
 
         getObjectName(event.id, event.category);
     });
+
+
 
     useObjectRollOutEvent(event =>
     {
