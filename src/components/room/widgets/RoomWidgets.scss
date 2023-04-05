@@ -121,6 +121,12 @@
     cursor: pointer;
 }
 
+.owner-name-color {
+    color: #989898!important;
+    font-family: 'UbuntuBold';
+    font-size: 16px;
+}
+
 @import './avatar-info/AvatarInfoWidgetView';
 @import './chat/ChatWidgetView';
 @import './chat-input/ChatInputView';
