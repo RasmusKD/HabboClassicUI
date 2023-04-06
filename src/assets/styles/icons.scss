@@ -411,50 +411,141 @@
     &.icon-cog {
         background: url('@/assets/images/icons/cog.png');
         background-repeat: no-repeat;
-        min-width: 21px;
-        height: 21px;
+        background-position: center;
+        min-width: 43px;
+        height: 22px;
+        filter: drop-shadow(0px 1px 0 rgba(0,0,0,.3));
+
+        &.hover,
+        &:hover {
+        filter: brightness(125%) drop-shadow(0px 1px 0 rgba(0,0,0,.3));
+        }
+
+        &.active,
+        &:active {
+        filter: brightness(75%) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
+        transform: translateY(-1px);
+        }
     }
 
     &.icon-chat-history {
         background: url('@/assets/images/icons/chat-history.png');
         background-repeat: no-repeat;
-        min-width: 17px;
-        height: 21px;
+        background-position: center;
+        min-width: 43px;
+        height: 22px;
+        filter: drop-shadow(0px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
+
+         &.hover,
+         &:hover {
+         filter: brightness(125%) drop-shadow(0px 1x 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
+         }
+
+         &.active,
+         &:active {
+         filter: brightness(75%) drop-shadow(0px 1px 0px rgba(0,0,0,.6)) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
+         transform: translateY(-1px);
+         }
     }
 
     &.icon-room-link {
         background: url('@/assets/images/icons/room-link.png');
         background-repeat: no-repeat;
-        min-width: 17px;
-        height: 15px;
+        background-position: center;
+        min-width: 43px;
+        height: 22px;
+        filter: drop-shadow(1px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
+
+        &.hover,
+        &:hover {
+        filter: brightness(125%) drop-shadow(1px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
+        }
+
+        &.active,
+        &:active {
+         filter: brightness(75%) drop-shadow(1px 1px 0px rgba(0,0,0,.6)) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
+         transform: translateY(-1px);
+        }
     }
 
     &.icon-zoom-more {
         background: url('@/assets/images/icons/zoom-more.png');
         background-repeat: no-repeat;
-        min-width: 12px;
+        background-position: center;
+        min-width: 43px;
         height: 22px;
+        filter: drop-shadow(0px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
+
+        &.hover,
+        &:hover {
+        filter: brightness(125%) drop-shadow(0px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
+        }
+
+        &.active,
+        &:active {
+         filter: brightness(75%) drop-shadow(0px 1px 0px rgba(0,0,0,.6)) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
+         transform: translateY(-1px);
+        }
     }
 
     &.icon-zoom-less {
         background: url('@/assets/images/icons/zoom-less.png');
         background-repeat: no-repeat;
-        width: 12px;
+        background-position: center;
+        min-width: 43px;
         height: 22px;
+        filter: drop-shadow(0px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
+
+        &.hover,
+        &:hover {
+        filter: brightness(125%) drop-shadow(0px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
+        }
+
+        &.active,
+        &:active {
+         filter: brightness(75%) drop-shadow(0px 1px 0px rgba(0,0,0,.6)) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
+         transform: translateY(-1px);
+        }
     }
 
     &.icon-like-room {
         background: url('@/assets/images/icons/like-room.png');
         background-repeat: no-repeat;
-        min-width: 20px;
+        background-position: center;
+        min-width: 43px;
         height: 22px;
+        filter: drop-shadow(0px 1px 0 rgba(0,0,0,.3));
+
+        &.hover,
+        &:hover {
+        filter: brightness(125%) drop-shadow(0px 1px 0 rgba(0,0,0,.3));
+        }
+
+        &.active,
+        &:active {
+         filter: brightness(75%) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
+         transform: translateY(-1px);
+        }
     }
 
     &.icon-link-room {
         background: url('@/assets/flash/room-info/link_icon.png');
         background-repeat: no-repeat;
-        min-width: 16px;
-        height: 14px;
+        background-position: center;
+        min-width: 43px;
+        height: 22px;
+        filter: drop-shadow(1px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
+
+        &.hover,
+        &:hover {
+        filter: brightness(125%) drop-shadow(1px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
+        }
+
+        &.active,
+        &:active {
+         filter: brightness(75%) drop-shadow(1px 1px 0px rgba(0,0,0,.6)) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
+         transform: translateY(-1px);
+        }
     }
 
     &.icon-arrows {
