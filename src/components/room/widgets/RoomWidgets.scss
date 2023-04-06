@@ -130,6 +130,13 @@
     font-size: 16px;
 }
 
+.font-settings {
+    font-size: 11px;
+    height: 24px;
+    line-height: 2;
+    cursor: pointer;
+}
+
 @import './avatar-info/AvatarInfoWidgetView';
 @import './chat/ChatWidgetView';
 @import './chat-input/ChatInputView';

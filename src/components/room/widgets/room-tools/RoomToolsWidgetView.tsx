@@ -80,7 +80,7 @@ export const RoomToolsWidgetView: FC<{}> = props =>
     {
         setIsOpen(true);
 
-        const timeout = setTimeout(() => setIsOpen(false), 5000);
+        const timeout = setTimeout(() => setIsOpen(false), 500000);
 
         return () => clearTimeout(timeout);
     }, [ roomName, roomOwner, roomTags ]);
@@ -119,20 +119,20 @@ export const RoomToolsWidgetView: FC<{}> = props =>
                         <Base pointer title={ LocalizeText('navigator.embed.caption') } onClick={ () => handleToolClick('toggle_room_link') } className={`icon icon-link-room-settings${hoveredTool === "toggle_room_link" ? " hover" : ""}${activeTool === "toggle_room_link" ? " active" : ""}`}/>
                     </Column>
                     <Column gap={ 0 }>
-                        <Flex className="w-100 room-tool-item">
-                            <Text underline className='w-100 font-size-profile' onClick={ () => handleToolClick('settings') } onMouseEnter={() => handleHover('settings')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('settings')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('room.settings.button.text') }</Text>
+                        <Flex className="w-100">
+                            <Text underline className='w-100 font-settings' onClick={ () => handleToolClick('settings') } onMouseEnter={() => handleHover('settings')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('settings')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('room.settings.button.text') }</Text>
                         </Flex>
-                        <Flex className="w-100 room-tool-item">
-                            <Text underline className='w-100 font-size-profile' onClick={ () => handleToolClick('zoom') } onMouseEnter={() => handleHover('zoom')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('zoom')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('room.zoom.button.text') }</Text>
+                        <Flex className="w-100">
+                            <Text underline className='w-100 font-settings' onClick={ () => handleToolClick('zoom') } onMouseEnter={() => handleHover('zoom')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('zoom')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('room.zoom.button.text') }</Text>
                         </Flex>
-                        <Flex className="w-100 room-tool-item">
-                            <Text underline className='w-100 font-size-profile' onClick={ () => { handleToolClick('chat_history') } } onMouseEnter={() => handleHover('chat_history')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('chat_history')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('room.chathistory.button.text') }</Text></Flex>
+                        <Flex className="w-100">
+                            <Text underline className='w-100 font-settings' onClick={ () => { handleToolClick('chat_history') } } onMouseEnter={() => handleHover('chat_history')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('chat_history')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('room.chathistory.button.text') }</Text></Flex>
                         { navigatorData.canRate &&
-                    <Flex className="w-100 room-tool-item">
-                        <Text underline className='w-100 font-size-profile' onClick={ () => handleToolClick('like_room') } onMouseEnter={() => handleHover('like_room')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('like_room')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('room.like.button.text') }</Text>
+                    <Flex className="w-100">
+                        <Text underline className='w-100 font-settings' onClick={ () => handleToolClick('like_room') } onMouseEnter={() => handleHover('like_room')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('like_room')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('room.like.button.text') }</Text>
                     </Flex> }
-                        <Flex className="w-100 room-tool-item">
-                            <Text underline className='w-100 font-size-profile' onClick={ () => handleToolClick('toggle_room_link') } onMouseEnter={() => handleHover('toggle_room_link')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('toggle_room_link')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('navigator.embed.caption') }</Text>
+                        <Flex className="w-100">
+                            <Text underline className='w-100 font-settings' onClick={ () => handleToolClick('toggle_room_link') } onMouseEnter={() => handleHover('toggle_room_link')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('toggle_room_link')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('navigator.embed.caption') }</Text>
                         </Flex>
                     </Column>
 
