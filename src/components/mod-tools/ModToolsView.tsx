@@ -13,7 +13,7 @@ import { ModToolsUserView } from './views/user/ModToolsUserView';
 
 export const ModToolsView: FC<{}> = props =>
 {
-    const [ isVisible, setIsVisible ] = useState(true);
+    const [ isVisible, setIsVisible ] = useState(false);
     const [ currentRoomId, setCurrentRoomId ] = useState<number>(-1);
     const [ selectedUser, setSelectedUser ] = useState<ISelectedUser>(null);
     const [ isTicketsVisible, setIsTicketsVisible ] = useState(false);
