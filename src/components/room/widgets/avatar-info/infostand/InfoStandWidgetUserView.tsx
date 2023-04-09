@@ -1,7 +1,7 @@
 import { RelationshipStatusInfoEvent, RelationshipStatusInfoMessageParser, RoomSessionFavoriteGroupUpdateEvent, RoomSessionUserBadgesEvent, RoomSessionUserFigureUpdateEvent, UserRelationshipsComposer } from '@nitrots/nitro-renderer';
 import { Dispatch, FC, FocusEvent, KeyboardEvent, SetStateAction, useEffect, useState } from 'react';
 import { AvatarInfoUser, CloneObject, GetConfiguration, GetGroupInformation, GetSessionDataManager, GetUserProfile, LocalizeText, SendMessageComposer } from '../../../../../api';
-import { Base, Column, Flex, LayoutAvatarImageView, LayoutBadgeImageView, Text } from '../../../../../common';
+import { Base, Column, Flex, LayoutAvatarImageView, LayoutBadgeImageView, Text, useFilteredInput } from '../../../../../common';
 import { useMessageEvent, useRoom, useRoomSessionManagerEvent } from '../../../../../hooks';
 import { InfoStandWidgetUserRelationshipsView } from './InfoStandWidgetUserRelationshipsView';
 import { InfoStandWidgetUserTagsView } from './InfoStandWidgetUserTagsView';
@@ -20,6 +20,8 @@ export const InfoStandWidgetUserView: FC<InfoStandWidgetUserViewProps> = props =
     const [ isEditingMotto, setIsEditingMotto ] = useState(false);
     const [ relationships, setRelationships ] = useState<RelationshipStatusInfoMessageParser>(null);
     const { roomSession = null } = useRoom();
+
+    const handleInputChange = useFilteredInput(motto, setMotto);
 
     const saveMotto = (motto: string) =>
     {
@@ -182,7 +184,7 @@ export const InfoStandWidgetUserView: FC<InfoStandWidgetUserViewProps> = props =
                                     { !isEditingMotto &&
                                         <Text fullWidth pointer wrap textBreak variant="white" onClick={ event => setIsEditingMotto(true) }>{ motto }&nbsp;</Text> }
                                     { isEditingMotto &&
-                                        <input  spellCheck="false" type="text" className="motto-input" maxLength={ GetConfiguration<number>('motto.max.length', 38) } value={ motto } onChange={ event => setMotto(event.target.value) } onBlur={ onMottoBlur } onKeyDown={ onMottoKeyDown } autoFocus={ true } /> }
+                                        <input spellCheck="false" type="text" className="motto-input" maxLength={ GetConfiguration<number>('motto.max.length', 38) } value={ motto } onChange={handleInputChange} onBlur={ onMottoBlur } onKeyDown={ onMottoKeyDown } autoFocus={ true } /> }
                                 </Flex>
                             </Flex> }
                     </Flex>

@@ -2,7 +2,7 @@ import { RoomDeleteComposer, RoomSettingsSaveErrorEvent, RoomSettingsSaveErrorPa
 import { FC, useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { CreateLinkEvent, GetMaxVisitorsList, IRoomData, LocalizeText, SendMessageComposer } from '../../../../api';
-import { Base, Column, Flex, Text } from '../../../../common';
+import { Base, Column, Flex, Text, useFilteredInput } from '../../../../common';
 import { useMessageEvent, useNavigator, useNotification } from '../../../../hooks';
 
 const ROOM_NAME_MIN_LENGTH = 3;
@@ -28,6 +28,11 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
     const [ typeError, setTypeError ] = useState<string>('');
     const { showConfirm = null } = useNotification();
     const { categories = null } = useNavigator();
+
+    const roomNameInputChange = useFilteredInput(roomName, setRoomName);
+    const roomDescriptionInputChange = useFilteredInput(roomDescription, setRoomDescription);
+    const roomTag1InputChange = useFilteredInput(roomTag1, setRoomTag1);
+    const roomTag2InputChange = useFilteredInput(roomTag2, setRoomTag2);
 
     useMessageEvent<RoomSettingsSaveErrorEvent>(RoomSettingsSaveErrorEvent, event =>
     {
@@ -122,7 +127,7 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
             <Column gap={ 1 }>
                 <Text className='basis-font'>{ LocalizeText('navigator.roomname') }</Text>
                 <Column fullWidth gap={ 0 }>
-                    <input spellCheck="false" className="form-control form-control-sm form-control5" value={ roomName } maxLength={ ROOM_NAME_MAX_LENGTH } onChange={ event => setRoomName(event.target.value) } onBlur={ saveRoomName } />
+                    <input spellCheck="false" className="form-control form-control-sm form-control5" value={ roomName } maxLength={ ROOM_NAME_MAX_LENGTH } onChange={roomNameInputChange} onBlur={ saveRoomName } />
                     { (roomName.length < ROOM_NAME_MIN_LENGTH) &&
                         <Text bold small variant="danger">
                             { LocalizeText('navigator.roomsettings.roomnameismandatory') }
@@ -131,7 +136,7 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
             </Column>
             <Column gap={ 1 }>
                 <Text className='basis-font'>{ LocalizeText('navigator.roomsettings.desc') }</Text>
-                <textarea spellCheck="false" className="form-control form-control-sm trophy-text2 form-control5" value={ roomDescription } maxLength={ DESC_MAX_LENGTH } onChange={ event => setRoomDescription(event.target.value) } onBlur={ saveRoomDescription } />
+                <textarea spellCheck="false" className="form-control form-control-sm trophy-text2 form-control5" value={ roomDescription } maxLength={ DESC_MAX_LENGTH } onChange={roomDescriptionInputChange} onBlur={ saveRoomDescription } />
             </Column>
             <Column gap={ 1 }>
                 <Text className='basis-font'>{ LocalizeText('navigator.category') }</Text>
@@ -157,7 +162,7 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
                 <Text className='basis-font'>{ LocalizeText('navigator.tags') }</Text>
                 <Flex gap={ 1 }>
                     <Column fullWidth gap={ 0 }>
-                        <input spellCheck="false" maxLength={ 22 } className="form-control form-control5 form-control-sm tag-size" value={ roomTag1 } onChange={ event => setRoomTag1(event.target.value) } onBlur={ () => saveTags(0) } />
+                        <input spellCheck="false" maxLength={ 22 } className="form-control form-control5 form-control-sm tag-size" value={ roomTag1 } onChange={roomTag1InputChange} onBlur={ () => saveTags(0) } />
                         { (roomTag1.length > TAGS_MAX_LENGTH) &&
                             <Text bold small variant="danger">
                                 { LocalizeText('navigator.roomsettings.toomanycharacters') }
@@ -168,7 +173,7 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
                             </Text> }
                     </Column>
                     <Column fullWidth gap={ 0 }>
-                        <input spellCheck="false" maxLength={ 22 } className="form-control form-control5 form-control-sm tag-size" value={ roomTag2 } onChange={ event => setRoomTag2(event.target.value) } onBlur={ () => saveTags(1) } />
+                        <input spellCheck="false" maxLength={ 22 } className="form-control form-control5 form-control-sm tag-size" value={ roomTag2 } onChange={roomTag2InputChange} onBlur={ () => saveTags(1) } />
                         { (roomTag2.length > TAGS_MAX_LENGTH) &&
                             <Text bold small variant="danger">
                                 { LocalizeText('navigator.roomsettings.toomanycharacters') }

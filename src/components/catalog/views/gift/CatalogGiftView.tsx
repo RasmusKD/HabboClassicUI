@@ -226,14 +226,14 @@ const handleAction = useCallback((action: string) =>
             <NitroCardHeaderView headerText={ LocalizeText('catalog.gift_wrapping.title') } onCloseClick={ onClose } />
             <NitroCardContentView className="text-black">
                 <FormGroup className="mb-1 gift-name-padding" column>
-                    <input  spellCheck="false" type="text" className={ classNames('form-control form-control2 form-control-sm', receiverNotFound && 'is-invalid') } value={ receiverName } onChange={ (e) => onTextChanged(e) } />
-                                                                                                                                                    { (suggestions.length > 0 && isAutocompleteVisible) &&
-                                                                                                                                                        <Column className="autocomplete-gift-container">
-                                                                                                                                                            { suggestions.map((friend: MessengerFriend) => (
-                                                                                                                                                                <Base key={ friend.id } className="autocomplete-gift-item" onClick={ (e) => selectedReceiverName(friend.name) }>{ friend.name }</Base>
-                                                                                                                                                            )) }
-                                                                                                                                                        </Column>
-                                                                                                                                                    }
+                    <input spellCheck="false" type="text" className={ classNames('form-control form-control2 form-control-sm', receiverNotFound && 'is-invalid') } value={ receiverName } onChange={ (e) => onTextChanged(e) } />
+                    { (suggestions.length > 0 && isAutocompleteVisible) &&
+                        <Column className="autocomplete-gift-container">
+                            { suggestions.map((friend: MessengerFriend) => (
+                                <Base key={ friend.id } className="autocomplete-gift-item" onClick={ (e) => selectedReceiverName(friend.name) }>{ friend.name }</Base>
+                            )) }
+                        </Column>
+                    }
                     <i className="icon icon-pen position-absolute pen-position"/>
                     { receiverNotFound &&
                         <Base className="gift-error">{ LocalizeText('catalog.gift_wrapping.receiver_not_found.title') }</Base> }

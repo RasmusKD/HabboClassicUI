@@ -2,7 +2,7 @@ import { HabboClubLevelEnum, RoomControllerLevel } from '@nitrots/nitro-renderer
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ChatMessageTypeEnum, GetClubMemberLevel, GetConfiguration, GetSessionDataManager, LocalizeText, RoomWidgetUpdateChatInputContentEvent } from '../../../../api';
-import { Base, Text } from '../../../../common';
+import { Base, Text, useFilteredInput } from '../../../../common';
 import { useChatInputWidget, useRoom, useSessionInfo, useUiEvent } from '../../../../hooks';
 import { ChatInputStyleSelectorView } from './ChatInputStyleSelectorView';
 import data from '@emoji-mart/data'
@@ -152,20 +152,18 @@ function handleEmojiSelect(emoji) {
         setChatValue(append);
     }, [ chatModeIdWhisper, chatModeIdShout, chatModeIdSpeak, maxChatLength, chatStyleId, setIsTyping, setIsIdle, sendChat ]);
 
-    const updateChatInput = useCallback((value: string) =>
-    {
-        if(!value || !value.length)
-        {
-            setIsTyping(false);
-        }
-        else
-        {
-            setIsTyping(true);
-            setIsIdle(true);
-        }
+    const handleInputChange = useFilteredInput(chatValue, setChatValue);
 
-        setChatValue(value);
-    }, [ setIsTyping, setIsIdle ]);
+    const updateChatInput = useCallback((value: string) => {
+      if (!value || !value.length) {
+        setIsTyping(false);
+      } else {
+        setIsTyping(true);
+        setIsIdle(true);
+      }
+
+      handleInputChange({ target: { value } } as ChangeEvent<HTMLInputElement>);
+    }, [setIsTyping, setIsIdle, handleInputChange]);
 
     const onKeyDownEvent = useCallback((event: KeyboardEvent) =>
     {

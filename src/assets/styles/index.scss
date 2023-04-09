@@ -40,6 +40,11 @@ input[type=number] {
   font-size: 9px;
 }
 
+.goldfish::placeholder {
+  font-family: Goldfish;
+  font-size: 9px;
+}
+
 .font-italic {
   font-family: UbuntuItalics;
 }

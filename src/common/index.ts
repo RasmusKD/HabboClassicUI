@@ -20,4 +20,5 @@ export * from './Text';
 export * from './transitions';
 export * from './types';
 export * from './Tooltip';
+export * from './useFilteredInput';
 export * from './utils';

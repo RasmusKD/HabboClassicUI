@@ -228,12 +228,8 @@
         width: 305px;
     }
 
-    .error-color{
-        background-color: #f18f9b!important;
-        outline: none;
-        border-color: #767676;
-        border-width: 1px;
-        padding: 2px 3px;
+    .error-color {
+        border-image-source: url('@/assets/flash/boxes/card/input6-error.png')!important;
     }
 }
 
@@ -410,6 +406,12 @@ white-space: nowrap;
 .content-padding {
   padding-right: 16px;
   padding-left: 16px;
+}
+
+.room-name {
+    height: 20px!important;
+    min-height: 20px!important;
+    padding: 3px;
 }
 
 @keyframes slideInLeft {

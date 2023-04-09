@@ -80,7 +80,7 @@ export const RoomToolsWidgetView: FC<{}> = props =>
     {
         setIsOpen(true);
 
-        const timeout = setTimeout(() => setIsOpen(false), 500000);
+        const timeout = setTimeout(() => setIsOpen(false), 5000);
 
         return () => clearTimeout(timeout);
     }, [ roomName, roomOwner, roomTags ]);
@@ -96,8 +96,9 @@ export const RoomToolsWidgetView: FC<{}> = props =>
                         <Column center gap={ 0 }>
                             <Column className="nitro-room-tools-info py-2 px-3" gap={ 0 }>
                                 <Column gap={ 0 }>
-                                    <Text wrap variant="white" fontSize={ 4 }>{ roomName }</Text>
-                                    <Text className='owner-name-color'>af { roomOwner }</Text>
+                                    <Text wrap variant="white overflow-hidden" fontSize={ 4 }>{ roomName }</Text>
+                                    { roomOwner &&
+                                    <Text className='owner-name-color'>af { roomOwner }</Text>}
                                 </Column>
                                 { roomTags && roomTags.length > 0 &&
                                                     <Flex className='tag-wrap'>
@@ -142,8 +143,9 @@ export const RoomToolsWidgetView: FC<{}> = props =>
                         <Column center gap={ 0 }>
                             <Column className="nitro-room-tools-info py-2 px-3" gap={ 0 }>
                                 <Column gap={ 0 }>
-                                    <Text wrap variant="white" fontSize={ 4 }>{ roomName }</Text>
-                                    <Text className='owner-name-color'>af { roomOwner }</Text>
+                                    <Text wrap variant="white overflow-hidden" fontSize={ 4 }>{ roomName }</Text>
+                                    { roomOwner &&
+                                    <Text className='owner-name-color'>af { roomOwner }</Text>}
                                 </Column>
                                 { roomTags && roomTags.length > 0 &&
                                         <Flex className='tag-wrap'>

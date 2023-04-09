@@ -106,7 +106,7 @@ export const NavigatorRoomInfoView: FC<NavigatorRoomInfoViewProps> = props =>
                         <Flex gap={ 2 } overflow="hidden">
                             <Column grow gap={ 1 } overflow="hidden">
                                 <Flex gap={ 1 }>
-                                    <Column grow gap={ 1 }>
+                                    <Column className='overflow-hidden' grow gap={ 1 }>
                                         <Flex gap={ 1 }>
                                             <Text small bold>{ navigatorData.enteredGuestRoom.roomName }</Text>
                                         </Flex>

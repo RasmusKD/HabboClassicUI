@@ -60,7 +60,7 @@
         color: #9f9f9e;
         transition: all .2s ease;
         max-width: 310px;
-        width: min-content;
+        width: max-content;
     }
 }
 
@@ -137,6 +137,9 @@
     cursor: pointer;
 }
 
+.overflow-wrap {
+    overflow-wrap: anywhere;
+}
 @import './avatar-info/AvatarInfoWidgetView';
 @import './chat/ChatWidgetView';
 @import './chat-input/ChatInputView';

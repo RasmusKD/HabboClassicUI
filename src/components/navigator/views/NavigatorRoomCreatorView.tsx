@@ -2,7 +2,7 @@
 import { CreateFlatMessageComposer, HabboClubLevelEnum } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useMemo, useState } from 'react';
 import { CreateLinkEvent, GetClubMemberLevel, GetConfiguration, IRoomModel, LocalizeText, SendMessageComposer } from '../../../api';
-import { AutoGrid, Base, Button, Column, Flex, Grid, LayoutCurrencyIcon, LayoutGridItem, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text } from '../../../common';
+import { useFilteredInput, AutoGrid, Base, Button, Column, Flex, Grid, LayoutCurrencyIcon, LayoutGridItem, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text } from '../../../common';
 import { RoomCreatorGridItem } from '../../../common/layout/RoomCreatorGridItem';
 import { useNavigator } from '../../../hooks';
 
@@ -22,6 +22,9 @@ export const NavigatorRoomCreatorView: FC<{}> = props =>
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
     const [isVisitorsCountOpen, setIsVisitorsCountOpen] = useState(false);
     const [isTradesSettingOpen, setIsTradesSettingOpen] = useState(false);
+
+    const handleNameInputChange = useFilteredInput(name, setName);
+    const handleDescriptionInputChange = useFilteredInput(description, setDescription);
 
     const handleSelectToggle = (selectName) => {
         switch (selectName) {
@@ -107,11 +110,11 @@ export const NavigatorRoomCreatorView: FC<{}> = props =>
                                 </Flex>
                             { (approvalResult > 0) &&
                             <Base className='error-image'/>}
-                                <input value={ name } spellCheck="false" type="text" className={`room-creator-form ${approvalResult > 0 ? 'error-color' : ''}`} maxLength={ 60 } onChange={ event => setName(event.target.value) } placeholder={ LocalizeText('navigator.createroom.roomnameinfo') } />
+                                <textarea value={ name } spellCheck="false" type="text" className={`goldfish form-control form-control6-2 room-name ${approvalResult > 0 ? 'error-color' : ''}`} maxLength={ 60 } onChange={handleNameInputChange} placeholder={ LocalizeText('navigator.createroom.roomnameinfo') } />
                             </Column>
                             <Column grow gap={ 1 }>
                                 <Text gfbold>{ LocalizeText('navigator.createroom.roomdescinfo') }</Text>
-                                <textarea spellCheck="false" className="flex-grow-1 room-creator-form" maxLength={ 255 } onChange={ event => setDescription(event.target.value) } placeholder={ LocalizeText('navigator.createroom.roomdescinfo') } />
+                                <textarea value={ description } spellCheck="false" type="text" className="goldfish flex-grow-1 form-control form-control6-2" maxLength={ 255 } onChange={handleDescriptionInputChange} placeholder={ LocalizeText('navigator.createroom.roomdescinfo') } />
                             </Column>
                             <Column gap={ 1 }>
                                 <Text gfbold>{ LocalizeText('navigator.category') }</Text>
