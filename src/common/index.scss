@@ -188,11 +188,12 @@
     border-image-slice:6 6 6 6 fill;
     border-image-width:6px 6px 6px 6px;
     overflow: hidden;
+    height: 97px!important;
 
     &.active {
         border-image-source: url('@/assets/flash/navigator/room-creator/room-bg-active.png') !important;
         color: #fff !important;
-
+        
         .active-arrow {
             background-image: url('@/assets/flash/navigator/room-creator/arrow.png');
             width: 18px;

@@ -1,7 +1,7 @@
 import { GetGuestRoomResultEvent, NavigatorSearchComposer, RateFlatMessageComposer } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
 import { CreateLinkEvent, GetRoomEngine, LocalizeText, SendMessageComposer } from '../../../../api';
-import { Base, classNames, Column, Flex, Text, TransitionAnimation, TransitionAnimationTypes } from '../../../../common';
+import { Base, classNames, Column, Flex, Text, Tooltip, TransitionAnimation, TransitionAnimationTypes } from '../../../../common';
 import { useMessageEvent, useNavigator, useRoom } from '../../../../hooks';
 
 export const RoomToolsWidgetView: FC<{}> = props =>
@@ -112,29 +112,29 @@ export const RoomToolsWidgetView: FC<{}> = props =>
             { show && (
                 <><Flex gap={ 0 } center className="nitro-room-tools p-2 ">
                     <Column center gap={ 0 }>
-                        <Base pointer title={ LocalizeText('room.settings.button.text') } className={`icon icon-cog-settings${hoveredTool === "settings" ? " hover" : ""}${activeTool === "settings" ? " active" : ""}`} onClick={ () => handleToolClick('settings') } />
-                        <Base pointer title={ LocalizeText('room.zoom.button.text') } onClick={ () => handleToolClick('zoom') } className={classNames('icon', !isZoomedIn && 'icon-zoom-less-settings', isZoomedIn && 'icon-zoom-more-settings', hoveredTool === 'zoom' && 'hover', activeTool === 'zoom' && 'active')} />
-                        <Base pointer title={ LocalizeText('room.chathistory.button.text') } onClick={ () => { handleToolClick('chat_history'); setShow(!show);} } className={`icon icon-chat-history-settings${hoveredTool === "chat_history" ? " hover" : ""}${activeTool === "chat_history" ? " active" : ""}`}/>
+                        <Tooltip content={ LocalizeText('room.settings.button.tooltip') }><Base pointer className={`icon icon-cog-settings${hoveredTool === "settings" ? " hover" : ""}${activeTool === "settings" ? " active" : ""}`} onClick={ () => handleToolClick('settings') } /></Tooltip>
+                        <Tooltip content={ LocalizeText('toolbar.icon.tooltip.zoom') }><Base pointer onClick={ () => handleToolClick('zoom') } className={classNames('icon', !isZoomedIn && 'icon-zoom-less-settings', isZoomedIn && 'icon-zoom-more-settings', hoveredTool === 'zoom' && 'hover', activeTool === 'zoom' && 'active')} /></Tooltip>
+                        <Tooltip content={ LocalizeText('chat.history.button.tooltip') }><Base pointer onClick={ () => { handleToolClick('chat_history'); setShow(!show);} } className={`icon icon-chat-history-settings${hoveredTool === "chat_history" ? " hover" : ""}${activeTool === "chat_history" ? " active" : ""}`}/></Tooltip>
                         { navigatorData.canRate &&
-                    <Base pointer title={ LocalizeText('room.like.button.text') } onClick={ () => handleToolClick('like_room') } className={`icon icon-like-room-settings${hoveredTool === "like_room" ? " hover" : ""}${activeTool === "like_room" ? " active" : ""}`}/> }
-                        <Base pointer title={ LocalizeText('navigator.embed.caption') } onClick={ () => handleToolClick('toggle_room_link') } className={`icon icon-link-room-settings${hoveredTool === "toggle_room_link" ? " hover" : ""}${activeTool === "toggle_room_link" ? " active" : ""}`}/>
+                        <Tooltip content={ LocalizeText('room.like.button.tooltip') }><Base pointer onClick={ () => handleToolClick('like_room') } className={`icon icon-like-room-settings${hoveredTool === "like_room" ? " hover" : ""}${activeTool === "like_room" ? " active" : ""}`}/></Tooltip> }
+                        <Tooltip content={ LocalizeText('navigator.embed.caption') }><Base pointer onClick={ () => handleToolClick('toggle_room_link') } className={`icon icon-link-room-settings${hoveredTool === "toggle_room_link" ? " hover" : ""}${activeTool === "toggle_room_link" ? " active" : ""}`}/></Tooltip>
                     </Column>
                     <Column gap={ 0 }>
-                        <Flex className="w-100">
+                        <Tooltip content={ LocalizeText('room.settings.button.tooltip') }><Flex className="w-100">
                             <Text underline className='w-100 font-settings' onClick={ () => handleToolClick('settings') } onMouseEnter={() => handleHover('settings')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('settings')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('room.settings.button.text') }</Text>
-                        </Flex>
-                        <Flex className="w-100">
+                        </Flex></Tooltip>
+                        <Tooltip content={ LocalizeText('toolbar.icon.tooltip.zoom') }><Flex className="w-100">
                             <Text underline className='w-100 font-settings' onClick={ () => handleToolClick('zoom') } onMouseEnter={() => handleHover('zoom')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('zoom')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('room.zoom.button.text') }</Text>
-                        </Flex>
-                        <Flex className="w-100">
-                            <Text underline className='w-100 font-settings' onClick={ () => { handleToolClick('chat_history') } } onMouseEnter={() => handleHover('chat_history')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('chat_history')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('room.chathistory.button.text') }</Text></Flex>
+                        </Flex></Tooltip>
+                        <Tooltip content={ LocalizeText('chat.history.button.tooltip') }><Flex className="w-100">
+                            <Text underline className='w-100 font-settings' onClick={ () => { handleToolClick('chat_history') } } onMouseEnter={() => handleHover('chat_history')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('chat_history')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('room.chathistory.button.text') }</Text></Flex></Tooltip>
                         { navigatorData.canRate &&
-                    <Flex className="w-100">
-                        <Text underline className='w-100 font-settings' onClick={ () => handleToolClick('like_room') } onMouseEnter={() => handleHover('like_room')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('like_room')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('room.like.button.text') }</Text>
-                    </Flex> }
-                        <Flex className="w-100">
+                        <Tooltip content={ LocalizeText('room.like.button.tooltip') }><Flex className="w-100">
+                            <Text underline className='w-100 font-settings' onClick={ () => handleToolClick('like_room') } onMouseEnter={() => handleHover('like_room')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('like_room')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('room.like.button.text') }</Text>
+                        </Flex></Tooltip> }
+                        <Tooltip content={ LocalizeText('navigator.embed.caption') }><Flex className="w-100">
                             <Text underline className='w-100 font-settings' onClick={ () => handleToolClick('toggle_room_link') } onMouseEnter={() => handleHover('toggle_room_link')} onMouseLeave={() => { handleHover(null); setActiveTool(null);}} onMouseDown={() => setActiveTool('toggle_room_link')} onMouseUp={() => setActiveTool(null)}>{ LocalizeText('navigator.embed.caption') }</Text>
-                        </Flex>
+                        </Flex></Tooltip>
                     </Column>
 
 

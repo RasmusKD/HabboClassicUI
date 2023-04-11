@@ -111,7 +111,8 @@ export const NavigatorRoomInfoView: FC<NavigatorRoomInfoViewProps> = props =>
                                             <Text small bold>{ navigatorData.enteredGuestRoom.roomName }</Text>
                                         </Flex>
                                         { navigatorData.enteredGuestRoom.showOwner &&
-                                            <Tooltip windowId="RoomSettings" isDraggable={true} content={ LocalizeText('infostand.profile.link.tooltip') }><Flex alignItems="center" gap={ 1 } onClick={ event => GetUserProfile(navigatorData.enteredGuestRoom.ownerId ) } >
+                                            <Tooltip windowId="RoomSettings" isDraggable={true} content={ LocalizeText('infostand.profile.link.tooltip') }>
+                                            <Flex pointer alignItems="center" gap={ 1 } onClick={ event => GetUserProfile(navigatorData.enteredGuestRoom.ownerId ) } >
                                                 <Text className='room-settings-font'>{ LocalizeText('navigator.roomownercaption') }</Text>
                                                 <Flex alignItems="center" gap={ 1 }>
                                                     <UserProfileIconView userId={ navigatorData.enteredGuestRoom.ownerId } />
@@ -152,7 +153,7 @@ export const NavigatorRoomInfoView: FC<NavigatorRoomInfoViewProps> = props =>
                                     </Flex>
                                 }
                                 <Flex gap={ 1 } className="w-100 room-tool-item" onClick={ () => processAction('toggle_room_link') }>
-                                    <Base pointer title={ LocalizeText('room.like.button.text') } className="icon-width icon icon-link-room float-start" />
+                                    <Base pointer className="icon-width icon icon-link-room float-start" />
                                     <Text underline small >{ LocalizeText('navigator.embed.caption') }</Text>
                                 </Flex>
                             </Column>

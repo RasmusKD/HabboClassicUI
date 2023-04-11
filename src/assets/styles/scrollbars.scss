@@ -283,3 +283,20 @@
    height: 17px;
 }
 }
+.something3 {
+::-webkit-scrollbar {
+    width: 17px;
+}
+
+::-webkit-scrollbar-track:vertical {
+    width: 17px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    width: 17px;
+}
+
+::-webkit-scrollbar-button:vertical:start:decrement {
+    height: 16px;
+}
+}

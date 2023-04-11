@@ -225,7 +225,8 @@
     }
 
     .room-creator-grid {
-        width: 305px;
+        width: 303px;
+        padding-right: 4px;
     }
 
     .error-color {
@@ -306,7 +307,6 @@ white-space: nowrap;
     font-size: 12.5px;
     font-family: UbuntuBold;
     color: #6a6a69;
-    cursor: pointer;
 }
 
 .basis-font {

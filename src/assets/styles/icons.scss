@@ -463,7 +463,7 @@
         background-position: center;
         min-width: 43px;
         height: 24px;
-        filter: drop-shadow(0px 1px 0 rgba(0,0,0,.3));
+        filter: brightness(85%) drop-shadow(0px 1px 0 rgba(0,0,0,.3));
 
         &.hover,
         &:hover {
@@ -475,7 +475,7 @@
 
         &.active,
         &:active {
-        filter: brightness(75%) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
+        filter: brightness(60%) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
         transform: translateY(-1px);
         }
     }
@@ -509,7 +509,7 @@
         background-position: center;
         min-width: 43px;
         height: 24px;
-        filter: drop-shadow(1px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
+        filter: brightness(85%) drop-shadow(1px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
 
         &.hover,
         &:hover {
@@ -521,7 +521,7 @@
 
         &.active,
         &:active {
-         filter: brightness(75%) drop-shadow(1px 1px 0px rgba(0,0,0,.6)) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
+         filter: brightness(60%) drop-shadow(1px 1px 0px rgba(0,0,0,.6)) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
          transform: translateY(-1px);
         }
     }
@@ -532,7 +532,7 @@
         background-position: center;
         min-width: 43px;
         height: 24px;
-        filter: drop-shadow(0px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
+        filter: brightness(85%) drop-shadow(0px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
 
         &.hover,
         &:hover {
@@ -544,7 +544,7 @@
 
         &.active,
         &:active {
-         filter: brightness(75%) drop-shadow(0px 1px 0px rgba(0,0,0,.6)) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
+         filter: brightness(60%) drop-shadow(0px 1px 0px rgba(0,0,0,.6)) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
          transform: translateY(-1px);
         }
     }
@@ -555,7 +555,7 @@
         background-position: center;
         min-width: 43px;
         height: 24px;
-        filter: drop-shadow(0px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
+        filter: brightness(85%) drop-shadow(0px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
 
         &.hover,
         &:hover {
@@ -567,7 +567,7 @@
 
         &.active,
         &:active {
-         filter: brightness(75%) drop-shadow(0px 1px 0px rgba(0,0,0,.6)) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
+         filter: brightness(60%) drop-shadow(0px 1px 0px rgba(0,0,0,.6)) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
          transform: translateY(-1px);
         }
     }
@@ -578,7 +578,7 @@
         background-position: center;
         min-width: 43px;
         height: 24px;
-        filter: drop-shadow(0px 1px 0 rgba(0,0,0,.3));
+        filter: brightness(85%) drop-shadow(0px 1px 0 rgba(0,0,0,.3));
 
         &.hover,
         &:hover {
@@ -590,7 +590,7 @@
 
         &.active,
         &:active {
-         filter: brightness(75%) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
+         filter: brightness(60%) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
          transform: translateY(-1px);
         }
     }
@@ -601,7 +601,7 @@
         background-position: center;
         min-width: 43px;
         height: 24px;
-        filter: drop-shadow(1px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
+        filter: brightness(85%) drop-shadow(1px 1px 0 rgba(0,0,0,.3)) drop-shadow(0px 1px 0px rgba(0,0,0,.3));
 
         &.hover,
         &:hover {
@@ -613,7 +613,7 @@
 
         &.active,
         &:active {
-         filter: brightness(75%) drop-shadow(1px 1px 0px rgba(0,0,0,.6)) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
+         filter: brightness(60%) drop-shadow(1px 1px 0px rgba(0,0,0,.6)) drop-shadow(0px -1px 0 rgba(0,0,0,.3));
          transform: translateY(-1px);
         }
     }
@@ -925,6 +925,18 @@
         width: 13px;
         height: 11px;
         cursor: pointer;
+    }
+
+    &.icon-tile-selected {
+        background: url('@/assets/flash/room/tile_selected.png');
+        width: 18px;
+        height: 10px;
+    }
+
+    &.icon-tile {
+        background: url('@/assets/flash/room/tile.png');
+        width: 18px;
+        height: 10px;
     }
 
     &.icon-youtube-next {

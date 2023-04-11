@@ -102,8 +102,8 @@ export const NavigatorRoomCreatorView: FC<{}> = props =>
             <NitroCardHeaderView headerText={ LocalizeText('navigator.createroom.title') } onCloseClick={ event => CreateLinkEvent('navigator/close-creator') } />
             <NitroCardContentView>
                 <Column overflow="hidden">
-                    <Grid overflow="hidden">
-                        <Column size={ 5 } gap={ 1 } overflow="auto" className="px-2 py-1">
+                    <Grid columnCount={ 13 } overflow="hidden" className="friendbars something3">
+                        <Column size={ 6 } gap={ 1 } overflow="auto" className="px-2">
                             <Column gap={ 1 }>
                                 <Flex fullWidth justifyContent="between">
                                     <Text gfbold>{ LocalizeText('navigator.createroom.roomnameinfo') }</Text>
@@ -148,25 +148,34 @@ export const NavigatorRoomCreatorView: FC<{}> = props =>
                             </Flex>
                         </Column>
                         <Column size={ 7 } gap={ 1 } overflow="auto">
-                            <AutoGrid className="room-creator-grid" columnCount={ 2 } columnMinWidth={ 100 } columnMinHeight={ 50 } overflow="unset">
+                            <Column>
+                                <Text gfbold>
+                                    {LocalizeText('navigator.createroom.chooselayoutcaption')}
+                                </Text>
+                            </Column>
+                            <Column overflow="auto">
+                            <AutoGrid gap={ 1 } className="room-creator-grid" columnCount={ 2 } columnMinWidth={ 105 } columnMinHeight={ 50 }>
                                 {
                                     roomModels.map((model, index )=>
                                     {
-                                        return (<RoomCreatorGridItem fullHeight key={ model.name } onClick={ () => selectModel(model, index) } itemActive={ (selectedModelName === model.name) } overflow="unset" gap={ 0 } className="py-3" disabled={ (GetClubMemberLevel() < model.clubLevel) }>
+                                        return (<RoomCreatorGridItem fullHeight key={ model.name } onClick={ () => selectModel(model, index) } itemActive={ (selectedModelName === model.name) } overflow="unset" gap={ 0 } disabled={ (GetClubMemberLevel() < model.clubLevel) }>
                                             <Flex fullHeight center overflow="hidden">
                                                 <img alt="" src={ getRoomModelImage(model.name) } />
                                             </Flex>
-                                            <Text position="absolute" className="bottom-1 start-1">{ model.tileSize } { LocalizeText('navigator.createroom.tilesize') }</Text>
+                                            <Flex position="absolute" className="bottom-1 start-1" gap={ 1 } style={{ backgroundColor: selectedModelName === model.name ? '#77888b' : '#cbcbcb' }}>
+                                                <Base className={ `icon  ${selectedModelName === model.name ? 'icon-tile-selected' : 'icon-tile' }`}/>
+                                                <Text>{ model.tileSize } { LocalizeText('navigator.createroom.tilesize') }</Text>
+                                            </Flex>
                                             { !hcDisabled && model.clubLevel > HabboClubLevelEnum.NO_CLUB && <LayoutCurrencyIcon position="absolute" className="top-1 end-1" type="hc" /> }
                                             { selectedModelName && <i className="active-arrow"/> }
                                         </RoomCreatorGridItem>);
                                     })
                                 }
                             </AutoGrid>
+                            </Column>
                         </Column>
                     </Grid>
                 </Column>
-
             </NitroCardContentView>
         </NitroCardView>
     );

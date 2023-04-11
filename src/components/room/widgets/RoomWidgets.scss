@@ -140,6 +140,9 @@
 .overflow-wrap {
     overflow-wrap: anywhere;
 }
+.line-height-0 {
+    line-height: 0px!important;
+}
 @import './avatar-info/AvatarInfoWidgetView';
 @import './chat/ChatWidgetView';
 @import './chat-input/ChatInputView';

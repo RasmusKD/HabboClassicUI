@@ -65,7 +65,7 @@ export function Tooltip({ content, children, isDraggable, windowId, tooltipWidth
   };
 
   return (
-    <span
+    <span className='line-height-0'
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

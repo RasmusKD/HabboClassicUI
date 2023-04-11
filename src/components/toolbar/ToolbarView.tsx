@@ -67,7 +67,7 @@ export const ToolbarView: FC<{ isInRoom: boolean }> = props =>
 
     return (
         <>
-            <TransitionAnimation type={ TransitionAnimationTypes.FADE_IN } inProp={ isMeExpanded } timeout={ 300 }>
+            <TransitionAnimation type={ TransitionAnimationTypes.FADE_IN } inProp={ isMeExpanded } timeout={ 0 }>
                 <ToolbarMeView useGuideTool={ useGuideTool } unseenAchievementCount={ getTotalUnseen } setMeExpanded={ setMeExpanded } />
             </TransitionAnimation>
             <Flex alignItems="center" id="toolbar-chat-input-container" />
