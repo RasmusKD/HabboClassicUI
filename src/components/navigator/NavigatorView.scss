@@ -58,7 +58,9 @@
     min-width: 362px;
 
     .list-container {
-        height: 100px;
+        height: 290px;
+        border-radius: .5rem!important;
+        border: 1px solid;
 
         .list-item {
             background-color: $grid-active-bg-color;
@@ -413,7 +415,10 @@ white-space: nowrap;
     min-height: 20px!important;
     padding: 3px;
 }
-
+.rights-button {
+    height: 30px;
+    min-height: 30px;
+}
 @keyframes slideInLeft {
   from {
     transform: translateX(-100%);

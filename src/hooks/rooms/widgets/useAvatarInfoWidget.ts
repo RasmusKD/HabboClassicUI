@@ -260,6 +260,7 @@ const useAvatarInfoWidgetState = () =>
         if(event.category !== RoomObjectCategory.UNIT) return;
 
         if(avatarInfo instanceof AvatarInfoUser && avatarInfo.roomIndex === event.id) return;
+        if(avatarInfo instanceof AvatarInfoRentableBot && avatarInfo.roomIndex === event.id) return;
 
         getObjectName(event.id, event.category);
     });
