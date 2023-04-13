@@ -92,7 +92,7 @@ export const NavigatorRoomSettingsRightsTabView: FC<NavigatorRoomSettingsTabView
             <Flex className="friendbars something3" gap={ 3 }>
                 <Column gap={ 1 } className="w-100">
                     <Text small>
-                        { LocalizeText('navigator.flatctrls.userswithrights', [ 'displayed', 'total' ], [ usersWithRights.size.toString(), usersWithRights.size.toString() ]) }
+                        { LocalizeText('navigator.flatctrls.userswithrights', [ 'displayed', 'total' ], [ filteredUsersWithRights.length.toString(), usersWithRights.size.toString() ]) }
                     </Text>
                     <Column gap={ 1 } overflow="hidden" className="margin-top-auto rights-container p-1">
                         <Column fullWidth overflow="auto" gap={ 0 }>

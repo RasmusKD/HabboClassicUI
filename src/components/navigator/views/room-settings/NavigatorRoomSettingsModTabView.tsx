@@ -15,7 +15,25 @@ export const NavigatorRoomSettingsModTabView: FC<NavigatorRoomSettingsTabViewPro
     const { roomData = null, handleChange = null } = props;
     const [ selectedUserId, setSelectedUserId ] = useState<number>(-1);
     const [ bannedUsers, setBannedUsers ] = useState<BannedUserData[]>([]);
+    const [isMuteOpen, setIsMuteOpen] = useState(false);
+    const [isKickOpen, setIsKickOpen] = useState(false);
+    const [isBanOpen, setIsBanOpen] = useState(false);
 
+    const handleSelectToggle = (selectName) => {
+        switch (selectName) {
+            case 'Mute':
+                setIsMuteOpen(!isMuteOpen);
+                break;
+            case 'Kick':
+                setIsKickOpen(!isKickOpen);
+                break;
+            case 'Ban':
+                setIsBanOpen(!isBanOpen);
+                break;
+            default:
+                break;
+        }
+    };
     const unBanUser = (userId: number) =>
     {
         setBannedUsers(prevValue =>
@@ -49,53 +67,48 @@ export const NavigatorRoomSettingsModTabView: FC<NavigatorRoomSettingsTabViewPro
     }, [ roomData.roomId ]);
 
     return (
-        <Grid overflow="auto">
-            <Column size={ 6 }>
-                <Text bold>{ LocalizeText('navigator.roomsettings.moderation.banned.users') } ({ bannedUsers.length })</Text>
-                <Flex overflow="hidden" className="bg-white rounded list-container p-2">
-                    <Column fullWidth overflow="auto" gap={ 1 }>
-                        { bannedUsers && (bannedUsers.length > 0) && bannedUsers.map((user, index) =>
-                        {
-                            return (
-                                <Flex key={ index } shrink alignItems="center" gap={ 1 } overflow="hidden">
-                                    <UserProfileIconView userName={ user.userName } />
-                                    <Text pointer grow onClick={ event => setSelectedUserId(user.userId) }> { user.userName }</Text>
-                                </Flex>
-                            );
-                        }) }
+        <Column>
+            <Column className="friendbars something3" gap={ 1 }>
+                <Text small bold>{ LocalizeText('navigator.roomsettings.moderation.mute.header') }</Text>
+                <select className={`form-select form-select-sm ${isMuteOpen ? 'active' : ''}`} value={ roomData.moderationSettings.allowMute } onChange={ event => handleChange('moderation_mute', parseInt(event.target.value)) } onClick={() => handleSelectToggle('Mute')} onBlur={() => setIsMuteOpen(false)}>
+                    <option value={ RoomModerationSettings.MODERATION_LEVEL_NONE }>{ LocalizeText('navigator.roomsettings.moderation.none') }</option>
+                    <option value={ RoomModerationSettings.MODERATION_LEVEL_USER_WITH_RIGHTS }>{ LocalizeText('navigator.roomsettings.moderation.rights') }</option>
+                </select>
+                <Text small bold>{ LocalizeText('navigator.roomsettings.moderation.kick.header') }</Text>
+                <select className={`form-select form-select-sm ${isKickOpen ? 'active' : ''}`} value={ roomData.moderationSettings.allowKick } onChange={ event => handleChange('moderation_kick', parseInt(event.target.value)) } onClick={() => handleSelectToggle('Kick')} onBlur={() => setIsKickOpen(false)}>
+                    <option value={ RoomModerationSettings.MODERATION_LEVEL_NONE }>{ LocalizeText('navigator.roomsettings.moderation.none') }</option>
+                    <option value={ RoomModerationSettings.MODERATION_LEVEL_USER_WITH_RIGHTS }>{ LocalizeText('navigator.roomsettings.moderation.rights') }</option>
+                    <option value={ RoomModerationSettings.MODERATION_LEVEL_ALL }>{ LocalizeText('navigator.roomsettings.moderation.all') }</option>
+                </select>
+                <Text small bold>{ LocalizeText('navigator.roomsettings.moderation.ban.header') }</Text>
+                <select className={`form-select form-select-sm ${isBanOpen ? 'active' : ''}`} value={ roomData.moderationSettings.allowBan } onChange={ event => handleChange('moderation_ban', parseInt(event.target.value)) } onClick={() => handleSelectToggle('Ban')} onBlur={() => setIsBanOpen(false)}>
+                    <option value={ RoomModerationSettings.MODERATION_LEVEL_NONE }>{ LocalizeText('navigator.roomsettings.moderation.none') }</option>
+                    <option value={ RoomModerationSettings.MODERATION_LEVEL_USER_WITH_RIGHTS }>{ LocalizeText('navigator.roomsettings.moderation.rights') }</option>
+                </select>
+            </Column>
+            <Column>
+                <Flex gap={ 2 } alignItems="center">
+                    <Column overflow="hidden" className="rights-container p-1 w-100">
+                        <Column fullWidth overflow="auto" gap={ 1 }>
+                            { bannedUsers && (bannedUsers.length > 0) && bannedUsers.map((user, index) =>
+                            {
+                                return (
+                                    <Flex key={ index } shrink className="banItem" alignItems="center" gap={ 1 } overflow="hidden">
+                                        <UserProfileIconView userName={ user.userId } />
+                                        <Text small pointer grow onClick={ event => setSelectedUserId(user.userId) }> { user.userName }</Text>
+                                    </Flex>
+                                );
+                            }) }
+                        </Column>
+                    </Column>
+                    <Column className="w-100">
+                        <Text small>{ LocalizeText('navigator.roomsettings.moderation.banned.users') } ({ bannedUsers.length })</Text>
+                        <Button disabled={ (selectedUserId <= 0) } onClick={ event => unBanUser(selectedUserId) } className="unban-button">
+                            { LocalizeText('navigator.roomsettings.moderation.unban') } { selectedUserId > 0 && bannedUsers.find(user => (user.userId === selectedUserId))?.userName }
+                        </Button>
                     </Column>
                 </Flex>
-                <Button disabled={ (selectedUserId <= 0) } onClick={ event => unBanUser(selectedUserId) }>
-                    { LocalizeText('navigator.roomsettings.moderation.unban') } { selectedUserId > 0 && bannedUsers.find(user => (user.userId === selectedUserId))?.userName }
-                </Button>
             </Column>
-            <Column size={ 6 }>
-                <Column gap={ 1 }>
-                    <Text bold>{ LocalizeText('navigator.roomsettings.moderation.mute.header') }</Text>
-                    <Flex alignItems="center" gap={ 1 }>
-                        <input className="flash-form-check-input" type="checkbox" checked={ (roomData.moderationSettings.allowMute === RoomModerationSettings.MODERATION_LEVEL_USER_WITH_RIGHTS) } onChange={ event => handleChange('moderation_mute', (event.target.checked ? RoomModerationSettings.MODERATION_LEVEL_USER_WITH_RIGHTS : RoomModerationSettings.MODERATION_LEVEL_NONE)) } />
-                        <Text>{ LocalizeText('navigator.roomsettings.moderation.rights') }</Text>
-                    </Flex>
-                </Column>
-                <Column gap={ 1 }>
-                    <Text bold>{ LocalizeText('navigator.roomsettings.moderation.kick.header') }</Text>
-                    <Flex alignItems="center" gap={ 1 }>
-                        <input className="flash-form-check-input" type="checkbox" checked={ (roomData.moderationSettings.allowKick === RoomModerationSettings.MODERATION_LEVEL_ALL) } onChange={ event => handleChange('moderation_kick', (event.target.checked ? RoomModerationSettings.MODERATION_LEVEL_ALL : RoomModerationSettings.MODERATION_LEVEL_NONE)) } />
-                        <Text>{ LocalizeText('navigator.roomsettings.moderation.all') }</Text>
-                    </Flex>
-                    <Flex alignItems="center" gap={ 1 }>
-                        <input className="flash-form-check-input" type="checkbox" checked={ (roomData.moderationSettings.allowKick >= RoomModerationSettings.MODERATION_LEVEL_USER_WITH_RIGHTS) } disabled={ (roomData.moderationSettings.allowKick === RoomModerationSettings.MODERATION_LEVEL_ALL) } onChange={ event => handleChange('moderation_kick', (event.target.checked ? RoomModerationSettings.MODERATION_LEVEL_USER_WITH_RIGHTS : RoomModerationSettings.MODERATION_LEVEL_NONE)) } />
-                        <Text>{ LocalizeText('navigator.roomsettings.moderation.rights') }</Text>
-                    </Flex>
-                </Column>
-                <Column gap={ 1 }>
-                    <Text bold>{ LocalizeText('navigator.roomsettings.moderation.ban.header') }</Text>
-                    <Flex alignItems="center" gap={ 1 }>
-                        <input className="flash-form-check-input" type="checkbox" checked={ (roomData.moderationSettings.allowBan === RoomModerationSettings.MODERATION_LEVEL_USER_WITH_RIGHTS) } onChange={ event => handleChange('moderation_ban', (event.target.checked ? RoomModerationSettings.MODERATION_LEVEL_USER_WITH_RIGHTS : RoomModerationSettings.MODERATION_LEVEL_NONE)) } />
-                        <Text>{ LocalizeText('navigator.roomsettings.moderation.rights') }</Text>
-                    </Flex>
-                </Column>
-            </Column>
-        </Grid>
+        </Column>
     );
 }
