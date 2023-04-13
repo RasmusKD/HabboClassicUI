@@ -57,10 +57,22 @@
     width: 362px;
     min-width: 362px;
 
-    .list-container {
-        height: 290px;
-        border-radius: .5rem!important;
-        border: 1px solid;
+    .filter-container {
+        border-image-slice:6 6 6 6 fill;
+        border-image-width:6px 6px 6px 6px;
+        border-image-repeat:repeat repeat;
+        border-image-source: url('@/assets/flash/boxes/card/filter_bg.png')!important;
+        background: transparent;
+        padding: 8px;
+    }
+
+    .rights-container {
+        height: 282px;
+        border-image-slice:6 6 6 6 fill;
+        border-image-width:6px 6px 6px 6px;
+        border-image-repeat:repeat repeat;
+        border-image-source: url('@/assets/flash/boxes/card/rights_bg.png')!important;
+        background: transparent;
 
         .list-item {
             background-color: $grid-active-bg-color;
@@ -68,6 +80,9 @@
     }
 }
 
+.filter-width {
+    width: 70%!important;
+}
 
 .badge-empty {
     background-image: url('@/assets/flash/navigator/badge_empty.png');
@@ -415,10 +430,50 @@ white-space: nowrap;
     min-height: 20px!important;
     padding: 3px;
 }
+
 .rights-button {
     height: 30px;
     min-height: 30px;
 }
+
+
+.nameItem {
+
+    &:nth-child(odd) {
+        background-color: #e9e9e1;
+    }
+
+    &:nth-child(even) {
+        background-color: #fff;
+    }
+
+    &:hover {
+    background-color: #b6d9ff;
+    }
+  .arrowRight, .arrowLeft {
+    opacity: 0;
+    height: 11px;
+    width: 6px;
+  }
+
+  .arrowRight {
+    margin-right: 2px;
+    background-image: url('@/assets/flash/room/arrow_move_right.png');
+    background-repeat: no-repeat;
+  }
+
+  .arrowLeft {
+    margin-right: -2px;
+    background-image: url('@/assets/flash/room/arrow_move_left.png');
+    background-repeat: no-repeat;
+  }
+
+  &:hover .arrowRight,
+  &:hover .arrowLeft {
+    opacity: 1;
+  }
+}
+
 @keyframes slideInLeft {
   from {
     transform: translateX(-100%);

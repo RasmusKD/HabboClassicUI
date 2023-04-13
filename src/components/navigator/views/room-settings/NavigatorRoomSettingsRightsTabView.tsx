@@ -1,7 +1,7 @@
 import { RoomGiveRightsComposer, FlatControllerAddedEvent, FlatControllerRemovedEvent, FlatControllersEvent, RemoveAllRightsMessageComposer, RoomTakeRightsComposer, RoomUsersWithRightsComposer } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState, useMemo } from 'react';
 import { IRoomData, LocalizeText, SendMessageComposer } from '../../../../api';
-import { Button, Column, Flex, Grid, Text, UserProfileIconView } from '../../../../common';
+import { Base, Button, Column, Flex, Grid, Text, UserProfileIconView } from '../../../../common';
 import { useFriends, useMessageEvent } from '../../../../hooks';
 
 interface NavigatorRoomSettingsTabViewProps
@@ -85,23 +85,24 @@ export const NavigatorRoomSettingsRightsTabView: FC<NavigatorRoomSettingsTabView
 
     return (
         <Column>
-            <Flex justifyContent="between" alignItems="center">
+            <Flex justifyContent="between" alignItems="center" className="filter-container">
                 <Text small bold>{ LocalizeText('navigator.flatctrls.filter') }</Text>
-                <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                <input spellCheck="false" className="form-control form-control6 filter-width" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
             </Flex>
-            <Flex gap={ 3 }>
-                <Column className="w-100">
+            <Flex className="friendbars something3" gap={ 3 }>
+                <Column gap={ 1 } className="w-100">
                     <Text small>
                         { LocalizeText('navigator.flatctrls.userswithrights', [ 'displayed', 'total' ], [ usersWithRights.size.toString(), usersWithRights.size.toString() ]) }
                     </Text>
-                    <Column overflow="hidden" className="bg-white margin-top-auto list-container p-1">
+                    <Column gap={ 1 } overflow="hidden" className="margin-top-auto rights-container p-1">
                         <Column fullWidth overflow="auto" gap={ 0 }>
                             { filteredUsersWithRights.map(([ id, name ], index) =>
                             {
                                 return (
-                                    <Flex key={ index } shrink alignItems="center" gap={ 1 } overflow="hidden">
-                                        <UserProfileIconView userName={ name } />
-                                        <Text pointer grow onClick={ event => SendMessageComposer(new RoomTakeRightsComposer(id)) }> { name }</Text>
+                                    <Flex key={ index } shrink className="nameItem" alignItems="center" gap={ 1 } overflow="hidden">
+                                        <UserProfileIconView userId={id} />
+                                        <Text small pointer grow onClick={ event => SendMessageComposer(new RoomTakeRightsComposer(id)) }> { name }</Text>
+                                        <Base className="arrowRight"/>
                                     </Flex>
                                 );
                             }) }
@@ -111,17 +112,18 @@ export const NavigatorRoomSettingsRightsTabView: FC<NavigatorRoomSettingsTabView
                         </Button>
                     </Column>
                 </Column>
-                <Column className="w-100" justifyContent="end">
+                <Column gap={ 1 } className="w-100" justifyContent="end">
                     <Text small>
                         { LocalizeText('navigator.flatctrls.friends', [ 'displayed', 'total' ], [ filteredFriendsWithoutRights.length.toString(), friends.length.toString() ]) }
                     </Text>
-                    <Flex overflow="hidden" className="bg-white margin-top-auto list-container p-1">
+                    <Flex overflow="hidden" className="margin-top-auto rights-container p-1">
                         <Column fullWidth overflow="auto" gap={0}>
                             {filteredFriendsWithoutRights.map((friend, index) => {
                                 return (
-                                    <Flex key={index} shrink alignItems="center" gap={1} overflow="hidden">
-                                        <UserProfileIconView userName={friend.name} />
-                                        <Text pointer grow onClick={() => giveRightsToFriend(friend.id)}>
+                                    <Flex key={index} shrink className="nameItem" alignItems="center" gap={1} overflow="hidden">
+                                        <Base className="arrowLeft"/>
+                                        <UserProfileIconView userId={friend.id} />
+                                        <Text small pointer grow onClick={() => giveRightsToFriend(friend.id)}>
                                             {friend.name}
                                         </Text>
                                     </Flex>

@@ -15,6 +15,11 @@
             background: url('@/assets/flash/settings/thumb.png');
             width: 12px;
             height: 15px;
+
+            &:hover,
+            .active {
+                cursor: pointer;
+            }
         }
     }
 
