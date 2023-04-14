@@ -49,7 +49,7 @@ export const NavigatorRoomSettingsAccessTabView: FC<NavigatorRoomSettingsTabView
         <>
             <Column gap={ 0 }>
                 <Text bold>{ LocalizeText('navigator.roomsettings.roomaccess.caption') }</Text>
-                <Text small>{ LocalizeText('navigator.roomsettings.roomaccess.info') }</Text>
+                <Text className="small-lineheight">{ LocalizeText('navigator.roomsettings.roomaccess.info') }</Text>
             </Column>
             <Column overflow="auto">
                 <Column gap={ 1 }>

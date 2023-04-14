@@ -91,10 +91,10 @@ export const NavigatorRoomSettingsRightsTabView: FC<NavigatorRoomSettingsTabView
             </Flex>
             <Flex className="friendbars something3" gap={ 3 }>
                 <Column gap={ 1 } className="w-100">
-                    <Text small>
+                    <Text className="small-lineheight">
                         { LocalizeText('navigator.flatctrls.userswithrights', [ 'displayed', 'total' ], [ filteredUsersWithRights.length.toString(), usersWithRights.size.toString() ]) }
                     </Text>
-                    <Column gap={ 1 } overflow="hidden" className="margin-top-auto rights-container p-1">
+                    <Column gap={ 1 } overflow="hidden" className="margin-top-auto settings-user-container rights-height p-1">
                         <Column fullWidth overflow="auto" gap={ 0 }>
                             { filteredUsersWithRights.map(([ id, name ], index) =>
                             {
@@ -113,10 +113,10 @@ export const NavigatorRoomSettingsRightsTabView: FC<NavigatorRoomSettingsTabView
                     </Column>
                 </Column>
                 <Column gap={ 1 } className="w-100" justifyContent="end">
-                    <Text small>
+                    <Text className="small-lineheight">
                         { LocalizeText('navigator.flatctrls.friends', [ 'displayed', 'total' ], [ filteredFriendsWithoutRights.length.toString(), friends.length.toString() ]) }
                     </Text>
-                    <Flex overflow="hidden" className="margin-top-auto rights-container p-1">
+                    <Flex overflow="hidden" className="margin-top-auto settings-user-container rights-height p-1">
                         <Column fullWidth overflow="auto" gap={0}>
                             {filteredFriendsWithoutRights.map((friend, index) => {
                                 return (

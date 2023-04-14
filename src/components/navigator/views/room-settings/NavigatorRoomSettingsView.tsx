@@ -186,7 +186,7 @@ export const NavigatorRoomSettingsView: FC<{}> = props =>
             <NitroCardTabsView>
                 { TABS.map(tab =>
                 {
-                    return <NitroCardTabsItemView key={ tab } isActive={ (currentTab === tab) } onClick={ event => setCurrentTab(tab) }>{ LocalizeText(tab) }</NitroCardTabsItemView>
+                    return <NitroCardTabsItemView className='tabs-padding2' key={ tab } isActive={ (currentTab === tab) } onClick={ event => setCurrentTab(tab) }>{ LocalizeText(tab) }</NitroCardTabsItemView>
                 }) }
             </NitroCardTabsView>
             <NitroCardContentView className={currentTab === TABS[2] ? '' : 'content-padding'}>

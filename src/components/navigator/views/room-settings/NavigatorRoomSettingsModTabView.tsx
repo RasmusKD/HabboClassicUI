@@ -15,6 +15,7 @@ export const NavigatorRoomSettingsModTabView: FC<NavigatorRoomSettingsTabViewPro
     const { roomData = null, handleChange = null } = props;
     const [ selectedUserId, setSelectedUserId ] = useState<number>(-1);
     const [ bannedUsers, setBannedUsers ] = useState<BannedUserData[]>([]);
+    const [activeIndex, setActiveIndex] = useState(-1);
     const [isMuteOpen, setIsMuteOpen] = useState(false);
     const [isKickOpen, setIsKickOpen] = useState(false);
     const [isBanOpen, setIsBanOpen] = useState(false);
@@ -88,14 +89,14 @@ export const NavigatorRoomSettingsModTabView: FC<NavigatorRoomSettingsTabViewPro
             </Column>
             <Column>
                 <Flex gap={ 2 } alignItems="center">
-                    <Column overflow="hidden" className="rights-container p-1 w-100">
-                        <Column fullWidth overflow="auto" gap={ 1 }>
+                    <Column overflow="hidden" className="settings-user-container bans-height p-1 w-100">
+                        <Column fullWidth overflow="auto" gap={ 0 }>
                             { bannedUsers && (bannedUsers.length > 0) && bannedUsers.map((user, index) =>
                             {
                                 return (
-                                    <Flex key={ index } shrink className="banItem" alignItems="center" gap={ 1 } overflow="hidden">
-                                        <UserProfileIconView userName={ user.userId } />
-                                        <Text small pointer grow onClick={ event => setSelectedUserId(user.userId) }> { user.userName }</Text>
+                                    <Flex key={ index } shrink className={`banItem ${activeIndex === index ? 'active' : ''}`} alignItems="center" gap={ 1 } overflow="hidden">
+                                        <UserProfileIconView userId={ user.userId } />
+                                        <Text small pointer grow onClick={() => { setSelectedUserId(user.userId); setActiveIndex(index); }}> { user.userName }</Text>
                                     </Flex>
                                 );
                             }) }
@@ -104,7 +105,7 @@ export const NavigatorRoomSettingsModTabView: FC<NavigatorRoomSettingsTabViewPro
                     <Column className="w-100">
                         <Text small>{ LocalizeText('navigator.roomsettings.moderation.banned.users') } ({ bannedUsers.length })</Text>
                         <Button disabled={ (selectedUserId <= 0) } onClick={ event => unBanUser(selectedUserId) } className="unban-button">
-                            { LocalizeText('navigator.roomsettings.moderation.unban') } { selectedUserId > 0 && bannedUsers.find(user => (user.userId === selectedUserId))?.userName }
+                             { LocalizeText('navigator.roomsettings.moderation.unban')}
                         </Button>
                     </Column>
                 </Flex>

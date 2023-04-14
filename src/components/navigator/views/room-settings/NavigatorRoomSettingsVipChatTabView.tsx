@@ -56,7 +56,7 @@ export const NavigatorRoomSettingsVipChatTabView: FC<NavigatorRoomSettingsTabVie
         <>
             <Column gap={ 0 }>
                 <Text bold>{ LocalizeText('navigator.roomsettings.vip.caption') }</Text>
-                <Text small>{ LocalizeText('navigator.roomsettings.vip.info') }</Text>
+                <Text className="small-lineheight">{ LocalizeText('navigator.roomsettings.vip.info') }</Text>
             </Column>
                 <Column gap={ 1 }>
                     <Text small bold>{ LocalizeText('navigator.roomsettings.vip_settings') }</Text>
@@ -81,7 +81,7 @@ export const NavigatorRoomSettingsVipChatTabView: FC<NavigatorRoomSettingsTabVie
             </Column>
                 <Column gap={ 1 }>
                     <Text small bold>{ LocalizeText('navigator.roomsettings.chat_settings') }</Text>
-                    <Text small>{ LocalizeText('navigator.roomsettings.chat_settings.info') }</Text>
+                    <Text className="small-lineheight">{ LocalizeText('navigator.roomsettings.chat_settings.info') }</Text>
                     <Column gap={ 2 }>
                     <select className={`form-select form-select-sm ${isChat1Open ? 'active' : ''}`} value={ roomData.chatSettings.mode } onChange={ event => handleChange('bubble_mode', event.target.value) } onClick={() => handleSelectToggle('Chat1')} onBlur={() => setIsChat1Open(false)}>
                         <option value={ RoomChatSettings.CHAT_MODE_FREE_FLOW }>{ LocalizeText('navigator.roomsettings.chat.mode.free.flow') }</option>
