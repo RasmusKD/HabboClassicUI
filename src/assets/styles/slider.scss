@@ -94,3 +94,51 @@
         }
     }
 }
+
+.custom-track-container {
+  width: 100%;
+  height: 20px;
+}
+
+.floor-slider {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 25px;
+
+    .track {
+        height: 3px;
+        border-radius: $border-radius;
+        overflow: hidden;
+    }
+
+    .thumb {
+        width: 12px;
+        height: 15px;
+        background: url('@/assets/flash/wired/slider_thumb.png');
+        background-repeat: no-repeat;
+
+        &:hover,
+        .active {
+            cursor: pointer;
+        }
+
+        &.active {
+            outline: none;
+        }
+
+        &.degree {
+
+            &:after {
+                content: "\00b0"
+            }
+        }
+
+        &.percent {
+
+            &:after {
+                content: "\0025"
+            }
+        }
+    }
+}

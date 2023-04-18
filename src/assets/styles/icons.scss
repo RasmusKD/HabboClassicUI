@@ -1070,6 +1070,73 @@
             height: 9px;
         }
 
+    &.icon-room-history-back-enabled {
+    background-image: url('@/assets/images/icons/room-history-next-enabled.png');
+    width: 34px;
+    height: 38px;
+    transform: scaleX(-1);
+    
+    &.hover,
+    &:hover {
+        background-image: url('@/assets/images/icons/room-history-next-hover.png');
+        transform: scaleX(-1);
+    }
+    &.active,
+    &:active {
+        background-image: url('@/assets/images/icons/room-history-next-active.png');
+        transform: scaleX(-1);
+    }
+}
+
+    &.icon-room-history-back-disabled {
+        background-image: url('@/assets/images/icons/room-history-next-disabled.png');
+        transform: scaleX(-1);
+        width: 34px;
+        height: 36px;
+    }
+
+    &.icon-room-history-enabled {
+        background-image: url('@/assets/images/icons/room-history-enabled.png');
+        width: 33px;
+        height: 35px;
+
+        &.hover,
+        &:hover {
+            background-image: url('@/assets/images/icons/room-history-hover.png');
+        }
+        &.active,
+        &:active {
+            background-image: url('@/assets/images/icons/room-history-active.png');
+        }
+    }
+
+    &.icon-room-history-disabled {
+        background-image: url('@/assets/images/icons/room-history-disabled.png');
+        width: 33px;
+        height: 35px;
+    }
+
+    &.icon-room-history-next-enabled {
+        background-image: url('@/assets/images/icons/room-history-next-enabled.png');
+        width: 34px;
+        height: 38px;
+
+        &.hover,
+        &:hover {
+            background-image: url('@/assets/images/icons/room-history-next-hover.png');
+        }
+        &.active,
+        &:active {
+            background-image: url('@/assets/images/icons/room-history-next-active.png');
+        }
+    }
+
+    &.icon-room-history-next-disabled {
+        background-image: url('@/assets/images/icons/room-history-next-disabled.png');
+        width: 34px;
+        height: 38px;
+    }
+
     &.spin {
         animation: rotating 1s linear infinite;
     }

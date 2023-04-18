@@ -53,6 +53,15 @@
         }
     }
 
+    .nitro-room-history {
+        background: rgba($dark, .95);
+        box-shadow: inset 0px 5px lighten(rgba($dark, .6), 2.5), inset 0 -4px darken(rgba($dark, .6), 4);
+        transition: all .2s ease;
+        width: 150px;
+        overflow: hidden;
+        z-index: 3;
+    }
+
     .nitro-room-tools-info {
         border-image-source: url('@/assets/flash/boxes/card/room_info_bg.png');
         border-image-slice: 6 6 6 6 fill;
@@ -62,6 +71,12 @@
         max-width: 310px;
         width: max-content;
     }
+}
+
+.nitro-room-tools-history {
+    position: absolute;
+    left: 0;
+    margin-left: 2px;
 }
 
 .wordquiz-question {
@@ -122,6 +137,21 @@
     height: 24px;
     cursor: pointer;
     align-items: center;
+}
+
+.margin-icons {
+    margin-top: -14px;
+}
+
+.margin-history {
+    margin-left: 13px!important;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 150px;
+}
+.margin-button-history {
+    margin-left: 4px;
+    margin-right: 4px;
 }
 
 .owner-name-color {

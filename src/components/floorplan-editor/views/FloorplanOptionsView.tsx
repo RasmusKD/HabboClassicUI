@@ -18,7 +18,31 @@ export const FloorplanOptionsView: FC<{}> = props =>
     const { visualizationSettings = null, setVisualizationSettings = null } = useFloorplanEditorContext();
     const [ floorAction, setFloorAction ] = useState(FloorAction.SET);
     const [ floorHeight, setFloorHeight ] = useState(0);
-    
+    const ColorSegments = ({ min, max, colormap }) => {
+      const segments = [];
+      const totalSteps = 27;
+
+      for (let i = 0; i <= totalSteps; i++) {
+        const percentStart = (i / totalSteps) * 100;
+        const percentEnd = (i === totalSteps) ? 100 : ((i + 1) / totalSteps) * 100;
+
+        segments.push(
+          <div
+            key={i}
+            style={{
+              backgroundColor: `#${colormap[(min + i).toString(33)]}`,
+              left: `${percentStart}%`,
+              width: `${percentEnd - percentStart}%`,
+              position: "absolute",
+              height: "100%",
+            }}
+          />
+        );
+      }
+
+      return <div style={{ position: "absolute", width: "100%", height: "100%" }}>{segments}</div>;
+    };
+
     const selectAction = (action: number) =>
     {
         setFloorAction(action);
@@ -75,7 +99,7 @@ export const FloorplanOptionsView: FC<{}> = props =>
             const newValue = { ...prevValue };
 
             newValue.thicknessWall = value;
-    
+
             return newValue;
         });
     }
@@ -157,14 +181,24 @@ export const FloorplanOptionsView: FC<{}> = props =>
             <Flex gap={ 1 }>
                 <Column size={ 6 }>
                     <Text bold>{ LocalizeText('floor.plan.editor.tile.height') }: { floorHeight }</Text>
-                    <ReactSlider
-                        className="nitro-slider"
-                        min={ MIN_FLOOR_HEIGHT }
-                        max={ MAX_FLOOR_HEIGHT }
-                        step={ 1 }
-                        value={ floorHeight }
-                        onChange={ event => onFloorHeightChange(event) }
-                        renderThumb={ ({ style, ...rest }, state) => <div style={ { backgroundColor: `#${ COLORMAP[state.valueNow.toString(33)] }`, ...style } } { ...rest }>{ state.valueNow }</div> } />
+                       <div style={{ position: "relative", width: "100%", height: 25 }}>
+                         <ColorSegments min={MIN_FLOOR_HEIGHT} max={MAX_FLOOR_HEIGHT} colormap={COLORMAP} />
+                         <ReactSlider
+                           className="floor-slider"
+                           min={MIN_FLOOR_HEIGHT}
+                           max={MAX_FLOOR_HEIGHT}
+                           step={1}
+                           value={floorHeight}
+                           onChange={(event) => onFloorHeightChange(event)}
+                           renderThumb={({ style, ...rest }, state) => (
+                             <div
+                               style={{ ...style }}
+                               {...rest}
+                             >
+                             </div>
+                           )}
+                         />
+                       </div>
                 </Column>
                 <Column size={ 6 }>
                     <Text bold>{ LocalizeText('floor.plan.editor.room.options') }</Text>
