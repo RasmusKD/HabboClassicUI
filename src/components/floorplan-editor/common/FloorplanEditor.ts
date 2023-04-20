@@ -1,8 +1,7 @@
 import { GetAssetManager, IGraphicAssetCollection, NitroPoint, NitroTilemap, PixiApplicationProxy, PixiInteractionEventProxy, POINT_STRUCT_SIZE } from '@nitrots/nitro-renderer';
 import { ActionSettings } from './ActionSettings';
-import { FloorAction, HEIGHT_SCHEME, MAX_NUM_TILE_PER_AXIS, TILE_SIZE } from './Constants';
+import { FloorAction, HEIGHT_SCHEME, MAX_NUM_TILE_PER_AXIS, TILE_SIZE, SMALL_TILE_SIZE} from './Constants';
 import { Tile } from './Tile';
-import { getScreenPositionForTile, getTileFromScreenPosition } from './Utils';
 
 export class FloorplanEditor extends PixiApplicationProxy
 {
@@ -20,13 +19,14 @@ export class FloorplanEditor extends PixiApplicationProxy
     private _tilemapRenderer: NitroTilemap;
     private _actionSettings: ActionSettings;
     private _isInitialized: boolean;
+    private _zoomedIn: boolean;
 
     private _assetCollection: IGraphicAssetCollection;
 
     constructor()
     {
         const width = TILE_SIZE * MAX_NUM_TILE_PER_AXIS + 20;
-        const height = (TILE_SIZE * MAX_NUM_TILE_PER_AXIS) / 2 + 100;
+        const height = (TILE_SIZE * MAX_NUM_TILE_PER_AXIS) / 2 + 10;
 
         super({
             width: width,
@@ -46,18 +46,61 @@ export class FloorplanEditor extends PixiApplicationProxy
         this._isHolding = false;
         this._lastUsedTile = new NitroPoint(-1, -1);
         this._actionSettings = new ActionSettings();
+        this._zoomedIn = true;
     }
+
+    public getScreenPositionForTile(x: number, y: number, zoomedIn: boolean = this._zoomedIn): [number , number]
+    {
+        const tileSize = zoomedIn ? TILE_SIZE : SMALL_TILE_SIZE;
+        let positionX = (x * tileSize / 2) - (y * tileSize / 2);
+        const positionY = (x * tileSize / 4) + (y * tileSize / 4);
+
+        const translationValue = zoomedIn ? 1600 : 800;
+        positionX = positionX + translationValue; // center the map in the canvas
+
+        return [ positionX, positionY ];
+    }
+
+    public getTileFromScreenPosition(x: number, y: number, zoomedIn: boolean = this._zoomedIn): [number, number]
+    {
+        const tileSize = zoomedIn ? TILE_SIZE : SMALL_TILE_SIZE;
+        const translationValue = zoomedIn ? 1600 : 800;
+        const translatedX = x - translationValue; // after centering translation
+
+        const realX = ((translatedX / (tileSize / 2)) + (y / (tileSize / 4))) / 2;
+        const realY = ((y / (tileSize / 4)) - (translatedX / (tileSize / 2))) / 2;
+
+        return [ realX, realY ];
+    }
+
+    public toggleZoom(): void {
+        this._zoomedIn = !this._zoomedIn;
+        this.updateAssetCollection();
+        this.updateRendererWidth();
+        this.updateRendererHeight();
+
+        if (this._tilemapRenderer) {
+            this._tilemapRenderer.destroy();
+        }
+
+        this._tilemapRenderer = new NitroTilemap(this._assetCollection.baseTexture);
+        this.registerEventListeners();
+
+        this.stage.addChild(this._tilemapRenderer);
+        this.renderTiles();
+    }
+
+
 
     public initialize(): void
     {
-        if(this._isInitialized) return;
+        if (this._isInitialized) return;
 
-        const collection = GetAssetManager().getCollection('floor_editor');
+        this.updateAssetCollection();
 
-        if(!collection) return;
+        if (!this._assetCollection) return;
 
-        this._assetCollection = collection;
-        this._tilemapRenderer = new NitroTilemap(collection.baseTexture);
+        this._tilemapRenderer = new NitroTilemap(this._assetCollection.baseTexture);
 
         this.registerEventListeners();
 
@@ -65,6 +108,32 @@ export class FloorplanEditor extends PixiApplicationProxy
 
         this._isInitialized = true;
     }
+
+    private updateRendererWidth(): void {
+        this.renderer.view.width = this._width;
+        this.renderer.view.style.width = this._width + "px";
+    }
+
+    private updateRendererHeight(): void {
+        this.renderer.view.height = this._height;
+        this.renderer.view.style.height = this._height + "px";
+    }
+
+    private updateAssetCollection(): void
+        {
+            const collectionName = this._zoomedIn ? 'floor_editor' : 'floor_editor_small';
+            this._assetCollection = GetAssetManager().getCollection(collectionName);
+
+            if (this._zoomedIn) {
+              const tileSize = TILE_SIZE;
+              this._width = tileSize * MAX_NUM_TILE_PER_AXIS + 20;
+              this._height = (tileSize * MAX_NUM_TILE_PER_AXIS) / 2 + 10;
+            } else {
+              const tileSize = SMALL_TILE_SIZE;
+              this._width = tileSize * MAX_NUM_TILE_PER_AXIS + 10;
+              this._height = (tileSize * MAX_NUM_TILE_PER_AXIS) / 2 + 5;
+            }
+        }
 
     private registerEventListeners(): void
     {
@@ -130,8 +199,9 @@ export class FloorplanEditor extends PixiApplicationProxy
             const bufIndex = j + bufSize;
             const data = buffer.slice(j, bufIndex);
 
-            const width = TILE_SIZE;
-            const height = TILE_SIZE / 2;
+            const tileSize = this._zoomedIn ? TILE_SIZE : SMALL_TILE_SIZE;
+            const height = tileSize / 2;
+            const width = tileSize;
 
             const mousePositionX = Math.floor(tempPoint.x);
             const mousePositionY = Math.floor(tempPoint.y);
@@ -150,7 +220,7 @@ export class FloorplanEditor extends PixiApplicationProxy
             {
                 if(this._isHolding)
                 {
-                    const [ realX, realY ] = getTileFromScreenPosition(tileStartX, tileStartY);
+                    const [ realX, realY ] = this.getTileFromScreenPosition(tileStartX, tileStartY);
 
                     if(isClick)
                     {
@@ -229,29 +299,34 @@ export class FloorplanEditor extends PixiApplicationProxy
     }
 
     public renderTiles(): void
-    {
-        this.tilemapRenderer.clear();
-
-        for(let y = 0; y < this._tilemap.length; y++)
         {
-            for(let x = 0; x < this.tilemap[y].length; x++)
+            this.tilemapRenderer.clear();
+
+            let doorTileRendered = false;
+
+            for (let y = 0; y < this._tilemap.length; y++)
             {
-                const tile = this.tilemap[y][x];
-                let assetName = tile.height;
+                for (let x = 0; x < this.tilemap[y].length; x++)
+                {
+                    const tile = this.tilemap[y][x];
+                    let assetName = tile.height;
 
-                if(this._doorLocation.x === x && this._doorLocation.y === y)
-                    assetName = FloorplanEditor.TILE_DOOR;
+                    if (tile.isBlocked) assetName = FloorplanEditor.TILE_BLOCKED;
 
-                if(tile.isBlocked) assetName = FloorplanEditor.TILE_BLOCKED;
+                    const textureName = `floor_editor_${this._zoomedIn ? '' : 'small_'}${assetName}`;
+                    const [positionX, positionY] = this.getScreenPositionForTile(x, y);
 
-                //if((tile.height === 'x') || tile.height === 'X') continue;
-                const [ positionX, positionY ] = getScreenPositionForTile(x, y);
+                    this._tilemapRenderer.tile(this._assetCollection.getTexture(textureName), positionX, positionY);
 
-                this._tilemapRenderer.tile(this._assetCollection.getTexture(`floor_editor_${ assetName }`), positionX, positionY);
+                    // Render the door tile after all other tiles have been rendered
+                    if (this._doorLocation.x === x && this._doorLocation.y === y && !doorTileRendered) {
+                        assetName = FloorplanEditor.TILE_DOOR;
+                        this._tilemapRenderer.tile(this._assetCollection.getTexture(`floor_editor_${this._zoomedIn ? '' : 'small_'}${assetName}`), positionX, positionY);
+                        doorTileRendered = true;
+                }
             }
         }
     }
-
     public setTilemap(map: string, blockedTiles: boolean[][]): void
     {
         this._tilemap = [];

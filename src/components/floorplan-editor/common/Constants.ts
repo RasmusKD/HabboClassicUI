@@ -1,4 +1,5 @@
 export const TILE_SIZE = 32;
+export const SMALL_TILE_SIZE = 16;
 export const MAX_NUM_TILE_PER_AXIS = 100;
 
 export const HEIGHT_SCHEME: string = 'x0123456789abcdefghijklmnopq';

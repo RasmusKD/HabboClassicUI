@@ -1,6 +1,5 @@
 import { GetOccupiedTilesMessageComposer, GetRoomEntryTileMessageComposer, NitroPoint, RoomEntryTileMessageEvent, RoomOccupiedTilesMessageEvent } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useRef, useState } from 'react';
-import { FaArrowDown, FaArrowLeft, FaArrowRight, FaArrowUp } from 'react-icons/fa';
 import { SendMessageComposer } from '../../../api';
 import { Base, Button, Column, ColumnProps, Flex, Grid } from '../../../common';
 import { useMessageEvent } from '../../../hooks';
@@ -14,6 +13,29 @@ export const FloorplanCanvasView: FC<ColumnProps> = props =>
     const [ entryTileReceived, setEntryTileReceived ] = useState(false);
     const { originalFloorplanSettings = null, setOriginalFloorplanSettings = null, setVisualizationSettings = null } = useFloorplanEditorContext();
     const elementRef = useRef<HTMLDivElement>(null);
+    const [zoomedIn, setZoomedIn] = useState(false);
+
+   const toggleZoom = () => {
+     const zoomFactor = zoomedIn ? 2 : 0.5;
+     const element = elementRef.current;
+     const currentScrollX = element.scrollLeft;
+     const currentScrollY = element.scrollTop;
+
+     // Store the scrollbar's relative position (0 to 1) before zooming
+     const relativeScrollX = currentScrollX / (element.scrollWidth - element.clientWidth);
+     const relativeScrollY = currentScrollY / (element.scrollHeight - element.clientHeight);
+
+     // Apply the zoom
+     FloorplanEditor.instance.toggleZoom();
+     setZoomedIn(!zoomedIn);
+
+     // Calculate new scroll positions based on the relative scrollbar positions
+     const newScrollX = relativeScrollX * (element.scrollWidth - element.clientWidth);
+     const newScrollY = relativeScrollY * (element.scrollHeight - element.clientHeight);
+
+     // Scroll to the new positions
+     element.scrollTo(newScrollX, newScrollY);
+   };
 
     useMessageEvent<RoomOccupiedTilesMessageEvent>(RoomOccupiedTilesMessageEvent, event =>
     {
@@ -31,7 +53,7 @@ export const FloorplanCanvasView: FC<ColumnProps> = props =>
         });
 
         setOccupiedTilesReceived(true);
-        
+
         elementRef.current.scrollTo((FloorplanEditor.instance.view.width / 3), 0);
     });
 
@@ -62,29 +84,6 @@ export const FloorplanCanvasView: FC<ColumnProps> = props =>
 
         setEntryTileReceived(true);
     });
-
-    const onClickArrowButton = (scrollDirection: string) =>
-    {
-        const element = elementRef.current;
-
-        if(!element) return;
-
-        switch(scrollDirection)
-        {
-            case 'up':
-                element.scrollBy({ top: -10 });
-                break;
-            case 'down':
-                element.scrollBy({ top: 10 });
-                break;
-            case 'left':
-                element.scrollBy({ left: -10 });
-                break;
-            case 'right':
-                element.scrollBy({ left: 10 });
-                break;
-        }
-    }
 
     useEffect(() =>
     {
@@ -123,34 +122,20 @@ export const FloorplanCanvasView: FC<ColumnProps> = props =>
         elementRef.current.appendChild(FloorplanEditor.instance.renderer.view);
     }, []);
 
+    useEffect(() =>
+    {
+        FloorplanEditor.instance.tilemapRenderer.interactive = true;
+    }, [zoomedIn]);
+
     return (
-        <Column gap={ gap } { ...rest }>
-            <Grid overflow="hidden" gap={ 1 }>
-                <Column center size={ 1 }>
-                    <Button className="d-md-none" onClick={ event => onClickArrowButton('left') }>
-                        <FaArrowLeft className="fa-icon" />
-                    </Button>
-                </Column>
-                <Column overflow="hidden" size={ 10 } gap={ 1 }>
-                    <Flex justifyContent="center" className="d-md-none">
-                        <Button shrink onClick={ event => onClickArrowButton('up') }>
-                            <FaArrowUp className="fa-icon" />
-                        </Button>
-                    </Flex>
-                    <Base overflow="auto" innerRef={ elementRef } />
-                    <Flex justifyContent="center" className="d-md-none">
-                        <Button shrink onClick={ event => onClickArrowButton('down') }>
-                            <FaArrowDown className="fa-icon" />
-                        </Button>
-                    </Flex>
-                </Column>
-                <Column center size={ 1 }>
-                    <Button className="d-md-none" onClick={ event => onClickArrowButton('right') }>
-                        <FaArrowRight className="fa-icon" />
-                    </Button>
-                </Column>
-            </Grid>
-            { children }
-        </Column>
-    );
-}
+        <Column gap={gap} {...rest}>
+              <Column overflow="hidden">
+                <Base overflow="auto" innerRef={elementRef} />
+              </Column>
+              {children}
+              <Flex>
+                <Button onClick={toggleZoom}>{zoomedIn ? 'Zoom In' : 'Zoom Out'}</Button>
+              </Flex>
+            </Column>
+      );
+    };
