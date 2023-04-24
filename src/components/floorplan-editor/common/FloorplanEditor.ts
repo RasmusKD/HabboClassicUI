@@ -20,13 +20,16 @@ export class FloorplanEditor extends PixiApplicationProxy
     private _actionSettings: ActionSettings;
     private _isInitialized: boolean;
     private _zoomedIn: boolean;
+    private _startPoint: NitroPoint;
+    private _currentPoint: NitroPoint;
+    private _isShiftPressed: boolean;
 
     private _assetCollection: IGraphicAssetCollection;
 
     constructor()
     {
-        const width = TILE_SIZE * MAX_NUM_TILE_PER_AXIS + 20;
-        const height = (TILE_SIZE * MAX_NUM_TILE_PER_AXIS) / 2 + 10;
+        const width = SMALL_TILE_SIZE * MAX_NUM_TILE_PER_AXIS + 10;
+        const height = (SMALL_TILE_SIZE * MAX_NUM_TILE_PER_AXIS) / 2 + 5;
 
         super({
             width: width,
@@ -46,8 +49,32 @@ export class FloorplanEditor extends PixiApplicationProxy
         this._isHolding = false;
         this._lastUsedTile = new NitroPoint(-1, -1);
         this._actionSettings = new ActionSettings();
-        this._zoomedIn = true;
+        this._zoomedIn = false;
+        this._startPoint = new NitroPoint(-1, -1);
+        this._currentPoint = new NitroPoint(-1, -1);
+        this._isShiftPressed = false;
+        this.registerShiftEventListeners();
+
     }
+
+    private registerShiftEventListeners(): void
+        {
+            window.addEventListener('keydown', (event) =>
+            {
+                if (event.key === 'Shift')
+                {
+                    this._isShiftPressed = true;
+                }
+            });
+
+            window.addEventListener('keyup', (event) =>
+            {
+                if (event.key === 'Shift')
+                {
+                    this._isShiftPressed = false;
+                }
+            });
+        }
 
     public getScreenPositionForTile(x: number, y: number, zoomedIn: boolean = this._zoomedIn): [number , number]
     {
@@ -79,6 +106,9 @@ export class FloorplanEditor extends PixiApplicationProxy
         this.updateRendererWidth();
         this.updateRendererHeight();
 
+        // Update the renderer's size
+        this.renderer.resize(this._width, this._height);
+
         if (this._tilemapRenderer) {
             this._tilemapRenderer.destroy();
         }
@@ -89,7 +119,6 @@ export class FloorplanEditor extends PixiApplicationProxy
         this.stage.addChild(this._tilemapRenderer);
         this.renderTiles();
     }
-
 
 
     public initialize(): void
@@ -147,9 +176,22 @@ export class FloorplanEditor extends PixiApplicationProxy
             return this.tileHitDetection(tempPoint, false);
         };
 
-        this._tilemapRenderer.on('pointerup', () =>
-        {
+        this._tilemapRenderer.on('pointerup', () => {
+            if (this._isShiftPressed && this._isHolding) {
+                const startX = Math.min(Math.abs(this._startPoint.x), Math.abs(this._currentPoint.x));
+                const endX = Math.max(Math.abs(this._startPoint.x), Math.abs(this._currentPoint.x));
+                const startY = Math.min(Math.abs(this._startPoint.y), Math.abs(this._currentPoint.y));
+                const endY = Math.max(Math.abs(this._startPoint.y), Math.abs(this._currentPoint.y));
+
+                for (let y = startY; y <= endY; y++) {
+                    for (let x = startX; x <= endX; x++) {
+                        this.processTile(x, y);
+                    }
+                }
+            }
+
             this._isHolding = false;
+            this._startPoint.set(-1, -1);
         });
 
         this._tilemapRenderer.on('pointerout', () =>
@@ -224,14 +266,14 @@ export class FloorplanEditor extends PixiApplicationProxy
 
                     if(isClick)
                     {
-                        this.onClick(realX, realY);
+                        this.onClick(realX, realY, this._isShiftPressed);
                     }
 
                     else if(this._lastUsedTile.x !== realX || this._lastUsedTile.y !== realY)
                     {
                         this._lastUsedTile.x = realX;
                         this._lastUsedTile.y = realY;
-                        this.onClick(realX, realY);
+                        this.onClick(realX, realY, this._isShiftPressed);
                     }
 
                 }
@@ -242,61 +284,137 @@ export class FloorplanEditor extends PixiApplicationProxy
         return false;
     }
 
-    private onClick(x: number, y: number): void
-    {
-        const tile = this._tilemap[y][x];
-        const heightIndex = HEIGHT_SCHEME.indexOf(tile.height);
-
-        let futureHeightIndex = 0;
-
-        switch(this._actionSettings.currentAction)
+    private onClick(x: number, y: number, isShiftPressed: boolean = false): void
         {
-            case FloorAction.DOOR:
+            if (isShiftPressed)
+            {
+                this.onClickWithShift(x, y);
+            }
+            else
+            {
+                this.onClickWithoutShift(x, y);
+            }
+        }
 
-                if(tile.height !== 'x')
-                {
-                    this._doorLocation.x = x;
-                    this._doorLocation.y = y;
-                    this.renderTiles();
+        private onClickWithoutShift(x: number, y: number): void
+        {
+            this.processTile(x, y);
+        }
+
+        private onClickWithShift(x: number, y: number): void {
+            this._currentPoint.set(x, y);
+
+            if (this._startPoint.x === -1 && this._startPoint.y === -1) {
+                this._startPoint.set(x, y);
+            }
+
+            const startX = Math.min(Math.abs(this._startPoint.x), Math.abs(this._currentPoint.x));
+            const endX = Math.max(Math.abs(this._startPoint.x), Math.abs(this._currentPoint.x));
+            const startY = Math.min(Math.abs(this._startPoint.y), Math.abs(this._currentPoint.y));
+            const endY = Math.max(Math.abs(this._startPoint.y), Math.abs(this._currentPoint.y));
+
+            this.renderTemporarySquare(startX, startY, endX, endY);
+        }
+
+
+        private renderTemporarySquare(startX: number, startY: number, endX: number, endY: number): void {
+            this.renderTiles();
+
+            for (let y = startY; y <= endY; y++) {
+                for (let x = startX; x <= endX; x++) {
+                    const [positionX, positionY] = this.getScreenPositionForTile(x, y);
+                    let textureName;
+                    const tile = this._tilemap[y][x];
+                    const heightIndex = HEIGHT_SCHEME.indexOf(tile.height);
+
+                    let futureHeightIndex = 0;
+
+                    switch (this._actionSettings.currentAction) {
+                        case FloorAction.UP:
+                            if (tile.height === 'x') break;
+                            futureHeightIndex = heightIndex + 1;
+                            break;
+                        case FloorAction.DOWN:
+                            if (tile.height === 'x' || (heightIndex <= 1)) break;
+                            futureHeightIndex = heightIndex - 1;
+                            break;
+                        case FloorAction.SET:
+                            futureHeightIndex = HEIGHT_SCHEME.indexOf(this._actionSettings.currentHeight);
+                            break;
+                        case FloorAction.UNSET:
+                            futureHeightIndex = 0;
+                            break;
+                        default:
+                            futureHeightIndex = heightIndex;
+                    }
+
+                    if (futureHeightIndex === -1) futureHeightIndex = 0;
+
+                    if (futureHeightIndex === 0 && this._actionSettings.currentAction === FloorAction.DOWN) {
+                        futureHeightIndex = heightIndex;
+                    }
+
+                    const newHeight = HEIGHT_SCHEME[futureHeightIndex];
+                    textureName = `floor_editor_${this._zoomedIn ? '' : 'small_'}${newHeight}`;
+
+                    this._tilemapRenderer.tile(this._assetCollection.getTexture(textureName), positionX, positionY);
                 }
-                return;
-            case FloorAction.UP:
-                if(tile.height === 'x') return;
-                futureHeightIndex = heightIndex + 1;
-                break;
-            case FloorAction.DOWN:
-                if(tile.height === 'x' || (heightIndex <= 1)) return;
-                futureHeightIndex = heightIndex - 1;
-                break;
-            case FloorAction.SET:
-                futureHeightIndex = HEIGHT_SCHEME.indexOf(this._actionSettings.currentHeight);
-                break;
-            case FloorAction.UNSET:
-                futureHeightIndex = 0;
-                break;
+            }
         }
 
-        if(futureHeightIndex === -1) return;
-
-        if(heightIndex === futureHeightIndex) return;
-
-        if(futureHeightIndex > 0)
+        private processTile(x: number, y: number): void
         {
-            if((x + 1) > this._width) this._width = x + 1;
+            const tile = this._tilemap[y][x];
+            const heightIndex = HEIGHT_SCHEME.indexOf(tile.height);
 
-            if((y + 1) > this._height) this._height = y + 1;
+            let futureHeightIndex = 0;
+
+            switch (this._actionSettings.currentAction)
+            {
+                case FloorAction.DOOR:
+                    if (tile.height !== 'x')
+                    {
+                        this._doorLocation.x = x;
+                        this._doorLocation.y = y;
+                        this.renderTiles();
+                    }
+                    return;
+                case FloorAction.UP:
+                    if (tile.height === 'x') return;
+                    futureHeightIndex = heightIndex + 1;
+                    break;
+                case FloorAction.DOWN:
+                    if (tile.height === 'x' || (heightIndex <= 1)) return;
+                    futureHeightIndex = heightIndex - 1;
+                    break;
+                case FloorAction.SET:
+                    futureHeightIndex = HEIGHT_SCHEME.indexOf(this._actionSettings.currentHeight);
+                    break;
+                case FloorAction.UNSET:
+                    futureHeightIndex = 0;
+                    break;
+            }
+
+            if (futureHeightIndex === -1) return;
+
+            if (heightIndex === futureHeightIndex) return;
+
+            if (futureHeightIndex > 0)
+            {
+                this._width = Math.max(this._width, x + 1);
+                this._height = Math.max(this._height, y + 1);
+            }
+
+            const newHeight = HEIGHT_SCHEME[futureHeightIndex];
+
+            if (!newHeight) return;
+
+            if (tile.isBlocked) return;
+
+            this._tilemap[y][x].height = newHeight;
+
+            this.renderTiles();
         }
-
-        const newHeight = HEIGHT_SCHEME[futureHeightIndex];
-
-        if(!newHeight) return;
-
-        if(tile.isBlocked) return;
-
-        this._tilemap[y][x].height = newHeight;
-
-        this.renderTiles();
-    }
 
     public renderTiles(): void
         {
