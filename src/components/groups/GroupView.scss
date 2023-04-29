@@ -30,25 +30,6 @@
     }
 }
 
-.group-information {
-    width: 100%;
-    height: 100%;
-    display: flex;
-
-    .group-badge {
-        width: 78px!important;
-        height: 78px!important;
-
-        .badge-image {
-            background-size: contain;
-        }
-    }
-
-    .group-description {
-        height: 55px;
-    }
-}
-
 .nitro-group-tab-image2 {
     width: 122px;
     height: 68px;
@@ -89,13 +70,9 @@
         width: 78px!important;
         height: 78px!important;
 
-        .badge-image {
-            background-size: contain;
+    .badge-image {
+        background-size: contain;
         }
-    }
-
-    .group-description {
-        height: 55px;
     }
 }
 
@@ -354,6 +331,11 @@
         }
     }
 }
+
+.group-description {
+    height: 55px;
+}
+
 .group-room-height {
     height: 85px;
 }

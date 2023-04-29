@@ -74,7 +74,7 @@ export const GroupsContainerView: FC<GroupsContainerViewProps> = props =>
     return (
         <Grid overflow={ overflow } gap={ 2 } { ...rest }>
             <Column alignItems="center" size={ 2 } overflow="auto">
-                <Text className='font-size-profile'><b>{ LocalizeText('extendedprofile.groups.count') }</b> { groupsCount }</Text>
+                <Text className='font-size-11'><b>{ LocalizeText('extendedprofile.groups.count') }</b> { groupsCount }</Text>
                 <AutoGrid overflow={ null } columnCount={ 1 } columnMinHeight={ 50 } className="user-groups-container">
                     { groups.map((group, index) =>
                     {

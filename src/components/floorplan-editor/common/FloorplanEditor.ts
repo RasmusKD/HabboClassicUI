@@ -192,6 +192,8 @@ export class FloorplanEditor extends PixiApplicationProxy
 
             this._isHolding = false;
             this._startPoint.set(-1, -1);
+            this._lastUsedTile.x = -1;
+            this._lastUsedTile.y = -1;
         });
 
         this._tilemapRenderer.on('pointerout', () =>
@@ -257,19 +259,22 @@ export class FloorplanEditor extends PixiApplicationProxy
             const dx = Math.abs(mousePositionX - centreX);
             const dy = Math.abs(mousePositionY - centreY);
 
-            const solution = (dx / (width * 0.5) + dy / (height * 0.5) <= 1);//todo: improve this
+            const solution = (dx / (width * 0.6) + dy / (height * 0.6) <= 1);
             if(solution)
             {
                 if(this._isHolding)
                 {
                     const [ realX, realY ] = this.getTileFromScreenPosition(tileStartX, tileStartY);
 
+                    if (this._lastUsedTile.x === realX && this._lastUsedTile.y === realY) {
+                        return true;
+                    }
+
                     if(isClick)
                     {
                         this.onClick(realX, realY, this._isShiftPressed);
                     }
-
-                    else if(this._lastUsedTile.x !== realX || this._lastUsedTile.y !== realY)
+                    else
                     {
                         this._lastUsedTile.x = realX;
                         this._lastUsedTile.y = realY;
@@ -279,7 +284,6 @@ export class FloorplanEditor extends PixiApplicationProxy
                 }
                 return true;
             }
-
         }
         return false;
     }
@@ -445,6 +449,7 @@ export class FloorplanEditor extends PixiApplicationProxy
             }
         }
     }
+
     public setTilemap(map: string, blockedTiles: boolean[][]): void
     {
         this._tilemap = [];

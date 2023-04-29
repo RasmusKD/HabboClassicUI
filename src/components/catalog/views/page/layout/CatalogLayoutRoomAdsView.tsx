@@ -96,15 +96,15 @@ export const CatalogLayoutRoomAdsView: FC<CatalogLayoutProps> = props =>
                     </select>
                 </Column>
                 <Column gap={ 1 }>
-                    <Text className='font-size-profile'>{ LocalizeText('roomad.catalog_name') }</Text>
+                    <Text className='font-size-11'>{ LocalizeText('roomad.catalog_name') }</Text>
                     <input type="text" className="mb-1 form-control form-control3 form-control-sm" maxLength={ 64 } value={ eventName } onChange={ event => setEventName(event.target.value) } readOnly={ extended } />
                 </Column>
                 <Column className="h-itemgrid" gap={ 1 }>
-                    <Text className='font-size-profile'>{ LocalizeText('roomad.catalog_description') }</Text>
+                    <Text className='font-size-11'>{ LocalizeText('roomad.catalog_description') }</Text>
                     <textarea className="flex-grow-1 form-control form-control3 w-100" maxLength={ 64 } value={ eventDesc } onChange={ event => setEventDesc(event.target.value) } readOnly={ extended } />
                 </Column>
                 <Column gap={ 1 }>
-                    <Text className='font-size-profile'>{ LocalizeText('roomad.catalog_roomname') }</Text>
+                    <Text className='font-size-11'>{ LocalizeText('roomad.catalog_roomname') }</Text>
                     <select className={`form-select-pet ${isRoomIdOpen ? 'active mb-1' : 'mb-1'}`} value={ roomId } onChange={ event => setRoomId(parseInt(event.target.value)) } disabled={ extended } onClick={() => handleSelectToggle('roomId')} onBlur={() => setIsRoomIdOpen(false)}>
                         <option value={ -1 } disabled>{ LocalizeText('roomad.catalog_roomname') }</option>
                         { availableRooms && availableRooms.map((room, index) => <option key={ index } value={ room.roomId }>{ room.roomName }</option>) }

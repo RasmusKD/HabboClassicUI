@@ -125,7 +125,7 @@ export const GroupInformationView: FC<GroupInformationViewProps> = props =>
                             </Flex>
                             <Text bold>{ groupInformation.title }</Text>
                         </Flex>
-                        <Text className="font-size-profile">{ LocalizeText('group.created', [ 'date', 'owner' ], [ groupInformation.createdAt, groupInformation.ownerName ]) }</Text>
+                        <Text className="font-size-11">{ LocalizeText('group.created', [ 'date', 'owner' ], [ groupInformation.createdAt, groupInformation.ownerName ]) }</Text>
                     </Column>
                     <Text small textBreak overflow="auto" className="group-description">{ groupInformation.description }</Text>
                 </Column>

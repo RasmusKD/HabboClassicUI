@@ -78,6 +78,7 @@
     border-image-source: url('@/assets/flash/buttons/button_thick_hover.png');
   }
 
+  &.active,
   &:active {
     border-image-source: url('@/assets/flash/buttons/button_thick_active.png');
   }

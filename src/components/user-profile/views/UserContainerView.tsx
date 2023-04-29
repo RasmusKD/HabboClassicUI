@@ -34,23 +34,23 @@ export const UserContainerView: FC<UserContainerViewProps> = props =>
             </Column>
             <Column gap={ 0 }>
                 <Column gap={ 0 }>
-                    <Text bold className='font-size-profile'>{ userProfile.username }</Text>
-                    <Text italics textBreak className='font-size-profile'>{ userProfile.motto }&nbsp;</Text>
+                    <Text bold className='font-size-11'>{ userProfile.username }</Text>
+                    <Text italics textBreak className='font-size-11'>{ userProfile.motto }&nbsp;</Text>
                 </Column>
                 <Column gap={ 0 }>
-                    <Text className='font-size-profile'>
+                    <Text className='font-size-11'>
                         <b>Level:</b> { userProfile.level }
                     </Text>
-                    <Text className='font-size-profile'>
+                    <Text className='font-size-11'>
                         <b>Respekt:</b> { userProfile.respectReceived }
                     </Text>
-                    <Text className='font-size-profile'>
+                    <Text className='font-size-11'>
                         <b>{ LocalizeText('extendedprofile.created') }</b> { userProfile.registration }
                     </Text>
-                    <Text className='font-size-profile'>
+                    <Text className='font-size-11'>
                         <b>{ LocalizeText('extendedprofile.last.login') }</b> { FriendlyTime.format(userProfile.secondsSinceLastVisit, '.ago', 2) }
                     </Text>
-                    <Text className='font-size-profile'>
+                    <Text className='font-size-11'>
                         <b>{ LocalizeText('extendedprofile.achievementscore') }</b> { userProfile.achievementPoints }
                     </Text>
                 </Column>

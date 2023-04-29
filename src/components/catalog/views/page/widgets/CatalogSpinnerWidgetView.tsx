@@ -11,14 +11,17 @@ export const CatalogSpinnerWidgetView: FC<{}> = props =>
     const { currentOffer = null, purchaseOptions = null, setPurchaseOptions = null } = useCatalog();
     const { quantity = 1 } = purchaseOptions;
 
-    const updateQuantity = (value: number) =>
+    const updateQuantity = (event) =>
     {
-        if(isNaN(value)) value = 1;
+        let valueStr = event.target.value.replace(/^0+/, '');
+        let value = parseInt(valueStr);
+
+        if (isNaN(value) || valueStr === '') value = 1;
 
         value = Math.max(value, MIN_VALUE);
         value = Math.min(value, MAX_VALUE);
 
-        if(value === quantity) return;
+        if (value === quantity) return;
 
         const totalDiscount = CalculateDiscount(value, currentOffer?.priceInCredits, currentOffer?.priceInActivityPoints);
 
@@ -42,7 +45,7 @@ export const CatalogSpinnerWidgetView: FC<{}> = props =>
         <>
             <Text className="quantity-text" small>{ LocalizeText('catalog.bundlewidget.spinner.select.amount') }</Text>
             <Flex alignItems="center" gap={ 1 }>
-                <input type="number" className="form-control form-control-sm quantity-input quantity-input-left" value={ quantity } onChange={ event => updateQuantity(event.target.valueAsNumber) } />
+                <input type="number" className="form-control form-control-sm quantity-input quantity-input-left" value={ quantity } onChange={ event => updateQuantity(event.target.valueAsNumber) } onInput={(event) => { event.target.value = event.target.value.replace(/^0+/, ''); }} />
                 <Text className="price-text" small>{ LocalizeText('catalog.bundlewidget.price') }</Text>
             </Flex>
         </>

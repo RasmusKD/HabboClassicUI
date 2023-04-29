@@ -56,9 +56,20 @@ export const SearchFormView: FC<SearchFormViewProps> = props =>
         <Column gap={ 1 }>
             <Flex alignItems="center" gap={ 1 }>
                 <Text className="col-3">{ LocalizeText('catalog.marketplace.sort_order') }</Text>
-                <select className={`form-select form-select-sm width-select ${isOpen ? 'active' : ''}`} value={ sortType } onChange={ event => onSortTypeChange(parseInt(event.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
-                    { sortTypes.map(type => <option key={ type } value={ type }>{ LocalizeText(`catalog.marketplace.sort.${ type }`) }</option>) }
-                </select>
+                <div className={`customSelect ${isOpen ? 'active' : ''}`} onClick={handleSelectClick} onBlur={handleSelectBlur} tabIndex={0}>
+                  <div className="selectButton">{LocalizeText(`catalog.marketplace.sort.${sortType}`)}</div>
+                  <div className="options">
+                    {sortTypes.map(type => (
+                      <div
+                        key={type}
+                        value={type}
+                        className={`option ${isOpen && type === sortType ? 'selected' : ''}`}
+                        onClick={() => onSortTypeChange(type)}>
+                        {LocalizeText(`catalog.marketplace.sort.${type}`)}
+                      </div>
+                    ))}
+                  </div>
+                </div>
             </Flex>
             { searchType === MarketplaceSearchType.ADVANCED &&
                 <>

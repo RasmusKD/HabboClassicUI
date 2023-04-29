@@ -1,7 +1,7 @@
 import { GetOccupiedTilesMessageComposer, GetRoomEntryTileMessageComposer, NitroPoint, RoomEntryTileMessageEvent, RoomOccupiedTilesMessageEvent } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useRef, useState } from 'react';
 import { SendMessageComposer } from '../../../api';
-import { Base, Button, Column, ColumnProps, Flex, Grid } from '../../../common';
+import { Base, Button, classNames, Column, ColumnProps, Flex, Grid } from '../../../common';
 import { useMessageEvent } from '../../../hooks';
 import { FloorplanEditor } from '../common/FloorplanEditor';
 import { useFloorplanEditorContext } from '../FloorplanEditorContext';
@@ -54,7 +54,8 @@ export const FloorplanCanvasView: FC<ColumnProps> = props =>
 
         setOccupiedTilesReceived(true);
 
-        elementRef.current.scrollTo((FloorplanEditor.instance.view.width / 3), 0);
+        elementRef.current.scrollTo(
+          (FloorplanEditor.instance.view.width - elementRef.current.clientWidth) / 2, 0);
     });
 
     useMessageEvent<RoomEntryTileMessageEvent>(RoomEntryTileMessageEvent, event =>
@@ -128,14 +129,15 @@ export const FloorplanCanvasView: FC<ColumnProps> = props =>
     }, [zoomedIn]);
 
     return (
-        <Column gap={gap} {...rest}>
-              <Column overflow="hidden">
+        <Column gap={gap} {...rest} position="relative">
+            <Column overflow="hidden">
                 <Base overflow="auto" innerRef={elementRef} />
-              </Column>
-              {children}
-              <Flex>
-                <Button onClick={toggleZoom}>{zoomedIn ? 'Zoom In' : 'Zoom Out'}</Button>
-              </Flex>
+                <Base className='floorplan-square' />
             </Column>
-      );
-    };
+            {children}
+            <Flex position="absolute" className="bottom-4 start-2">
+                <Base pointer onClick={toggleZoom} className={classNames('icon', zoomedIn && 'icon-zoom-less', !zoomedIn && 'icon-zoom-more')} />
+            </Flex>
+        </Column>
+    );
+};

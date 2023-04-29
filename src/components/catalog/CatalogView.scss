@@ -783,5 +783,68 @@
         }
     }
 }
+/* SearchFormView.module.css */
+.customSelect {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.customSelect.active .options {
+  display: block;
+}
+
+.selectButton {
+    height: 24px;
+    width: 100%;
+    cursor: pointer;
+    border-image-slice:4 21 4 3 fill;
+    border-image-width:4px 21px 4px 3px;
+    border-image-repeat:repeat repeat;
+    border-image-source: url('@/assets/flash/boxes/dropdown_regular.png');
+    background-color: transparent;
+    appearance: none;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 13px;
+    font-size: 9px;
+    font-family: Goldfish;
+}
+
+.options {
+    width: 100%;
+    cursor: pointer;
+    border-image-slice:4 21 4 3 fill;
+    border-image-width:4px 21px 4px 3px;
+    border-image-repeat:repeat repeat;
+    border-image-source: url('@/assets/flash/boxes/dropdown_options.png');
+    background-color: transparent;
+    appearance: none;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 6px;
+    font-size: 9px;
+    font-family: Goldfish;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    z-index: 1;
+}
+
+.option {
+    cursor: pointer;
+    user-select: none;
+    padding: 2px 7px;
+    width: calc(100% - 6px);
+}
+
+.option:hover {
+  background-color: #d9d9d9;
+}
+
+.option.selected {
+  background-color: #f2f2f2;
+}
 
 @import './views/targeted-offer/Offer.scss';

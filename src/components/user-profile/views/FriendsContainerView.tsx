@@ -16,7 +16,7 @@ export const FriendsContainerView: FC<FriendsContainerViewProps> = props =>
 
     return (
         <Column gap={ 1 }>
-            <Text className='font-size-profile'>
+            <Text className='font-size-11'>
                 <b>{ LocalizeText('extendedprofile.friends.count') }</b> { friendsCount }
             </Text>
             <Text bold small>{ LocalizeText('extendedprofile.relstatus') }</Text>

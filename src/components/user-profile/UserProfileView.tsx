@@ -104,10 +104,10 @@ export const UserProfileView: FC<{}> = props =>
                         <UserContainerView userProfile={ userProfile } />
                         { userProfile.id === GetSessionDataManager().userId &&
                           <Flex className="p-0 margin-top-auto">
-                            <Text underline className="cursor-pointer font-size-profile" onClick={ event => CreateLinkEvent('avatar-editor/toggle') }>
+                            <Text underline className="cursor-pointer font-size-11" onClick={ event => CreateLinkEvent('avatar-editor/toggle') }>
                               { LocalizeText('habboclassic.dk.clothes') }
                             </Text>
-                            <Text className="cursor-pointer badge-text font-size-profile" underline onClick={ event => CreateLinkEvent('inventory/toggle') }>
+                            <Text className="cursor-pointer badge-text font-size-11" underline onClick={ event => CreateLinkEvent('inventory/toggle') }>
                               { LocalizeText('habboclassic.dk.badges') }
                             </Text>
                           </Flex>
@@ -124,11 +124,11 @@ export const UserProfileView: FC<{}> = props =>
                 <Flex alignItems="center" className="rooms-button-container px-2 py-1">
                     <Flex alignItems="center" className="user-container pe-3" gap={ 2 } onClick={ event => CreateLinkEvent(`navigator/search/hotel_view/owner:${ userProfile.username }`) }>
                         <i className="icon icon-rooms2" />
-                        <Text bold className='font-size-profile' underline pointer>{ LocalizeText('extendedprofile.rooms') }</Text>
+                        <Text bold className='font-size-11' underline pointer>{ LocalizeText('extendedprofile.rooms') }</Text>
                     </Flex>
                     <Flex alignItems="center" className="ps-3" gap={ 2 } onClick={ event => setVisible(prevValue => !prevValue) }>
                         <i className="icon icon-groups" />
-                        <Text bold className='font-size-profile' underline pointer>{ LocalizeText('extendedprofile.groups') }</Text>
+                        <Text bold className='font-size-11' underline pointer>{ LocalizeText('extendedprofile.groups') }</Text>
                     </Flex>
                 </Flex>
                 { isVisible &&

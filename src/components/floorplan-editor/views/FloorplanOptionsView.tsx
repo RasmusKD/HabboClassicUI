@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa';
 import ReactSlider from 'react-slider';
 import { LocalizeText } from '../../../api';
-import { Column, Flex, LayoutGridItem, Text } from '../../../common';
+import { Button, Column, Flex, Text } from '../../../common';
 import { COLORMAP, FloorAction } from '../common/Constants';
 import { FloorplanEditor } from '../common/FloorplanEditor';
 import { useFloorplanEditorContext } from '../FloorplanEditorContext';
@@ -27,16 +27,7 @@ export const FloorplanOptionsView: FC<{}> = props =>
         const percentEnd = (i === totalSteps) ? 100 : ((i + 1) / totalSteps) * 100;
 
         segments.push(
-          <div
-            key={i}
-            style={{
-              backgroundColor: `#${colormap[(min + i).toString(33)]}`,
-              left: `${percentStart}%`,
-              width: `${percentEnd - percentStart}%`,
-              position: "absolute",
-              height: "100%",
-            }}
-          />
+          <div key={i} style={{ backgroundColor: `#${colormap[(min + i).toString(33)]}`, left: `${percentStart}%`, width: `${percentEnd - percentStart}%`,position: "absolute", height: "100%", }} />
         );
       }
 
@@ -145,24 +136,24 @@ export const FloorplanOptionsView: FC<{}> = props =>
                     <Text bold>{ LocalizeText('floor.plan.editor.draw.mode') }</Text>
                     <Flex gap={ 3 }>
                         <Flex gap={ 1 }>
-                            <LayoutGridItem itemActive={ (floorAction === FloorAction.SET) } onClick={ event => selectAction(FloorAction.SET) }>
+                            <Button variant="thicker" className={`floorplan-button-padding ${floorAction === FloorAction.SET ? 'active' : ''}`} itemActive={ (floorAction === FloorAction.SET) } onClick={ event => selectAction(FloorAction.SET) }>
                                 <i className="icon icon-set-tile" />
-                            </LayoutGridItem>
-                            <LayoutGridItem itemActive={ (floorAction === FloorAction.UNSET) } onClick={ event => selectAction(FloorAction.UNSET) }>
+                            </Button>
+                            <Button variant="thicker" className={`floorplan-button-padding ${floorAction === FloorAction.UNSET ? 'active' : ''}`} itemActive={ (floorAction === FloorAction.UNSET) } onClick={ event => selectAction(FloorAction.UNSET) }>
                                 <i className="icon icon-unset-tile" />
-                            </LayoutGridItem>
+                            </Button>
                         </Flex>
                         <Flex gap={ 1 }>
-                            <LayoutGridItem itemActive={ (floorAction === FloorAction.UP) } onClick={ event => selectAction(FloorAction.UP) }>
+                            <Button variant="thicker" className={`floorplan-button-padding ${floorAction === FloorAction.UP ? 'active' : ''}`} itemActive={ (floorAction === FloorAction.UP) } onClick={ event => selectAction(FloorAction.UP) }>
                                 <i className="icon icon-increase-height" />
-                            </LayoutGridItem>
-                            <LayoutGridItem itemActive={ (floorAction === FloorAction.DOWN) } onClick={ event => selectAction(FloorAction.DOWN) }>
+                            </Button>
+                            <Button variant="thicker" className={`floorplan-button-padding ${floorAction === FloorAction.DOWN ? 'active' : ''}`} itemActive={ (floorAction === FloorAction.DOWN) } onClick={ event => selectAction(FloorAction.DOWN) }>
                                 <i className="icon icon-decrease-height" />
-                            </LayoutGridItem>
+                            </Button>
                         </Flex>
-                        <LayoutGridItem itemActive={ (floorAction === FloorAction.DOOR) } onClick={ event => selectAction(FloorAction.DOOR) }>
+                        <Button variant="thicker" className={`floorplan-button-padding ${floorAction === FloorAction.DOOR ? 'active' : ''}`} itemActive={ (floorAction === FloorAction.DOOR) } onClick={ event => selectAction(FloorAction.DOOR) }>
                             <i className="icon icon-set-door" />
-                        </LayoutGridItem>
+                        </Button>
                     </Flex>
                 </Column>
                 <Column alignItems="center" size={ 4 }>

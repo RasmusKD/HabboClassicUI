@@ -1,5 +1,6 @@
 .nitro-floorplan-editor {
     width: $nitro-floor-editor-width;
+    min-width: $nitro-floor-editor-width;
     height: $nitro-floor-editor-height;
 }
 
@@ -10,4 +11,26 @@
 
 .floorplan-font {
 font-family: monospace;
+}
+
+.floorplan-button-padding {
+    padding: 0px 5px;
+}
+.floorplan-square {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 18px;
+    height: 17px;
+    background-color: #e9e9e1;
+}
+
+.floorplan-background-color {
+    background-color: #2d2724!important;
+    border-right: 1px solid #000!important;
+    border-left: 1px solid #000!important;
+    box-shadow: inset 0 0 0 2px #4e4844!important;
+    min-height: 50px;
+    align-items: center;
+    padding: 0px 13px!important;
 }
