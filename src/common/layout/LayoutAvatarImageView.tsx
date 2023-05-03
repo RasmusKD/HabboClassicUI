@@ -11,11 +11,12 @@ export interface LayoutAvatarImageViewProps extends BaseProps<HTMLDivElement>
     direction?: number;
     scale?: number;
     cropTransparency?: boolean;
+    onImageLoad?: (height: number) => void;
 }
 
 export const LayoutAvatarImageView: FC<LayoutAvatarImageViewProps> = props =>
 {
-    const { figure = '', gender = 'M', headOnly = false, direction = 0, scale = 1, cropTransparency = false, classNames = [], style = {}, ...rest } = props;
+    const { figure = '', gender = 'M', headOnly = false, direction = 0, scale = 1, cropTransparency = false, classNames = [], style = {}, onImageLoad, ...rest } = props; // Add onImageLoad here
     const [ avatarUrl, setAvatarUrl ] = useState<string>(null);
     const [ randomValue, setRandomValue ] = useState(-1);
     const isDisposed = useRef(false);
@@ -74,8 +75,8 @@ useEffect(() => {
     const image = avatarImage.getCroppedImage(setType);
 
     if (image && cropTransparency) {
-        const croppedImage = new Image();
-        croppedImage.onload = function() {
+            const croppedImage = new Image();
+            croppedImage.onload = function() {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = croppedImage.width;
@@ -107,12 +108,16 @@ useEffect(() => {
             croppedCtx.drawImage(croppedImage, left, top, croppedWidth, croppedHeight, 0, 0, croppedWidth, croppedHeight);
             const croppedImageUrl = croppedCanvas.toDataURL();
             setAvatarUrl(croppedImageUrl);
+            onImageLoad && onImageLoad(croppedHeight);;
         }
         croppedImage.src = image.src;
     }
-    if(image && !cropTransparency) setAvatarUrl(image.src);
-
-    avatarImage.dispose();
+    if(image && !cropTransparency) {
+        image.onload = function() {
+            setAvatarUrl(image.src);
+            onImageLoad && onImageLoad(image.height);
+        };
+    }
 }, [figure, gender, direction, headOnly, randomValue]);
 
     useEffect(() =>

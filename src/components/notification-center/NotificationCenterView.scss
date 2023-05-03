@@ -201,3 +201,15 @@
         }
     }
 }
+.notification-avatar-container {
+    width: 59px;
+    min-width: 59px;
+    height: 106px;
+}
+
+.notification-cropped-position {
+    width: 100%!important;
+    height: 100%!important;;
+    background-position-x: center!important;;
+    background-position-y: top!important;;
+}

@@ -11,7 +11,7 @@ export interface LayoutNotificationAlertViewProps extends NitroCardViewProps
 
 export const LayoutNotificationAlertView: FC<LayoutNotificationAlertViewProps> = props =>
 {
-    const { title = '', onClose = null, classNames = [], children = null,type = NotificationAlertType.DEFAULT, ...rest } = props;
+    const { title = '', onClose = null, classNames = [], children = null, type = NotificationAlertType.DEFAULT, ...rest } = props;
 
     const getClassNames = useMemo(() =>
     {
@@ -19,15 +19,19 @@ export const LayoutNotificationAlertView: FC<LayoutNotificationAlertViewProps> =
 
         newClassNames.push('nitro-alert-' + type);
 
-        if(classNames.length) newClassNames.push(...classNames);
+        if (classNames.length) newClassNames.push(...classNames);
 
         return newClassNames;
     }, [ classNames, type ]);
 
+    const contentClassName = useMemo(() => {
+        return type === 'alert' ? 'text-black notification-padding' : 'text-black';
+    }, [type]);
+
     return (
         <NitroCardView classNames={ getClassNames } theme="primary" { ...rest }>
             <NitroCardHeaderView headerText={ title } onCloseClick={ onClose } />
-            <NitroCardContentView grow justifyContent="between" overflow="hidden" className="text-black notification-padding" gap={ 0 }>
+            <NitroCardContentView grow justifyContent="between" overflow="hidden" className={ contentClassName } gap={ 0 }>
                 { children }
             </NitroCardContentView>
         </NitroCardView>
