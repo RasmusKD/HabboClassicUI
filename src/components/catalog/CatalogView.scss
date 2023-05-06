@@ -1,6 +1,5 @@
 .nitro-catalog {
     width: $catalog-width;
-    height: 628px;
     min-width: $catalog-width;
     min-height: 628px;
 
@@ -783,12 +782,59 @@
         }
     }
 }
-/* SearchFormView.module.css */
+
+.petcustomSelect {
+  position: relative;
+  display: inline-block;
+  width: 362px;
+  min-width: 362px;
+}
+
+.petcustomSelect.active .options {
+  display: block;
+}
+
+.petselect {
+  position: absolute;
+}
+.petselectmargin {
+  margin-top: 45px;
+}
+
+.petselectButton {
+    height: 24px;
+    width: 100%;
+    cursor: pointer;
+    border-image-slice:4 21 4 3 fill;
+    border-image-width:4px 21px 4px 3px;
+    border-image-repeat:repeat repeat;
+    border-image-source: url('@/assets/flash/boxes/dropdown_regular.png');
+    background-color: transparent;
+    appearance: none;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 13px;
+    font-size: 9px;
+    font-family: Goldfish;
+}
+
+.petoption {
+    cursor: pointer;
+    user-select: none;
+    padding: 2px 7px;
+    width: calc(100% - 6px);
+}
+
+.petoption.selected {
+  background-color: #f2f2f2;
+}
+
 .customSelect {
   position: relative;
   display: inline-block;
   width: 100%;
 }
+
 
 .customSelect.active .options {
   display: block;
@@ -845,6 +891,11 @@
 
 .option.selected {
   background-color: #f2f2f2;
+}
+.content-size {
+    resize: vertical;
+    min-height: 470px;
+    height: 470px;
 }
 
 @import './views/targeted-offer/Offer.scss';

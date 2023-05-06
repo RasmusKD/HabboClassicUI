@@ -804,14 +804,6 @@ $nitro-card-tabs-height: 35px;
     }
 }
 
-@include media-breakpoint-down(lg) {
-    .content-area {
-        height: 100% !important;
-        min-height: auto !important;
-        max-height: 100% !important;
-    }
-}
-
 .nitro-card-header {
     position: relative;
     height: 100%;

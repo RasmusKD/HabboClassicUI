@@ -191,7 +191,7 @@ export const RoomToolsWidgetView: FC<{}> = props =>
                         <Tooltip content={ LocalizeText('room.history.button.tooltip') }><Base pointer={ roomHistory?.length > 0 } className={ `icon ${ roomHistory?.length === 0 ? 'icon-room-history-disabled' : 'icon-room-history-enabled' } margin-button-history` } onClick={ () => roomHistory?.length === 0 ? null : handleToolClick('room_history') } /></Tooltip>
                         <Tooltip content={ LocalizeText('room.history.button.forward.tooltip') }><Base pointer={ roomHistory.length > 1 && roomHistory[roomHistory.length - 1]?.roomId !== navigatorData.currentRoomId } className={ `icon ${ (roomHistory?.length === 0 || roomHistory[roomHistory.length - 1]?.roomId === navigatorData.currentRoomId) ? 'icon-room-history-next-disabled' : 'icon-room-history-next-enabled' }` } onClick={ () => (roomHistory?.length === 0 || roomHistory[roomHistory.length - 1]?.roomId === navigatorData.currentRoomId) ? null : handleToolClick('room_history_next') } /></Tooltip>
                     </Flex>
-                    <Flex className="nitro-room-tools-history" style={ { bottom: !navigatorData.canRate ? '151px' : '175px' } }>
+                    <Flex className="nitro-room-tools-history" style={ { bottom: !navigatorData.canRate ? '159px' : '183px' } }>
                         <TransitionAnimation type={ TransitionAnimationTypes.SLIDE_LEFT } inProp={ isOpenHistory }>
                             <Column center>
                                 <Column className="nitro-room-tools margin-history py-2 px-3">

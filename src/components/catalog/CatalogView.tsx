@@ -71,7 +71,7 @@ export const CatalogView: FC<{}> = props =>
     return (
         <>
             { isVisible && isMod && rootNode && (rootNode.children.length > 1) &&
-                <NitroCardView uniqueKey="catalog" className="nitro-catalog vert-resize">
+                <NitroCardView id="nitro-catalog" uniqueKey="catalog" className="nitro-catalog" overflow="visible" style={{ minHeight: '628px' }}>
                     <NitroCardHeaderView headerText={ LocalizeText('catalog.title') } onCloseClick={ event => setIsVisible(false) } />
                     <NitroCardTabsView subClassName="w-100">
                         { rootNode && (rootNode.children.length > 0) && rootNode.children.map(child =>
@@ -91,7 +91,7 @@ export const CatalogView: FC<{}> = props =>
                         }) }
                     </NitroCardTabsView>
                     <CatalogHeaderView node={ rootNode } />
-                    <NitroCardContentView>
+                    <NitroCardContentView className="content-size">
                         <Grid>
                             { !navigationHidden &&
                                 <Column className="catalog-left" size={ 4 } overflow="hidden">

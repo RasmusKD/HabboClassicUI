@@ -47,7 +47,7 @@ export const NavigatorRoomSettingsVipChatTabView: FC<NavigatorRoomSettingsTabVie
         }
     };
 
-    const getLocalizationKeyForChatSetting = (setting, value) => {
+    const getLocalizationKeyForDropdown = (setting, value) => {
       switch (setting) {
         case 'mode':
           return value === RoomChatSettings.CHAT_MODE_FREE_FLOW
@@ -83,10 +83,35 @@ export const NavigatorRoomSettingsVipChatTabView: FC<NavigatorRoomSettingsTabVie
               return 'navigator.roomsettings.chat.flood.strict';
           }
           break;
+        case 'walls':
+          switch (value) {
+            case 0:
+              return 'navigator.roomsettings.wall_thickness.normal';
+            case 1:
+              return 'navigator.roomsettings.wall_thickness.thick';
+            case -1:
+              return 'navigator.roomsettings.wall_thickness.thin';
+            case -2:
+              return 'navigator.roomsettings.wall_thickness.thinnest';
+          }
+          break;
+        case 'floor':
+          switch (value) {
+            case 0:
+              return 'navigator.roomsettings.floor_thickness.normal';
+            case 1:
+              return 'navigator.roomsettings.floor_thickness.thick';
+            case -1:
+              return 'navigator.roomsettings.floor_thickness.thin';
+            case -2:
+              return 'navigator.roomsettings.floor_thickness.thinnest';
+          }
+          break;
         default:
           return '';
       }
     };
+
 
     const updateValue = (event) =>
     {
@@ -119,18 +144,24 @@ export const NavigatorRoomSettingsVipChatTabView: FC<NavigatorRoomSettingsTabVie
                     <Text small>{ LocalizeText('navigator.roomsettings.hide_walls') }</Text>
                 </Flex>
                 <Column gap={ 2 }>
-                <select className={`form-select form-select-sm ${isWallsOpen ? 'active' : ''}`} value={ roomData.wallThickness } onChange={ event => { handleChange('wall_thickness', event.target.value) }} onClick={() => handleSelectToggle('Walls')} onBlur={() => setIsWallsOpen(false)}>
-                    <option value="0">{ LocalizeText('navigator.roomsettings.wall_thickness.normal') }</option>
-                    <option value="1">{ LocalizeText('navigator.roomsettings.wall_thickness.thick') }</option>
-                    <option value="-1">{ LocalizeText('navigator.roomsettings.wall_thickness.thin') }</option>
-                    <option value="-2">{ LocalizeText('navigator.roomsettings.wall_thickness.thinnest') }</option>
-                </select>
-                <select className={`form-select form-select-sm ${isFloorOpen ? 'active' : ''}`} value={ roomData.floorThickness } onChange={ event => { handleChange('floor_thickness', event.target.value) }} onClick={() => handleSelectToggle('Floor')} onBlur={() => setIsFloorOpen(false)}>
-                    <option value="0">{ LocalizeText('navigator.roomsettings.floor_thickness.normal') }</option>
-                    <option value="1">{ LocalizeText('navigator.roomsettings.floor_thickness.thick') }</option>
-                    <option value="-1">{ LocalizeText('navigator.roomsettings.floor_thickness.thin') }</option>
-                    <option value="-2">{ LocalizeText('navigator.roomsettings.floor_thickness.thinnest') }</option>
-                </select>
+                <div className={`customSelect ${isWallsOpen ? 'active' : ''}`} onClick={() => handleSelectToggle('Walls')} onBlur={() => setIsWallsOpen(false)} tabIndex={0}>
+                    <div className="selectButton">{LocalizeText(getLocalizationKeyForDropdown('walls', roomData.wallThickness))}</div>
+                    <div className="options">
+                        <div className={`option ${isWallsOpen && roomData.wallThickness === 0 ? 'selected' : ''}`} value="0" onClick={() => handleChange('wall_thickness', 0)}>{LocalizeText('navigator.roomsettings.wall_thickness.normal')}</div>
+                        <div className={`option ${isWallsOpen && roomData.wallThickness === 1 ? 'selected' : ''}`} value="1" onClick={() => handleChange('wall_thickness', 1)}>{LocalizeText('navigator.roomsettings.wall_thickness.thick')}</div>
+                        <div className={`option ${isWallsOpen && roomData.wallThickness === -1 ? 'selected' : ''}`} value="-1" onClick={() => handleChange('wall_thickness', -1)}>{LocalizeText('navigator.roomsettings.wall_thickness.thin')}</div>
+                        <div className={`option ${isWallsOpen && roomData.wallThickness === -2 ? 'selected' : ''}`} value="-2" onClick={() => handleChange('wall_thickness', -2)}>{LocalizeText('navigator.roomsettings.wall_thickness.thinnest')}</div>
+                    </div>
+                </div>
+                <div className={`customSelect ${isFloorOpen ? 'active' : ''}`} onClick={() => handleSelectToggle('Floor')} onBlur={() => setIsFloorOpen(false)} tabIndex={0}>
+                    <div className="selectButton">{LocalizeText(getLocalizationKeyForDropdown('floor', roomData.floorThickness))}</div>
+                    <div className="options">
+                        <div className={`option ${isFloorOpen && roomData.floorThickness === 0 ? 'selected' : ''}`} value="0" onClick={() => handleChange('floor_thickness', 0)}>{LocalizeText('navigator.roomsettings.floor_thickness.normal')}</div>
+                        <div className={`option ${isFloorOpen && roomData.floorThickness === 1 ? 'selected' : ''}`} value="1" onClick={() => handleChange('floor_thickness', 1)}>{LocalizeText('navigator.roomsettings.floor_thickness.thick')}</div>
+                        <div className={`option ${isFloorOpen && roomData.floorThickness === -1 ? 'selected' : ''}`} value="-1" onClick={() => handleChange('floor_thickness', -1)}>{LocalizeText('navigator.roomsettings.floor_thickness.thin')}</div>
+                        <div className={`option ${isFloorOpen && roomData.floorThickness === -2 ? 'selected' : ''}`} value="-2" onClick={() => handleChange('floor_thickness', -2)}>{LocalizeText('navigator.roomsettings.floor_thickness.thinnest')}</div>
+                    </div>
+                </div>
             </Column>
             </Column>
                 <Column gap={ 1 }>
@@ -138,14 +169,14 @@ export const NavigatorRoomSettingsVipChatTabView: FC<NavigatorRoomSettingsTabVie
                     <Text className="small-lineheight">{ LocalizeText('navigator.roomsettings.chat_settings.info') }</Text>
                     <Column gap={ 2 }>
                     <div className={`customSelect ${isChat1Open ? 'active' : ''}`} onClick={() => handleSelectToggle('Chat1')} onBlur={() => setIsChat1Open(false)} tabIndex={0}>
-                      <div className="selectButton">{LocalizeText(getLocalizationKeyForChatSetting('mode', roomData.chatSettings.mode))}</div>
+                      <div className="selectButton">{LocalizeText(getLocalizationKeyForDropdown('mode', roomData.chatSettings.mode))}</div>
                       <div className="options">
                         <div className={`option ${isChat1Open && roomData.chatSettings.mode === 0 ? 'selected' : ''}`} value={RoomChatSettings.CHAT_MODE_FREE_FLOW} onClick={() => handleChange('bubble_mode', RoomChatSettings.CHAT_MODE_FREE_FLOW)}>{LocalizeText('navigator.roomsettings.chat.mode.free.flow')}</div>
                         <div className={`option ${isChat1Open && roomData.chatSettings.mode === 1 ? 'selected' : ''}`} value={RoomChatSettings.CHAT_MODE_LINE_BY_LINE} onClick={() => handleChange('bubble_mode', RoomChatSettings.CHAT_MODE_LINE_BY_LINE)}>{LocalizeText('navigator.roomsettings.chat.mode.line.by.line')}</div>
                       </div>
                     </div>
                     <div className={`customSelect ${isChat2Open ? 'active' : ''}`} onClick={() => handleSelectToggle('Chat2')} onBlur={() => setIsChat2Open(false)} tabIndex={0}>
-                      <div className="selectButton">{LocalizeText(getLocalizationKeyForChatSetting('weight', roomData.chatSettings.weight))}</div>
+                      <div className="selectButton">{LocalizeText(getLocalizationKeyForDropdown('weight', roomData.chatSettings.weight))}</div>
                       <div className="options">
                         <div className={`option ${isChat2Open && roomData.chatSettings.weight === 1 ? 'selected' : ''}`} value={RoomChatSettings.CHAT_BUBBLE_WIDTH_NORMAL} onClick={() => handleChange('chat_weight', RoomChatSettings.CHAT_BUBBLE_WIDTH_NORMAL)}>{LocalizeText('navigator.roomsettings.chat.bubbles.width.normal')}</div>
                         <div className={`option ${isChat2Open && roomData.chatSettings.weight === 2 ? 'selected' : ''}`} value={RoomChatSettings.CHAT_BUBBLE_WIDTH_THIN} onClick={() => handleChange('chat_weight', RoomChatSettings.CHAT_BUBBLE_WIDTH_THIN)}>{LocalizeText('navigator.roomsettings.chat.bubbles.width.thin')}</div>
@@ -153,7 +184,7 @@ export const NavigatorRoomSettingsVipChatTabView: FC<NavigatorRoomSettingsTabVie
                       </div>
                     </div>
                     <div className={`customSelect ${isChat3Open ? 'active' : ''}`} onClick={() => handleSelectToggle('Chat3')} onBlur={() => setIsChat3Open(false)} tabIndex={0}>
-                      <div className="selectButton">{LocalizeText(getLocalizationKeyForChatSetting('speed', roomData.chatSettings.speed))}</div>
+                      <div className="selectButton">{LocalizeText(getLocalizationKeyForDropdown('speed', roomData.chatSettings.speed))}</div>
                       <div className="options">
                         <div className={`option ${isChat3Open && roomData.chatSettings.speed === 0 ? 'selected' : ''}`} value={RoomChatSettings.CHAT_SCROLL_SPEED_FAST} onClick={() => handleChange('bubble_speed', RoomChatSettings.CHAT_SCROLL_SPEED_FAST)}>{LocalizeText('navigator.roomsettings.chat.speed.fast')}</div>
                         <div className={`option ${isChat3Open && roomData.chatSettings.speed === 1 ? 'selected' : ''}`} value={RoomChatSettings.CHAT_SCROLL_SPEED_NORMAL} onClick={() => handleChange('bubble_speed', RoomChatSettings.CHAT_SCROLL_SPEED_NORMAL)}>{LocalizeText('navigator.roomsettings.chat.speed.normal')}</div>
@@ -161,7 +192,7 @@ export const NavigatorRoomSettingsVipChatTabView: FC<NavigatorRoomSettingsTabVie
                       </div>
                     </div>
                     <div className={`customSelect ${isChat4Open ? 'active' : ''}`} onClick={() => handleSelectToggle('Chat4')} onBlur={() => setIsChat4Open(false)} tabIndex={0}>
-                      <div className="selectButton">{LocalizeText(getLocalizationKeyForChatSetting('protection', roomData.chatSettings.protection))}</div>
+                      <div className="selectButton">{LocalizeText(getLocalizationKeyForDropdown('protection', roomData.chatSettings.protection))}</div>
                       <div className="options">
                         <div className={`option ${isChat4Open && roomData.chatSettings.protection === 2 ? 'selected' : ''}`} value={RoomChatSettings.FLOOD_FILTER_LOOSE} onClick={() => handleChange('flood_protection', RoomChatSettings.FLOOD_FILTER_LOOSE)}>{LocalizeText('navigator.roomsettings.chat.flood.loose')}</div>
                         <div className={`option ${isChat4Open && roomData.chatSettings.protection === 1 ? 'selected' : ''}`} value={RoomChatSettings.FLOOD_FILTER_NORMAL} onClick={() => handleChange('flood_protection', RoomChatSettings.FLOOD_FILTER_NORMAL)}>{LocalizeText('navigator.roomsettings.chat.flood.normal')}</div>

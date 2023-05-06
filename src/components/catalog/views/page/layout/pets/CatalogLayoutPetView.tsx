@@ -23,18 +23,37 @@ export const CatalogLayoutPetView: FC<CatalogLayoutProps> = props =>
     const [ approvalResult, setApprovalResult ] = useState(-1);
     const { currentOffer = null, setCurrentOffer = null, setPurchaseOptions = null, catalogOptions = null, roomPreviewer = null } = useCatalog();
     const { petPalettes = null } = catalogOptions;
+    const [dropdownPosition, setDropdownPosition] = useState({ top: 0 });
 
     function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
         setSelectedPaletteIndex(parseInt(event.target.value));
     }
 
     function handleSelectClick() {
-        setIsOpen(!isOpen);
+      setIsOpen(!isOpen);
+      updateDropdownPosition();
     }
+
 
     function handleSelectBlur() {
         setIsOpen(false);
     }
+
+    const updateDropdownPosition = useCallback(() => {
+      const selectElement = document.querySelector('.petcustomSelect');
+
+      if (!selectElement) return;
+
+      const rect = selectElement.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      if (rect.bottom > windowHeight) {
+        const diff = rect.bottom - windowHeight;
+        setDropdownPosition({ top: -diff - 'x' }); // Replace 'x' with the desired offset
+      } else {
+        setDropdownPosition({ top: 0 });
+      }
+    }, []);
 
     const getColor = useMemo(() =>
     {
@@ -250,16 +269,19 @@ export const CatalogLayoutPetView: FC<CatalogLayoutProps> = props =>
                             </AutoGrid>
                         </Column>}
                         { (petIndex != 2) && (petIndex >= 0 && petIndex <= 7) &&
-                        <Column gap={ 0 } >
+                        <Column className='petselect' gap={ 0 } >
                                <Text className='pet-textsize'>Vælg en race:</Text>
-                               <select className={`form-select-pet ${isOpen ? 'active' : ''}`} value={selectedPaletteIndex} onChange={handleSelectChange} onClick={handleSelectClick} onBlur={handleSelectBlur} >
-                                {sellablePalettes.length > 0 && sellablePalettes.map((palette, index) => (
-                                     <option key={index} value={index} > {LocalizeText(`pet.breed.${petIndex}.${palette.paletteId}`)} </option>
-                                  ))}
-                              </select>
+                              <div className={`petcustomSelect ${isOpen ? 'active' : ''}`} onClick={handleSelectClick} onBlur={handleSelectBlur} tabIndex={0}>
+                                  <div className="selectButton">{sellablePalettes[selectedPaletteIndex] ? LocalizeText(`pet.breed.${petIndex}.${sellablePalettes[selectedPaletteIndex].paletteId}`) : ''}</div>
+                                  <div className="options" style={{ top: dropdownPosition.top,}}>
+                                      {sellablePalettes.length > 0 && sellablePalettes.map((palette, index) => (
+                                           <div className={`option ${isOpen && selectedPaletteIndex === index ? 'selected' : ''}`} onMouseOver={ event => setSelectedPaletteIndex(index) } onClick={ event => setSelectedPaletteIndex(index) } key={index} value={index}>{LocalizeText(`pet.breed.${petIndex}.${palette.paletteId}`)} </div>
+                                        ))}
+                                  </div>
+                              </div>
                         </Column>}
                         <Column grow gap={ 0 }>
-                            <Column grow gap={ 0 }>
+                            <Column grow className={ (petIndex != 2) && (petIndex >= 0 && petIndex <= 7) ? 'petselectmargin' : '' } gap={ 0 }>
                                 <Flex fullWidth justifyContent="between">
                                     <Base className='pet-textsize' dangerouslySetInnerHTML={ { __html: page.localization.getText(1) } }/>
                                     { (approvalResult > 0) &&
