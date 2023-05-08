@@ -2,11 +2,13 @@ import { HabboClubLevelEnum, RoomControllerLevel } from '@nitrots/nitro-renderer
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ChatMessageTypeEnum, GetClubMemberLevel, GetConfiguration, GetSessionDataManager, LocalizeText, RoomWidgetUpdateChatInputContentEvent } from '../../../../api';
-import { Base, Text, useFilteredInput } from '../../../../common';
+import { Base, classNames, Text, useFilteredInput } from '../../../../common';
 import { useChatInputWidget, useRoom, useSessionInfo, useUiEvent } from '../../../../hooks';
 import { ChatInputStyleSelectorView } from './ChatInputStyleSelectorView';
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
+
+const emojis =  [ '😀', '😆', '😅', '🤣', '😂',  '🙂', '🙃', '😉', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗',  '😚', '😋', '😛', '😝', '😜', '🤪', '🤔', '🤨', '😐', '😶', '🤭', '🥳', '😗', '🤗','😎'];
 
 export const ChatInputView: FC<{}> = props =>
 {
@@ -20,10 +22,8 @@ export const ChatInputView: FC<{}> = props =>
     const chatModeIdShout = useMemo(() => LocalizeText('widgets.chatinput.mode.shout'), []);
     const chatModeIdSpeak = useMemo(() => LocalizeText('widgets.chatinput.mode.speak'), []);
     const maxChatLength = useMemo(() => GetConfiguration<number>('chat.input.maxlength', 100), []);
-    const emojis =  [ '😀', '😆', '😅', '🤣', '😂',  '🙂', '🙃', '😉', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗',  '😚', '😋', '😛', '😝', '😜', '🤪', '🤔', '🤨', '😐', '😶', '🤭', '🥳', '😗', '🤗','😎']
-;
 
-    function EmojiButton() {
+    function EmojiButton({ showEmojiPicker }) {
       const [emojiIcon, setEmojiIcon] = useState(localStorage.getItem('emojiIcon') || '😀');
 
       useEffect(() => {
@@ -31,8 +31,10 @@ export const ChatInputView: FC<{}> = props =>
       }, [emojiIcon]);
 
       const handleMouseOver = useCallback(() => {
-        setEmojiIcon(getRandomEmoji(emojiIcon));
-      }, [emojiIcon]);
+              if (!showEmojiPicker) {
+                  setEmojiIcon(getRandomEmoji(emojiIcon));
+              }
+          }, [emojiIcon, showEmojiPicker]);
 
       const getRandomEmoji = useCallback((currentEmojiIcon) => {
         let newEmojiIcon = currentEmojiIcon;
@@ -43,30 +45,34 @@ export const ChatInputView: FC<{}> = props =>
         return newEmojiIcon;
       }, []);
 
-      return (
-        <Base pointer className='emoji-image' onMouseOver={handleMouseOver}>{emojiIcon || ''}</Base>
-      );
+    return (
+        <Base
+            pointer
+            className={`emoji-image${showEmojiPicker ? ' active' : ''}`}
+            onMouseOver={handleMouseOver}
+        >
+            {emojiIcon || ''}
+        </Base>
+        );
     }
 
-function handleEmojiSelect(emoji) {
-  if (chatValue.length + emoji.native.length <= maxChatLength) {
-    if (inputRef.current) {
-      const start = inputRef.current.selectionStart || 0;
-      const end = inputRef.current.selectionEnd || 0;
-      const chatValueStart = chatValue.slice(0, start);
-      const chatValueEnd = chatValue.slice(end, chatValue.length);
-      const updatedChatValue = chatValueStart + emoji.native + chatValueEnd;
-      inputRef.current.value = updatedChatValue;
-      const newCursorPosition = start + emoji.native.length;
-      setTimeout(() => {
-        inputRef.current.setSelectionRange(newCursorPosition, newCursorPosition);
-        updateChatInput(updatedChatValue);
-        inputRef.current.focus();
-      }, 0);
+    function handleEmojiSelect(emoji) {
+        if (chatValue.length + emoji.native.length <= maxChatLength) {
+            if (inputRef.current) {
+                const start = inputRef.current.selectionStart || 0;
+                const end = inputRef.current.selectionEnd || 0;
+                const chatValueStart = chatValue.slice(0, start);
+                const chatValueEnd = chatValue.slice(end, chatValue.length);
+                const updatedChatValue = chatValueStart + emoji.native + chatValueEnd;
+                inputRef.current.value = updatedChatValue;
+                const newCursorPosition = start + emoji.native.length;
+                updateChatInput(updatedChatValue);
+                inputRef.current.setSelectionRange(newCursorPosition, newCursorPosition);
+                inputRef.current.focus();
+            }
+        }
     }
-  }
-}
-
+    
     const anotherInputHasFocus = useCallback(() =>
     {
         const activeElement = document.activeElement;
@@ -97,60 +103,54 @@ function handleEmojiSelect(emoji) {
         });
     }, [ selectedUsername, chatModeIdWhisper ]);
 
-    const sendChatValue = useCallback((value: string, shiftKey: boolean = false) =>
-    {
-        if(!value || (value === '')) return;
+    const sendChatValue = useCallback((value: string, shiftKey: boolean = false) => {
+      if (!value || value === '') return;
 
-        let chatType = (shiftKey ? ChatMessageTypeEnum.CHAT_SHOUT : ChatMessageTypeEnum.CHAT_DEFAULT);
-        let text = value;
+      let chatType = shiftKey ? ChatMessageTypeEnum.CHAT_SHOUT : ChatMessageTypeEnum.CHAT_DEFAULT;
+      let text = value;
 
-        const parts = text.split(' ');
+      const parts = text.split(' ');
 
-        let recipientName = '';
-        let append = '';
+      let recipientName = '';
+      let append = '';
 
-        switch(parts[0])
-        {
-            case chatModeIdWhisper:
-                chatType = ChatMessageTypeEnum.CHAT_WHISPER;
-                recipientName = parts[1];
-                append = (chatModeIdWhisper + ' ' + recipientName + ' ');
+      switch (parts[0]) {
+        case chatModeIdWhisper:
+          chatType = ChatMessageTypeEnum.CHAT_WHISPER;
+          recipientName = parts[1];
+          append = chatModeIdWhisper + ' ' + recipientName + ' ';
 
-                parts.shift();
-                parts.shift();
-                break;
-            case chatModeIdShout:
-                chatType = ChatMessageTypeEnum.CHAT_SHOUT;
+          parts.shift();
+          parts.shift();
+          break;
+        case chatModeIdShout:
+          chatType = ChatMessageTypeEnum.CHAT_SHOUT;
 
-                parts.shift();
-                break;
-            case chatModeIdSpeak:
-                chatType = ChatMessageTypeEnum.CHAT_DEFAULT;
+          parts.shift();
+          break;
+        case chatModeIdSpeak:
+          chatType = ChatMessageTypeEnum.CHAT_DEFAULT;
 
-                parts.shift();
-                break;
+          parts.shift();
+          break;
+      }
+
+      text = parts.join(' ');
+
+      setIsTyping(false);
+      setIsIdle(false);
+
+      if (text.length <= maxChatLength) {
+        if (!/%CC%/g.test(encodeURIComponent(text))) {
+          sendChat(text, chatType, recipientName, chatStyleId);
         }
+      }
 
-        text = parts.join(' ');
-
-        setIsTyping(false);
-        setIsIdle(false);
-
-        if(text.length <= maxChatLength)
-        {
-            if(/%CC%/g.test(encodeURIComponent(text)))
-            {
-                setChatValue('');
-            }
-            else
-            {
-                setChatValue('');
-                sendChat(text, chatType, recipientName, chatStyleId);
-            }
-        }
-
-        setChatValue(append);
-    }, [ chatModeIdWhisper, chatModeIdShout, chatModeIdSpeak, maxChatLength, chatStyleId, setIsTyping, setIsIdle, sendChat ]);
+      setChatValue('');
+      setTimeout(() => {
+        inputRef.current.value = '';
+      }, 0);
+    }, [chatModeIdWhisper, chatModeIdShout, chatModeIdSpeak, maxChatLength, chatStyleId, setIsTyping, setIsIdle, sendChat]);
 
     const handleInputChange = useFilteredInput(chatValue, setChatValue);
 
@@ -304,7 +304,9 @@ function handleEmojiSelect(emoji) {
         createPortal(
             <div className="nitro-chat-input-container">
                 <ChatInputStyleSelectorView chatStyleId={ chatStyleId } chatStyleIds={ chatStyleIds } selectChatStyleId={ updateChatStyleId } />
-                <Base className="emoji-selector" pointer onClick={() => setShowEmojiPicker(!showEmojiPicker)}><EmojiButton /></Base>
+                <Base className="emoji-selector" pointer onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                    <EmojiButton showEmojiPicker={showEmojiPicker} />
+                </Base>
                 <div className="input-sizer align-items-center">
                     { !floodBlocked &&
                     <input ref={ inputRef } spellCheck="false" type="text" className="chat-input chat-input-size" placeholder={ LocalizeText('widgets.chatinput.default') } value={ chatValue } maxLength={ maxChatLength } onChange={ event => updateChatInput(event.target.value) } onMouseDown={ event => setInputFocus() } /> }

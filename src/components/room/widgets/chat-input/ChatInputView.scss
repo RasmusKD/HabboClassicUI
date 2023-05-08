@@ -121,19 +121,21 @@
 }
 
 .emoji-image {
-    filter: grayscale(100%);
-    transition: filter .3s ease-in-out;
-    font-size: 1.3em;
-    text-align: center;
-    top: 4px;
-    position: relative;
+  filter: grayscale(100%);
+  transition: filter .3s ease-in-out;
+  font-size: 1.3em;
+  text-align: center;
+  top: 4px;
+  position: relative;
 
-    &:hover {
-      filter: grayscale(0%);
-      font-size: 1.5em;
-      top: 2px;
-    }
+  &:hover,
+  &.active {
+    filter: grayscale(0%);
+    font-size: 1.5em;
+    top: 2px;
+  }
 }
+
 .chat-input-size {
     font-size: 18px;
     position: fixed;

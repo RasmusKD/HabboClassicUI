@@ -31,7 +31,7 @@ export const CatalogLayoutDefaultView: FC<CatalogLayoutProps> = props =>
                                     <>
                             <CatalogViewProductWidgetView />
                             <CatalogLimitedItemWidgetView fullWidth position="absolute" className="top-1" />
-                            <CatalogAddOnBadgeWidgetView position="absolute" className="bg-muted rounded top-1 end-1" />
+                            <CatalogAddOnBadgeWidgetView position="absolute" className={`bg-muted rounded ${currentOffer.product.isUniqueLimitedItem ? 'ltd-badge-placement' : 'top-1'} end-1`} />
                             </> }
                             { (currentOffer.product.productType === ProductTypeEnum.BADGE) && <CatalogAddOnBadgeWidgetView className="scale-2" /> }
                         </Base>
