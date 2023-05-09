@@ -146,9 +146,9 @@ export const ChatInputView: FC<{}> = props =>
         }
       }
 
-      setChatValue('');
+      setChatValue(append);
       setTimeout(() => {
-        inputRef.current.value = '';
+        inputRef.current.value = append;
       }, 0);
     }, [chatModeIdWhisper, chatModeIdShout, chatModeIdSpeak, maxChatLength, chatStyleId, setIsTyping, setIsIdle, sendChat]);
 
@@ -259,8 +259,6 @@ export const ChatInputView: FC<{}> = props =>
 
         return styleIds;
     }, []);
-
-
 
     useEffect(() =>
     {
