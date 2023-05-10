@@ -19,17 +19,28 @@ export const LayoutNotificationAlertView: FC<LayoutNotificationAlertViewProps> =
 
         newClassNames.push('nitro-alert-' + type);
 
+        if (type === 'motd') {
+            newClassNames.push('motd123');
+        }
+
         if (classNames.length) newClassNames.push(...classNames);
 
         return newClassNames;
     }, [ classNames, type ]);
 
     const contentClassName = useMemo(() => {
-        return type === 'alert' ? 'text-black notification-padding' : 'text-black';
+        let baseClass = type === 'alert' ? 'text-black notification-padding' : 'text-black';
+        if (type === 'motd') {
+            baseClass += ' command-resize';
+        }
+        return baseClass;
     }, [type]);
 
+
+    const idProp = type === 'motd' ? { id: 'Commands' } : {};
+
     return (
-        <NitroCardView classNames={ getClassNames } theme="primary" { ...rest }>
+        <NitroCardView {...idProp} classNames={ getClassNames } theme="primary" { ...rest }>
             <NitroCardHeaderView headerText={ title } onCloseClick={ onClose } />
             <NitroCardContentView grow justifyContent="between" overflow="hidden" className={ contentClassName } gap={ 0 }>
                 { children }

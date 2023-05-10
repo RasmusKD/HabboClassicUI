@@ -48,7 +48,9 @@
     }
 
     &.nitro-alert-motd {
-        width: 300px;
+        width: 350px;
+        max-height: none;
+        overflow: visible!important;
         .notification-text {
             min-width: auto;
         }
@@ -212,4 +214,70 @@
     height: 100%!important;;
     background-position-x: center!important;;
     background-position-y: top!important;;
+}
+
+.info-image {
+    position: relative;
+    background: url('@/assets/images/navigator/icons/info.png');
+    width: 18px;
+    height: 18px;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 15px;
+
+    .info-information {
+        display: none;
+    }
+
+    &:hover {
+        .info-information {
+            display: block;
+        }
+    }
+
+    .info-information {
+        position: fixed;
+        pointer-events: none;
+        user-select: none;
+        width: max-content;
+        max-width: 210px;
+        height: fit-content;
+        border-image-source: url('@/assets/flash/infostand/badge_info_bg.png');
+        border-image-slice: 6 6 6 6 fill;
+        border-image-width: 6px 6px 6px 6px;
+        z-index: 100;
+        font-size: 9px;
+        z-index: 9999;
+        word-wrap: break-word;
+        white-space: normal;
+    }
+
+    .info-desc {
+        font-family: Goldfish;
+    }
+}
+
+.command-resize {
+    resize: vertical!important;
+    height: 500px;
+    max-height: none;
+    min-height: 300px;
+}
+
+.info-search-container {
+    border-image-slice:6 6 6 6 fill;
+    border-image-width:6px 6px 6px 6px;
+    border-image-repeat:repeat repeat;
+    border-image-source: url('@/assets/flash/boxes/card/filter_bg.png')!important;
+    background: transparent;
+    padding: 8px;
+}
+
+.command-text-position {
+    position: relative;
+    left: 5px;
+}
+.command-search {
+    font-size: .875em!important;
+    height: 18px!important;
 }

@@ -260,6 +260,21 @@ export const ChatInputView: FC<{}> = props =>
         return styleIds;
     }, []);
 
+    useEffect(() => {
+        const handleMotdTextClick = (event: Event) => {
+          const customEvent = event as CustomEvent;
+          const command = customEvent.detail;
+          setChatValue(prevValue => `:${command} `);
+          setInputFocus()
+        };
+
+        window.addEventListener("motdTextClick", handleMotdTextClick);
+
+        return () => {
+          window.removeEventListener("motdTextClick", handleMotdTextClick);
+        };
+      }, []);
+
     useEffect(() =>
     {
         document.body.addEventListener('keydown', onKeyDownEvent);
