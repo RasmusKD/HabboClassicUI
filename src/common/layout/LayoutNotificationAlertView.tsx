@@ -19,10 +19,6 @@ export const LayoutNotificationAlertView: FC<LayoutNotificationAlertViewProps> =
 
         newClassNames.push('nitro-alert-' + type);
 
-        if (type === 'motd') {
-            newClassNames.push('motd123');
-        }
-
         if (classNames.length) newClassNames.push(...classNames);
 
         return newClassNames;

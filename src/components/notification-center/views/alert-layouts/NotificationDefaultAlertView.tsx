@@ -2,7 +2,6 @@ import { FigureUpdateEvent, RoomUnitChatStyleComposer, UserInfoDataParser, UserI
 import { FC, useState, useRef, useEffect } from 'react';
 import { LocalizeText, NotificationAlertItem, NotificationAlertType, OpenUrl } from '../../../../api';
 import { Base, Button, Column, Flex, LayoutAvatarImageView, LayoutNotificationAlertView, LayoutNotificationAlertViewProps, Text } from '../../../../common';
-import { useRoom } from '../../../../hooks';
 
 interface NotificationDefaultAlertViewProps extends LayoutNotificationAlertViewProps
 {
@@ -13,7 +12,6 @@ export const NotificationDefaultAlertView: FC<NotificationDefaultAlertViewProps>
 {
     const { item = null, title = ((props.item && props.item.title) || ''), onClose = null, ...rest } = props;
     const [ imageFailed, setImageFailed ] = useState<boolean>(false)
-    const { roomSession = null } = useRoom();
     const [imageHeight, setImageHeight] = useState<number>(null);
     const [searchValue, setSearchValue] = useState('');
     const [ userInfo, setUserInfo ] = useState<UserInfoDataParser>(null);
@@ -29,21 +27,15 @@ export const NotificationDefaultAlertView: FC<NotificationDefaultAlertViewProps>
 
         onClose();
     }
-    const getUserDataByNameFromMessage = (messages: string[]) => {
-        return messages.map(message => {
-            const regex = /<b>(.*?)<\/b>/;
-            const match = message.match(regex);
-            const username = match ? match[1] : '';
-            const userData = roomSession.userDataManager.getUserDataByName(username.trim());
-
-            return userData;
-        });
-    }
 
    const MOTDText = ({ line, style, setChatValue }) => {
      const regex = /<b>:(.*?)<\/b>/;
      const match = line.match(regex);
+     const infoRegex = /<Info>(.*?)<\/Info>/gs;
+     const infoMatch = infoRegex.exec(line);
+     const infoText = infoMatch ? infoMatch[1] : '';
      const command = match ? match[1] : '';
+     const cleanLine = line.replace(infoRegex, '');
 
      const localizedText = command ? LocalizeText(`${command}.info`) : '';
 
@@ -51,18 +43,25 @@ export const NotificationDefaultAlertView: FC<NotificationDefaultAlertViewProps>
      const [position, setPosition] = useState({ x: 0, y: 0 });
      const [isClicked, setIsClicked] = useState(false);
 
-     const infoImageRef = useRef(null);
+    const infoImageRef = useRef(null);
+    const infoBoxRef = useRef(null);
 
-     const handleMouseEnter = () => {
-       const draggableWindow = document.getElementById("Commands");
-       const windowRect = draggableWindow.getBoundingClientRect();
-       const imageRect = infoImageRef.current.getBoundingClientRect();
-    setPosition({
-      x: imageRect.left - windowRect.left + imageRect.width + 30,
-      y: imageRect.top - windowRect.top + 15,
-    });
-    setShowInfo(true);
-     };
+    useEffect(() => {
+        if (showInfo && infoImageRef.current && infoBoxRef.current) {
+            const draggableWindow = document.getElementById("Commands");
+            const parentElement = draggableWindow.parentNode;
+            const windowRect = draggableWindow.getBoundingClientRect();
+            const parentRect = parentElement.getBoundingClientRect();
+            const imageRect = infoImageRef.current.getBoundingClientRect();
+            const infoBoxRect = infoBoxRef.current.getBoundingClientRect();
+
+            setPosition({
+                x: windowRect.right - parentRect.left + 3,
+                y: (imageRect.top + imageRect.bottom) / 2 - windowRect.top - infoBoxRect.height / 2,
+            });
+        }
+    }, [showInfo]);
+
 
       const [copiedToChat, setCopiedToChat] = useState(false);
 
@@ -75,76 +74,78 @@ export const NotificationDefaultAlertView: FC<NotificationDefaultAlertViewProps>
           setTimeout(() => {
             setIsClicked(false);
             setCopiedToChat(false);
-          }, 1500); // Set the duration you want the "copied" message to be shown
+          }, 1500);
           const event = new CustomEvent("motdTextClick", { detail: command });
           window.dispatchEvent(event);
         };
 
-
     const cursorStyle = localizedText ? { cursor: 'pointer', minHeight: '30px' } : { cursor: 'default', minHeight: '30px' };
     const buttonClickedStyle = isClicked ? { boxShadow: 'inset 2px 2px 2px rgba(0, 0, 0, 0.5)' } : {};
-    const displayedText = copiedToChat ? 'Kopieret til chatten!' : line;
+    const displayedText = copiedToChat ? 'Kopieret til chatten!' : cleanLine;
      return (
-       <Flex justifyContent="between" alignItems="center" style={{ ...style, ...cursorStyle, ...buttonClickedStyle }} onClick={handleDivClick} >
+         <Flex justifyContent="between" alignItems="center" style={{ ...style, ...cursorStyle, ...buttonClickedStyle }} onClick={handleDivClick} >
              <Text className="command-text-position" small dangerouslySetInnerHTML={{ __html: displayedText }} />
-             {localizedText && (
-               <div ref={infoImageRef} className="info-image" onMouseEnter={handleMouseEnter} onMouseLeave={() => setShowInfo(false)} >
-                 <div className={`p-2 info-information${showInfo ? '' : ' d-none'}`} style={{ left: position.x, top: position.y, transform: 'translateY(-50%)' }} >
-                   <div className="info-desc">{localizedText}</div>
+             {infoText && (
+                 <div ref={infoImageRef} className="info-image" onMouseEnter={() => setShowInfo(true)} onMouseLeave={() => setShowInfo(false)} >
+                     <div ref={infoBoxRef} className={`p-2 info-information${showInfo ? '' : ' d-none'}`} style={{ left: position.x, top: position.y }} >
+                         <div className="info-desc">{infoText}</div>
+                     </div>
                  </div>
-               </div>
              )}
-           </Flex>
-         );
-       };
+         </Flex>
+     );
+     };
 
     const hasFrank = (item.alertType === NotificationAlertType.DEFAULT);
-    const getUser = item.messages.map( message => message.split('- ')[1] )[0];
-    const userData = roomSession.userDataManager.getUserDataByName(getUser?.replace(/(<([^>]+)>)/ig, ''));
-    const userData2 = getUserDataByNameFromMessage(item.messages);
+    const userLookMatch = item.messages[0].match(/<look>(.*?)<\/look>/);
+    const userLook = userLookMatch ? userLookMatch[1] : '';
+    const cleanedMessages = item.messages.map(message => message.replace(/<look>.*?<\/look>/g, '').trim());
     return (
         <LayoutNotificationAlertView className='no-resize' title={ title } onClose={ onClose } { ...rest } type={ hasFrank ? NotificationAlertType.DEFAULT : item.alertType }>
             {item.alertType === NotificationAlertType.MOTD && renderSearchField()}
             <Flex fullHeight overflow="auto" gap={ hasFrank || (item.imageUrl && !imageFailed) ? 2 : 0 }>
-                { (hasFrank && !item.imageUrl && userData) && <Column center className="notification-avatar-container" style={{ height: imageHeight ? imageHeight + 'px' : 'auto' }}><LayoutAvatarImageView className='notification-cropped-position' cropTransparency={ true } figure={ userData.figure } direction={ 2 } onImageLoad={height => setImageHeight(height)} /></Column> }
-                { item.imageUrl && !imageFailed && userData2 && <Column center className="notification-avatar-container" style={{ height: imageHeight ? imageHeight + 'px' : 'auto' }}><LayoutAvatarImageView className='notification-cropped-position' cropTransparency={ true } figure={ userData2[0].figure } direction={ 2 } onImageLoad={height => setImageHeight(height)} /></Column> }
-                <Base classNames="notification-text overflow-y-auto d-flex flex-column w-100">
-                    {(item.messages.length > 0) &&
-                        item.messages.map((message, index) => {
+                { userLook && <Column center className="notification-avatar-container" style={{ height: imageHeight ? imageHeight + 'px' : 'auto' }}><LayoutAvatarImageView className='notification-cropped-position' cropTransparency={ true } figure={ userLook  } direction={ 2 } onImageLoad={height => setImageHeight(height)} /></Column> }
+                <div className="notification-text overflow-y-auto d-flex flex-column w-100">
+                    {(cleanedMessages.length > 0) &&
+                            cleanedMessages.map((message, index) => {
                             const lines = message.split(/\r\n|\r|\n/);
                             const filteredLines = lines.filter((line, index) => !(index === lines.length - 1 && line.trim() === ""));
 
-                            // Filter the MOTDText components based on the search value
                             const displayedLines = filteredLines.filter((line) =>
                                 line.toLowerCase().includes(searchValue.toLowerCase())
                             );
 
                             return displayedLines.map((line, lineIndex) => {
-                                const isEvenLine = lineIndex % 2 === 0;
-                                const isMOTD = item.alertType === NotificationAlertType.MOTD;
-                                const lineStyle = isMOTD
-                                    ? !isEvenLine
-                                        ? { backgroundColor: '#ddd', minHeight: '30px' }
-                                        : { minHeight: '30px' }
-                                    : {};
+                              const isEvenLine = lineIndex % 2 === 0;
+                              const isMOTD = item.alertType === NotificationAlertType.MOTD;
+                              const lineStyle = isMOTD
+                                ? !isEvenLine
+                                    ? { backgroundColor: '#ddd', minHeight: '30px' }
+                                    : { minHeight: '30px' }
+                                : {};
 
-                                return line.trim() === "" ? (
-                                    <br key={`${index}-${lineIndex}`} />
-                                ) : isMOTD ? (
-                                    <MOTDText key={`${index}-${lineIndex}`} line={line} style={lineStyle} />
-                                ) : (
-                                    <Text small key={`${index}-${lineIndex}`} dangerouslySetInnerHTML={{ __html: line }} style={lineStyle} />
-                                );
+                              if (line.startsWith('Dine kommandoer')) {
+                                return null;
+                              }
+
+                              return line.trim() === "" ? (
+                                <br key={`${index}-${lineIndex}`} />
+                              ) : isMOTD ? (
+                                <MOTDText key={`${index}-${lineIndex}`} line={line} style={lineStyle} />
+                              ) : (
+                                <Text small key={`${index}-${lineIndex}`} dangerouslySetInnerHTML={{ __html: line }} style={lineStyle} />
+                              );
                             });
+
                         })
                 }
-                </Base>
+                </div>
             </Flex>
             { item.clickUrl && (item.clickUrl.length > 0) && (item.imageUrl && !imageFailed) && <>
                 <hr className="my-2 w-100" />
                 <Button onClick={ visitUrl } className="align-self-center px-3 btn-thicker">{ LocalizeText(item.clickUrlText) }</Button>
             </> }
-            { (!item.imageUrl || (item.imageUrl && imageFailed)) && !NotificationAlertType.MOTD && <>
+           {(!item.imageUrl || (item.imageUrl && imageFailed)) && item.alertType !== NotificationAlertType.MOTD &&  <>
                 <Column alignItems="center" center gap={ 0 }>
                     <hr className="my-2 w-100" />
                     { !item.clickUrl &&
