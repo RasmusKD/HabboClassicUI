@@ -1,5 +1,5 @@
 import { GroupDeleteComposer, GroupSaveInformationComposer } from '@nitrots/nitro-renderer';
-import { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { CreateLinkEvent, IGroupData, LocalizeText, SendMessageComposer } from '../../../../api';
 import { Base, Column, Flex, Text } from '../../../../common';
@@ -23,6 +23,32 @@ export const GroupTabIdentityView: FC<GroupTabIdentityViewProps> = props =>
     const [ groupHomeroomId, setGroupHomeroomId ] = useState<number>(-1);
     const { showConfirm = null } = useNotification();
     const [ isOpen, setIsOpen ] = useState(false);
+    const dropdownRef = useRef(null);
+
+    const itemsPerPage = 10;
+    const [currentPage, setCurrentPage] = useState(0);
+
+    const totalPages = availableRooms ? Math.ceil(availableRooms.length / itemsPerPage) : 0;
+
+    const handlePrevPage = (event) => {
+        event.stopPropagation();
+        if (currentPage > 0) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextPage = (event) => {
+        event.stopPropagation();
+        if (currentPage < totalPages - 1) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setIsOpen(false);
+        }
+    }
 
     function handleSelectClick() {
         setIsOpen(!isOpen);
@@ -80,6 +106,11 @@ export const GroupTabIdentityView: FC<GroupTabIdentityViewProps> = props =>
         setGroupHomeroomId(groupData.groupHomeroomId);
     }, [ groupData ]);
 
+    useEffect(() => {
+            document.addEventListener('mousedown', handleClickOutside);
+            return () => document.removeEventListener('mousedown', handleClickOutside);
+        }, []);
+
     useEffect(() =>
     {
         setCloseAction({ action: saveIdentity });
@@ -105,10 +136,42 @@ export const GroupTabIdentityView: FC<GroupTabIdentityViewProps> = props =>
                         <Column gap={ 1 }>
                             <Text bold>{ LocalizeText('group.edit.base') }</Text>
                             <Column fullWidth gap={ 1 }>
-                                <select className={`form-select form-select-sm ${isOpen ? 'active' : ''}`} value={ groupHomeroomId } onChange={ event => setGroupHomeroomId(parseInt(event.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
-                                    <option value={ -1 } disabled>{ LocalizeText('group.edit.base.select.room') }</option>
-                                    { availableRooms && availableRooms.map((room, index) => <option key={ index } value={ room.id }>{ room.name }</option>) }
-                                </select>
+                                <div className={`groupcustomSelect ${isOpen ? 'active' : ''}`} ref={dropdownRef} onClick={handleSelectClick} tabIndex={0}>
+                                    <div className="selectButton">
+                                        {groupHomeroomId === -1
+                                            ? LocalizeText('group.edit.base.select.room')
+                                            : availableRooms && availableRooms.find(room => room.id === groupHomeroomId)?.name
+                                        }
+                                    </div>
+                                    <div className="options">
+                                       {Array.from({ length: itemsPerPage }).map((_, index) => {
+                                           const room = availableRooms && availableRooms.length > 0 && availableRooms
+                                               .slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)[index];
+
+                                           return room ? (
+                                               <div
+                                                   key={index}
+                                                   value={room.id}
+                                                   className={`option ${isOpen && room.id === groupHomeroomId ? 'selected' : ''}`}
+                                                   onClick={() => setGroupHomeroomId(room.id)}>
+                                                   {room.name}
+                                               </div>
+                                           ) : (
+                                               <div key={index} className="placeholder-option"></div>
+                                           );
+                                       })}
+                                        {availableRooms && availableRooms.length > itemsPerPage &&
+                                            <Flex className="select-room-padding">
+                                                <Base className={`w-100 select-next-prev-button ${currentPage === 0 ? 'disabled' : ''}`}  onClick={handlePrevPage} disabled={currentPage === 0}>
+                                                    Forrige
+                                                </Base>
+                                                <Text className="w-100 group-select-text" bold>{`Side ${currentPage + 1}/${totalPages}`}</Text>
+                                                <Base className={`w-100 select-next-prev-button ${currentPage === totalPages - 1 ? 'disabled' : ''}`} onClick={handleNextPage} disabled={currentPage === totalPages - 1}>
+                                                    Næste
+                                                </Base>
+                                            </Flex>}
+                                    </div>
+                                </div>
                             </Column>
                         </Column>
                         <Flex gap={ 1 }>

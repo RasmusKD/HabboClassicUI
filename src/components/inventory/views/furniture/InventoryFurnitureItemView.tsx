@@ -35,19 +35,8 @@ export const InventoryFurnitureItemView: FC<{ groupItem: GroupItem, toggleFavori
     const count = groupItem.getUnlockedCount();
 
      return (
-          <LayoutGridFurni
-            className={!count ? "opacity-0-5 " : ""}
-            itemImage={groupItem.iconUrl}
-            itemCount={groupItem.getUnlockedCount()}
-            itemActive={groupItem === selectedItem}
-            itemUniqueNumber={groupItem.stuffData.uniqueNumber}
-            itemUnseen={groupItem.hasUnseenItems}
-            onMouseDown={onMouseEvent}
-            onMouseUp={onMouseEvent}
-            onMouseOut={onMouseEvent}
-            {...rest}
-          >
-        <Base className="favorite-button" onClick={(e) => { e.stopPropagation(); toggleFavorite(groupItem);}} style={{ color: favoritedItems.includes(groupItem) ? "orange" : "inherit" }}> {favoritedItems.includes(groupItem) ? "★" : "☆"}</Base>
-          </LayoutGridFurni>
+        <LayoutGridFurni className={!count ? "opacity-0-5 " : ""} itemImage={groupItem.iconUrl} itemCount={groupItem.getUnlockedCount()} itemActive={groupItem === selectedItem} itemUniqueNumber={groupItem.stuffData.uniqueNumber} itemUnseen={groupItem.hasUnseenItems} onMouseDown={onMouseEvent} onMouseUp={onMouseEvent} onMouseOut={onMouseEvent} {...rest} >
+           <Base className="favorite-button" onClick={(e) => { e.stopPropagation(); toggleFavorite(groupItem);}} style={{ color: 'black' }}> {favoritedItems.includes(groupItem) ? "★" : "☆"}</Base>
+        </LayoutGridFurni>
         );
     };

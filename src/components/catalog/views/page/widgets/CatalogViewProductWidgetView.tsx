@@ -52,7 +52,7 @@ export const CatalogViewProductWidgetView: FC<{}> = props =>
                 {
                     case FurniCategory.FLOOR:
                         roomPreviewer.updateObjectRoom(product.extraParam);
-                        return;
+                    return;
                     case FurniCategory.WALL_PAPER:
                         roomPreviewer.updateObjectRoom(null, product.extraParam);
                         return;

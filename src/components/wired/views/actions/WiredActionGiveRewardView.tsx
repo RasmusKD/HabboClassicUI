@@ -133,12 +133,21 @@ export const WiredActionGiveRewardView: FC<{}> = props =>
                 <hr className="m-0 color-dark" />
                 <Text className='wired-align' gfbold>Hvor ofte kan en bruger belønnes?</Text>
                 <Column gap={ 1 }>
-                    <select className={`form-select form-select-sm ${isOpen ? 'active' : ''}`} value={ rewardTime } onChange={ (e) => setRewardTime(Number(e.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
-                        <option value="0">Èn gang</option>
-                        <option value="3">Èn gang hver { limitationInterval } minutter</option>
-                        <option value="2">Èn gang hver { limitationInterval } timer</option>
-                        <option value="1">Èn gang hver { limitationInterval } dage</option>
-                    </select>
+                    <div className={`customSelect ${isOpen ? 'active' : ''}`} onClick={handleSelectClick} onBlur={handleSelectBlur} tabIndex={0}>
+                        <div className="selectButton">
+                            {rewardTime === 0 ? "Èn gang" :
+                            rewardTime === 3 ? `Èn gang hver ${limitationInterval} minutter` :
+                            rewardTime === 2 ? `Èn gang hver ${limitationInterval} timer` :
+                            rewardTime === 1 ? `Èn gang hver ${limitationInterval} dage` :
+                            ""}
+                        </div>
+                        <div className="options">
+                            <div value={0} className={`option ${isOpen && 0 === rewardTime ? 'selected' : ''}`} onClick={() => setRewardTime(0)}>Èn gang</div>
+                            <div value={3} className={`option ${isOpen && 3 === rewardTime ? 'selected' : ''}`} onClick={() => setRewardTime(3)}>Èn gang hver {limitationInterval} minutter</div>
+                            <div value={2} className={`option ${isOpen && 2 === rewardTime ? 'selected' : ''}`} onClick={() => setRewardTime(2)}>Èn gang hver {limitationInterval} timer</div>
+                            <div value={1} className={`option ${isOpen && 1 === rewardTime ? 'selected' : ''}`} onClick={() => setRewardTime(1)}>Èn gang hver {limitationInterval} dage</div>
+                        </div>
+                    </div>
                     { (rewardTime > 0) && <input type="number" className="form-control wired-form" value={ limitationInterval } onChange={ event => setLimitationInterval(Number(event.target.value)) } /> }
                 </Column>
             </Column>

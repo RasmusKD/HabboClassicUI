@@ -118,7 +118,7 @@ export const GroupCreatorView: FC<GroupCreatorViewProps> = props =>
     if(!groupData) return null;
 
     return (
-        <NitroCardView className="nitro-group-creator no-resize" theme="primary">
+        <NitroCardView className="nitro-group-creator no-resize" theme="primary" overflow="visible">
             <NitroCardHeaderView headerText={ LocalizeText('group.create.title') } onCloseClick={ onClose } />
             <HabboClassicGroupHeaderView>
                 <Flex center className="creator-tabs nitro-group-progress-font">

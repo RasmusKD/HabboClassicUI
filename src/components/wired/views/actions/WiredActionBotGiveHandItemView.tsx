@@ -21,6 +21,10 @@ export const WiredActionBotGiveHandItemView: FC<{}> = props =>
         setIsOpen(false);
     }
 
+    const onHandItemIdChange = (id: number) => {
+            setHandItemId(id);
+    }
+
     const save = () =>
     {
         setStringParam(botName);
@@ -43,10 +47,20 @@ export const WiredActionBotGiveHandItemView: FC<{}> = props =>
             <Column gap={ 1 }>
                 <hr className="m-0 color-dark" />
                 <Text gfbold>{ LocalizeText('wiredfurni.params.handitem') }</Text>
-                <select className={`form-select form-select-sm bot-handitem-selector ${isOpen ? 'active' : ''}`} value={ handItemId } onChange={ event => setHandItemId(parseInt(event.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
-                    <option value="0">------</option>
-                    { ALLOWED_HAND_ITEM_IDS.map(value => <option key={ value } value={ value }>{ LocalizeText(`handitem${ value }`) }</option>) }
-                </select>
+                <div className={`customSelect ${isOpen ? 'active' : ''}`} onClick={handleSelectClick} onBlur={handleSelectBlur} tabIndex={0}>
+                        <div className="selectButton">{LocalizeText(`handitem${ handItemId }`)}</div>
+                        <div className="options">
+                            {ALLOWED_HAND_ITEM_IDS.map(value => (
+                                <div
+                                    key={ value }
+                                    value={ value }
+                                    className={`option ${isOpen && value === handItemId ? 'selected' : ''}`}
+                                    onClick={() => onHandItemIdChange(value)}>
+                                    { LocalizeText(`handitem${ value }`) }
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 <hr className="m-0 color-dark" />
             </Column>
         </WiredActionBaseView>

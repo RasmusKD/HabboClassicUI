@@ -721,7 +721,7 @@
 .bundle-position {
     width: 39%;
     margin-top: 65px;
-    height: fill-available;
+    height: fit-content;
 }
 
 .item-desc {
@@ -794,6 +794,17 @@
   display: block;
 }
 
+.groupcustomSelect {
+  position: absolute;
+  display: inline-block;
+  width: 377px;
+  min-width: 377px;
+}
+
+.groupcustomSelect.active .options {
+  display: block;
+}
+
 .petselect {
   position: absolute;
 }
@@ -829,6 +840,42 @@
   background-color: #f2f2f2;
 }
 
+.select-room-padding {
+    padding: 2px 7px;
+
+}
+
+.placeholder-option {
+    height: 16px;
+    cursor: default;
+}
+
+.select-next-prev-button {
+    padding-top: 3px;
+    height: 16px;
+    text-align: center;
+    &:hover {
+        background-color: #d9d9d9;
+    }
+    &:disabled,
+      &.disabled {
+        color: darkgrey;
+        background-color: transparent;
+        cursor: default!important;
+      }
+}
+
+.group-select-text {
+    border-right: 1px solid;
+    border-left: 1px solid;
+    padding-top: 3px;
+    height: 16px;
+    font-size: 9px;
+    font-family: Goldfish;
+    text-align: center;
+    cursor: default!important;
+}
+
 .customSelect {
   position: relative;
   display: inline-block;
@@ -855,6 +902,7 @@
     padding-left: 13px;
     font-size: 9px;
     font-family: Goldfish;
+    color: black;
 }
 
 .options {
@@ -875,7 +923,8 @@
     top: 0;
     left: 0;
     display: none;
-    z-index: 1;
+    z-index: 2;
+    color: black;
 }
 
 .option {

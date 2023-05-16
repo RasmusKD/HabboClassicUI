@@ -16,7 +16,13 @@ export const NotificationDefaultAlertView: FC<NotificationDefaultAlertViewProps>
     const [searchValue, setSearchValue] = useState('');
     const [ userInfo, setUserInfo ] = useState<UserInfoDataParser>(null);
     const renderSearchField = () => (
-            <input spellCheck="false" placeholder="Søg..." className="command-search form-control form-control6" type="text" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} style={{ marginBottom: '6px' }} />
+            <Flex fullWidth gap={ 2 }>
+                <input spellCheck="false" type="text" className="form-control form-control-sm" placeholder="Søg..." value={ searchValue } onChange={(e) => setSearchValue(e.target.value)} style={{ marginBottom: '6px' }}/>
+            { (!searchValue || !searchValue.length) &&
+                <i className="icon icon-pen position-absolute commands-search-button"/> }
+            { searchValue && !!searchValue.length &&
+                <i className="icon icon-clear position-absolute commands-clear-button" onClick={event => { setSearchValue('') }} /> }
+            </Flex>
     );
      const filteredMessages = item.messages.filter((message) =>
             message.toLowerCase().includes(searchValue.toLowerCase())

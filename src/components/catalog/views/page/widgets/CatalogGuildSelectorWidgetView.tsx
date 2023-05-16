@@ -76,9 +76,20 @@ export const CatalogGuildSelectorWidgetView: FC<{}> = props =>
                     <Base fullHeight style={ { width: '20px', backgroundColor: '#' + selectedGroup.colorA } } />
                     <Base fullHeight style={ { width: '20px', backgroundColor: '#' + selectedGroup.colorB } } />
                 </Flex> }
-            <select className={`form-select form-select-sm ${isOpen ? 'active' : ''}`} value={ selectedGroupIndex } onChange={ event => setSelectedGroupIndex(parseInt(event.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
-                { groups.map((group, index) => <option key={ index } value={ index }>{ group.groupName }</option>) }
-            </select>
+            <div className={`customSelect ${isOpen ? 'active' : ''}`} onClick={handleSelectClick} onBlur={handleSelectBlur} tabIndex={0}>
+                <div className="selectButton">{groups[selectedGroupIndex].groupName}</div>
+                <div className="options">
+                    {groups.map((group, index) => (
+                        <div
+                            key={ index }
+                            value={ index }
+                            className={`option ${isOpen && index === selectedGroupIndex ? 'selected' : ''}`}
+                            onClick={() => setSelectedGroupIndex(index)}>
+                            { group.groupName }
+                        </div>
+                    ))}
+                </div>
+            </div>
         </Flex>
     );
 }

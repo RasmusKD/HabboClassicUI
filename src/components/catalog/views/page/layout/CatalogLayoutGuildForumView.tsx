@@ -31,7 +31,7 @@ export const CatalogLayouGuildForumView: FC<CatalogLayoutProps> = props =>
                 <Column overflow="hidden" gap={ 1 }>
                     { !!currentOffer &&
                         <>
-                            <Column grow gap={ 0 }>
+                            <Column grow gap={ 1 }>
                                 <Text truncate>{ currentOffer.localizationName }</Text>
                                 <Base grow>
                                     <CatalogGuildSelectorWidgetView />

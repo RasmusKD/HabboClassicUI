@@ -20,14 +20,15 @@ export const CatalogGridOfferView: FC<CatalogGridOfferViewProps> = props =>
     const { isVisible = false } = useInventoryFurni();
 
     const iconUrl = useMemo(() =>
-    {
-        if(offer.pricingModel === Offer.PRICING_MODEL_BUNDLE)
         {
-            return 'https://habboclassic.dk/swfs/dcr/hof_furni/Bundle.png';
-        }
+            const selectedOffer = itemActive ? currentOffer : offer;
+            if(selectedOffer && selectedOffer.pricingModel === Offer.PRICING_MODEL_BUNDLE)
+            {
+                return 'https://habboclassic.dk/swfs/dcr/hof_furni/Bundle.png';
+            }
 
-        return offer.product.getIconUrl(offer);
-    }, [ offer ]);
+            return selectedOffer ? selectedOffer.product.getIconUrl(selectedOffer) : null;
+        }, [ currentOffer, offer, itemActive ]);
 
     const onMouseEvent = (event: MouseEvent) =>
     {
@@ -48,9 +49,10 @@ export const CatalogGridOfferView: FC<CatalogGridOfferViewProps> = props =>
         }
     }
 
-    const product = offer.product;
+    const selectedOffer = itemActive ? currentOffer : offer;
+    const product = selectedOffer ? selectedOffer.product : null;
 
-    if(!product) return null;
+        if(!product) return null;
 
     return (
         <Column className="catalog-grid-active cursor-pointer" gap={ 0 } itemActive={ itemActive } onMouseDown={ onMouseEvent } onMouseUp={ onMouseEvent } onMouseOut={ onMouseEvent }>

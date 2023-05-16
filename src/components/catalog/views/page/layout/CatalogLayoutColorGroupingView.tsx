@@ -23,6 +23,8 @@ export const CatalogLayoutColorGroupingView : FC<CatalogLayoutColorGroupViewProp
     const [ colorableItems, setColorableItems ] = useState<Map<string, number[]>>(new Map<string, number[]>());
     const { currentOffer = null, purchaseOptions = null, setCurrentOffer = null, currentPage = null } = useCatalog();
     const [ colorsShowing, setColorsShowing ] = useState<boolean>(false);
+    const [selectedColor, setSelectedColor] = useState<number>(0xFFFFFF);
+    const [selectedColorIndex, setSelectedColorIndex] = useState<number>(0);
 
     const sortByColorIndex = (a: IPurchasableOffer, b: IPurchasableOffer) =>
     {
@@ -57,18 +59,28 @@ export const CatalogLayoutColorGroupingView : FC<CatalogLayoutColorGroupViewProp
     const selectOffer = (offer: IPurchasableOffer) =>
     {
         offer.activate();
-        setCurrentOffer(offer);
-    }
+
+                // Apply the selected color to the offer
+                if (colorableItems.has(offer.product.furnitureData.className)) {
+                    selectColor(selectedColorIndex, offer.product.furnitureData.className);
+                } else {
+                    setCurrentOffer(offer);
+                }
+            }
 
     const selectColor = (colorIndex: number, productName: string) =>
-    {
-        const fullName = `${ productName }*${ colorIndex }`;
-        const index = page.offers.findIndex(offer => offer.product.furnitureData.fullName === fullName);
-        if (index > -1)
         {
-            selectOffer(page.offers[index]);
+            // Store the selected color and its index
+            setSelectedColorIndex(colorIndex);
+            setSelectedColor(colorableItems.get(productName)[colorIndex]);
+
+            const fullName = `${productName}*${colorIndex}`;
+            const index = page.offers.findIndex(offer => offer.product.furnitureData.fullName === fullName);
+            if (index > -1)
+            {
+                setCurrentOffer(page.offers[index]);
+            }
         }
-    }
 
     const offers = useMemo(() =>
     {
