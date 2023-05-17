@@ -116,13 +116,42 @@ export const RoomToolsWidgetView: FC<{}> = props =>
         }
     }, [show]);
 
-    useEffect(() =>
-    {
+    useEffect(() => {
         setIsOpen(true);
 
         const timeout = setTimeout(() => setIsOpen(false), 5000);
 
-    }, [ roomName, roomOwner, roomTags, show ]);
+        return () => {
+          clearTimeout(timeout);
+        };
+    }, [roomName, roomOwner, roomTags]);
+
+    // useEffect for show
+    useEffect(() => {
+        if (show) {
+            setIsOpen(true);
+
+            const timeout = setTimeout(() => setIsOpen(false), 5000);
+
+            return () => {
+              clearTimeout(timeout);
+            };
+        } else {
+            setIsOpen(false);
+        }
+    }, [show]);
+
+    useEffect(() => {
+      let timeout;
+
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => setIsOpen(false), 5000);
+
+      return () => {
+        clearTimeout(timeout);
+      };
+    }, [roomName, roomOwner, roomTags, show]);
 
     useEffect(() => {
         localStorage.setItem("showState", JSON.stringify(show));
@@ -135,29 +164,10 @@ export const RoomToolsWidgetView: FC<{}> = props =>
 
     return (
         <Flex gap={ 2 } className="nitro-room-tools-container">
-            <div className="btn-toggle toggle-roomtool d-flex align-items-center" onClick={ () => setShow(!show) }>
+            <div className="btn-toggle toggle-roomtool d-flex align-items-center" onClick={ () => setShow(prevValue => !prevValue) }>
                 <div className={ classNames('toggle-icon', (!show && 'right'), (show && 'left')) }/>
             </div>
-            { !show && (
-                <Column justifyContent="end">
-                    <TransitionAnimation type={ TransitionAnimationTypes.SLIDE_LEFT } inProp={ isOpen } timeout={ 300 }>
-                        <Column center gap={ 0 }>
-                            <Column className="nitro-room-tools-info py-2 px-3" gap={ 0 }>
-                                <Column gap={ 0 }>
-                                    <Text wrap variant="white overflow-hidden" fontSize={ 4 }>{ roomName }</Text>
-                                    { roomOwner &&
-                                    <Text className='owner-name-color'>af { roomOwner }</Text>}
-                                </Column>
-                                { roomTags && roomTags.length > 0 &&
-                                                    <Flex className='tag-wrap'>
-                                    { roomTags.map((tag, index) => <Text key={ index } pointer className="tag-bg2" onClick={ () => handleToolClick('navigator_search_tag', tag) }>#{ tag }</Text>) }
-                                                    </Flex> }
-                            </Column>
-                        </Column>
-                    </TransitionAnimation>
-                </Column>
-            ) }
-            { show && (
+            <TransitionAnimation type={ TransitionAnimationTypes.SLIDE_LEFT } inProp={ show }>
                 <><Column center className="nitro-room-tools p-2 " gap={ 2 }>
                     <Flex gap={ 0 }>
                         <Column center gap={ 0 }>
@@ -206,24 +216,25 @@ export const RoomToolsWidgetView: FC<{}> = props =>
                         </TransitionAnimation>
                     </Flex>
                 </Column>
-                <Column justifyContent="end">
-                    <TransitionAnimation type={ TransitionAnimationTypes.SLIDE_LEFT } inProp={ !hideTools } timeout={ 300 }>
-                        <Column center gap={ 0 }>
-                            <Column className="nitro-room-tools-info py-2 px-3" gap={ 0 }>
-                                <Column gap={ 0 }>
-                                    <Text wrap variant="white overflow-hidden" fontSize={ 4 }>{ roomName }</Text>
-                                    { roomOwner &&
-                                    <Text className='owner-name-color'>af { roomOwner }</Text>}
-                                </Column>
-                                { roomTags && roomTags.length > 0 &&
-                                        <Flex className='tag-wrap'>
-                                            { roomTags.map((tag, index) => <Text key={ index } pointer className="tag-bg2">#{ tag }</Text>) }
-                                        </Flex> }
+               </>
+            </TransitionAnimation>
+            <Column justifyContent="end">
+                <TransitionAnimation type={ TransitionAnimationTypes.SLIDE_LEFT } inProp={ isOpen } timeout={ 300 }>
+                    <Column center gap={ 0 }>
+                        <Column className="nitro-room-tools-info py-2 px-3" gap={ 0 }>
+                            <Column gap={ 0 }>
+                                <Text wrap variant="white overflow-hidden" fontSize={ 4 }>{ roomName }</Text>
+                                { roomOwner &&
+                                <Text className='owner-name-color'>af { roomOwner }</Text>}
                             </Column>
+                            { roomTags && roomTags.length > 0 &&
+                                    <Flex className='tag-wrap'>
+                                        { roomTags.map((tag, index) => <Text key={ index } pointer className="tag-bg2">#{ tag }</Text>) }
+                                    </Flex> }
                         </Column>
-                    </TransitionAnimation>
-                </Column></>
-            ) }
+                    </Column>
+                </TransitionAnimation>
+            </Column>
         </Flex>
     );
 }
