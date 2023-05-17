@@ -2,6 +2,7 @@
     position: absolute;
     bottom: $toolbar-height + 5px;
     left: 0;
+    z-index: 1;
 
     .nitro-room-tools {
         border-image-source: url('@/assets/flash/boxes/card/room_info_bg.png');
