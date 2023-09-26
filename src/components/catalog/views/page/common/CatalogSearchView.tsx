@@ -1,7 +1,7 @@
 import { IFurnitureData } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
 import { CatalogPage, CatalogType, FilterCatalogNode, FurnitureOffer, GetOfferNodes, GetSessionDataManager, ICatalogNode, ICatalogPage, IPurchasableOffer, LocalizeText, PageLocalization, SearchResult } from '../../../../../api';
-import { Button, Flex } from '../../../../../common';
+import { Flex } from '../../../../../common';
 import { useCatalog } from '../../../../../hooks';
 
 export const CatalogSearchView: FC<{}> = props =>
@@ -29,9 +29,7 @@ export const CatalogSearchView: FC<{}> = props =>
 
         const timeout = setTimeout(() =>
         {
-            const furnitureDatas = GetSessionDataManager().getAllFurnitureData({
-                loadFurnitureData: null
-            });
+            const furnitureDatas = GetSessionDataManager().getAllFurnitureData();
 
             if(!furnitureDatas || !furnitureDatas.length) return;
 

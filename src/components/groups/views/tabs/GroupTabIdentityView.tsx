@@ -121,7 +121,7 @@ export const GroupTabIdentityView: FC<GroupTabIdentityViewProps> = props =>
     if(!groupData) return null;
 
     return (
-        <Column justifyContent="between" overflow="auto">
+        <Column className="friendbars something3" justifyContent="between" overflow="auto">
             <Column gap={ 1 }>
                 <Column gap={ 1 }>
                     <Text bold>{ LocalizeText('group.edit.name') }</Text>
@@ -136,42 +136,25 @@ export const GroupTabIdentityView: FC<GroupTabIdentityViewProps> = props =>
                         <Column gap={ 1 }>
                             <Text bold>{ LocalizeText('group.edit.base') }</Text>
                             <Column fullWidth gap={ 1 }>
-                                <div className={`groupcustomSelect ${isOpen ? 'active' : ''}`} ref={dropdownRef} onClick={handleSelectClick} tabIndex={0}>
-                                    <div className="selectButton">
-                                        {groupHomeroomId === -1
-                                            ? LocalizeText('group.edit.base.select.room')
-                                            : availableRooms && availableRooms.find(room => room.id === groupHomeroomId)?.name
-                                        }
-                                    </div>
-                                    <div className="options">
-                                       {Array.from({ length: itemsPerPage }).map((_, index) => {
-                                           const room = availableRooms && availableRooms.length > 0 && availableRooms
-                                               .slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)[index];
-
-                                           return room ? (
-                                               <div
-                                                   key={index}
-                                                   value={room.id}
-                                                   className={`option ${isOpen && room.id === groupHomeroomId ? 'selected' : ''}`}
-                                                   onClick={() => setGroupHomeroomId(room.id)}>
-                                                   {room.name}
-                                               </div>
-                                           ) : (
-                                               <div key={index} className="placeholder-option"></div>
-                                           );
-                                       })}
-                                        {availableRooms && availableRooms.length > itemsPerPage &&
-                                            <Flex className="select-room-padding">
-                                                <Base className={`w-100 select-next-prev-button ${currentPage === 0 ? 'disabled' : ''}`}  onClick={handlePrevPage} disabled={currentPage === 0}>
-                                                    Forrige
-                                                </Base>
-                                                <Text className="w-100 group-select-text" bold>{`Side ${currentPage + 1}/${totalPages}`}</Text>
-                                                <Base className={`w-100 select-next-prev-button ${currentPage === totalPages - 1 ? 'disabled' : ''}`} onClick={handleNextPage} disabled={currentPage === totalPages - 1}>
-                                                    Næste
-                                                </Base>
-                                            </Flex>}
-                                    </div>
+                            <div className={`groupcustomSelect ${isOpen ? 'active' : ''}`} onClick={handleSelectClick} onBlur={handleSelectBlur} tabIndex={0}>
+                                <div className="selectButton">
+                                    { groupHomeroomId === -1
+                                        ? LocalizeText('group.edit.base.select.room')
+                                        : availableRooms.find(room => room.id === groupHomeroomId)?.name
+                                    }
                                 </div>
+                                <div className="options">
+                                    {availableRooms && availableRooms.map((room, index) => (
+                                        <div
+                                            key={ index }
+                                            value={ room.id }
+                                            className={`option ${isOpen && room.id === groupHomeroomId ? 'selected' : ''}`}
+                                            onClick={() => setGroupHomeroomId(room.id)}>
+                                            { room.name }
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                             </Column>
                         </Column>
                         <Flex gap={ 1 }>

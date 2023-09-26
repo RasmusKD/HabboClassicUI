@@ -1,7 +1,7 @@
 import { FriendlyTime, GetModeratorUserInfoMessageComposer, ModeratorUserInfoData, ModeratorUserInfoEvent } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useMemo, useState } from 'react';
 import { CreateLinkEvent, LocalizeText, SendMessageComposer } from '../../../../api';
-import { Button, Column, DraggableWindowPosition, Grid, NitroCardContentView, NitroCardHeaderView, NitroCardView } from '../../../../common';
+import { Button, Column, DraggableWindowPosition, Flex, Grid, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text } from '../../../../common';
 import { useMessageEvent } from '../../../../hooks';
 import { ModToolsUserModActionView } from './ModToolsUserModActionView';
 import { ModToolsUserRoomVisitsView } from './ModToolsUserRoomVisitsView';
@@ -117,11 +117,11 @@ export const ModToolsUserView: FC<ModToolsUserViewProps> = props =>
                                         return (
                                             <tr key={ index }>
                                                 <th scope="row">{ LocalizeText(property.localeKey) }</th>
-                                                <td>
-                                                    { property.value }
+                                                <Flex alignItems="center">
+                                                    <Text gfnb>{ property.value }</Text>
                                                     { property.showOnline &&
                                                     <i className={ `icon icon-pf-${ userInfo.online ? 'online' : 'offline' } ms-2` } /> }
-                                                </td>
+                                                </Flex>
                                             </tr>
                                         );
                                     }) }

@@ -1,8 +1,9 @@
 import { AvatarAction, AvatarExpressionEnum, RoomControllerLevel, RoomObjectCategory, RoomUnitDropHandItemComposer } from '@nitrots/nitro-renderer';
-import { Dispatch, FC, SetStateAction, useState } from 'react';
-import { AvatarInfoUser, CreateLinkEvent, DispatchUiEvent, GetCanStandUp, GetCanUseExpression, GetOwnPosture, GetUserProfile, HasHabboClub, HasHabboVip, IsRidingHorse, LocalizeText, PostureTypeEnum, SendMessageComposer } from '../../../../../api';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { GoArrowDown, GoArrowDownLeft, GoArrowDownRight, GoArrowLeft, GoArrowRight, GoArrowUp, GoArrowUpLeft, GoArrowUpRight } from 'react-icons/go';
+import { LuRotateCw } from 'react-icons/lu';
+import { AvatarInfoUser, CreateLinkEvent, GetCanStandUp, GetCanUseExpression, GetOwnPosture, GetUserProfile, HasHabboClub, HasHabboVip, IsRidingHorse, LocalizeText, PostureTypeEnum, SendMessageComposer } from '../../../../../api';
 import { Column, Flex, LayoutCurrencyIcon } from '../../../../../common';
-import { HelpNameChangeEvent } from '../../../../../events';
 import { useRoom } from '../../../../../hooks';
 import { ContextMenuHeaderView } from '../../context-menu/ContextMenuHeaderView';
 import { ContextMenuListItemView } from '../../context-menu/ContextMenuListItemView';
@@ -21,12 +22,26 @@ const MODE_CLUB_DANCES = 1;
 const MODE_NAME_CHANGE = 2;
 const MODE_EXPRESSIONS = 3;
 const MODE_SIGNS = 4;
+const MODE_ROTATIONS = 5;
 
 export const AvatarInfoWidgetOwnAvatarView: FC<AvatarInfoWidgetOwnAvatarViewProps> = props =>
 {
     const { avatarInfo = null, isDancing = false, setIsDecorating = null, onClose = null } = props;
     const [ mode, setMode ] = useState((isDancing && HasHabboClub()) ? MODE_CLUB_DANCES : MODE_NORMAL);
     const { roomSession = null } = useRoom();
+    const [posture, setPosture] = useState<string>(GetOwnPosture());
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const currentPosture = GetOwnPosture();
+            if (currentPosture !== posture) {
+                setPosture(currentPosture);
+            }
+        }, 500); // Check every half-second. Adjust this duration as needed.
+
+        return () => clearInterval(interval); // Cleanup on unmount.
+    }, [posture]);
+
     const processAction = (name: string) =>
     {
         let hideMenu = true;
@@ -39,15 +54,18 @@ export const AvatarInfoWidgetOwnAvatarView: FC<AvatarInfoWidgetOwnAvatarViewProp
 
                 roomSession.sendSignMessage(sign);
             }
+            else if(name.startsWith('rotation_'))
+            {
+                const rotation = parseInt(name.split('_')[1]);
+
+                roomSession.sendRotationMessage(rotation);
+            }
             else
             {
                 switch(name)
                 {
                     case 'decorate':
                         setIsDecorating(true);
-                        break;
-                    case 'change_name':
-                        DispatchUiEvent(new HelpNameChangeEvent(HelpNameChangeEvent.INIT));
                         break;
                     case 'change_looks':
                         CreateLinkEvent('avatar-editor/show');
@@ -61,6 +79,9 @@ export const AvatarInfoWidgetOwnAvatarView: FC<AvatarInfoWidgetOwnAvatarViewProp
                         break;
                     case 'stand':
                         roomSession.sendPostureMessage(PostureTypeEnum.POSTURE_STAND);
+                        break;
+                    case 'lay':
+                        roomSession.sendPostureMessage(PostureTypeEnum.POSTURE_LAY);
                         break;
                     case 'wave':
                         roomSession.sendExpressionMessage(AvatarExpressionEnum.WAVE.ordinal);
@@ -94,6 +115,10 @@ export const AvatarInfoWidgetOwnAvatarView: FC<AvatarInfoWidgetOwnAvatarViewProp
                         hideMenu = false;
                         setMode(MODE_SIGNS);
                         break;
+                    case 'rotations':
+                        hideMenu = false;
+                        setMode(MODE_ROTATIONS);
+                        break;
                     case 'back':
                         hideMenu = false;
                         setMode(MODE_NORMAL);
@@ -120,10 +145,6 @@ export const AvatarInfoWidgetOwnAvatarView: FC<AvatarInfoWidgetOwnAvatarViewProp
             </ContextMenuHeaderView>
                     { (mode === MODE_NORMAL) &&
                 <>
-                    { avatarInfo.allowNameChange &&
-                        <ContextMenuListItemView onClick={ event => processAction('change_name') }>
-                            { LocalizeText('widget.avatar.change_name') }
-                        </ContextMenuListItemView> }
                     { isShowDecorate() &&
                         <ContextMenuListItemView onClick={ event => processAction('decorate') }>
                             { LocalizeText('widget.avatar.decorate') }
@@ -161,6 +182,12 @@ export const AvatarInfoWidgetOwnAvatarView: FC<AvatarInfoWidgetOwnAvatarViewProp
                             <i className="icon icon-context-arrow-right mt-auto mb-auto"/>
                         </Flex>
                     </ContextMenuListItemView>
+                    <ContextMenuListItemView onClick={ event => processAction('rotations') }>
+                        <Flex gap={ 1 }>
+                            Roter
+                            <i className="icon icon-context-arrow-right mt-auto mb-auto"/>
+                        </Flex>
+                    </ContextMenuListItemView>
                     { (avatarInfo.carryItem > 0) &&
                         <ContextMenuListItemView onClick={ event => processAction('drop_carry_item') }>
                             { LocalizeText('avatar.widget.drop_hand_item') }
@@ -193,13 +220,17 @@ export const AvatarInfoWidgetOwnAvatarView: FC<AvatarInfoWidgetOwnAvatarViewProp
                 </> }
                     { (mode === MODE_EXPRESSIONS) &&
                 <>
-                    { (GetOwnPosture() === AvatarAction.POSTURE_STAND) &&
+                    { (GetOwnPosture() === AvatarAction.POSTURE_STAND || GetOwnPosture() === AvatarAction.POSTURE_LAY) &&
                         <ContextMenuListItemView onClick={ event => processAction('sit') }>
                             { LocalizeText('widget.memenu.sit') }
                         </ContextMenuListItemView> }
-                    { GetCanStandUp() &&
+                    { (GetOwnPosture() === AvatarAction.POSTURE_SIT || GetOwnPosture() === AvatarAction.POSTURE_LAY) &&
                         <ContextMenuListItemView onClick={ event => processAction('stand') }>
                             { LocalizeText('widget.memenu.stand') }
+                        </ContextMenuListItemView> }
+                    { (GetOwnPosture() === AvatarAction.POSTURE_STAND || GetOwnPosture() === AvatarAction.POSTURE_SIT) &&
+                        <ContextMenuListItemView onClick={ event => processAction('lay') }>
+                            { LocalizeText('widget.memenu.lay') }
                         </ContextMenuListItemView> }
                     { GetCanUseExpression() &&
                         <ContextMenuListItemView onClick={ event => processAction('wave') }>
@@ -293,6 +324,48 @@ export const AvatarInfoWidgetOwnAvatarView: FC<AvatarInfoWidgetOwnAvatarViewProp
                             <i className="icon icon-sign-red" />
                         </ContextMenuListItemView>
                     </Flex>
+                    <ContextMenuListItemView onClick={ event => processAction('back') }>
+                        <Flex gap={ 1 }>
+                            <i className="icon icon-context-arrow-left mt-auto mb-auto"/>
+                            { LocalizeText('generic.back') }
+                        </Flex>
+                    </ContextMenuListItemView>
+                </> }
+                { (mode === MODE_ROTATIONS) &&
+                <>
+                <Flex className="menu-list-split-3">
+                    <ContextMenuListItemView disabled={posture === AvatarAction.POSTURE_WALK || posture === AvatarAction.POSTURE_LAY} onClick={event => processAction('rotation_6')}>
+                        <GoArrowUpLeft className="font-size-18" />
+                    </ContextMenuListItemView>
+                    <ContextMenuListItemView disabled={posture === AvatarAction.POSTURE_WALK || posture === AvatarAction.POSTURE_SIT || posture === AvatarAction.POSTURE_LAY} onClick={event => processAction('rotation_7')}>
+                        <GoArrowUp className="font-size-18" />
+                    </ContextMenuListItemView>
+                    <ContextMenuListItemView disabled={posture === AvatarAction.POSTURE_WALK || posture === AvatarAction.POSTURE_LAY} onClick={ event => processAction('rotation_0') }>
+                        <GoArrowUpRight className="font-size-18" />
+                    </ContextMenuListItemView>
+                </Flex>
+                <Flex className="menu-list-split-3">
+                    <ContextMenuListItemView disabled={posture === AvatarAction.POSTURE_WALK || posture === AvatarAction.POSTURE_SIT || posture === AvatarAction.POSTURE_LAY} onClick={ event => processAction('rotation_5') }>
+                        <GoArrowLeft className="font-size-18" />
+                    </ContextMenuListItemView>
+                    <ContextMenuListItemView disabled={posture === AvatarAction.POSTURE_WALK || posture === AvatarAction.POSTURE_LAY} onClick={ event => processAction('rotation_8') }>
+                        <LuRotateCw className="font-size-18" />
+                    </ContextMenuListItemView>
+                    <ContextMenuListItemView disabled={posture === AvatarAction.POSTURE_WALK || posture === AvatarAction.POSTURE_SIT || posture === AvatarAction.POSTURE_LAY} onClick={ event => processAction('rotation_1') }>
+                        <GoArrowRight className="font-size-18" />
+                    </ContextMenuListItemView>
+                </Flex>
+                <Flex className="menu-list-split-3">
+                    <ContextMenuListItemView disabled={posture === AvatarAction.POSTURE_WALK} onClick={ event => processAction(GetOwnPosture() === AvatarAction.POSTURE_LAY ? 'rotation_0' : 'rotation_4') }>
+                        <GoArrowDownLeft className="font-size-18" />
+                    </ContextMenuListItemView>
+                    <ContextMenuListItemView disabled={posture === AvatarAction.POSTURE_WALK || posture === AvatarAction.POSTURE_SIT || posture === AvatarAction.POSTURE_LAY} onClick={ event => processAction('rotation_3') }>
+                        <GoArrowDown className="font-size-18" />
+                    </ContextMenuListItemView>
+                    <ContextMenuListItemView disabled={posture === AvatarAction.POSTURE_WALK} onClick={ event => processAction('rotation_2') }>
+                        <GoArrowDownRight className="font-size-18" />
+                    </ContextMenuListItemView>
+                </Flex>
                     <ContextMenuListItemView onClick={ event => processAction('back') }>
                         <Flex gap={ 1 }>
                             <i className="icon icon-context-arrow-left mt-auto mb-auto"/>

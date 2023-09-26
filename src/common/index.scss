@@ -46,10 +46,11 @@
 
 .layout-grid-wardrobe {
     height: var(--nitro-grid-column-min-height, unset);
-    background-position: center;
+    background-position: 51% 40%;
     background-repeat: no-repeat;
     border-radius: 2rem!important;
     overflow: visible!important;
+    background-color: #e9e9e1;
 
     &:hover {
         background-color: #cecdc8!important;
@@ -193,7 +194,7 @@
     &.active {
         border-image-source: url('@/assets/flash/navigator/room-creator/room-bg-active.png') !important;
         color: #fff !important;
-        
+
         .active-arrow {
             background-image: url('@/assets/flash/navigator/room-creator/arrow.png');
             width: 18px;
@@ -552,7 +553,8 @@
     }
 }
 
-.furni-image {
+.furni-image,
+.room-object-image {
     position: relative;
     width: 100%;
     height: 100%;

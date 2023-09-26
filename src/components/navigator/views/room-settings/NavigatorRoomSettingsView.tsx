@@ -96,7 +96,7 @@ export const NavigatorRoomSettingsView: FC<{}> = props =>
                     newValue.tags = value as Array<string>;
                     break;
                 case 'allow_walkthrough':
-                    newValue.allowWalkthrough = Boolean(value);
+                    newValue.allowWalkthrough = Number(value);
                     break;
                 case 'allow_pets':
                     newValue.allowPets = Boolean(value);

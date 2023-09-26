@@ -24,7 +24,7 @@ export const CatalogLayoutSingleBundleView: FC<CatalogLayoutProps> = props =>
                 <Column size={ 5 } overflow="hidden" gap={ 1 }>
                     <Column grow position="relative" overflow="hidden" gap={ 0 }>
                         { !!page.localization.getImage(1) &&
-                            <img alt="" className="flex-grow-1" src={ page.localization.getImage(1) } /> }
+                            <img draggable="false" alt="" className="flex-grow-1" src={ page.localization.getImage(1) } /> }
                         <CatalogAddOnBadgeWidgetView position="absolute" className="bg-muted rounded bottom-0 start-0" />
                         <CatalogSimplePriceWidgetView position="absolute" className="bottom-0 end-0" />
                     </Column>

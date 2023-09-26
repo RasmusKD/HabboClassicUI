@@ -1,26 +1,31 @@
-import { ExtendedProfileChangedMessageEvent, RelationshipStatusInfoEvent, RelationshipStatusInfoMessageParser, RoomEngineObjectEvent, RoomObjectCategory, RoomObjectType, UserCurrentBadgesComposer, UserCurrentBadgesEvent, UserProfileEvent, UserProfileParser, UserRelationshipsComposer } from '@nitrots/nitro-renderer';
+import { ExtendedProfileChangedMessageEvent, RelationshipStatusInfoEvent, RelationshipStatusInfoMessageParser, FriendsStatusInfoEvent, FriendsStatusInfoMessageParser, RoomEngineObjectEvent, RoomObjectCategory, RoomObjectType, UserCurrentBadgesComposer, UserCurrentBadgesEvent, UserProfileEvent, UserProfileParser, UserRelationshipsComposer, UserFriendsComposer } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useRef, useState } from 'react';
 import { CreateLinkEvent, GetRoomSession, GetSessionDataManager, GetUserProfile, LocalizeText, SendMessageComposer } from '../../api';
 import { Column, Flex, Grid, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text } from '../../common';
-import { useMessageEvent, useRoomEngineEvent } from '../../hooks';
+import { useMessageEvent, useNitroEvent } from '../../hooks';
 import { BadgesContainerView } from './views/BadgesContainerView';
 import { FriendsContainerView } from './views/FriendsContainerView';
 import { GroupsContainerView } from './views/GroupsContainerView';
 import { UserContainerView } from './views/UserContainerView';
-
+import { RelationshipsContainerView } from './views/RelationshipsContainerView';
+import { AllFriendsContainerView } from './views/AllFriendsContainerView';
 export const UserProfileView: FC<{}> = props =>
 {
     const [ userProfile, setUserProfile ] = useState<UserProfileParser>(null);
     const [ userBadges, setUserBadges ] = useState<string[]>([]);
     const [ userRelationships, setUserRelationships ] = useState<RelationshipStatusInfoMessageParser>(null);
+    const [ userFriends, setUserFriends ] = useState<FriendsStatusInfoMessageParser>(null);
     const [ isVisible, setVisible ] = useState(false);
     const elementRef = useRef<HTMLDivElement>();
+    const [friendsVisible, setFriendsVisible] = useState(false);
 
     const onClose = () =>
     {
         setUserProfile(null);
         setUserBadges([]);
         setUserRelationships(null);
+        setUserFriends(null);
+        setFriendsVisible(false);
     }
 
     const onLeaveGroup = () =>
@@ -28,6 +33,18 @@ export const UserProfileView: FC<{}> = props =>
         if(!userProfile || (userProfile.id !== GetSessionDataManager().userId)) return;
 
         GetUserProfile(userProfile.id);
+    }
+
+    const handleAction = (action: string) => {
+        switch(action) {
+            case 'relationships':
+                setFriendsVisible(prev => !prev);
+                break;
+        }
+    }
+
+    const closeFriendsView = () => {
+        setFriendsVisible(false);
     }
 
     useMessageEvent<UserCurrentBadgesEvent>(UserCurrentBadgesEvent, event =>
@@ -48,6 +65,15 @@ export const UserProfileView: FC<{}> = props =>
         setUserRelationships(parser);
     });
 
+    useMessageEvent<FriendsStatusInfoEvent>(FriendsStatusInfoEvent, event =>
+    {
+        const parser = event.getParser();
+
+        if(!userProfile || (parser.userId !== userProfile.id)) return;
+
+        setUserFriends(parser);
+    });
+
     useMessageEvent<UserProfileEvent>(UserProfileEvent, event =>
     {
         const parser = event.getParser();
@@ -65,10 +91,12 @@ export const UserProfileView: FC<{}> = props =>
         {
             setUserBadges([]);
             setUserRelationships(null);
+            setUserFriends(null);
         }
 
         SendMessageComposer(new UserCurrentBadgesComposer(parser.id));
         SendMessageComposer(new UserRelationshipsComposer(parser.id));
+        SendMessageComposer(new UserFriendsComposer(parser.id));
     });
 
     useMessageEvent<ExtendedProfileChangedMessageEvent>(ExtendedProfileChangedMessageEvent, event =>
@@ -80,7 +108,7 @@ export const UserProfileView: FC<{}> = props =>
         GetUserProfile(parser.userId);
     });
 
-    useRoomEngineEvent<RoomEngineObjectEvent>(RoomEngineObjectEvent.SELECTED, event =>
+    useNitroEvent<RoomEngineObjectEvent>(RoomEngineObjectEvent.SELECTED, event =>
     {
         if(!userProfile) return;
 
@@ -118,7 +146,23 @@ export const UserProfileView: FC<{}> = props =>
                     </Column>
                     <Column size={ 5 }>
                         { userRelationships &&
-                            <FriendsContainerView relationships={ userRelationships } friendsCount={ userProfile.friendsCount } /> }
+                            <Column gap={ 1 }>
+                                <Flex justifyContent="between">
+                                    <Text className='font-size-11'>
+                                        <b>{ LocalizeText('extendedprofile.friends.count') }</b> { userProfile.friendsCount }
+                                    </Text>
+                                    <Text className='font-size-11' underline pointer onClick={() => handleAction('relationships')}>
+                                        <b>Vis alle venner</b>
+                                    </Text>
+                                </Flex>
+                                <Text bold small>{ LocalizeText('extendedprofile.relstatus') }</Text>
+                                <Column>
+                                    <RelationshipsContainerView relationships={ userRelationships } />
+                                </Column>
+                            </Column> }
+                        {friendsVisible &&
+                            <AllFriendsContainerView friends={userFriends} username={userProfile.username} onClose={closeFriendsView}/>
+                        }
                     </Column>
                 </Grid>
                 <Flex alignItems="center" className="rooms-button-container px-2 py-1">
@@ -135,5 +179,6 @@ export const UserProfileView: FC<{}> = props =>
                 <GroupsContainerView className="profile-groups-height" fullWidth itsMe={ userProfile.id === GetSessionDataManager().userId } groups={ userProfile.groups } onLeaveGroup={ onLeaveGroup } /> }
             </NitroCardContentView>
         </NitroCardView>
+
     )
 }

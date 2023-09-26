@@ -14,6 +14,8 @@ export const ChatInputView: FC<{}> = props =>
 {
     const [ chatValue, setChatValue ] = useState<string>('');
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [messagesHistory, setMessagesHistory] = useState<string[]>([]);
+    const [currentHistoryIndex, setCurrentHistoryIndex] = useState<number|null>(null);
     const { chatStyleId = 0, updateChatStyleId = null } = useSessionInfo();
     const { selectedUsername = '', floodBlocked = false, floodBlockedSeconds = 0, setIsTyping = null, setIsIdle = null, sendChat = null } = useChatInputWidget();
     const { roomSession = null } = useRoom();
@@ -46,11 +48,7 @@ export const ChatInputView: FC<{}> = props =>
       }, []);
 
     return (
-        <Base
-            pointer
-            className={`emoji-image${showEmojiPicker ? ' active' : ''}`}
-            onMouseOver={handleMouseOver}
-        >
+        <Base pointer className={`emoji-image${showEmojiPicker ? ' active' : ''}`} onMouseOver={handleMouseOver} >
             {emojiIcon || ''}
         </Base>
         );
@@ -72,7 +70,7 @@ export const ChatInputView: FC<{}> = props =>
             }
         }
     }
-    
+
     const anotherInputHasFocus = useCallback(() =>
     {
         const activeElement = document.activeElement;
@@ -150,6 +148,10 @@ export const ChatInputView: FC<{}> = props =>
       setTimeout(() => {
         inputRef.current.value = append;
       }, 0);
+      if (value !== messagesHistory[messagesHistory.length - 1]) {
+              setMessagesHistory(prev => [...prev, value]);
+          }
+          setCurrentHistoryIndex(null);
     }, [chatModeIdWhisper, chatModeIdShout, chatModeIdSpeak, maxChatLength, chatStyleId, setIsTyping, setIsIdle, sendChat]);
 
     const handleInputChange = useFilteredInput(chatValue, setChatValue);
@@ -178,6 +180,27 @@ export const ChatInputView: FC<{}> = props =>
             case ' ':
             case 'Space':
                 checkSpecialKeywordForInput();
+                return;
+            case 'ArrowUp':
+                if (GetSessionDataManager().arrowKeys !== 1) return;
+                event.preventDefault();
+                if (currentHistoryIndex === null && messagesHistory.length > 0) {
+                    setCurrentHistoryIndex(messagesHistory.length - 1);
+                    setChatValue(messagesHistory[messagesHistory.length - 1]);
+                } else if (currentHistoryIndex && currentHistoryIndex > 0) {
+                    setCurrentHistoryIndex(currentIndex => currentIndex! - 1);
+                    setChatValue(messagesHistory[currentHistoryIndex! - 1]);
+                }
+                return;
+            case 'ArrowDown':
+                if (GetSessionDataManager().arrowKeys !== 1) return;
+                if (currentHistoryIndex !== null && currentHistoryIndex < messagesHistory.length - 1) {
+                    setCurrentHistoryIndex(currentIndex => currentIndex! + 1);
+                    setChatValue(messagesHistory[currentHistoryIndex! + 1]);
+                } else {
+                    setCurrentHistoryIndex(null); // reset to allow user to type a new one
+                    setChatValue(''); // clear the chat input
+                }
                 return;
             case 'NumpadEnter':
             case 'Enter':
@@ -326,7 +349,7 @@ export const ChatInputView: FC<{}> = props =>
                     { floodBlocked &&
                     <Text variant="danger">{ LocalizeText('chat.input.alert.flood', [ 'time' ], [ floodBlockedSeconds.toString() ]) } </Text> }
                 </div>
-                               <div className="emoji-mart">{showEmojiPicker && (<Picker set="native" onEmojiSelect={handleEmojiSelect}/> )}</div>
+                <div className="emoji-mart">{showEmojiPicker && (<Picker set="native" onEmojiSelect={handleEmojiSelect}/> )}</div>
             </div>, document.getElementById('toolbar-chat-input-container'))
 
     );

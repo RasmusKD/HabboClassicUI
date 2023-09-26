@@ -17,6 +17,7 @@
         background-color: #2e2e2c4f;
         border-right: 1px solid #3b3933;
         padding-bottom: 60px;
+        padding-top: 33px;
     }
 
     .chat-toggle {
@@ -35,4 +36,9 @@
     padding-top: 0px!important;
     padding-right: 4px!important;
     padding-left: 4px!important;
+    min-height: 23px;
+}
+
+.color-chat {
+    background-color: #a5a5a5;
 }

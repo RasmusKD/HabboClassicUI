@@ -1,39 +1,35 @@
-import { FC, useMemo } from 'react';
-import { Base, Column } from '../../common';
+import { FC } from 'react';
+import { Base, Column, LayoutProgressBar, Text } from '../../common';
 
-const generateRandomImageIndex = () => Math.floor(Math.random() * 30);
-
-interface LoadingViewProps {
-    isError?: boolean;
-    message?: string;
-    percent?: number;
+interface LoadingViewProps
+{
+    isError: boolean;
+    message: string;
+    percent: number;
+    showPercent?: boolean;
 }
 
-export const LoadingView: FC<LoadingViewProps> = ({ isError = false, message = '', percent = 0 }) =>
+export const LoadingView: FC<LoadingViewProps> = props =>
 {
-    const randomImageIndex = useMemo(generateRandomImageIndex, []);
+    const { isError = false, message = '', percent = 0, showPercent = true } = props;
 
     return (
-        <Column fullHeight alignItems="center" justifyContent="center" className="nitro-loading">
-            <div className="loading-stories">
-                <div className="loadingPhoto position-absolute" data-image={ randomImageIndex } />
-                <div className="imageOverlay position-absolute"></div>
-            </div>
-            <Column className="text-center py-4">
-                { isError && message ? (
-                    <Base className="fs-4 text-shadow">{ message }</Base>
-                ) : (
-                    <>
-                        <Base className="fs-4 text-shadow">{ message }</Base>
-                        <div className="nitro-loading-bar mt-2">
-                            <div className="nitro-loading-bar-inner" style={ { width: `${ percent }%` } } />
-                        </div>
-                        <div className="percent">
-                            <p>{ percent.toFixed() }%</p>
-                        </div>
-                    </>
-                ) }
-            </Column>
+        <Column fullHeight position="relative" className="nitro-loading">
+            <Base fullHeight className="container h-100">
+                <Column fullHeight alignItems="center" justifyContent="end">
+                    { showPercent && <Column size={ 6 } className="text-center py-4">
+                        { isError && (message && message.length) ?
+                            <Base className="fs-4 text-shadow">{ message }</Base>
+                            :
+                            <>
+                                <Text fontSize={ 4 } variant="white" className="text-shadow">{ percent.toFixed() }%</Text>
+                                <LayoutProgressBar progress={ percent } className="mt-2 large" />
+                            </>
+                        }
+
+                    </Column> }
+                </Column>
+            </Base>
         </Column>
     );
-};
+}

@@ -139,10 +139,30 @@
                opacity: 1;
            }
        }
-       &:active {
-           border-image-source: url('@/assets/flash/messenger/button_active.png');
-       }
+
+   &:active {
+       border-image-source: url('@/assets/flash/messenger/button_active.png');
    }
+}
+
+.btn-chat {
+    position: relative;
+    border-image-source: url('@/assets/flash/messenger/button2.png');
+    border-image-slice: 6 6 6 6 fill;
+    border-image-width: 6px 6px 6px 6px;
+    border-image-repeat: stretch stretch;
+    text-shadow: 0px 1px 0px #fff, 1px 0px 1px #aaaaaa;
+    padding: 0px!important;
+    width: 104%;
+
+    &:hover {
+        border-image-source: url('@/assets/flash/messenger/button2.png');
+       }
+
+   &:active {
+       border-image-source: url('@/assets/flash/messenger/button_active2.png');
+   }
+}
 // scss-docs-end btn-variant-loops
 
 
@@ -212,7 +232,6 @@
   font-size: 9px;
   color: #ffffff;
   height: 25px;
-  margin-top: 5px;
 
   &:hover {
     border-image-source: url('@/assets/flash/room/infostand_buttons_hover.png');

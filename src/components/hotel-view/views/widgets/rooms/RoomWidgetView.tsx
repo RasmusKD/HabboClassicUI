@@ -21,25 +21,25 @@ export const RoomWidgetView: FC<RoomWidgetViewProps> = props =>
 
     return (
         <Flex>
-            <Base className="rooftop position-absolute" onClick={ event => CreateLinkEvent('navigator/goto/' + 645) }>
+            <Base className="rooftop-orange position-absolute" onClick={ event => CreateLinkEvent('navigator/goto/' + 645) }>
                 <i className="active-arrow arrow"/>
             </Base>
-            <Base className="rooftop-pool position-absolute" onClick={ event => CreateLinkEvent('navigator/goto/' + 644) }>
+            <Base className="rooftop-pool-orange position-absolute" onClick={ event => CreateLinkEvent('navigator/goto/' + 644) }>
                 <i className="active-arrow arrow"/>
             </Base>
-            <Base className="pool position-absolute" onClick={ event => CreateLinkEvent('navigator/goto/' + 582) }>
+            <Base className="pool-orange position-absolute" onClick={ event => CreateLinkEvent('navigator/goto/' + 582) }>
                 <i className="active-arrow arrow"/>
             </Base>
-            <Base className="picnic position-absolute" onClick={ event => CreateLinkEvent('navigator/goto/' + 82) }>
+            <Base className="picnic-orange position-absolute" onClick={ event => CreateLinkEvent('navigator/goto/' + 82) }>
                 <i className="active-arrow arrow"/>
             </Base>
-            <Base className="peaceful position-absolute" onClick={ event => CreateLinkEvent('navigator/goto/' + 124) }>
+            <Base className="peaceful-orange position-absolute" onClick={ event => CreateLinkEvent('navigator/goto/' + 124) }>
                 <i className="active-arrow arrow"/>
             </Base>
-            <Base className="infobus position-absolute" onClick={ event => CreateLinkEvent('navigator/goto/' + 609) }>
+            <Base className="infobus-orange position-absolute" onClick={ event => CreateLinkEvent('navigator/goto/' + 609) }>
                 <i className="active-arrow arrow"/>
             </Base>
-            <Base className="lobby position-absolute" onClick={ event => CreateLinkEvent('navigator/goto/' + 45) }>
+            <Base className="lobby-orange position-absolute" onClick={ event => CreateLinkEvent('navigator/goto/' + 45) }>
                 <i className="active-arrow arrow"/>
             </Base>
         </Flex>

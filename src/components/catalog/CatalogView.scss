@@ -583,28 +583,25 @@
 }
 
 .caret-up {
-    width: 10px;
+    min-width: 10px;
     height: 10px;
     background: url('@/assets/images/catalog/caret-up.png');
     background-repeat: no-repeat;
-    margin-right: 19px;
+    position: absolute;
+    left: 143px;
 }
 
 .caret-down {
-    width: 10px;
+    min-width: 10px;
     height: 10px;
     background: url('@/assets/images/catalog/caret-down.png');
     background-repeat: no-repeat;
-    margin-right: 19px;
+    position: absolute;
+    left: 143px;
 }
 
-.nav-overlay {
-    overflow: overlay!important;
-}
-
-.items-overlay {
-    overflow: overlay!important;
-    padding-right: 18px;
+.overlayscroll {
+    scrollbar-gutter: stable;
 }
 
 .gift-color-center {
@@ -805,6 +802,55 @@
   display: block;
 }
 
+.creatorcustomSelect {
+  position: absolute;
+  display: inline-block;
+  width: 242px;
+  min-width: 242px;
+}
+
+.creatorcustomSelect.active .options {
+  display: block;
+}
+
+.creator-placement1 {
+  top: 213px;
+}
+
+.creator-placement2 {
+  top: 257px;
+}
+
+.creator-placement3 {
+  top: 301px;
+}
+
+.modcustomSelect {
+  position: absolute;
+  display: inline-block;
+  width: 310px;
+  min-width: 310px;
+}
+
+.modcustomSelect.active .options {
+  display: block;
+}
+.select-div-height {
+  height: 71px;
+}
+
+.adscustomSelect {
+  position: absolute;
+  display: inline-block;
+  width: 338px;
+  min-width: 338px;
+  bottom: 81px;
+}
+
+.adscustomSelect.active .options {
+  display: block;
+}
+
 .petselect {
   position: absolute;
 }
@@ -925,6 +971,8 @@
     display: none;
     z-index: 2;
     color: black;
+    max-height: 264px;
+    overflow: auto;
 }
 
 .option {
@@ -949,4 +997,14 @@
 .ltd-badge-placement {
     top: 2.3rem!important;
 }
+.test-height {
+    height: 40px;
+}
+
+.online-status-placement {
+    right: 1px;
+    position: absolute;
+    top: 14px;
+}
+
 @import './views/targeted-offer/Offer.scss';

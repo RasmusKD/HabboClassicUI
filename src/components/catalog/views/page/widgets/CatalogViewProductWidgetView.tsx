@@ -85,7 +85,7 @@ export const CatalogViewProductWidgetView: FC<{}> = props =>
     {
         return (
             <Flex fit overflow="hidden">
-                <AutoGrid columnCount={ 4 } gap={ 0 } className="items-overlay bundle-position nitro-catalog-layout-bundle-grid">
+                <AutoGrid columnCount={ 4 } gap={ 0 } className="overlayscroll bundle-position nitro-catalog-layout-bundle-grid">
                     { (currentOffer.products.length > 0) && currentOffer.products.map((product, index) =>
                     {
                         return <LayoutGridBlank key={ index } itemImage={ product.getIconUrl(currentOffer) } itemCount={ product.productCount } />;

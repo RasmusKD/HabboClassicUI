@@ -31,7 +31,7 @@ export const CameraWidgetCaptureView: FC<CameraWidgetCaptureViewProps> = props =
         return new NitroRectangle(Math.floor(frameBounds.x), Math.floor(frameBounds.y), Math.floor(frameBounds.width), Math.floor(frameBounds.height));
     }
 
-    const takePicture = () =>
+    const takePicture = async () =>
     {
         if(selectedPictureIndex > -1)
         {
@@ -51,7 +51,7 @@ export const CameraWidgetCaptureView: FC<CameraWidgetCaptureViewProps> = props =
         }
 
         PlaySound(SoundNames.CAMERA_SHUTTER);
-        clone.push(new CameraPicture(texture, TextureUtils.generateImageUrl(texture)));
+        clone.push(new CameraPicture(texture, await TextureUtils.generateImageUrl(texture)));
 
         setCameraRoll(clone);
     }
@@ -59,7 +59,7 @@ export const CameraWidgetCaptureView: FC<CameraWidgetCaptureViewProps> = props =
     return (
         <DraggableWindow uniqueKey="nitro-camera-capture">
             <Column center className="nitro-camera-capture" gap={ 0 }>
-                { selectedPicture && <img alt="" className="camera-area" src={ selectedPicture.imageUrl } /> }
+                { selectedPicture && <img draggable="false" alt="" className="camera-area" src={ selectedPicture.imageUrl } /> }
                 <div className="camera-canvas drag-handler">
                     <div className="position-absolute header-close" onClick={ onClose } />
                     <div className="position-absolute nitro-card-header-help" onClick={ () => CreateLinkEvent('habbopages/camera') }/>
@@ -79,7 +79,7 @@ export const CameraWidgetCaptureView: FC<CameraWidgetCaptureViewProps> = props =
                     <Flex gap={ 2 } justifyContent="center" className="camera-roll d-flex justify-content-center py-2">
                         { cameraRoll.map((picture, index) =>
                         {
-                            return <img alt="" key={ index } src={ picture.imageUrl } onClick={ event => setSelectedPictureIndex(index) } />;
+                            return <img draggable="false" alt="" key={ index } src={ picture.imageUrl } onClick={ event => setSelectedPictureIndex(index) } />;
                         }) }
                     </Flex> }
             </Column>

@@ -195,7 +195,7 @@ export class CategoryBaseModel implements IAvatarEditorCategoryModel
         const paletteIndex = categoryData.getCurrentColorIndex(paletteId);
 
         categoryData.selectColorIndex(colorIndex, paletteId);
-        
+
         const colorItem = categoryData.getSelectedColor(paletteId);
 
         if(colorItem.isDisabled)
@@ -206,7 +206,7 @@ export class CategoryBaseModel implements IAvatarEditorCategoryModel
 
             return;
         }
-        
+
         AvatarEditorUtilities.CURRENT_FIGURE.savePartSetColourId(category, categoryData.getSelectedColorIds(), true);
     }
 

@@ -12,12 +12,33 @@ const MAX_WALL_HEIGHT: number = 16;
 
 const MIN_FLOOR_HEIGHT: number = 0;
 const MAX_FLOOR_HEIGHT: number = 26;
+const thicknessMapping = { 0: 'thinnest', 1: 'thin', 2: 'normal', 3: 'thick', };
 
 export const FloorplanOptionsView: FC<{}> = props =>
 {
     const { visualizationSettings = null, setVisualizationSettings = null } = useFloorplanEditorContext();
     const [ floorAction, setFloorAction ] = useState(FloorAction.SET);
     const [ floorHeight, setFloorHeight ] = useState(0);
+    const thicknessOptions = [0, 1, 2, 3];
+    const [wallThicknessIsOpen, setWallThicknessIsOpen] = useState(false);
+    const [floorThicknessIsOpen, setFloorThicknessIsOpen] = useState(false);
+
+    function handleWallThicknessSelectClick() {
+        setWallThicknessIsOpen(!wallThicknessIsOpen);
+    }
+
+    function handleWallThicknessSelectBlur() {
+        setWallThicknessIsOpen(false);
+    }
+
+    function handleFloorThicknessSelectClick() {
+        setFloorThicknessIsOpen(!floorThicknessIsOpen);
+    }
+
+    function handleFloorThicknessSelectBlur() {
+        setFloorThicknessIsOpen(false);
+    }
+
     const ColorSegments = ({ min, max, colormap }) => {
       const segments = [];
       const totalSteps = 27;
@@ -194,18 +215,34 @@ export const FloorplanOptionsView: FC<{}> = props =>
                 <Column size={ 6 }>
                     <Text bold>{ LocalizeText('floor.plan.editor.room.options') }</Text>
                     <Flex className="align-items-center">
-                        <select className="form-control form-control-sm" value={ visualizationSettings.thicknessWall } onChange={ event => onWallThicknessChange(parseInt(event.target.value)) }>
-                            <option value={ 0 }>{ LocalizeText('navigator.roomsettings.wall_thickness.thinnest') }</option>
-                            <option value={ 1 }>{ LocalizeText('navigator.roomsettings.wall_thickness.thin') }</option>
-                            <option value={ 2 }>{ LocalizeText('navigator.roomsettings.wall_thickness.normal') }</option>
-                            <option value={ 3 }>{ LocalizeText('navigator.roomsettings.wall_thickness.thick') }</option>
-                        </select>
-                        <select className="form-control form-control-sm" value={ visualizationSettings.thicknessFloor } onChange={ event => onFloorThicknessChange(parseInt(event.target.value)) }>
-                            <option value={ 0 }>{ LocalizeText('navigator.roomsettings.floor_thickness.thinnest') }</option>
-                            <option value={ 1 }>{ LocalizeText('navigator.roomsettings.floor_thickness.thin') }</option>
-                            <option value={ 2 }>{ LocalizeText('navigator.roomsettings.floor_thickness.normal') }</option>
-                            <option value={ 3 }>{ LocalizeText('navigator.roomsettings.floor_thickness.thick') }</option>
-                        </select>
+                        <div className={`customSelect ${wallThicknessIsOpen ? 'active' : ''}`} onClick={handleWallThicknessSelectClick} onBlur={handleWallThicknessSelectBlur} tabIndex={0}>
+                            <div className="selectButton">{LocalizeText(`navigator.roomsettings.wall_thickness.${thicknessMapping[visualizationSettings.thicknessWall]}`)}</div>
+                            <div className="options">
+                                {thicknessOptions.map(value => (
+                                    <div
+                                        key={value}
+                                        value={value}
+                                        className={`option ${wallThicknessIsOpen && value === visualizationSettings.thicknessWall ? 'selected' : ''}`}
+                                        onClick={() => onWallThicknessChange(value)}>
+                                        {LocalizeText(`navigator.roomsettings.wall_thickness.${thicknessMapping[value]}`)}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className={`customSelect ${floorThicknessIsOpen ? 'active' : ''}`} onClick={handleFloorThicknessSelectClick} onBlur={handleFloorThicknessSelectBlur} tabIndex={0}>
+                            <div className="selectButton">{LocalizeText(`navigator.roomsettings.floor_thickness.${thicknessMapping[visualizationSettings.thicknessFloor]}`)}</div>
+                            <div className="options">
+                                {thicknessOptions.map(value => (
+                                    <div
+                                        key={value}
+                                        value={value}
+                                        className={`option ${floorThicknessIsOpen && value === visualizationSettings.thicknessFloor ? 'selected' : ''}`}
+                                        onClick={() => onFloorThicknessChange(value)}>
+                                        {LocalizeText(`navigator.roomsettings.floor_thickness.${thicknessMapping[value]}`)}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </Flex>
                 </Column>
             </Flex>

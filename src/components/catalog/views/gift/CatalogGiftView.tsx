@@ -48,7 +48,7 @@ export const CatalogGiftView: FC<{}> = props =>
 
     const isBoxDefault = useMemo(() =>
     {
-        return giftConfiguration ? (giftConfiguration.defaultStuffTypes.findIndex(s => (s === boxTypes[selectedBoxIndex])) > -1) : false;
+        return giftConfiguration ? (giftConfiguration.defaultStuffTypes.findIndex(s => (s === boxTypes[selectedBoxIndex])) > -1) : true;
     }, [ boxTypes, giftConfiguration, selectedBoxIndex ]);
 
     const boxExtraData = useMemo(() =>
@@ -104,7 +104,10 @@ const handleAction = useCallback((action: string) =>
     {
         case 'prev_box':
             setSelectedBoxIndex(prevValue => {
-                const newValue = (prevValue === 0 ? maxBoxIndex : prevValue - 1);
+                let newValue = (prevValue === 0 ? maxBoxIndex : prevValue - 1);
+                if (boxTypes[newValue] === 7) {
+                    newValue = (newValue === 0 ? maxBoxIndex : newValue - 1);
+                }
                 if (boxTypes[newValue] === 8) {
                     setSelectedRibbonIndex(10);
                 }
@@ -113,7 +116,10 @@ const handleAction = useCallback((action: string) =>
             return;
         case 'next_box':
             setSelectedBoxIndex(prevValue => {
-                const newValue = (prevValue === maxBoxIndex ? 0 : prevValue + 1);
+                let newValue = (prevValue === maxBoxIndex ? 0 : prevValue + 1);
+                if (boxTypes[newValue] === 7) {
+                    newValue = (newValue === maxBoxIndex ? 0 : newValue + 1);
+                }
                 if (boxTypes[newValue] === 8) {
                     setSelectedRibbonIndex(10);
                 }
@@ -173,16 +179,20 @@ const handleAction = useCallback((action: string) =>
 
         setBoxTypes(prev =>
         {
-            let newPrev = giftConfiguration.boxTypes.filter(boxType => boxType !== 7);
+            let newPrev = [...giftConfiguration.boxTypes];
+
+            // Filter out box 9
+            newPrev = newPrev.filter(box => box !== 9);
 
             newPrev.push(giftConfiguration.defaultStuffTypes[ Math.floor((Math.random() * (giftConfiguration.defaultStuffTypes.length - 1))) ]);
 
             setMaxBoxIndex(newPrev.length - 1);
-            setMaxRibbonIndex(newPrev.length + 1);
+            setMaxRibbonIndex(newPrev.length);
 
             return newPrev;
         })
     },[ giftConfiguration ])
+
 
     useEffect(() =>
     {

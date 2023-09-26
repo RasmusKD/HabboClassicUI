@@ -1,5 +1,5 @@
 import { WiredActionDefinition } from '@nitrots/nitro-renderer';
-import { FC, PropsWithChildren, useEffect } from 'react';
+import { FC, PropsWithChildren, useEffect, useRef } from 'react';
 import ReactSlider from 'react-slider';
 import { GetWiredTimeLocale, LocalizeText, WiredFurniType } from '../../../../api';
 import { Button, Flex, Text } from '../../../../common';
@@ -19,6 +19,27 @@ export const WiredActionBaseView: FC<PropsWithChildren<WiredActionBaseViewProps>
 {
     const { requiresFurni = WiredFurniType.STUFF_SELECTION_OPTION_NONE, save = null, hasSpecialInput = false, children = null, hasDelay = true } = props;
     const { trigger = null, actionDelay = 0, setActionDelay = null } = useWired();
+     const sliderRef = useRef();
+
+         useEffect(() =>
+         {
+             setActionDelay((trigger as WiredActionDefinition).delayInPulses);
+         }, [ trigger, setActionDelay ]);
+
+         useEffect(() => {
+             const handleKeyDown = (event) => {
+                 if (event.key === 'ArrowRight' && actionDelay < 600) {
+                     setActionDelay(actionDelay + 1);
+                 }
+                 if (event.key === 'ArrowLeft' && actionDelay > 0) {
+                     setActionDelay(actionDelay - 1);
+                 }
+             }
+
+             window.addEventListener('keydown', handleKeyDown);
+
+             return () => window.removeEventListener('keydown', handleKeyDown);
+         }, [actionDelay, setActionDelay]);
 
     useEffect(() =>
     {
@@ -49,6 +70,7 @@ export const WiredActionBaseView: FC<PropsWithChildren<WiredActionBaseViewProps>
                         <i className="icon button-prev"/>
                     </Button>
                     <ReactSlider
+                        ref={sliderRef}
                         className={ 'wired-slider' }
                         min={ 0 }
                         max={ 600 }

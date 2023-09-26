@@ -11,7 +11,7 @@ export interface IRoomData
     userCount: number;
     tags: string[];
     tradeState: number;
-    allowWalkthrough: boolean;
+    allowWalkthrough: number;
     lockState: number;
     allowPets: boolean;
     allowPetsEat: boolean;

@@ -2,7 +2,7 @@ import { ConvertGlobalRoomIdMessageComposer, HabboWebTools, ILinkEventTracker, L
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { AddEventLinkTracker, CreateLinkEvent, LocalizeText, RemoveLinkEventTracker, SendMessageComposer, TryVisitRoom, VisitDesktop } from '../../api';
 import { Base, Column, Flex, NitroCardContentView, NitroCardHeaderView, NitroCardTabsItemView, NitroCardTabsView, NitroCardView, Text } from '../../common';
-import { useNavigator, useRoomSessionManagerEvent } from '../../hooks';
+import { useNavigator, useNitroEvent } from '../../hooks';
 import { NavigatorDoorStateView } from './views/NavigatorDoorStateView';
 import { NavigatorRoomCreatorView } from './views/NavigatorRoomCreatorView';
 import { NavigatorRoomInfoView } from './views/NavigatorRoomInfoView';
@@ -25,7 +25,7 @@ export const NavigatorView: FC<{}> = props =>
     const pendingSearch = useRef<{ value: string, code: string }>(null);
     const elementRef = useRef<HTMLDivElement>();
 
-    useRoomSessionManagerEvent<RoomSessionEvent>(RoomSessionEvent.CREATED, event =>
+    useNitroEvent<RoomSessionEvent>(RoomSessionEvent.CREATED, event =>
     {
         setIsVisible(false);
         setCreatorOpen(false);

@@ -4,7 +4,7 @@ import { SecurityLevel } from '@nitrots/nitro-renderer';
 import { AddEventLinkTracker, CreateLinkEvent, GetRoomSession, ISelectedUser, RemoveLinkEventTracker, GetSessionDataManager } from '../../api';
 import { Base, Button, DraggableWindowPosition, NitroCardContentView, NitroCardHeaderView, NitroCardView, Flex, Column } from '../../common';
 import { ButtonModtool } from '../../common/ButtonModtool';
-import { useModTools, useObjectSelectedEvent, useRoomEngineEvent } from '../../hooks';
+import { useModTools, useNitroEvent, useObjectSelectedEvent } from '../../hooks';
 import { ModToolsChatlogView } from './views/room/ModToolsChatlogView';
 import { ModToolsRoomView } from './views/room/ModToolsRoomView';
 import { ModToolsTicketsView } from './views/tickets/ModToolsTicketsView';
@@ -21,7 +21,7 @@ export const ModToolsView: FC<{}> = props =>
     const elementRef = useRef<HTMLDivElement>(null);
     const isMod = GetSessionDataManager().securityLevel >= SecurityLevel.MODERATOR;
 
-    useRoomEngineEvent<RoomEngineEvent>([
+    useNitroEvent<RoomEngineEvent>([
         RoomEngineEvent.INITIALIZED,
         RoomEngineEvent.DISPOSED
     ], event =>

@@ -23,7 +23,7 @@ export const WiredConditionUserCountInRoomView: FC<{}> = props =>
         else
         {
             setMin(1);
-            setMax(1);
+            setMax(0);
         }
     }, [ trigger ]);
 
@@ -48,16 +48,16 @@ export const WiredConditionUserCountInRoomView: FC<{}> = props =>
             <hr className="m-0 color-dark" />
             <Text className='slider-text-margin' gfbold>{ LocalizeText('wiredfurni.params.usercountmin', [ 'value' ], [ min.toString() ]) }</Text>
             <Flex className='mb-1 wired-slider-buttons '>
-                <Button disabled={ ((min === 1)) } className="notification-buttons help-button-size" onClick={ handlePrev1 }>
+                <Button disabled={ ((min === 0)) } className="notification-buttons help-button-size" onClick={ handlePrev1 }>
                     <i className="icon button-prev"/>
                 </Button>
                 <ReactSlider
                     className={ 'wired-slider' }
-                    min={ 1 }
-                    max={ 50 }
+                    min={ 0 }
+                    max={ 125 }
                     value={ min }
                     onChange={ event => setMin(event) } />
-                <Button disabled={ ((min === 50)) } className="notification-buttons help-button-size" onClick={ handleNext1 }>
+                <Button disabled={ ((min === 125)) } className="notification-buttons help-button-size" onClick={ handleNext1 }>
                     <i className="icon button-next"/>
                 </Button>
             </Flex>

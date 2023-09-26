@@ -18,7 +18,7 @@ export const NavigatorRoomCreatorView: FC<{}> = props =>
     const [ roomModels, setRoomModels ] = useState<IRoomModel[]>([]);
     const [ selectedModelName, setSelectedModelName ] = useState<string>('');
     const { categories = null } = useNavigator();
-
+    const selectedCategoryName = categories.find(categoryItem => categoryItem.id === category)?.name || '';
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
     const [isVisitorsCountOpen, setIsVisitorsCountOpen] = useState(false);
     const [isTradesSettingOpen, setIsTradesSettingOpen] = useState(false);
@@ -98,7 +98,7 @@ export const NavigatorRoomCreatorView: FC<{}> = props =>
     }, []);
 
     return (
-        <NitroCardView className="nitro-room-creator no-resize" theme="primary">
+        <NitroCardView overflow="visible" className="nitro-room-creator no-resize" theme="primary">
             <NitroCardHeaderView headerText={ LocalizeText('navigator.createroom.title') } onCloseClick={ event => CreateLinkEvent('navigator/close-creator') } />
             <NitroCardContentView>
                 <Column overflow="hidden">
@@ -116,31 +116,56 @@ export const NavigatorRoomCreatorView: FC<{}> = props =>
                                 <Text gfbold>{ LocalizeText('navigator.createroom.roomdescinfo') }</Text>
                                 <textarea value={ description } spellCheck="false" type="text" className="goldfish flex-grow-1 form-control form-control6-2" maxLength={ 255 } onChange={handleDescriptionInputChange} placeholder={ LocalizeText('navigator.createroom.roomdescinfo') } />
                             </Column>
-                            <Column gap={ 1 }>
-                                <Text gfbold>{ LocalizeText('navigator.category') }</Text>
-                                <select className={`form-select form-select-sm ${isCategoryOpen ? 'active' : ''}`} onChange={ event => setCategory(Number(event.target.value)) } onClick={() => handleSelectToggle('category')} onBlur={() => setIsCategoryOpen(false)}>
-                                    { categories && (categories.length > 0) && categories.map(category =>
-                                    {
-                                        return <option key={ category.id } value={ category.id }>{ LocalizeText(category.name) }</option>
-                                    }) }
-                                </select>
-                            </Column>
-                            <Column gap={ 1 }>
+                            <Column className="test-height" gap={ 1 }>
+                                    <Text gfbold>{ LocalizeText('navigator.category') }</Text>
+                                    <div className={`creatorcustomSelect creator-placement1 ${isCategoryOpen ? 'active' : ''}`} onClick={() => handleSelectToggle('category')} onBlur={() => setIsCategoryOpen(false)} tabIndex={0}>
+                                        <div className="selectButton">{ LocalizeText(selectedCategoryName) }</div>
+                                        <div className="options">
+                                            {categories && categories.length > 0 && categories.map(categoryItem => (
+                                                <div
+                                                    key={categoryItem.id}
+                                                    value={categoryItem.id}
+                                                    className={`option ${isCategoryOpen && categoryItem.id === category ? 'selected' : ''}`}
+                                                    onClick={() => setCategory(categoryItem.id)}>
+                                                    { LocalizeText(categoryItem.name) }
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </Column>
+                            <Column className="test-height" gap={ 1 }>
                                 <Text gfbold>{ LocalizeText('navigator.maxvisitors') }</Text>
-                                <select value={ visitorsCount } className={`form-select form-select-sm ${isVisitorsCountOpen ? 'active' : ''}`} onChange={ event => setVisitorsCount(Number(event.target.value)) } onClick={() => handleSelectToggle('visitorsCount')} onBlur={() => setIsVisitorsCountOpen(false)}>
-                                    { maxVisitorsList && maxVisitorsList.map(value =>
-                                    {
-                                        return <option key={ value } value={ value }>{ value }</option>
-                                    }) }
-                                </select>
+                                <div className={`creatorcustomSelect creator-placement2 ${isVisitorsCountOpen ? 'active' : ''}`} onClick={() => handleSelectToggle('visitorsCount')} onBlur={() => setIsVisitorsCountOpen(false)} tabIndex={0}>
+                                    <div className="selectButton">{visitorsCount}</div>
+                                    <div className="options">
+                                        {maxVisitorsList && maxVisitorsList.map(value => (
+                                            <div
+                                                key={value}
+                                                value={value}
+                                                className={`option ${isVisitorsCountOpen && value === visitorsCount ? 'selected' : ''}`}
+                                                onClick={() => setVisitorsCount(value)}>
+                                                {value}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </Column>
-                            <Column gap={ 1 }>
+                            <Column className="test-height" gap={ 1 }>
                                 <Text gfbold>{ LocalizeText('navigator.tradesettings') }</Text>
-                                <select className={`form-select form-select-sm ${isTradesSettingOpen ? 'active' : ''}`} onChange={ event => setTradesSetting(Number(event.target.value)) } onClick={() => handleSelectToggle('tradesSetting')} onBlur={() => setIsTradesSettingOpen(false)}>
-                                    <option value="0">{ LocalizeText('navigator.roomsettings.trade_not_allowed') }</option>
-                                    <option value="1">{ LocalizeText('navigator.roomsettings.trade_not_with_Controller') }</option>
-                                    <option value="2">{ LocalizeText('navigator.roomsettings.trade_allowed') }</option>
-                                </select>
+                                <div className={`creatorcustomSelect creator-placement3 ${isTradesSettingOpen ? 'active' : ''}`} onClick={() => handleSelectToggle('tradesSetting')} onBlur={() => setIsTradesSettingOpen(false)} tabIndex={0}>
+                                    <div className="selectButton">{LocalizeText(`navigator.roomsettings.trade_${tradesSetting === 0 ? 'not_allowed' : tradesSetting === 1 ? 'not_with_Controller' : 'allowed'}`)}</div>
+                                    <div className="options">
+                                        {[0, 1, 2].map(value => (
+                                            <div
+                                                key={value}
+                                                value={value}
+                                                className={`option ${isTradesSettingOpen && value === tradesSetting ? 'selected' : ''}`}
+                                                onClick={() => setTradesSetting(value)}>
+                                                {LocalizeText(`navigator.roomsettings.trade_${value === 0 ? 'not_allowed' : value === 1 ? 'not_with_Controller' : 'allowed'}`)}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </Column>
                             <Flex gap={ 2 }>
                                 <Button fullWidth className="volter-bold-button" onClick={ createRoom }>{ LocalizeText('navigator.createroom.create') }</Button>
@@ -160,7 +185,7 @@ export const NavigatorRoomCreatorView: FC<{}> = props =>
                                     {
                                         return (<RoomCreatorGridItem fullHeight key={ model.name } onClick={ () => selectModel(model, index) } itemActive={ (selectedModelName === model.name) } overflow="unset" gap={ 0 } disabled={ (GetClubMemberLevel() < model.clubLevel) }>
                                             <Flex fullHeight center overflow="hidden">
-                                                <img alt="" src={ getRoomModelImage(model.name) } />
+                                                <img draggable="false" alt="" src={ getRoomModelImage(model.name) } />
                                             </Flex>
                                             <Flex position="absolute" className="bottom-1 start-1" gap={ 1 } style={{ backgroundColor: selectedModelName === model.name ? '#77888b' : '#cbcbcb' }}>
                                                 <Base className={ `icon  ${selectedModelName === model.name ? 'icon-tile-selected' : 'icon-tile' }`}/>

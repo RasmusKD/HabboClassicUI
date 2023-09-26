@@ -1,9 +1,10 @@
-import { GetAssetManager, IGraphicAssetCollection, NitroPoint, NitroTilemap, PixiApplicationProxy, PixiInteractionEventProxy, POINT_STRUCT_SIZE } from '@nitrots/nitro-renderer';
+import { NitroPoint } from '@nitrots/nitro-renderer';
 import { ActionSettings } from './ActionSettings';
-import { FloorAction, HEIGHT_SCHEME, MAX_NUM_TILE_PER_AXIS, TILE_SIZE, SMALL_TILE_SIZE} from './Constants';
+import { FloorAction, HEIGHT_SCHEME, MAX_NUM_TILE_PER_AXIS, TILE_SIZE } from './Constants';
+import { imageBase64, spritesheet } from './FloorplanResource';
 import { Tile } from './Tile';
 
-export class FloorplanEditor extends PixiApplicationProxy
+export class FloorplanEditor
 {
     private static _INSTANCE: FloorplanEditor = null;
 
@@ -13,439 +14,211 @@ export class FloorplanEditor extends PixiApplicationProxy
     private _tilemap: Tile[][];
     private _width: number;
     private _height: number;
-    private _isHolding: boolean;
+    private _isPointerDown: boolean;
     private _doorLocation: NitroPoint;
     private _lastUsedTile: NitroPoint;
-    private _tilemapRenderer: NitroTilemap;
+    private _renderer: CanvasRenderingContext2D;
     private _actionSettings: ActionSettings;
-    private _isInitialized: boolean;
-    private _zoomedIn: boolean;
-    private _startPoint: NitroPoint;
-    private _currentPoint: NitroPoint;
-    private _isShiftPressed: boolean;
 
-    private _assetCollection: IGraphicAssetCollection;
+    private _image: HTMLImageElement;
 
     constructor()
     {
-        const width = SMALL_TILE_SIZE * MAX_NUM_TILE_PER_AXIS + 10;
-        const height = (SMALL_TILE_SIZE * MAX_NUM_TILE_PER_AXIS) / 2 + 5;
+        const width = TILE_SIZE * MAX_NUM_TILE_PER_AXIS + 20;
+        const height = (TILE_SIZE * MAX_NUM_TILE_PER_AXIS) / 2 + 100;
 
-        super({
-            width: width,
-            height: height,
-            backgroundColor: 0x000000,
-            antialias: true,
-            autoDensity: true,
-            resolution: 1,
-            sharedLoader: true,
-            sharedTicker: true
-        });
+        const canvas = document.createElement('canvas');
+
+        canvas.height = height;
+        canvas.width = width;
+
+        this._renderer = canvas.getContext('2d');
+
+        this._image = new Image();
+
+        this._image.src = imageBase64;
 
         this._tilemap = [];
         this._doorLocation = new NitroPoint(0, 0);
         this._width = 0;
         this._height = 0;
-        this._isHolding = false;
+        this._isPointerDown = false;
         this._lastUsedTile = new NitroPoint(-1, -1);
         this._actionSettings = new ActionSettings();
-        this._zoomedIn = false;
-        this._startPoint = new NitroPoint(-1, -1);
-        this._currentPoint = new NitroPoint(-1, -1);
-        this._isShiftPressed = false;
-        this.registerShiftEventListeners();
-
     }
 
-    private registerShiftEventListeners(): void
-        {
-            window.addEventListener('keydown', (event) =>
-            {
-                if (event.key === 'Shift')
-                {
-                    this._isShiftPressed = true;
-                }
-            });
+    public onPointerRelease(): void
+    {
+        this._isPointerDown = false;
+    }
 
-            window.addEventListener('keyup', (event) =>
-            {
-                if (event.key === 'Shift')
-                {
-                    this._isShiftPressed = false;
-                }
-            });
-        }
+    public onPointerDown(event: PointerEvent): void
+    {
+        if(event.button === 2) return;
+
+        const location = new NitroPoint(event.offsetX, event.offsetY);
+
+        this._isPointerDown = true;
+
+        this.tileHitDetection(location, true);
+    }
+
+    public onPointerMove(event: PointerEvent): void
+    {
+        if(!this._isPointerDown) return;
+
+        const location = new NitroPoint(event.offsetX, event.offsetY);
+        this.tileHitDetection(location, false);
+    }
 
     public getScreenPositionForTile(x: number, y: number, zoomedIn: boolean = this._zoomedIn): [number , number]
-    {
-        const tileSize = zoomedIn ? TILE_SIZE : SMALL_TILE_SIZE;
-        let positionX = (x * tileSize / 2) - (y * tileSize / 2);
-        const positionY = (x * tileSize / 4) + (y * tileSize / 4);
+        {
+            const tileSize = zoomedIn ? TILE_SIZE : SMALL_TILE_SIZE;
+            let positionX = (x * tileSize / 2) - (y * tileSize / 2);
+            const positionY = (x * tileSize / 4) + (y * tileSize / 4);
 
-        const translationValue = zoomedIn ? 1600 : 800;
-        positionX = positionX + translationValue; // center the map in the canvas
+            const translationValue = zoomedIn ? 1600 : 800;
+            positionX = positionX + translationValue; // center the map in the canvas
 
-        return [ positionX, positionY ];
-    }
-
-    public getTileFromScreenPosition(x: number, y: number, zoomedIn: boolean = this._zoomedIn): [number, number]
-    {
-        const tileSize = zoomedIn ? TILE_SIZE : SMALL_TILE_SIZE;
-        const translationValue = zoomedIn ? 1600 : 800;
-        const translatedX = x - translationValue; // after centering translation
-
-        const realX = ((translatedX / (tileSize / 2)) + (y / (tileSize / 4))) / 2;
-        const realY = ((y / (tileSize / 4)) - (translatedX / (tileSize / 2))) / 2;
-
-        return [ realX, realY ];
-    }
-
-    public toggleZoom(): void {
-        this._zoomedIn = !this._zoomedIn;
-        this.updateAssetCollection();
-        this.updateRendererWidth();
-        this.updateRendererHeight();
-
-        // Update the renderer's size
-        this.renderer.resize(this._width, this._height);
-
-        if (this._tilemapRenderer) {
-            this._tilemapRenderer.destroy();
+            return [ positionX, positionY ];
         }
 
-        this._tilemapRenderer = new NitroTilemap(this._assetCollection.baseTexture);
-        this.registerEventListeners();
-
-        this.stage.addChild(this._tilemapRenderer);
-        this.renderTiles();
-    }
-
-
-    public initialize(): void
-    {
-        if (this._isInitialized) return;
-
-        this.updateAssetCollection();
-
-        if (!this._assetCollection) return;
-
-        this._tilemapRenderer = new NitroTilemap(this._assetCollection.baseTexture);
-
-        this.registerEventListeners();
-
-        this.stage.addChild(this._tilemapRenderer);
-
-        this._isInitialized = true;
-    }
-
-    private updateRendererWidth(): void {
-        this.renderer.view.width = this._width;
-        this.renderer.view.style.width = this._width + "px";
-    }
-
-    private updateRendererHeight(): void {
-        this.renderer.view.height = this._height;
-        this.renderer.view.style.height = this._height + "px";
-    }
-
-    private updateAssetCollection(): void
+        public getTileFromScreenPosition(x: number, y: number, zoomedIn: boolean = this._zoomedIn): [number, number]
         {
-            const collectionName = this._zoomedIn ? 'floor_editor' : 'floor_editor_small';
-            this._assetCollection = GetAssetManager().getCollection(collectionName);
+            const tileSize = zoomedIn ? TILE_SIZE : SMALL_TILE_SIZE;
+            const translationValue = zoomedIn ? 1600 : 800;
+            const translatedX = x - translationValue; // after centering translation
 
-            if (this._zoomedIn) {
-              const tileSize = TILE_SIZE;
-              this._width = tileSize * MAX_NUM_TILE_PER_AXIS + 20;
-              this._height = (tileSize * MAX_NUM_TILE_PER_AXIS) / 2 + 10;
-            } else {
-              const tileSize = SMALL_TILE_SIZE;
-              this._width = tileSize * MAX_NUM_TILE_PER_AXIS + 10;
-              this._height = (tileSize * MAX_NUM_TILE_PER_AXIS) / 2 + 5;
-            }
+            const realX = ((translatedX / (tileSize / 2)) + (y / (tileSize / 4))) / 2;
+            const realY = ((y / (tileSize / 4)) - (translatedX / (tileSize / 2))) / 2;
+
+            return [ realX, realY ];
         }
 
-    private registerEventListeners(): void
+    private tileHitDetection(tempPoint: NitroPoint, isClick: boolean = false): boolean
     {
-        //this._tilemapRenderer.interactive = true;
+        const mousePositionX = Math.floor(tempPoint.x);
+        const mousePositionY = Math.floor(tempPoint.y);
 
-        const tempPoint = new NitroPoint();
-        // @ts-ignore
-        this._tilemapRenderer.containsPoint = (position) =>
+        const width = TILE_SIZE;
+        const height = TILE_SIZE / 2;
+
+        for(let y = 0; y < this._tilemap.length; y++)
         {
-            this._tilemapRenderer.worldTransform.applyInverse(position, tempPoint);
-            return this.tileHitDetection(tempPoint, false);
-        };
-
-        this._tilemapRenderer.on('pointerup', () => {
-            if (this._isShiftPressed && this._isHolding) {
-                const startX = Math.min(Math.abs(this._startPoint.x), Math.abs(this._currentPoint.x));
-                const endX = Math.max(Math.abs(this._startPoint.x), Math.abs(this._currentPoint.x));
-                const startY = Math.min(Math.abs(this._startPoint.y), Math.abs(this._currentPoint.y));
-                const endY = Math.max(Math.abs(this._startPoint.y), Math.abs(this._currentPoint.y));
-
-                for (let y = startY; y <= endY; y++) {
-                    for (let x = startX; x <= endX; x++) {
-                        this.processTile(x, y);
-                    }
-                }
-            }
-
-            this._isHolding = false;
-            this._startPoint.set(-1, -1);
-            this._lastUsedTile.x = -1;
-            this._lastUsedTile.y = -1;
-        });
-
-        this._tilemapRenderer.on('pointerout', () =>
-        {
-            this._isHolding = false;
-        });
-
-        this._tilemapRenderer.on('pointerdown', (event: PixiInteractionEventProxy) =>
-        {
-            if(!(event.data.originalEvent instanceof PointerEvent) && !(event.data.originalEvent instanceof TouchEvent)) return;
-
-            const pointerEvent = event.data.originalEvent;
-            if((pointerEvent instanceof MouseEvent) && pointerEvent.button === 2) return;
-
-
-            const location = event.data.global;
-            this.tileHitDetection(location, true);
-        });
-
-        this._tilemapRenderer.on('click', (event: PixiInteractionEventProxy) =>
-        {
-            if(!(event.data.originalEvent instanceof PointerEvent)) return;
-
-            const pointerEvent = event.data.originalEvent;
-            if(pointerEvent.button === 2) return;
-
-            const location = event.data.global;
-            this.tileHitDetection(location, true, true);
-        });
-    }
-
-    private tileHitDetection(tempPoint: NitroPoint, setHolding: boolean, isClick: boolean = false): boolean
-    {
-        // @ts-ignore
-        const buffer = this._tilemapRenderer.pointsBuf;
-        const bufSize = POINT_STRUCT_SIZE;
-
-        const len = buffer.length;
-
-        if(setHolding)
-        {
-            this._isHolding = true;
-        }
-
-        for(let j = 0; j < len; j += bufSize)
-        {
-            const bufIndex = j + bufSize;
-            const data = buffer.slice(j, bufIndex);
-
-            const tileSize = this._zoomedIn ? TILE_SIZE : SMALL_TILE_SIZE;
-            const height = tileSize / 2;
-            const width = tileSize;
-
-            const mousePositionX = Math.floor(tempPoint.x);
-            const mousePositionY = Math.floor(tempPoint.y);
-
-            const tileStartX = data[2];
-            const tileStartY = data[3];
-
-            const centreX = tileStartX + (width / 2);
-            const centreY = tileStartY + (height / 2);
-
-            const dx = Math.abs(mousePositionX - centreX);
-            const dy = Math.abs(mousePositionY - centreY);
-
-            const solution = (dx / (width * 0.6) + dy / (height * 0.6) <= 1);
-            if(solution)
+            for(let x = 0; x < this.tilemap[y].length; x++)
             {
-                if(this._isHolding)
+                const [ tileStartX, tileStartY ] = this.getScreenPositionForTile(x, y);
+
+                const centreX = tileStartX + (width / 2);
+                const centreY = tileStartY + (height / 2);
+
+                const dx = Math.abs(mousePositionX - centreX);
+                const dy = Math.abs(mousePositionY - centreY);
+
+                const solution = (dx / (width * 0.5) + dy / (height * 0.5) <= 1);//todo: improve this
+
+                if(solution)
                 {
-                    const [ realX, realY ] = this.getTileFromScreenPosition(tileStartX, tileStartY);
-
-                    if (this._lastUsedTile.x === realX && this._lastUsedTile.y === realY) {
-                        return true;
-                    }
-
-                    if(isClick)
+                    if(this._isPointerDown)
                     {
-                        this.onClick(realX, realY, this._isShiftPressed);
-                    }
-                    else
-                    {
-                        this._lastUsedTile.x = realX;
-                        this._lastUsedTile.y = realY;
-                        this.onClick(realX, realY, this._isShiftPressed);
-                    }
+                        if(isClick)
+                        {
+                            this.onClick(x, y);
+                        }
 
+                        else if(this._lastUsedTile.x !== x || this._lastUsedTile.y !== y)
+                        {
+                            this._lastUsedTile.x = x;
+                            this._lastUsedTile.y = y;
+                            this.onClick(x, y);
+                        }
+
+                    }
+                    return true;
                 }
-                return true;
             }
         }
         return false;
     }
 
-    private onClick(x: number, y: number, isShiftPressed: boolean = false): void
+    private onClick(x: number, y: number): void
+    {
+        const tile = this._tilemap[y][x];
+        const heightIndex = HEIGHT_SCHEME.indexOf(tile.height);
+
+        let futureHeightIndex = 0;
+
+        switch(this._actionSettings.currentAction)
         {
-            if (isShiftPressed)
-            {
-                this.onClickWithShift(x, y);
-            }
-            else
-            {
-                this.onClickWithoutShift(x, y);
-            }
-        }
+            case FloorAction.DOOR:
 
-        private onClickWithoutShift(x: number, y: number): void
-        {
-            this.processTile(x, y);
-        }
-
-        private onClickWithShift(x: number, y: number): void {
-            this._currentPoint.set(x, y);
-
-            if (this._startPoint.x === -1 && this._startPoint.y === -1) {
-                this._startPoint.set(x, y);
-            }
-
-            const startX = Math.min(Math.abs(this._startPoint.x), Math.abs(this._currentPoint.x));
-            const endX = Math.max(Math.abs(this._startPoint.x), Math.abs(this._currentPoint.x));
-            const startY = Math.min(Math.abs(this._startPoint.y), Math.abs(this._currentPoint.y));
-            const endY = Math.max(Math.abs(this._startPoint.y), Math.abs(this._currentPoint.y));
-
-            this.renderTemporarySquare(startX, startY, endX, endY);
-        }
-
-
-        private renderTemporarySquare(startX: number, startY: number, endX: number, endY: number): void {
-            this.renderTiles();
-
-            for (let y = startY; y <= endY; y++) {
-                for (let x = startX; x <= endX; x++) {
-                    const [positionX, positionY] = this.getScreenPositionForTile(x, y);
-                    let textureName;
-                    const tile = this._tilemap[y][x];
-                    const heightIndex = HEIGHT_SCHEME.indexOf(tile.height);
-
-                    let futureHeightIndex = 0;
-
-                    switch (this._actionSettings.currentAction) {
-                        case FloorAction.UP:
-                            if (tile.height === 'x') break;
-                            futureHeightIndex = heightIndex + 1;
-                            break;
-                        case FloorAction.DOWN:
-                            if (tile.height === 'x' || (heightIndex <= 1)) break;
-                            futureHeightIndex = heightIndex - 1;
-                            break;
-                        case FloorAction.SET:
-                            futureHeightIndex = HEIGHT_SCHEME.indexOf(this._actionSettings.currentHeight);
-                            break;
-                        case FloorAction.UNSET:
-                            futureHeightIndex = 0;
-                            break;
-                        default:
-                            futureHeightIndex = heightIndex;
-                    }
-
-                    if (futureHeightIndex === -1) futureHeightIndex = 0;
-
-                    if (futureHeightIndex === 0 && this._actionSettings.currentAction === FloorAction.DOWN) {
-                        futureHeightIndex = heightIndex;
-                    }
-
-                    const newHeight = HEIGHT_SCHEME[futureHeightIndex];
-                    textureName = `floor_editor_${this._zoomedIn ? '' : 'small_'}${newHeight}`;
-
-                    this._tilemapRenderer.tile(this._assetCollection.getTexture(textureName), positionX, positionY);
+                if(tile.height !== 'x')
+                {
+                    this._doorLocation.x = x;
+                    this._doorLocation.y = y;
+                    this.renderTiles();
                 }
-            }
+                return;
+            case FloorAction.UP:
+                if(tile.height === 'x') return;
+                futureHeightIndex = heightIndex + 1;
+                break;
+            case FloorAction.DOWN:
+                if(tile.height === 'x' || (heightIndex <= 1)) return;
+                futureHeightIndex = heightIndex - 1;
+                break;
+            case FloorAction.SET:
+                futureHeightIndex = HEIGHT_SCHEME.indexOf(this._actionSettings.currentHeight);
+                break;
+            case FloorAction.UNSET:
+                futureHeightIndex = 0;
+                break;
         }
 
-        private processTile(x: number, y: number): void
+        if(futureHeightIndex === -1) return;
+
+        if(heightIndex === futureHeightIndex) return;
+
+        if(futureHeightIndex > 0)
         {
-            const tile = this._tilemap[y][x];
-            const heightIndex = HEIGHT_SCHEME.indexOf(tile.height);
+            if((x + 1) > this._width) this._width = x + 1;
 
-            let futureHeightIndex = 0;
-
-            switch (this._actionSettings.currentAction)
-            {
-                case FloorAction.DOOR:
-                    if (tile.height !== 'x')
-                    {
-                        this._doorLocation.x = x;
-                        this._doorLocation.y = y;
-                        this.renderTiles();
-                    }
-                    return;
-                case FloorAction.UP:
-                    if (tile.height === 'x') return;
-                    futureHeightIndex = heightIndex + 1;
-                    break;
-                case FloorAction.DOWN:
-                    if (tile.height === 'x' || (heightIndex <= 1)) return;
-                    futureHeightIndex = heightIndex - 1;
-                    break;
-                case FloorAction.SET:
-                    futureHeightIndex = HEIGHT_SCHEME.indexOf(this._actionSettings.currentHeight);
-                    break;
-                case FloorAction.UNSET:
-                    futureHeightIndex = 0;
-                    break;
-            }
-
-            if (futureHeightIndex === -1) return;
-
-            if (heightIndex === futureHeightIndex) return;
-
-            if (futureHeightIndex > 0)
-            {
-                this._width = Math.max(this._width, x + 1);
-                this._height = Math.max(this._height, y + 1);
-            }
-
-            const newHeight = HEIGHT_SCHEME[futureHeightIndex];
-
-            if (!newHeight) return;
-
-            if (tile.isBlocked) return;
-
-            this._tilemap[y][x].height = newHeight;
-
-            this.renderTiles();
+            if((y + 1) > this._height) this._height = y + 1;
         }
+
+        const newHeight = HEIGHT_SCHEME[futureHeightIndex];
+
+        if(!newHeight) return;
+
+        if(tile.isBlocked) return;
+
+        this._tilemap[y][x].height = newHeight;
+
+        this.renderTiles();
+    }
 
     public renderTiles(): void
+    {
+        this.clearCanvas();
+
+        for(let y = 0; y < this._tilemap.length; y++)
         {
-            this.tilemapRenderer.clear();
-
-            let doorTileRendered = false;
-
-            for (let y = 0; y < this._tilemap.length; y++)
+            for(let x = 0; x < this.tilemap[y].length; x++)
             {
-                for (let x = 0; x < this.tilemap[y].length; x++)
-                {
-                    const tile = this.tilemap[y][x];
-                    let assetName = tile.height;
+                const tile = this.tilemap[y][x];
+                let assetName = tile.height;
 
-                    if (tile.isBlocked) assetName = FloorplanEditor.TILE_BLOCKED;
+                if(this._doorLocation.x === x && this._doorLocation.y === y)
+                    assetName = FloorplanEditor.TILE_DOOR;
 
-                    const textureName = `floor_editor_${this._zoomedIn ? '' : 'small_'}${assetName}`;
-                    const [positionX, positionY] = this.getScreenPositionForTile(x, y);
+                if(tile.isBlocked) assetName = FloorplanEditor.TILE_BLOCKED;
 
-                    this._tilemapRenderer.tile(this._assetCollection.getTexture(textureName), positionX, positionY);
+                //if((tile.height === 'x') || tile.height === 'X') continue;
+                const [ positionX, positionY ] = this.getScreenPositionForTile(x, y);
 
-                    // Render the door tile after all other tiles have been rendered
-                    if (this._doorLocation.x === x && this._doorLocation.y === y && !doorTileRendered) {
-                        assetName = FloorplanEditor.TILE_DOOR;
-                        this._tilemapRenderer.tile(this._assetCollection.getTexture(`floor_editor_${this._zoomedIn ? '' : 'small_'}${assetName}`), positionX, positionY);
-                        doorTileRendered = true;
-                }
+                const asset = spritesheet.frames[assetName];
+
+                this.renderer.drawImage(this._image, asset.frame.x, asset.frame.y, asset.frame.w, asset.frame.h, positionX, positionY, asset.frame.w, asset.frame.h);
             }
         }
     }
@@ -570,20 +343,24 @@ export class FloorplanEditor extends PixiApplicationProxy
 
     public clear(): void
     {
-        this._tilemapRenderer.interactive = false;
         this._tilemap = [];
         this._doorLocation.set(-1, -1);
         this._width = 0;
         this._height = 0;
-        this._isHolding = false;
+        this._isPointerDown = false;
         this._lastUsedTile.set(-1, -1);
         this._actionSettings.clear();
-        this._tilemapRenderer.clear();
+        this.clearCanvas();
     }
 
-    public get tilemapRenderer(): NitroTilemap
+    public clearCanvas(): void
     {
-        return this._tilemapRenderer;
+        this.renderer.clearRect(0, 0, this._renderer.canvas.width, this._renderer.canvas.height);
+    }
+
+    public get renderer(): CanvasRenderingContext2D
+    {
+        return this._renderer;
     }
 
     public get tilemap(): Tile[][]

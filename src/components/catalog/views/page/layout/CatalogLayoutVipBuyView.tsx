@@ -138,7 +138,7 @@ export const CatalogLayoutVipBuyView: FC<CatalogLayoutProps> = props =>
     return (
         <Column fullHeight>
             <Flex className="hc-img-height" overflow="hidden">
-                { currentPage.localization.getImage(1) && <img alt="" src={ currentPage.localization.getImage(1) } /> }
+                { currentPage.localization.getImage(1) && <img draggable="false" alt="" src={ currentPage.localization.getImage(1) } /> }
                 { purse.clubDays > 0 &&
                 <Column className="px-2">
                 <Text bold>{LocalizeText('catalog.vip.extend.title')}</Text>

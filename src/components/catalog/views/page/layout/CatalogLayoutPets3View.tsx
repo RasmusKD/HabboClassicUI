@@ -14,7 +14,7 @@ export const CatalogLayoutPets3View: FC<CatalogLayoutProps> = props =>
     <Column className="pets-padding">
         <Column grow className="bg-pets pets-rounded text-white">
             <Flex alignItems="center" gap={ 2 }>
-                { imageUrl && <img alt="" src={ imageUrl } /> }
+                { imageUrl && <img draggable="false" alt="" src={ imageUrl } /> }
                 <Base className="pets-headline" dangerouslySetInnerHTML={ { __html: page.localization.getText(1) } } />
             </Flex>
             <Column grow alignItems="center">

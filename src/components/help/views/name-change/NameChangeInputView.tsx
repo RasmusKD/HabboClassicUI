@@ -72,18 +72,18 @@ export const NameChangeInputView:FC<NameChangeLayoutViewProps> = props =>
     });
 
     return (
-        <div className="d-flex flex-column gap-3 h-100">
+        <div className="d-flex flex-column gap-2 h-100">
             <div>{ LocalizeText('tutorial.name_change.info.select') }</div>
-            <div className="d-flex gap-2">
+            <Flex alignItems="center" gap={ 2 }>
                 <input spellCheck="false" type="text" className="form-control form-control-sm" value={ newUsername } onChange={ event => handleUsernameChange(event.target.value) } />
                 <button className="btn btn-primary" disabled={ newUsername === '' || isChecking } onClick={ check }>{ LocalizeText('tutorial.name_change.check') }</button>
-            </div>
+            </Flex>
             { !errorCode && !canProceed &&
                 <div className="bg-muted rounded p-2 text-center">{ LocalizeText('help.tutorial.name.info') }</div> }
             { errorCode &&
-                <div className="bg-danger rounded p-2 text-center text-white">{ LocalizeText(`help.tutorial.name.${ errorCode }`, [ 'name' ], [ newUsername ]) }</div> }
+                <div className="bg-lightdanger rounded p-2 text-center text-white">{ LocalizeText(`help.tutorial.name.${ errorCode }`, [ 'name' ], [ newUsername ]) }</div> }
             { canProceed &&
-                <div className="bg-success rounded p-2 text-center text-white">{ LocalizeText('help.tutorial.name.available', [ 'name' ], [ newUsername ]) }</div> }
+                <div className="bg-lightsuccess rounded p-2 text-center text-white">{ LocalizeText('help.tutorial.name.available', [ 'name' ], [ newUsername ]) }</div> }
             { suggestions &&
                 <div className="d-flex flex-column gap-2">
                     { suggestions.map((suggestion, index) => <div key={ index } className="col bg-muted rounded p-1 cursor-pointer" onClick={ () => handleUsernameChange(suggestion) }>{ suggestion }</div>) }

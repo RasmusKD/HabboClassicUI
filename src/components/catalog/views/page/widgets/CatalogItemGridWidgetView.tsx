@@ -20,6 +20,21 @@ export const CatalogItemGridWidgetView: FC<CatalogItemGridWidgetViewProps> = pro
         if(elementRef && elementRef.current) elementRef.current.scrollTop = 0;
     }, [ currentPage ]);
 
+    // add this useEffect to adjust the body padding
+    useEffect(() => {
+        const adjustBodyPadding = () => {
+            const scrollWidth = window.innerWidth - document.documentElement.clientWidth;
+            document.body.style.paddingRight = `${scrollWidth}px`;
+        };
+        adjustBodyPadding();
+        window.addEventListener('resize', adjustBodyPadding);
+
+        // cleanup
+        return () => {
+            window.removeEventListener('resize', adjustBodyPadding);
+        };
+    }, []);
+
     if(!currentPage) return null;
 
     const selectOffer = (offer: IPurchasableOffer) =>
@@ -44,7 +59,7 @@ export const CatalogItemGridWidgetView: FC<CatalogItemGridWidgetViewProps> = pro
     }
 
     return (
-        <AutoGrid innerRef={ elementRef } className="items-padding items-overlay" columnCount={ 6 } columnMinWidth={ 40 } columnMinHeight={ 40 } { ...rest }>
+        <AutoGrid innerRef={ elementRef } className="items-padding overlayscroll" columnCount={ 6 } columnMinWidth={ 40 } columnMinHeight={ 40 } { ...rest }>
             { currentPage.offers && (currentPage.offers.length > 0) && currentPage.offers.map((offer, index) => <CatalogGridOfferView key={ index } itemActive={ (currentOffer && (currentOffer.offerId === offer.offerId)) } offer={ offer } selectOffer={ selectOffer } />) }
             { children }
         </AutoGrid>

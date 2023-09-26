@@ -1,7 +1,9 @@
 import { FriendlyTime, RequestFriendComposer, UserProfileParser } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
-import { GetSessionDataManager, LocalizeText, SendMessageComposer } from '../../../api';
-import { Button, Column, Flex, LayoutAvatarImageView, Text } from '../../../common';
+import { DispatchUiEvent, GetSessionDataManager, LocalizeText, SendMessageComposer } from '../../../api';
+import { Button, Column, Flex, LayoutAvatarImageView, Text, Tooltip } from '../../../common';
+import { AiOutlineEdit } from 'react-icons/Ai';
+import { HelpNameChangeEvent } from '../../../events';
 
 interface UserContainerViewProps
 {
@@ -34,7 +36,11 @@ export const UserContainerView: FC<UserContainerViewProps> = props =>
             </Column>
             <Column gap={ 0 }>
                 <Column gap={ 0 }>
+                    <Flex gap={ 1 }>
                     <Text bold className='font-size-11'>{ userProfile.username }</Text>
+                    { isOwnProfile &&
+                            <Tooltip windowId="UserProfile" isDraggable={true} content={ LocalizeText('help.tutorial.button.changename') }><AiOutlineEdit onClick={ () => DispatchUiEvent(new HelpNameChangeEvent(HelpNameChangeEvent.INIT)) } className="namechange-icon fa-icon" /></Tooltip> }
+                    </Flex>
                     <Text italics textBreak className='font-size-11'>{ userProfile.motto }&nbsp;</Text>
                 </Column>
                 <Column gap={ 0 }>

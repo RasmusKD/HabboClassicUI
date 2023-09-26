@@ -88,10 +88,13 @@ $gray-chateau:  #a3a7b1 !default;
 $gable-green:   #1C323F !default;
 $william:       #3d5f6e !default;
 $bluewood:      #304059 !default;
+$lightdanger:   #dd5246 !default;
+$lightsuccess:  #00a100 !default;
 $success:       $green !default;
 $info:          $cyan !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
+
 
 $light:         #DFDFDF !default;
 $dark:          rgba(28,28,32,.9803921568627451) !default;
@@ -118,6 +121,8 @@ $bg-cello-split-background: repeating-linear-gradient($cello-light, $cello-light
 $theme-colors: (
   "primary":    $primary,
   "secondary":  $secondary,
+  "lightdanger":$lightdanger,
+  "lightsuccess":$lightsuccess,
   "success":    $success,
   "info":       $info,
   "warning":    $warning,

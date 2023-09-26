@@ -70,7 +70,7 @@ export const CatalogGuildSelectorWidgetView: FC<{}> = props =>
     const selectedGroup = groups[selectedGroupIndex];
 
     return (
-        <Flex gap={ 1 }>
+        <Flex className="friendbars something3" gap={ 1 }>
             { !!selectedGroup &&
                 <Flex overflow="hidden" className="rounded border">
                     <Base fullHeight style={ { width: '20px', backgroundColor: '#' + selectedGroup.colorA } } />

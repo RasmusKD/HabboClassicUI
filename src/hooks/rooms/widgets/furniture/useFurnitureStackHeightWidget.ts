@@ -1,10 +1,10 @@
 import { FurnitureStackHeightComposer, FurnitureStackHeightEvent, RoomEngineTriggerWidgetEvent } from '@nitrots/nitro-renderer';
 import { useEffect, useState } from 'react';
 import { CanManipulateFurniture, GetRoomEngine, GetRoomSession, SendMessageComposer } from '../../../../api';
-import { useMessageEvent, useRoomEngineEvent } from '../../../events';
+import { useMessageEvent, useNitroEvent } from '../../../events';
 import { useFurniRemovedEvent } from '../../engine';
 
-const MAX_HEIGHT: number = 40;
+const MAX_HEIGHT: number = 100;
 
 const useFurnitureStackHeightWidgetState = () =>
 {
@@ -43,7 +43,7 @@ const useFurnitureStackHeightWidgetState = () =>
         updateHeight(parser.height, true);
     });
 
-    useRoomEngineEvent<RoomEngineTriggerWidgetEvent>(RoomEngineTriggerWidgetEvent.REQUEST_STACK_HEIGHT, event =>
+    useNitroEvent<RoomEngineTriggerWidgetEvent>(RoomEngineTriggerWidgetEvent.REQUEST_STACK_HEIGHT, event =>
     {
         if(!CanManipulateFurniture(GetRoomSession(), event.objectId, event.category)) return;
 

@@ -4,7 +4,7 @@ import { GetClubMemberLevel, IPurchasableOffer, Offer, ProductTypeEnum } from '.
 import { Base, Column, Flex, LayoutAvatarImageView, LayoutGridItemProps } from '../../../../../common';
 import { LayoutCatalogGridItem } from '../../../../../common/layout/LayoutCatalogGridItem';
 import { useCatalog, useInventoryFurni } from '../../../../../hooks';
-import { CatalogPriceGridDisplayWidgetView } from '../widgets/CatalogPriceGridDisplayWidgetViev';
+import { CatalogPriceGridDisplayWidgetView } from '../widgets/CatalogPriceGridDisplayWidgetView';
 
 interface CatalogGridOfferViewProps extends LayoutGridItemProps
 {

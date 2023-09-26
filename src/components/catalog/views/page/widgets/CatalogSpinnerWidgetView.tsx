@@ -45,7 +45,7 @@ export const CatalogSpinnerWidgetView: FC<{}> = props =>
         <>
             <Text className="quantity-text" small>{ LocalizeText('catalog.bundlewidget.spinner.select.amount') }</Text>
             <Flex alignItems="center" gap={ 1 }>
-                <input type="number" className="form-control form-control-sm quantity-input quantity-input-left" value={ quantity } onChange={ event => updateQuantity(event.target.valueAsNumber) } onInput={(event) => { event.target.value = event.target.value.replace(/^0+/, ''); }} />
+                <input type="number" className="form-control form-control-sm quantity-input quantity-input-left" value={ quantity } onChange={ updateQuantity } onInput={(event) => { event.target.value = event.target.value.replace(/^0+/, ''); }} />
                 <Text className="price-text" small>{ LocalizeText('catalog.bundlewidget.price') }</Text>
             </Flex>
         </>

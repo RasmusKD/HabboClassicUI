@@ -73,6 +73,21 @@
     }
 }
 
+.wall-form-check-radio-input {
+    min-width: 12px;
+    min-height: 12px;
+    max-width: 12px;
+    max-height: 12px;
+    background: transparent url('@/assets/flash/boxes/UI-KIT.png') no-repeat;
+    background-position: -429px -101px;
+    -webkit-appearance: none;
+    cursor: pointer;
+
+    &:checked {
+      background-position: -429px -117px;
+    }
+}
+
 .form-check-input {
   width: $form-check-input-width;
   height: $form-check-input-width;

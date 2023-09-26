@@ -42,6 +42,21 @@ export const WiredBaseView: FC<PropsWithChildren<WiredBaseViewProps>> = props =>
         setNeedsSave(false);
     }, [ needsSave, saveWired ]);
 
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                onClose();
+            }
+        }
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            // cleanup on component unmount
+            document.removeEventListener('keydown', handleKeyDown);
+        }
+    }, [onClose]);
+
     useEffect(() =>
     {
         if(!trigger) return;

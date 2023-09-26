@@ -121,6 +121,10 @@ height: 220px!important;
     font-size: 11px;
 }
 
+.font-size-18 {
+    font-size: 18px;
+}
+
 .profile-padding {
     padding-top: 13px!important;
 }
@@ -134,4 +138,63 @@ height: 220px!important;
 .heart-placement {
     top: -5px;
     left: -5px;
+}
+
+.namechange-icon {
+}
+
+.namechange-icon:hover {
+    color: #4d4d4d; //change color to blue on hover
+    cursor: pointer;  //changes the cursor to a hand icon on hover
+}
+
+.profile-friends {
+    width: 352px;
+    height: 440px;
+
+    .profile-friends-list-grid {
+
+        .profile-friends-item {
+            height: 35px;
+            max-height: 35px;
+            border-radius: .5rem!important;
+            border: 1px solid #000;
+            position: relative;
+
+            .profile-friends-head {
+                position: relative;
+                overflow: hidden;
+                min-width: 40px;
+                height: 50px;
+                right: 8px;
+                bottom: 10px;
+
+                .avatar-image {
+                    position: absolute;
+                    left: -25px;
+                    top: -20px;
+                }
+            }
+        }
+    }
+}
+
+.profile-relation-position {
+    position: absolute;
+    right: 1px;
+    top: 2px;
+}
+
+.form-select-profile-friends {
+    width: 50%;
+}
+
+.request-friend-text {
+    transition: color .1s;
+    font-size: 11px;
+    text-decoration: underline;
+}
+
+.request-friend-text:hover {
+    color: #529dff;
 }

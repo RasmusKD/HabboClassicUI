@@ -1,4 +1,4 @@
-import { IAvatarFigureContainer, SaveWardrobeOutfitMessageComposer } from '@nitrots/nitro-renderer';
+import { IAvatarFigureContainer, SaveWardrobeOutfitMessageComposer, RemoveWardrobeOutfitMessageComposer } from '@nitrots/nitro-renderer';
 import { Dispatch, FC, SetStateAction, useCallback, useMemo } from 'react';
 import { FigureData, GetAvatarRenderManager, GetClubMemberLevel, GetConfiguration, LocalizeText, SendMessageComposer } from '../../../api';
 import { AutoGrid, Base, Button, Column, Flex, LayoutAvatarImageView, LayoutCurrencyIcon, LayoutGridBlank } from '../../../common';
@@ -41,6 +41,16 @@ export const AvatarEditorWardrobeView: FC<AvatarEditorWardrobeViewProps> = props
         SendMessageComposer(new SaveWardrobeOutfitMessageComposer((index + 1), figure, gender));
     }, [ figureData, savedFigures, setSavedFigures ]);
 
+    const removeFigureAtWardrobeIndex = useCallback((index: number) => {
+        if(index >= savedFigures.length || index < 0) return;
+
+        const newFigures = [...savedFigures];
+        newFigures[index] = [null, newFigures[index][1]];
+
+        setSavedFigures(newFigures);
+        SendMessageComposer(new RemoveWardrobeOutfitMessageComposer(index + 1));
+    }, [savedFigures, setSavedFigures]);
+
     const figures = useMemo(() =>
     {
         if(!savedFigures || !savedFigures.length) return [];
@@ -56,6 +66,8 @@ export const AvatarEditorWardrobeView: FC<AvatarEditorWardrobeViewProps> = props
             items.push(
                 <LayoutGridBlank key={ index } position="relative" overflow="hidden" className="nitro-avatar-editor-wardrobe-figure-preview">
                     <Column gap={ 1 } className="button-container">
+                        { figureContainer &&
+                        <Base className="button-padding-wardrobe wardrobe-remove-button" onClick={ event => removeFigureAtWardrobeIndex(index) }></Base> }
                         <Base className="button-padding-wardrobe wardrobe-save-button" onClick={ event => saveFigureAtWardrobeIndex(index) }></Base>
                         { (figureContainer && clubLevel <= GetClubMemberLevel()) &&
                         <Base className="button-padding-wardrobe wardrobe-wear-button" fullWidth onClick={ event => wearFigureAtIndex(index) }></Base> }

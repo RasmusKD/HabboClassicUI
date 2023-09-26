@@ -166,17 +166,19 @@ export const ModToolsUserModActionView: FC<ModToolsUserModActionViewProps> = pro
     if(!user) return null;
 
     return (
-        <NitroCardView className="nitro-mod-tools-user-action" theme="modtool-windows" windowPosition={ DraggableWindowPosition.TOP_CENTER }>
+        <NitroCardView className="nitro-mod-tools-user-action friendbars something3" overflow="visible" theme="modtool-windows" windowPosition={ DraggableWindowPosition.TOP_CENTER }>
             <NitroCardHeaderView headerText={ 'Mod Action: ' + (user ? user.username : '') } onCloseClick={ () => onCloseClick() } />
             <NitroCardContentView className="text-black">
-                <select className={`form-select form-select-sm ${isSelectedTopicOpen ? 'active' : ''}`} value={ selectedTopic } onChange={ event => setSelectedTopic(parseInt(event.target.value)) } onClick={() => handleSelectToggle('SelectedTopic')} onBlur={() => setIsSelectedTopicOpen(false)}>
-                    <option value={ -1 } disabled>CFH Emne</option>
-                    { topics.map((topic, index) => <option key={ index } value={ index }>{ LocalizeText('help.cfh.topic.' + topic.id) }</option>) }
-                </select>
-                <select className={`form-select form-select-sm ${isSelectedActionOpen ? 'active' : ''}`} value={ selectedAction } onChange={ event => setSelectedAction(parseInt(event.target.value)) } onClick={() => handleSelectToggle('SelectedAction')} onBlur={() => setIsSelectedActionOpen(false)}>
-                    <option value={ -1 } disabled>Sanktionstype</option>
-                    { MOD_ACTION_DEFINITIONS.map((action, index) => <option key={ index } value={ index }>{ action.name }</option>) }
-                </select>
+                <Column className="actions-dropdown-height">
+                <div className={`modcustomSelect ${isSelectedTopicOpen ? 'active' : ''}`} onClick={() => handleSelectToggle('SelectedTopic')} onBlur={() => setIsSelectedTopicOpen(false)} tabIndex={0}>
+                    <div className="selectButton">{selectedTopic !== -1 ? LocalizeText('help.cfh.topic.' + topics[selectedTopic]?.id) : 'CFH Emne'}</div>
+                    <div className="options"> {topics.map((topic, index) => ( <div key={index} value={index} className={`option ${isSelectedTopicOpen && index === selectedTopic ? 'selected' : ''}`} onClick={() => setSelectedTopic(index)}> {LocalizeText('help.cfh.topic.' + topic.id)} </div> ))} </div>
+                </div>
+                <div className={`actions-dropdown-placement modcustomSelect ${isSelectedActionOpen ? 'active' : ''}`} onClick={() => handleSelectToggle('SelectedAction')} onBlur={() => setIsSelectedActionOpen(false)} tabIndex={0}>
+                    <div className="selectButton">{MOD_ACTION_DEFINITIONS[selectedAction]?.name || 'Sanktionstype'}</div>
+                    <div className="options"> {MOD_ACTION_DEFINITIONS.map((action, index) => ( <div key={index} value={index} className={`option ${isSelectedActionOpen && index === selectedAction ? 'selected' : ''}`} onClick={() => setSelectedAction(index)}> {action.name} </div> ))} </div>
+                </div>
+                </Column>
                 <Column gap={ 1 }>
                     <Text variant="white">Valgfri besked, overskriver standard</Text>
                     <textarea spellCheck="false" className="form-control" value={ message } onChange={ event => setMessage(event.target.value) }/>

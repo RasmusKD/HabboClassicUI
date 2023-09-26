@@ -21,19 +21,15 @@ export const FloorplanCanvasView: FC<ColumnProps> = props =>
      const currentScrollX = element.scrollLeft;
      const currentScrollY = element.scrollTop;
 
-     // Store the scrollbar's relative position (0 to 1) before zooming
      const relativeScrollX = currentScrollX / (element.scrollWidth - element.clientWidth);
      const relativeScrollY = currentScrollY / (element.scrollHeight - element.clientHeight);
 
-     // Apply the zoom
      FloorplanEditor.instance.toggleZoom();
      setZoomedIn(!zoomedIn);
 
-     // Calculate new scroll positions based on the relative scrollbar positions
      const newScrollX = relativeScrollX * (element.scrollWidth - element.clientWidth);
      const newScrollY = relativeScrollY * (element.scrollHeight - element.clientHeight);
 
-     // Scroll to the new positions
      element.scrollTo(newScrollX, newScrollY);
    };
 
@@ -55,7 +51,7 @@ export const FloorplanCanvasView: FC<ColumnProps> = props =>
         setOccupiedTilesReceived(true);
 
         elementRef.current.scrollTo(
-          (FloorplanEditor.instance.view.width - elementRef.current.clientWidth) / 2, 0);
+          (FloorplanEditor.instance.renderer.canvas.width - elementRef.current.clientWidth) / 2, 0);
     });
 
     useMessageEvent<RoomEntryTileMessageEvent>(RoomEntryTileMessageEvent, event =>
@@ -85,6 +81,25 @@ export const FloorplanCanvasView: FC<ColumnProps> = props =>
 
         setEntryTileReceived(true);
     });
+
+    const onPointerEvent = (event: PointerEvent) =>
+    {
+        event.preventDefault();
+
+        switch(event.type)
+        {
+            case 'pointerout':
+            case 'pointerup':
+                FloorplanEditor.instance.onPointerRelease();
+                break;
+            case 'pointerdown':
+                FloorplanEditor.instance.onPointerDown(event);
+                break;
+            case 'pointermove':
+                FloorplanEditor.instance.onPointerMove(event);
+                break;
+        }
+    }
 
     useEffect(() =>
     {
@@ -116,12 +131,35 @@ export const FloorplanCanvasView: FC<ColumnProps> = props =>
         SendMessageComposer(new GetRoomEntryTileMessageComposer());
         SendMessageComposer(new GetOccupiedTilesMessageComposer());
 
-        FloorplanEditor.instance.tilemapRenderer.interactive = true;
+        const currentElement = elementRef.current;
 
-        if(!elementRef.current) return;
+        if(!currentElement) return;
 
-        elementRef.current.appendChild(FloorplanEditor.instance.renderer.view);
-    }, []);
+        // @ts-ignore
+        currentElement.appendChild(FloorplanEditor.instance.renderer.canvas);
+
+        currentElement.addEventListener('pointerup', onPointerEvent);
+
+        currentElement.addEventListener('pointerout', onPointerEvent);
+
+        currentElement.addEventListener('pointerdown', onPointerEvent);
+
+        currentElement.addEventListener('pointermove', onPointerEvent);
+
+        return () =>
+        {
+            if(currentElement)
+            {
+                currentElement.removeEventListener('pointerup', onPointerEvent);
+
+                currentElement.removeEventListener('pointerout', onPointerEvent);
+
+                currentElement.removeEventListener('pointerdown', onPointerEvent);
+
+                currentElement.removeEventListener('pointermove', onPointerEvent);
+            }
+        }
+        }, []);
 
     useEffect(() =>
     {

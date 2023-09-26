@@ -164,11 +164,14 @@ export const GroupMembersView: FC<{}> = props =>
                     </Flex>
                     <Column fullWidth gap={ 1 }>
                         <input spellCheck="false" type="text" className="form-control form-control-sm w-100" placeholder={ LocalizeText('group.members.searchinfo') } value={ searchQuery } onChange={ event => setSearchQuery(event.target.value) } />
-                        <select className={`form-select form-select-sm margin-top-auto ${isOpen ? 'active' : ''}`} value={ levelId } onChange={ event => setLevelId(parseInt(event.target.value)) } onClick={handleSelectClick} onBlur={handleSelectBlur}>
-                            <option value="0">{ LocalizeText('group.members.search.all') }</option>
-                            <option value="1">{ LocalizeText('group.members.search.admins') }</option>
-                            <option value="2">{ LocalizeText('group.members.search.pending') }</option>
-                        </select>
+                        <div className={`customSelect margin-top-auto ${isOpen ? 'active' : ''}`} onClick={handleSelectClick} onBlur={handleSelectBlur} tabIndex={0}>
+                            <div className="selectButton">{LocalizeText(`group.members.search.${ levelId === 1 ? 'admins' : levelId === 2 ? 'pending' : 'all' }`)}</div>
+                            <div className="options">
+                                <div value={0} className={`option ${isOpen && 0 === levelId ? 'selected' : ''}`} onClick={() => setLevelId(0)}> {LocalizeText('group.members.search.all')} </div>
+                                <div value={1} className={`option ${isOpen && 1 === levelId ? 'selected' : ''}`} onClick={() => setLevelId(1)}> {LocalizeText('group.members.search.admins')} </div>
+                                <div value={2} className={`option ${isOpen && 2 === levelId ? 'selected' : ''}`} onClick={() => setLevelId(2)}> {LocalizeText('group.members.search.pending')} </div>
+                            </div>
+                        </div>
                     </Column>
                 </Flex>
                 <Grid columnCount={ 2 } overflow="auto" className="nitro-group-members-list-grid group-member-height">

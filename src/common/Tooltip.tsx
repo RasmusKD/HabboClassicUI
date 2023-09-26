@@ -4,7 +4,7 @@ interface TooltipProps {
   content: string;
   children: React.ReactNode;
   isDraggable?: boolean;
-  windowId?: string; // new prop for draggable window id
+  windowId?: string;
   tooltipWidth?: number;
   style?: React.CSSProperties;
 }
@@ -12,6 +12,7 @@ interface TooltipProps {
 export function Tooltip({ content, children, isDraggable, windowId, tooltipWidth }: TooltipProps) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [visible, setVisible] = useState(false);
+  const [delayHandler, setDelayHandler] = useState<ReturnType<typeof setTimeout> | null>(null);
 
   function handleMouseMove(event: React.MouseEvent) {
     if (isDraggable) {
@@ -26,12 +27,17 @@ export function Tooltip({ content, children, isDraggable, windowId, tooltipWidth
   }
 
   function handleMouseEnter() {
-    setVisible(true);
-  }
+      setDelayHandler(setTimeout(() => {
+        setVisible(true);
+      }, 500));
+    }
 
   function handleMouseLeave() {
-    setVisible(false);
-  }
+      if (delayHandler) {
+        clearTimeout(delayHandler);
+      }
+      setVisible(false);
+    }
 
   const tooltipRef = useRef<HTMLDivElement>(null);
 
@@ -65,15 +71,9 @@ export function Tooltip({ content, children, isDraggable, windowId, tooltipWidth
   };
 
   return (
-    <span className='line-height-0'
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <span className='line-height-0' onMouseMove={handleMouseMove} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
       {children}
-      <div style={{ ...tooltipStyle, ...tooltipPosition(position, tooltipWidth), }} ref={tooltipRef}>
-        {content}
-      </div>
+      <div style={{ ...tooltipStyle, ...tooltipPosition(position, tooltipWidth), }} ref={tooltipRef}> {content} </div>
     </span>
   );
 }

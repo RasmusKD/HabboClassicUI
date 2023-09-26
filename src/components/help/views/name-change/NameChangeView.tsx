@@ -54,7 +54,7 @@ export const NameChangeView:FC<{}> = props =>
     if(!isVisible) return null;
 
     return (
-        <NitroCardView className="nitro-change-username" theme="primary">
+        <NitroCardView className="nitro-change-username no-resize" theme="primary">
             <NitroCardHeaderView headerText={ LocalizeText(titleKey) } onCloseClick={ () => onAction('close') } />
             <NitroCardContentView className="text-black">
                 { layout === INIT && <NameChangeInitView onAction={ onAction } /> }

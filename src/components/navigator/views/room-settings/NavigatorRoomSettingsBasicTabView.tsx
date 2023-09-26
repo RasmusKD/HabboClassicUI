@@ -159,6 +159,16 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
                 </select>
             </Column>
             <Column gap={ 1 }>
+                <Text className='basis-font'>{ LocalizeText('navigator.roomsettings.allow_walk_through') }</Text>
+                <select className={`form-select form-select-sm`} value={ roomData.allowWalkthrough } onChange={ event => handleChange('allow_walkthrough', Number(event.target.value)) }>
+                    <option value="0">{ LocalizeText('navigator.roomsettings.allow_walk_through.state0') }</option>
+                    <option value="1">{ LocalizeText('navigator.roomsettings.allow_walk_through.state1') }</option>
+                    <option value="2">{ LocalizeText('navigator.roomsettings.allow_walk_through.state2') }</option>
+                    <option value="3">{ LocalizeText('navigator.roomsettings.allow_walk_through.state3') }</option>
+                    <option value="4">{ LocalizeText('navigator.roomsettings.allow_walk_through.state4') }</option>
+                </select>
+            </Column>
+            <Column gap={ 1 }>
                 <Text className='basis-font'>{ LocalizeText('navigator.tags') }</Text>
                 <Flex gap={ 1 }>
                     <Column fullWidth gap={ 0 }>
@@ -185,10 +195,6 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
                     </Column>
                 </Flex>
             </Column>
-            <Flex alignItems="center" gap={ 1 }>
-                <input className="flash-form-check-input" type="checkbox" checked={ roomData.allowWalkthrough } onChange={ event => handleChange('allow_walkthrough', event.target.checked) } />
-                <Text small>{ LocalizeText('navigator.roomsettings.allow_walk_through') }</Text>
-            </Flex>
             <Text small variant="danger" underline bold pointer className="d-flex justify-content-center align-items-center gap-1" onClick={ deleteRoom }>
                 <FaTimes className="fa-icon" />
                 { LocalizeText('navigator.roomsettings.delete') }

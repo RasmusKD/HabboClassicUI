@@ -26,7 +26,7 @@ export const CatalogLayouGuildCustomFurniView: FC<CatalogLayoutProps> = props =>
             <Column className="position-relative catalog-default-image" center={ !currentOffer } size={ 5 } overflow="hidden">
                 { !currentOffer &&
                     <>
-                        { !!page.localization.getImage(1) && <img alt="" src={ page.localization.getImage(1) } /> }
+                        { !!page.localization.getImage(1) && <img draggable="false" alt="" src={ page.localization.getImage(1) } /> }
                         <Text className="py-5" center dangerouslySetInnerHTML={ { __html: page.localization.getText(0) } } />
                     </> }
                 { currentOffer &&

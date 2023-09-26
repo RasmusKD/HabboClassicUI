@@ -7,7 +7,7 @@ import { useFurnitureStackHeightWidget } from '../../../../hooks';
 
 export const FurnitureStackHeightView: FC<{}> = props =>
 {
-    const { objectId = -1, height = 0, maxHeight = 40, onClose = null, updateHeight = null } = useFurnitureStackHeightWidget();
+    const { objectId = -1, height = 0, maxHeight = 100, onClose = null, updateHeight = null } = useFurnitureStackHeightWidget();
 
     if(objectId === -1) return null;
 

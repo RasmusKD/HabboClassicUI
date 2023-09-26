@@ -454,8 +454,7 @@ cursor: pointer;
 
 .wardrobe-padding {
     padding: 3px;
-    padding-right: 18px;
-    overflow: overlay!important;
+    scrollbar-gutter: stable;
 }
 
 .tab-margin {
@@ -526,7 +525,19 @@ cursor: pointer;
     background-position: center;
     width: 5px;
     height: 7px;
-    top: -12px;
+    top: -4px;
+    position: absolute;
+    right: 21px;
+    font-size: 12px;
+
+}
+
+.wardrobe-remove-button {
+    background: url('@/assets/flash/avatareditor/wardrobe_remove.png') no-repeat;
+    background-position: center;
+    width: 7px;
+    height: 7px;
+    top: -20px;
     position: absolute;
     right: 21px;
     font-size: 12px;
@@ -538,7 +549,7 @@ cursor: pointer;
     background-position: center;
     width: 5px;
     height: 7px;
-    top: 4px;
+    top: 12px;
     position: absolute;
     right: 22px;
     font-size: 12px;

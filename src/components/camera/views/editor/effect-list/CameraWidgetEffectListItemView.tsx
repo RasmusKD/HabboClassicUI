@@ -26,7 +26,7 @@ export const CameraWidgetEffectListItemView: FC<CameraWidgetEffectListItemViewPr
                 </Button> }
             { !isLocked && (thumbnailUrl && thumbnailUrl.length > 0) &&
                 <div className="effect-thumbnail-image border">
-                    <img alt="" src={ thumbnailUrl } />
+                    <img draggable="false" alt="" src={ thumbnailUrl } />
                 </div> }
             { isLocked &&
                 <Text center bold>

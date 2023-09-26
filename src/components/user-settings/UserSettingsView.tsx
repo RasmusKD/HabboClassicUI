@@ -1,4 +1,4 @@
-import { ILinkEventTracker, NitroSettingsEvent, UserSettingsCameraFollowComposer, UserSettingsEvent, UserSettingsOldChatComposer, UserSettingsRoomInvitesComposer, UserSettingsSoundComposer } from '@nitrots/nitro-renderer';
+import { ILinkEventTracker, NitroSettingsEvent, UserSettingsCameraFollowComposer, UserSettingsEvent, UserSettingsOldChatComposer, UserSettingsArrowKeysComposer, UserSettingsRoomInvitesComposer, UserSettingsSoundComposer } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
 import { AddEventLinkTracker, DispatchMainEvent, DispatchUiEvent, LocalizeText, RemoveLinkEventTracker, SendMessageComposer } from '../../api';
 import { Button, Column, Flex, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text } from '../../common';
@@ -23,6 +23,10 @@ export const UserSettingsView: FC<{}> = props =>
                 setIsVisible(false);
                 doUpdate = false;
                 return;
+            case 'arrow_keys':
+                clone.arrowKeys = value as number;
+                SendMessageComposer(new UserSettingsArrowKeysComposer(clone.arrowKeys));
+                break;
             case 'room_invites':
                 clone.roomInvites = value as boolean;
                 SendMessageComposer(new UserSettingsRoomInvitesComposer(clone.roomInvites));
@@ -65,7 +69,9 @@ export const UserSettingsView: FC<{}> = props =>
 
     useMessageEvent<UserSettingsEvent>(UserSettingsEvent, event =>
     {
+        console.log("UserSettingsEvent Triggered", event);
         const parser = event.getParser();
+        console.log("parser.arrowKeys", parser.arrowKeys);
         const settingsEvent = new NitroSettingsEvent();
 
         settingsEvent.volumeSystem = parser.volumeSystem;
@@ -76,8 +82,10 @@ export const UserSettingsView: FC<{}> = props =>
         settingsEvent.cameraFollow = parser.cameraFollow;
         settingsEvent.flags = parser.flags;
         settingsEvent.chatType = parser.chatType;
+        settingsEvent.arrowKeys = parser.arrowKeys;
 
         setUserSettings(settingsEvent);
+        console.log("settingsEvent.arrowKeys", settingsEvent.arrowKeys);
         DispatchMainEvent(settingsEvent);
     });
 
@@ -140,6 +148,21 @@ export const UserSettingsView: FC<{}> = props =>
                     <Flex alignItems="center" gap={ 1 }>
                         <input className="flash-form-check-input" type="checkbox" checked={ catalogSkipPurchaseConfirmation } onChange={ event => setCatalogSkipPurchaseConfirmation(event.target.checked) } />
                         <Text small>{ LocalizeText('memenu.settings.other.skip.purchase.confirmation') }</Text>
+                    </Flex>
+                </Column>
+                <Column>
+                    <Text small center>Arrowkeys usage:</Text>
+                    <Flex alignItems="center" gap={ 1 }>
+                        <input type="radio" name="arrowkeys" value={0} checked={userSettings.arrowKeys === 0} onChange={event => processAction('arrow_keys', parseInt(event.target.value))} />
+                        <Text small>Nothing</Text>
+                    </Flex>
+                    <Flex alignItems="center" gap={ 1 }>
+                        <input type="radio" name="arrowkeys" value={1} checked={userSettings.arrowKeys === 1} onChange={event => processAction('arrow_keys', parseInt(event.target.value))} />
+                        <Text small>Chat</Text>
+                    </Flex>
+                    <Flex alignItems="center" gap={ 1 }>
+                        <input type="radio" name="arrowkeys" value={2} checked={userSettings.arrowKeys === 2} onChange={event => processAction('arrow_keys', parseInt(event.target.value))} />
+                        <Text small>Movement</Text>
                     </Flex>
                 </Column>
                 <Column>

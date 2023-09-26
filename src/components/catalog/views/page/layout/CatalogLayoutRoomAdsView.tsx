@@ -87,28 +87,49 @@ export const CatalogLayoutRoomAdsView: FC<CatalogLayoutProps> = props =>
     }, []);
 
     return (<>
-    <div className="h-100">
+    <div className="h-100 friendbars something3">
         <Column overflow="hidden" className="text-black pets-padding">
             <Text bold>{ LocalizeText('roomad.catalog_text', [ 'duration' ], [ '120' ]) }</Text>
                 <Column gap={ 2 }>
-                    <select className={`form-select-pet ${isCategoryIdOpen ? 'mb-1 active' : 'mb-1'}`} value={ categoryId } onChange={ event => setCategoryId(parseInt(event.target.value)) } disabled={ extended } onClick={() => handleSelectToggle('categoryId')} onBlur={() => setIsCategoryIdOpen(false)}>
-                        { categories && categories.map((cat, index) => <option key={ index } value={ cat.id }>{ LocalizeText(cat.name) }</option>) }
-                    </select>
+                    <div className={`customSelect ${isCategoryIdOpen ? 'mb-1 active' : 'mb-1'}`} onClick={() => { if (!extended) handleSelectToggle('categoryId'); }} onBlur={() => setIsCategoryIdOpen(false)} tabIndex={0}>
+                        <div className="selectButton" style={{opacity: extended ? 0.5 : 1, pointerEvents: extended ? 'none' : 'auto'}}>{LocalizeText(`${categories.find(cat => cat.id === categoryId)?.name}`)}</div>
+                        <div className="options">
+                            {categories && categories.map((cat, index) => (
+                                <div
+                                    key={index}
+                                    value={cat.id}
+                                    className={`option ${isCategoryIdOpen && cat.id === categoryId ? 'selected' : ''}`}
+                                    onClick={(event) => { event.stopPropagation(); if (!extended) { setCategoryId(cat.id); setIsCategoryIdOpen(false); }}}>
+                                    {LocalizeText(cat.name)}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </Column>
                 <Column gap={ 1 }>
                     <Text className='font-size-11'>{ LocalizeText('roomad.catalog_name') }</Text>
-                    <input type="text" className="mb-1 form-control form-control3 form-control-sm" maxLength={ 64 } value={ eventName } onChange={ event => setEventName(event.target.value) } readOnly={ extended } />
+                    <input spellCheck="false" type="text" className="mb-1 form-control form-control3 form-control-sm" maxLength={ 64 } value={ eventName } onChange={ event => setEventName(event.target.value) } readOnly={ extended } />
                 </Column>
                 <Column className="h-itemgrid" gap={ 1 }>
                     <Text className='font-size-11'>{ LocalizeText('roomad.catalog_description') }</Text>
-                    <textarea className="flex-grow-1 form-control form-control3 w-100" maxLength={ 64 } value={ eventDesc } onChange={ event => setEventDesc(event.target.value) } readOnly={ extended } />
+                    <textarea spellCheck="false" className="flex-grow-1 form-control form-control3 w-100" maxLength={ 64 } value={ eventDesc } onChange={ event => setEventDesc(event.target.value) } readOnly={ extended } />
                 </Column>
-                <Column gap={ 1 }>
+                <Column gap={ 1 } className=' select-div-height mb-2'>
                     <Text className='font-size-11'>{ LocalizeText('roomad.catalog_roomname') }</Text>
-                    <select className={`form-select-pet ${isRoomIdOpen ? 'active mb-1' : 'mb-1'}`} value={ roomId } onChange={ event => setRoomId(parseInt(event.target.value)) } disabled={ extended } onClick={() => handleSelectToggle('roomId')} onBlur={() => setIsRoomIdOpen(false)}>
-                        <option value={ -1 } disabled>{ LocalizeText('roomad.catalog_roomname') }</option>
-                        { availableRooms && availableRooms.map((room, index) => <option key={ index } value={ room.roomId }>{ room.roomName }</option>) }
-                    </select>
+                    <div className={`adscustomSelect ${isRoomIdOpen ? 'active mb-1' : 'mb-1'}`} onClick={() => { if (!extended) handleSelectToggle('roomId'); }} onBlur={() => setIsRoomIdOpen(false)} tabIndex={0}>
+                        <div className="selectButton" style={{opacity: extended ? 0.5 : 1, pointerEvents: extended ? 'none' : 'auto'}}>{ roomId >= 0 ? availableRooms.find(room => room.roomId === roomId)?.roomName : LocalizeText('roomad.catalog_roomname') }</div>
+                        <div className="options">
+                            { availableRooms && availableRooms.map((room, index) =>
+                                <div
+                                    key={ index }
+                                    value={ room.roomId }
+                                    className={`option ${isRoomIdOpen && room.roomId === roomId ? 'selected' : ''}`}
+                                    onClick={(event) => { event.stopPropagation(); if (!extended) { setRoomId(room.roomId); setIsRoomIdOpen(false); }}}>
+                                    { room.roomName }
+                                </div>)
+                            }
+                        </div>
+                    </div>
                 </Column>
                 <Column gap={ 2 }>
                     <Flex alignItems="center" alignSelf="center" gap={ 1 }>

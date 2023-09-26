@@ -169,7 +169,7 @@ export const CatalogLayoutColorGroupingView : FC<CatalogLayoutColorGroupViewProp
                     </> }
             </Column>
             <Column className="grid-bg h-itemgrid p-2" size={ 7 } overflow="hidden">
-                <AutoGrid className="items-padding items-overlay" columnCount={ 6 } columnMinWidth={ 40 } columnMinHeight={ 40 }>
+                <AutoGrid className="items-padding overlayscroll" columnCount={ 6 } columnMinWidth={ 40 } columnMinHeight={ 40 }>
                     { (!currentOffer || colorableItems.has(currentOffer.product.furnitureData.className)) &&
                         offers.map((offer, index) => <CatalogGridOfferView key={ index } itemActive={ (currentOffer && (currentOffer.product.furnitureData.hasIndexedColor ? currentOffer.product.furnitureData.className === offer.product.furnitureData.className : currentOffer.offerId === offer.offerId)) } offer={ offer } selectOffer={ selectOffer }/>)
                     }

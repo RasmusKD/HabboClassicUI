@@ -1,8 +1,9 @@
 import { CrackableDataType, GroupInformationComposer, GroupInformationEvent, NowPlayingEvent, RoomControllerLevel, RoomObjectCategory, RoomObjectOperationType, RoomObjectVariable, RoomWidgetEnumItemExtradataParameter, RoomWidgetFurniInfoUsagePolicyEnum, SetObjectDataMessageComposer, SongInfoReceivedEvent, StringDataType } from '@nitrots/nitro-renderer';
 import { FC, useCallback, useEffect, useState } from 'react';
+import { GrBottomCorner } from 'react-icons/Gr';
 import { AvatarInfoFurni, CreateLinkEvent, GetGroupInformation, GetNitroInstance, GetRoomEngine, LocalizeText, SendMessageComposer } from '../../../../../api';
-import { Base, Button, Column, Flex, LayoutBadgeImageView, LayoutLimitedEditionCompactPlateView, LayoutRarityLevelView, Text, UserProfileIconView } from '../../../../../common';
-import { useMessageEvent, useRoom, useSoundEvent } from '../../../../../hooks';
+import { Base, Button, Column, Flex, LayoutBadgeImageView, LayoutLimitedEditionCompactPlateView, LayoutRarityLevelView, LayoutRoomObjectImageView, Text, UserProfileIconView } from '../../../../../common';
+import { useMessageEvent, useNitroEvent, useRoom } from '../../../../../hooks';
 
 interface InfoStandWidgetFurniViewProps
 {
@@ -38,13 +39,91 @@ export const InfoStandWidgetFurniView: FC<InfoStandWidgetFurniViewProps> = props
     const [ songId, setSongId ] = useState<number>(-1);
     const [ songName, setSongName ] = useState<string>('');
     const [ songCreator, setSongCreator ] = useState<string>('');
+    const [inputValue, setInputValue] = useState('');
+    const [direction, setDirection] = useState(null);
+    const [stepSizeW, setStepSizeW] = useState(1);
+    const [stepSizeL, setStepSizeL] = useState(1);
+    const [dropdownOpen, setDropdownOpen] = useState(sessionStorage.getItem("dropdownOpen") === "true" ? true : false);
+    const [shouldSave, setShouldSave] = useState(false);
 
-    useSoundEvent<NowPlayingEvent>(NowPlayingEvent.NPE_SONG_CHANGED, event =>
+    const handleAdjustment = useCallback((index, amount) => {
+        const clone = Array.from(furniValues);
+        clone[index] = (parseInt(clone[index], 10) + amount).toString();
+
+        setFurniValues(clone);
+        setShouldSave(true);
+    }, [furniValues]);
+
+
+    useEffect(() => {
+        if (shouldSave) {
+            processButtonAction('save_branding_configuration');
+            setShouldSave(false); // Reset after saving
+        }
+    }, [furniValues, shouldSave]);
+
+
+    useEffect(() => {
+      sessionStorage.setItem("dropdownOpen", dropdownOpen);
+    }, [dropdownOpen]);
+
+    useEffect(() => {
+      if(!avatarInfo.isWallItem) return;
+
+      const location = GetRoomEngine().getWallFurniLocation(roomSession.roomId, avatarInfo.id);
+      setInputValue(location);
+
+      const initialDirection = location.slice(-1);
+      setDirection(initialDirection);
+    }, [roomSession.roomId, avatarInfo.id]);
+
+   const changeValue = (key, index, increment, stepSize) => {
+     let splitStr = inputValue.split(" ");
+
+     let searchKey = key === 'w' ? `:${key}` : key;
+
+     const keyIndex = splitStr.findIndex(str => str.startsWith(searchKey));
+
+     if (keyIndex === -1) return;
+
+     let keySplit = splitStr[keyIndex].split("=")[1].split(",");
+     let keyVal = parseInt(keySplit[index]);
+
+     keySplit[index] = keyVal + increment * stepSize;
+     splitStr[keyIndex] = `${searchKey}=${keySplit.join(",")}`;
+
+     const newLocation = splitStr.join(" ");
+     setInputValue(newLocation);
+
+     GetRoomEngine().updateRoomObjectWallLocation2(avatarInfo.id, newLocation);
+   };
+
+    const handleInputChange = (event) => {
+      const newValue = event.target.value;
+      setInputValue(newValue);
+      GetRoomEngine().updateRoomObjectWallLocation2(avatarInfo.id, newValue);
+    };
+
+    const handleBlur = () => {
+      GetRoomEngine().updateRoomObjectWallLocation2(avatarInfo.id, inputValue);
+    };
+
+    const handleDirectionChange = (event) => {
+      const newDirection = event.target.value;
+      setDirection(newDirection);
+
+      const newLocation = `${inputValue.slice(0, -1)}${newDirection}`;
+      setInputValue(newLocation);
+
+      GetRoomEngine().updateRoomObjectWallLocation2(avatarInfo.id, newLocation);
+    };
+
+    useNitroEvent<NowPlayingEvent>(NowPlayingEvent.NPE_SONG_CHANGED, event =>
     {
         setSongId(event.id);
     }, (isJukeBox || isSongDisk));
 
-    useSoundEvent<NowPlayingEvent>(SongInfoReceivedEvent.SIR_TRAX_SONG_INFO_RECEIVED, event =>
+    useNitroEvent<NowPlayingEvent>(SongInfoReceivedEvent.SIR_TRAX_SONG_INFO_RECEIVED, event =>
     {
         if(event.id !== songId) return;
 
@@ -346,8 +425,9 @@ export const InfoStandWidgetFurniView: FC<InfoStandWidgetFurniViewProps> = props
                                 <div className="position-absolute end-0">
                                     <LayoutRarityLevelView level={ avatarInfo.stuffData.rarityLevel } />
                                 </div> }
-                            { avatarInfo.image && avatarInfo.image.src.length &&
-                                <img className="d-block mx-auto" src={ avatarInfo.image.src } alt="" /> }
+                            <Flex fullWidth center>
+                                <LayoutRoomObjectImageView roomId={ roomSession.roomId } objectId={ avatarInfo.id } category={ avatarInfo.category } />
+                            </Flex>
                         </Flex>
                         <hr className="m-0" />
                     </Column>
@@ -410,20 +490,122 @@ export const InfoStandWidgetFurniView: FC<InfoStandWidgetFurniViewProps> = props
                             <>
                                 <hr className="m-0" />
                                 { canSeeFurniId && <Text wrap variant="white">ID: { avatarInfo.id }</Text> }
-                                { (furniKeys.length > 0) &&
-                                    <>
-                                        <hr className="m-0"/>
-                                        <Column gap={ 1 }>
-                                            { furniKeys.map((key, index) =>
-                                            {
-                                                return (
-                                                    <Flex key={ index } alignItems="center" gap={ 1 }>
-                                                        <Text wrap align="end" variant="white" className="col-4">{ key }</Text>
-                                                        <input spellCheck="false" type="text" className="form-control form-control-sm" value={ furniValues[index] } onChange={ event => onFurniSettingChange(index, event.target.value) }/>
-                                                    </Flex>);
-                                            }) }
+                                { (avatarInfo.isWallItem && canMove ) &&
+                                  <>
+                                    <Button className="infostand-buttons px-2" onClick={() => setDropdownOpen(!dropdownOpen)}>
+                                    {dropdownOpen ? "Close Buildtools" : "Open Buildtools"}
+                                    </Button>
+                                    { dropdownOpen &&
+                                      <>
+                                        <Flex alignItems="center" gap={ 1 }>
+                                            <input spellCheck="false" type="text" className="form-control form-control-sm" value={inputValue} onChange={handleInputChange} onBlur={handleBlur} />
+                                            <Flex gap={ 1 }>
+                                              <input className="wall-form-check-radio-input" type="radio" value="l" checked={direction === 'l'} onChange={handleDirectionChange} />
+                                              <Text>L</Text>
+                                              <input className="wall-form-check-radio-input" type="radio" value="r" checked={direction === 'r'} onChange={handleDirectionChange} />
+                                              <Text>R</Text>
+                                            </Flex>
+                                        </Flex>
+                                        <Flex gap={ 1 }>
+                                            <Column className="wallitem-buildtool-box">
+                                                <Column fullWidth>
+                                                    <Text>Location:</Text>
+                                                    <Column justifyContent="center" alignItems="center" className="button-w-height button-w-gap">
+                                                        <Flex className="wall-button-w-gap">
+                                                            <Base className="wallitem-w-button button-1-w-rotation" onClick={() => changeValue('w', 0, -1, stepSizeW)}>←</Base>
+                                                            <Base className="wallitem-w-button button-2-w-rotation" onClick={() => changeValue('w', 1, -1, stepSizeW)}>→</Base>
+                                                        </Flex>
+                                                        <Flex className="wall-button-w-gap">
+                                                            <Base className="wallitem-w-button button-3-w-rotation" onClick={() => changeValue('w', 1, 1, stepSizeW)}>←</Base>
+                                                            <Base className="wallitem-w-button button-4-w-rotation" onClick={() => changeValue('w', 0, 1, stepSizeW)}>→</Base>
+                                                        </Flex>
+                                                    </Column>
+                                                </Column>
+                                                <Column gap={ 1 }>
+                                                    <Text>Step:</Text>
+                                                    <Flex gap={ 1 }>
+                                                        <input className="wall-form-check-radio-input" type="radio" value={1} checked={stepSizeW === 1} onChange={(e) => setStepSizeW(parseInt(e.target.value))} />
+                                                        <Text>1</Text>
+                                                        <input className="wall-form-check-radio-input" type="radio" value={3} checked={stepSizeW === 3} onChange={(e) => setStepSizeW(parseInt(e.target.value))} />
+                                                        <Text>3</Text>
+                                                        <input className="wall-form-check-radio-input" type="radio" value={9} checked={stepSizeW === 9} onChange={(e) => setStepSizeW(parseInt(e.target.value))} />
+                                                        <Text>9</Text>
+                                                    </Flex>
+                                                </Column>
+                                            </Column>
+                                            <Column className="wallitem-buildtool-box">
+                                                <Column fullWidth>
+                                                    <Text>Offset:</Text>
+                                                    <Flex className="wall-button-l-gap wall-button-l-placement">
+                                                        <Base className="wallitem-l-button button-1-l-rotation" onClick={() => changeValue('l', 0, -1, stepSizeL)}>
+                                                            <GrBottomCorner className="fa-icon icon-color"/>
+                                                        </Base>
+                                                        <Base className="wallitem-l-button button-4-l-rotation" onClick={() => changeValue('l', 0, 1, stepSizeL)}>
+                                                            <GrBottomCorner className="fa-icon icon-color"/>
+                                                        </Base>
+                                                    </Flex>
+                                                    <Column alignItems="center" className="wall-button-l-gap">
+                                                        <Base className="wallitem-l-button button-2-l-rotation" onClick={() => changeValue('l', 1, -1, stepSizeL)}>
+                                                            <GrBottomCorner className="fa-icon icon-color"/>
+                                                        </Base>
+                                                        <Base className="wallitem-l-button button-3-l-rotation" onClick={() => changeValue('l', 1, 1, stepSizeL)}>
+                                                            <GrBottomCorner className="fa-icon icon-color"/>
+                                                        </Base>
+                                                    </Column>
+                                                </Column>
+                                                <Column gap={ 1 }>
+                                                    <Text>Step:</Text>
+                                                    <Flex gap={ 1 }>
+                                                        <input className="wall-form-check-radio-input" type="radio" value={1} checked={stepSizeL === 1} onChange={(e) => setStepSizeL(parseInt(e.target.value))} />
+                                                        <Text>1</Text>
+                                                        <input className="wall-form-check-radio-input" type="radio" value={3} checked={stepSizeL === 3} onChange={(e) => setStepSizeL(parseInt(e.target.value))} />
+                                                        <Text>3</Text>
+                                                        <input className="wall-form-check-radio-input" type="radio" value={9} checked={stepSizeL === 9} onChange={(e) => setStepSizeL(parseInt(e.target.value))} />
+                                                        <Text>9</Text>
+                                                    </Flex>
+                                                </Column>
+                                            </Column>
+                                        </Flex>
+                                      </>
+                                    }
+                                  </>
+                                }
+                                { furniKeys.map((key, index) => {
+                                    let displayKey = key;
+                                    let adjustments = [];
+
+                                    if (key === 'imageUrl') {
+                                        displayKey = 'Url';
+                                    } else if (key === 'offsetX') {
+                                        displayKey = 'X';
+                                        adjustments = [-100, -10, -1, 1, 10, 100];
+                                    } else if (key === 'offsetY') {
+                                        displayKey = 'Y';
+                                        adjustments = [-100, -10, -1, 1, 10, 100];
+                                    } else if (key === 'offsetZ') {
+                                        displayKey = 'Z';
+                                        adjustments = [-100, -10, -1, 1, 10, 100];
+                                    }
+
+                                    return (
+                                        <Column key={ index } gap={ 1 }>
+                                            <Flex alignItems="center" gap={ 1 }>
+                                                <Text wrap align="end" variant="white" className="col-branding">{displayKey}</Text>
+                                                <input spellCheck="false" type="text" className="form-control form-control-sm" value={furniValues[index]} onChange={event => onFurniSettingChange(index, event.target.value)} />
+                                            </Flex>
+                                            {adjustments.length > 0 &&
+                                                <Flex gap={ 0 } alignSelf="end">
+                                                    {adjustments.map(amt => (
+                                                        <Button className="branding-offset-buttons" key={amt} onClick={() => handleAdjustment(index, amt)} >
+                                                            {amt > 0 ? `+${amt}` : amt}
+                                                        </Button>
+                                                    ))}
+                                                </Flex>
+                                            }
                                         </Column>
-                                    </> }
+                                    );
+                                })}
+
                             </> }
                         { (customKeys.length > 0) &&
                             <>

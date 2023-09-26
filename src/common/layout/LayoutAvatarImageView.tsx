@@ -72,9 +72,11 @@ useEffect(() => {
 
     avatarImage.setDirection(setType, direction);
 
-    const image = avatarImage.getCroppedImage(setType);
+    (async () =>
+    {
+        const image = await avatarImage.getCroppedImage(setType);
 
-    if (image && cropTransparency) {
+        if (image && cropTransparency) {
             const croppedImage = new Image();
             croppedImage.onload = function() {
             const canvas = document.createElement('canvas');
@@ -118,6 +120,7 @@ useEffect(() => {
             onImageLoad && onImageLoad(image.height);
         };
     }
+    })();
 }, [figure, gender, direction, headOnly, randomValue]);
 
     useEffect(() =>

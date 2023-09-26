@@ -223,11 +223,11 @@ export const CatalogLayoutPetView: FC<CatalogLayoutProps> = props =>
     if(!currentOffer) return null;
 
     return (
-        <div className="h-default-colors-pet">
+        <div className="h-default-colors-pet friendbars something3">
             <Column className="position-relative catalog-default-image" center={ !currentOffer } size={ 5 } gap={ 0 } overflow="hidden">
                 { !currentOffer &&
                     <>
-                        { !!page.localization.getImage(1) && <img alt="" src={ page.localization.getImage(1) } /> }
+                        { !!page.localization.getImage(1) && <img draggable="false" alt="" src={ page.localization.getImage(1) } /> }
                         <Text center dangerouslySetInnerHTML={ { __html: page.localization.getText(0) } } />
                     </> }
                 { currentOffer &&
