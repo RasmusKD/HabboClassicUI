@@ -1,11 +1,10 @@
 import { FC, useEffect, useState } from 'react';
-import { AvatarEditorGridColorItem, GetConfiguration } from '../../../../api';
+import { AvatarEditorColorPicker, GetConfiguration } from '../../../../api';
 import { LayoutCurrencyIcon, LayoutGridItem, LayoutGridItemProps } from '../../../../common';
-import { LayoutGridColorPickerItem } from '../../../../common/layout/LayoutGridColorPickerItem';
 
 export interface AvatarEditorPaletteSetItemProps extends LayoutGridItemProps
 {
-    colorItem: AvatarEditorGridColorItem;
+    colorItem: AvatarEditorColorPicker;
 }
 
 export const AvatarEditorPaletteSetItem: FC<AvatarEditorPaletteSetItemProps> = props =>
@@ -25,9 +24,9 @@ export const AvatarEditorPaletteSetItem: FC<AvatarEditorPaletteSetItemProps> = p
     }, [ colorItem ]);
 
     return (
-        <LayoutGridColorPickerItem itemHighlight itemColor={ colorItem.color } itemActive={ colorItem.isSelected } className="color-picker-frame clear-bg" { ...rest }>
-            { !hcDisabled && colorItem.isHC && <i className="icon hc-icon position-absolute" /> }
+        <LayoutGridItem itemHighlight itemColor={ colorItem.color } itemActive={ true } className="clear-bg" { ...rest }>
+            { !hcDisabled && colorItem.isHC && <LayoutCurrencyIcon className="position-absolute end-1 bottom-1" type="hc" /> }
             { children }
-        </LayoutGridColorPickerItem>
+        </LayoutGridItem>
     );
 }

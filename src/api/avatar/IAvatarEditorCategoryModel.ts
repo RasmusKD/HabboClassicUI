@@ -7,7 +7,7 @@ export interface IAvatarEditorCategoryModel
     reset(): void;
     getCategoryData(category: string): CategoryData;
     selectPart(category: string, partIndex: number): void;
-    selectColor(category: string, colorIndex: number, paletteId: number): void;
+    selectColor(category: string, color: string, colorPickerIndex: number): void;
     hasClubSelectionsOverLevel(level: number): boolean;
     hasInvalidSelectedItems(ownedItems: number[]): boolean;
     stripClubItemsOverLevel(level: number): boolean;

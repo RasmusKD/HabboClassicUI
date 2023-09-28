@@ -1,4 +1,4 @@
-import { AvatarFigureContainer, IFigurePartSet, IPalette, IPartColor, SetType } from '@nitrots/nitro-renderer';
+import { AvatarFigureContainer, IFigurePartSet, IPartColor, SetType } from '@nitrots/nitro-renderer';
 import { GetAvatarRenderManager } from '../nitro';
 import { Randomizer } from '../utils';
 import { FigureData } from './FigureData';
@@ -37,91 +37,43 @@ function getRandomPartSet(setType: SetType, gender: string, clubLevel: number = 
     return Randomizer.getRandomElement(options);
 }
 
-function getRandomColors(palette: IPalette, partSet: IFigurePartSet, clubLevel: number = 0): IPartColor[]
+function getRandomColors(partSet: IFigurePartSet): IPartColor[]
 {
-    if(!palette) return [];
-
-    const options = palette.colors.getValues().filter(option =>
-    {
-        if(!option.isSelectable || (option.clubLevel > clubLevel)) return null;
-
-        return option;
-    });
-
-    if(!options || !options.length) return null;
-
-    return Randomizer.getRandomElements(options, getTotalColors(partSet));
+    return Randomizer.getRandomColors(getTotalColors(partSet));
 }
-
-function getRandomOptionalSetTypes(options: string[], maxOptionalSets: number): string[] {
-    const numOptionalSets = Math.floor(Math.random() * (maxOptionalSets + 1)); // Generate number between 0 and maxOptionalSets
-    return Randomizer.getRandomElements(options, numOptionalSets);
-}
-
-// ...
 
 export function generateRandomFigure(figureData: FigureData, gender: string, clubLevel: number = 0, figureSetIds: number[] = [], ignoredSets: string[] = []): string
 {
     const structure = GetAvatarRenderManager().structure;
     const figureContainer = new AvatarFigureContainer('');
+    const requiredSets = getRandomSetTypes(structure.getMandatorySetTypeIds(gender, clubLevel), FigureData.SET_TYPES);
 
-    // Include 'hair' and 'shirts' in the required sets based on gender
-    let requiredSets = structure.getMandatorySetTypeIds(gender, clubLevel);
+    for(const setType of ignoredSets)
+    {
+        const partSetId = figureData.getPartSetId(setType);
+        const colors = figureData.getHexColors(setType);
 
-    if (gender === 'F' && !requiredSets.includes('hr')) {
-        requiredSets = [ ...requiredSets, 'hr' ];
-    }
-    else if (gender === 'M') {
-        if (Math.random() < 0.8 && !requiredSets.includes('hr')) { // 80% chance to include hair for males
-            requiredSets = [ ...requiredSets, 'hr' ];
-        }
-        if (Math.random() < 0.8 && !requiredSets.includes('ch')) { // 80% chance to include shirts for males
-            requiredSets = [ ...requiredSets, 'ch' ];
-        }
+        figureContainer.updatePart(setType, partSetId, colors);
     }
 
-    if (Math.random() < 0.8 && !requiredSets.includes('sh')) { // 80% chance to include shoes for anyone
-        requiredSets = [ ...requiredSets, 'sh' ];
-    }
-    // Specify the optional sets and limit the number that can be included
-    const limitedOptionalSets = ['ha', 'he', 'er', 'ea', 'fa']; // replace these with actual identifiers
-    const maxOptionalSets = 2; // maximum number of optional sets
-    const selectedLimitedOptionalSets = getRandomOptionalSetTypes(limitedOptionalSets, maxOptionalSets);
+    for(const type of requiredSets)
+    {
+        if(figureContainer.hasPartType(type)) continue;
+        
+        const setType = (structure.figureData.getSetType(type) as SetType);
+        const selectedSet = getRandomPartSet(setType, gender, clubLevel, figureSetIds);
 
-    // Determine the other optional sets
-        const otherOptionalSets = FigureData.SET_TYPES.filter(type => !requiredSets.includes(type) && !limitedOptionalSets.includes(type));
-        const selectedOtherOptionalSets = otherOptionalSets.filter(type => Math.random() < 0.2);  // 20% chance to include each other optional set
+        if(!selectedSet) continue;
 
-        const chosenSetTypes = new Set([...requiredSets, ...selectedLimitedOptionalSets, ...selectedOtherOptionalSets]);
+        let selectedColors: string[] = [];
 
-        for(const setType of ignoredSets)
+        if(selectedSet.isColorable)
         {
-            const partSetId = figureData.getPartSetId(setType);
-            const colors = figureData.getColorIds(setType);
-
-            figureContainer.updatePart(setType, partSetId, colors);
+            selectedColors = getRandomColors(selectedSet).map(color => color.rgb.toString(16));
         }
 
-        for(const type of FigureData.SET_TYPES)
-        {
-            if (!chosenSetTypes.has(type)) continue;
-
-            if(figureContainer.hasPartType(type)) continue;
-
-            const setType = (structure.figureData.getSetType(type) as SetType);
-            const selectedSet = getRandomPartSet(setType, gender, clubLevel, figureSetIds);
-
-            if(!selectedSet) continue;
-
-            let selectedColors: number[] = [];
-
-            if(selectedSet.isColorable)
-            {
-                selectedColors = getRandomColors(structure.figureData.getPalette(setType.paletteID), selectedSet, clubLevel).map(color => color.id);
-            }
-
-            figureContainer.updatePart(setType.type, selectedSet.id, selectedColors);
-        }
-
-        return figureContainer.getFigureString();
+        figureContainer.updatePart(setType.type, selectedSet.id, selectedColors);
     }
+
+    return figureContainer.getFigureString();
+}

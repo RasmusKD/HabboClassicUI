@@ -17,9 +17,9 @@ export class BodyModel extends CategoryBaseModel
         this._isInitalized = true;
     }
 
-    public selectColor(category: string, colorIndex: number, paletteId: number): void
+    public selectColor(category: string, color: string, colorPickerIndex: number): void
     {
-        super.selectColor(category, colorIndex, paletteId);
+        super.selectColor(category, color, colorPickerIndex);
 
         this.updateSelectionsFromFigure(FigureData.FACE);
     }
@@ -34,12 +34,12 @@ export class BodyModel extends CategoryBaseModel
 
         const setId = AvatarEditorUtilities.CURRENT_FIGURE.getPartSetId(name);
 
-        let colorIds = AvatarEditorUtilities.CURRENT_FIGURE.getColorIds(name);
+        let hexColors = AvatarEditorUtilities.CURRENT_FIGURE.getHexColors(name);
 
-        if(!colorIds) colorIds = [];
+        if(!hexColors) hexColors = [];
 
         category.selectPartId(setId);
-        category.selectColorIds(colorIds);
+        category.selectHexColors(hexColors);
 
         for(const part of category.parts)
         {

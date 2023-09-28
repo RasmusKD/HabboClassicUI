@@ -1,39 +1,30 @@
-import { ColorConverter, IPartColor } from '@nitrots/nitro-renderer';
+import { ColorConverter, IPartColor, PartColor } from '@nitrots/nitro-renderer';
 
-export class AvatarEditorGridColorItem
+export class AvatarEditorColorPicker
 {
-    private _partColor: IPartColor;
-    private _isDisabled: boolean;
+    private _selectedPartColor: IPartColor;
     private _isHC: boolean;
-    private _isSelected: boolean;
     private _notifier: () => void;
 
-    constructor(partColor: IPartColor, isDisabled: boolean = false)
+    constructor(partColor: IPartColor)
     {
-        this._partColor = partColor;
-        this._isDisabled = isDisabled;
-        this._isHC = (this._partColor.clubLevel > 0);
-        this._isSelected = false;
+        this._selectedPartColor = partColor;
+        this._isHC = true;
     }
 
     public dispose(): void
     {
-        this._partColor = null;
+        this._selectedPartColor = null;
     }
 
     public get partColor(): IPartColor
     {
-        return this._partColor;
+        return this._selectedPartColor;
     }
 
-    public get color(): string
+    public get rgb(): string
     {
-        return ColorConverter.int2rgb(this._partColor.rgb);
-    }
-
-    public get isDisabled(): boolean
-    {
-        return this._isDisabled;
+        return ColorConverter.int2rgb(this._selectedPartColor.rgb);
     }
 
     public get isHC(): boolean
@@ -41,14 +32,16 @@ export class AvatarEditorGridColorItem
         return this._isHC;
     }
 
-    public get isSelected(): boolean
+    public set color(hexColor: string)
     {
-        return this._isSelected;
+        this._selectedPartColor = new PartColor(hexColor);
+
+        if(this.notify) this.notify();
     }
 
-    public set isSelected(flag: boolean)
+    public set partColor(partColor: IPartColor)
     {
-        this._isSelected = flag;
+        this._selectedPartColor = partColor;
 
         if(this.notify) this.notify();
     }

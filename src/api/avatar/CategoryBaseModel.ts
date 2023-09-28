@@ -66,12 +66,11 @@ export class CategoryBaseModel implements IAvatarEditorCategoryModel
 
         const setId = AvatarEditorUtilities.CURRENT_FIGURE.getPartSetId(figure);
 
-        let colorIds = AvatarEditorUtilities.CURRENT_FIGURE.getColorIds(figure);
+        let hexColors = AvatarEditorUtilities.CURRENT_FIGURE.getHexColors(figure);
 
-        if(!colorIds) colorIds = [];
-
+        if(!hexColors) hexColors = [];
         category.selectPartId(setId);
-        category.selectColorIds(colorIds);
+        category.selectHexColors(hexColors);
     }
 
     public hasClubSelectionsOverLevel(level: number): boolean
@@ -112,15 +111,13 @@ export class CategoryBaseModel implements IAvatarEditorCategoryModel
 
             if(category.stripClubItemsOverLevel(level)) isValid = true;
 
-            if(category.stripClubColorsOverLevel(level)) isValid = true;
-
             if(isValid)
             {
                 const partItem = category.getCurrentPart();
 
                 if(partItem && AvatarEditorUtilities.CURRENT_FIGURE)
                 {
-                    AvatarEditorUtilities.CURRENT_FIGURE.savePartData(name, partItem.id, category.getSelectedColorIds(), true);
+                    AvatarEditorUtilities.CURRENT_FIGURE.savePartData(name, partItem.id, category.getSelectedHexColors(), true);
                 }
 
                 didStrip = true;
@@ -148,7 +145,7 @@ export class CategoryBaseModel implements IAvatarEditorCategoryModel
 
                 if(partItem && AvatarEditorUtilities.CURRENT_FIGURE)
                 {
-                    AvatarEditorUtilities.CURRENT_FIGURE.savePartData(name, partItem.id, category.getSelectedColorIds(), true);
+                    AvatarEditorUtilities.CURRENT_FIGURE.savePartData(name, partItem.id, category.getSelectedHexColors(), true);
                 }
 
                 didStrip = true;
@@ -183,31 +180,20 @@ export class CategoryBaseModel implements IAvatarEditorCategoryModel
 
         this._maxPaletteCount = partItem.maxColorIndex;
 
-        AvatarEditorUtilities.CURRENT_FIGURE.savePartData(category, partItem.id, categoryData.getSelectedColorIds(), true);
+        AvatarEditorUtilities.CURRENT_FIGURE.savePartData(category, partItem.id, categoryData.getSelectedHexColors(), true);
     }
 
-    public selectColor(category: string, colorIndex: number, paletteId: number): void
+    public selectColor(category: string, color: string, colorPickerIndex: number): void
     {
         const categoryData = this._categories.get(category);
 
         if(!categoryData) return;
 
-        const paletteIndex = categoryData.getCurrentColorIndex(paletteId);
-
-        categoryData.selectColorIndex(colorIndex, paletteId);
-
-        const colorItem = categoryData.getSelectedColor(paletteId);
-
-        if(colorItem.isDisabled)
-        {
-            categoryData.selectColorIndex(paletteIndex, paletteId);
-
-            // open hc window
-
-            return;
-        }
-
-        AvatarEditorUtilities.CURRENT_FIGURE.savePartSetColourId(category, categoryData.getSelectedColorIds(), true);
+        const colorPicker = categoryData.getColorPicker(colorPickerIndex);
+        colorPicker.color = color;
+        categoryData.updatePartColors();
+        
+        AvatarEditorUtilities.CURRENT_FIGURE.savePartSetHexColor(category, categoryData.getSelectedHexColors(), true);
     }
 
     public getCategoryData(category: string): CategoryData

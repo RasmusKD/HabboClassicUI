@@ -1,42 +1,26 @@
 import { IPartColor } from '@nitrots/nitro-renderer';
-import { AvatarEditorGridColorItem } from './AvatarEditorGridColorItem';
+import { AvatarEditorColorPicker } from './AvatarEditorGridColorItem';
 import { AvatarEditorGridPartItem } from './AvatarEditorGridPartItem';
 
 export class CategoryData
 {
     private _name: string;
     private _parts: AvatarEditorGridPartItem[];
-    private _palettes: AvatarEditorGridColorItem[][];
+    private _colorPickers: AvatarEditorColorPicker[];
     private _selectedPartIndex: number = -1;
-    private _paletteIndexes: number[];
 
-    constructor(name: string, partItems: AvatarEditorGridPartItem[], colorItems: AvatarEditorGridColorItem[][])
+    constructor(name: string, partItems: AvatarEditorGridPartItem[], colorPickers: AvatarEditorColorPicker[])
     {
         this._name = name;
         this._parts = partItems;
-        this._palettes = colorItems;
+        this._colorPickers = colorPickers;
         this._selectedPartIndex = -1;
     }
 
-    private static defaultColorId(palettes: AvatarEditorGridColorItem[], clubLevel: number): number
+    private static defaultHexColor(): string
     {
-        if(!palettes || !palettes.length) return -1;
 
-        let i = 0;
-
-        while(i < palettes.length)
-        {
-            const colorItem = palettes[i];
-
-            if(colorItem.partColor && (colorItem.partColor.clubLevel <= clubLevel))
-            {
-                return colorItem.partColor.id;
-            }
-
-            i++;
-        }
-
-        return -1;
+        return '000000';
     }
 
     public init(): void
@@ -58,15 +42,12 @@ export class CategoryData
             this._parts = null;
         }
 
-        if(this._palettes)
+        if(this._colorPickers)
         {
-            for(const palette of this._palettes) for(const colorItem of palette) colorItem.dispose();
-
-            this._palettes = null;
+            this._colorPickers = null;
         }
 
         this._selectedPartIndex = -1;
-        this._paletteIndexes = null;
     }
 
     public selectPartId(partId: number): void
@@ -90,53 +71,19 @@ export class CategoryData
         }
     }
 
-    public selectColorIds(colorIds: number[]): void
+    public selectHexColors(hexColors: string[]): void
     {
-        if(!colorIds || !this._palettes) return;
+        if(!hexColors || !this._colorPickers) return;
 
-        this._paletteIndexes = new Array(colorIds.length);
+
 
         let i = 0;
 
-        while(i < this._palettes.length)
+        while(i < this._colorPickers.length)
         {
-            const palette = this.getPalette(i);
+            const colorPicker = this._colorPickers[i];
 
-            if(palette)
-            {
-                let colorId = 0;
-
-                if(colorIds.length > i)
-                {
-                    colorId = colorIds[i];
-                }
-                else
-                {
-                    const colorItem = palette[0];
-
-                    if(colorItem && colorItem.partColor) colorId = colorItem.partColor.id;
-                }
-
-                let j = 0;
-
-                while(j < palette.length)
-                {
-                    const colorItem = palette[j];
-
-                    if(colorItem.partColor.id === colorId)
-                    {
-                        this._paletteIndexes[i] = j;
-
-                        colorItem.isSelected = true;
-                    }
-                    else
-                    {
-                        colorItem.isSelected = false;
-                    }
-
-                    j++;
-                }
-            }
+            colorPicker.color = hexColors[i];
 
             i++;
         }
@@ -172,101 +119,19 @@ export class CategoryData
         return null;
     }
 
-    public selectColorIndex(colorIndex: number, paletteId: number): AvatarEditorGridColorItem
+    public selectColor(color: string, colorPickerIndex: number): AvatarEditorColorPicker
     {
-        const palette = this.getPalette(paletteId);
-
-        if(!palette) return null;
-
-        if(palette.length <= colorIndex) return null;
-
-        this.deselectColorIndex(this._paletteIndexes[paletteId], paletteId);
-
-        this._paletteIndexes[paletteId] = colorIndex;
-
-        const colorItem = palette[colorIndex];
-
-        if(!colorItem) return null;
-
-        colorItem.isSelected = true;
+        const colorPicker = this.getColorPicker(colorPickerIndex);
+        colorPicker.color = color;
 
         this.updatePartColors();
 
-        return colorItem;
+        return colorPicker;
     }
 
-    public getCurrentColorIndex(k: number): number
+    public getSelectedHexColors(): string[]
     {
-        return this._paletteIndexes[k];
-    }
-
-    private deselectColorIndex(colorIndex: number, paletteIndex: number): void
-    {
-        const palette = this.getPalette(paletteIndex);
-
-        if(!palette) return;
-
-        if(palette.length <= colorIndex) return;
-
-        const colorItem = palette[colorIndex];
-
-        if(!colorItem) return;
-
-        colorItem.isSelected = false;
-    }
-
-    public getSelectedColorIds(): number[]
-    {
-        if(!this._paletteIndexes || !this._paletteIndexes.length) return null;
-
-        if(!this._palettes || !this._palettes.length) return null;
-
-        const palette = this._palettes[0];
-
-        if(!palette || (!palette.length)) return null;
-
-        const colorItem = palette[0];
-
-        if(!colorItem || !colorItem.partColor) return null;
-
-        const colorId = colorItem.partColor.id;
-        const colorIds: number[] = [];
-
-        let i = 0;
-
-        while(i < this._paletteIndexes.length)
-        {
-            const paletteSet = this._palettes[i];
-
-            if(!((!(paletteSet)) || (paletteSet.length <= i)))
-            {
-                if(paletteSet.length > this._paletteIndexes[i])
-                {
-                    const color = paletteSet[this._paletteIndexes[i]];
-
-                    if(color && color.partColor)
-                    {
-                        colorIds.push(color.partColor.id);
-                    }
-                    else
-                    {
-                        colorIds.push(colorId);
-                    }
-                }
-                else
-                {
-                    colorIds.push(colorId);
-                }
-            }
-
-            i++;
-        }
-
-        const partItem = this.getCurrentPart();
-
-        if(!partItem) return null;
-
-        return colorIds.slice(0, Math.max(partItem.maxColorIndex, 1));
+        return this._colorPickers.map(colorPicker => colorPicker.partColor.rgb.toString(16))
     }
 
     private getSelectedColors(): IPartColor[]
@@ -275,13 +140,13 @@ export class CategoryData
 
         let i = 0;
 
-        while(i < this._paletteIndexes.length)
+        while(i < this._colorPickers.length)
         {
-            const colorItem = this.getSelectedColor(i);
+            const colorPicker = this.getSelectedColor(i);
 
-            if(colorItem)
+            if(colorPicker)
             {
-                partColors.push(colorItem.partColor);
+                partColors.push(colorPicker.partColor);
             }
             else
             {
@@ -294,32 +159,32 @@ export class CategoryData
         return partColors;
     }
 
-    public getSelectedColor(paletteId: number): AvatarEditorGridColorItem
+    public getSelectedColor(colorPickerIndex: number): AvatarEditorColorPicker
     {
-        const palette = this.getPalette(paletteId);
+        const colorPicker = this.getColorPicker(colorPickerIndex);
 
-        if(!palette || (palette.length <= this._paletteIndexes[paletteId])) return null;
+        if(!colorPicker) return null;
 
-        return palette[this._paletteIndexes[paletteId]];
+        return colorPicker;
     }
 
-    public getSelectedColorId(paletteId: number): number
+    public getSelectedHexColor(paletteId: number): string
     {
         const colorItem = this.getSelectedColor(paletteId);
 
-        if(colorItem && (colorItem.partColor)) return colorItem.partColor.id;
+        if(colorItem && (colorItem.partColor)) return colorItem.partColor.rgb.toString(16);
 
-        return 0;
+        return '000000';
     }
 
-    public getPalette(paletteId: number): AvatarEditorGridColorItem[]
+    public getColorPicker(index: number): AvatarEditorColorPicker
     {
-        if(!this._paletteIndexes || !this._palettes || (this._palettes.length <= paletteId))
+        if(!this._colorPickers || (this._colorPickers.length <= index))
         {
             return null;
         }
 
-        return this._palettes[paletteId];
+        return this._colorPickers[index];
     }
 
     public getCurrentPart(): AvatarEditorGridPartItem
@@ -327,7 +192,7 @@ export class CategoryData
         return this._parts[this._selectedPartIndex] as AvatarEditorGridPartItem;
     }
 
-    private updatePartColors(): void
+    public updatePartColors(): void
     {
         const partColors = this.getSelectedColors();
 
@@ -351,7 +216,7 @@ export class CategoryData
             {
                 const partColor = partColors[i];
 
-                if(partColor && (partColor.clubLevel > level)) hasInvalidSelections = true;
+                if(partColor) hasInvalidSelections = true;
 
                 i++;
             }
@@ -403,17 +268,14 @@ export class CategoryData
         return false;
     }
 
-    public stripClubColorsOverLevel(level: number): boolean
+    public stripClubColorsOverLevel(): boolean
     {
-        const colorIds: number[] = [];
+        const hexColors: string[] = [];
         const partColors = this.getSelectedColors();
-        const colorItems = this.getPalette(0);
 
         let didStrip = false;
 
-        const colorId = CategoryData.defaultColorId(colorItems, level);
-
-        if(colorId === -1) return false;
+        const hexColor = CategoryData.defaultHexColor();
 
         let i = 0;
 
@@ -423,28 +285,19 @@ export class CategoryData
 
             if(!partColor)
             {
-                colorIds.push(colorId);
+                hexColors.push(hexColor);
 
                 didStrip = true;
             }
             else
             {
-                if(partColor.clubLevel > level)
-                {
-                    colorIds.push(colorId);
-                    
-                    didStrip = true;
-                }
-                else
-                {
-                    colorIds.push(partColor.id);
-                }
+                hexColors.push(partColor.rgb.toString(16));
             }
 
             i++;
         }
 
-        if(didStrip) this.selectColorIds(colorIds);
+        if(didStrip) this.selectHexColors(hexColors);
 
         return didStrip;
     }

@@ -1,6 +1,6 @@
-import { IPartColor } from '@nitrots/nitro-renderer';
+import { IPartColor, PartColor } from '@nitrots/nitro-renderer';
 import { GetAvatarPalette, GetAvatarRenderManager, GetAvatarSetType, GetClubMemberLevel, GetConfiguration } from '../nitro';
-import { AvatarEditorGridColorItem } from './AvatarEditorGridColorItem';
+import { AvatarEditorColorPicker } from './AvatarEditorGridColorItem';
 import { AvatarEditorGridPartItem } from './AvatarEditorGridPartItem';
 import { CategoryBaseModel } from './CategoryBaseModel';
 import { CategoryData } from './CategoryData';
@@ -45,59 +45,45 @@ export class AvatarEditorUtilities
         if(!model || !name || !this.CURRENT_FIGURE) return null;
 
         const partItems: AvatarEditorGridPartItem[] = [];
-        const colorItems: AvatarEditorGridColorItem[][] = [];
+        const colorPickers: AvatarEditorColorPicker[] = [];
 
         let i = 0;
-
-        while(i < this.MAX_PALETTES)
-        {
-            colorItems.push([]);
-
-            i++;
-        }
 
         const setType = GetAvatarSetType(name);
 
         if(!setType) return null;
 
-        const palette = GetAvatarPalette(setType.paletteID);
+        let hexColors = this.CURRENT_FIGURE.getHexColors(name);
 
-        if(!palette) return null;
+        if(!hexColors) hexColors = [];
 
-        let colorIds = this.CURRENT_FIGURE.getColorIds(name);
-
-        if(!colorIds) colorIds = [];
-
-        const partColors: IPartColor[] = new Array(colorIds.length);
+        const hexColorsCount = parseInt('0xFFFFFF') + 1;
+        const hexColorsByMaxPalette = Math.floor(hexColorsCount / this.MAX_PALETTES);
+        const partColors: IPartColor[] = new Array(hexColors.length);
         const clubItemsDimmed = this.clubItemsDimmed;
         const clubMemberLevel = GetClubMemberLevel();
 
-        for(const partColor of palette.colors.getValues())
+        if(clubItemsDimmed)
         {
-            if(partColor.isSelectable && (clubItemsDimmed || (clubMemberLevel >= partColor.clubLevel)))
+            let i = 0;
+
+            while(i < this.MAX_PALETTES)
+            {
+                const colorPicker = new AvatarEditorColorPicker(new PartColor((i * hexColorsByMaxPalette).toString(16)));
+                colorPickers.push(colorPicker);
+
+                i++;
+            }
+
+            if(name !== FigureData.FACE)
             {
                 let i = 0;
 
-                while(i < this.MAX_PALETTES)
+                while(i < hexColors.length)
                 {
-                    const isDisabled = (clubMemberLevel < partColor.clubLevel);
-                    const colorItem = new AvatarEditorGridColorItem(partColor, isDisabled);
-
-                    colorItems[i].push(colorItem);
+                    partColors[i] = new PartColor(hexColors[i]);
 
                     i++;
-                }
-
-                if(name !== FigureData.FACE)
-                {
-                    let i = 0;
-
-                    while(i < colorIds.length)
-                    {
-                        if(partColor.id === colorIds[i]) partColors[i] = partColor;
-
-                        i++;
-                    }
                 }
             }
         }
@@ -173,16 +159,7 @@ export class AvatarEditorUtilities
         //     _local_3.push(_local_7);
         // }
 
-        i = 0;
-
-        while(i < this.MAX_PALETTES)
-        {
-            colorItems[i].sort(this.colorSorter);
-
-            i++;
-        }
-
-        return new CategoryData(name, partItems, colorItems);
+        return new CategoryData(name, partItems, colorPickers);
     }
 
     public static clubSorter(a: AvatarEditorGridPartItem, b: AvatarEditorGridPartItem): number
@@ -207,18 +184,11 @@ export class AvatarEditorUtilities
         return 0;
     }
 
-    public static colorSorter(a: AvatarEditorGridColorItem, b: AvatarEditorGridColorItem): number
+    public static colorSorter(a: AvatarEditorColorPicker, b: AvatarEditorColorPicker): number
     {
-        const clubLevelA = (!a.partColor ? -1 : a.partColor.clubLevel);
-        const clubLevelB = (!b.partColor ? -1 : b.partColor.clubLevel);
+        if(a.partColor.rgb < b.partColor.rgb) return -1;
 
-        if(clubLevelA < clubLevelB) return -1;
-
-        if(clubLevelA > clubLevelB) return 1;
-
-        if(a.partColor.index < b.partColor.index) return -1;
-
-        if(a.partColor.index > b.partColor.index) return 1;
+        if(a.partColor.rgb > b.partColor.rgb) return 1;
 
         return 0;
     }
@@ -245,24 +215,9 @@ export class AvatarEditorUtilities
         return 0;
     }
 
-    public static avatarSetFirstSelectableColor(name: string): number
+    public static avatarSetFirstSelectableColor(name: string): string
     {
-        const setType = GetAvatarSetType(name);
-
-        if(!setType) return -1;
-
-        const palette = GetAvatarPalette(setType.paletteID);
-
-        if(!palette) return -1;
-
-        for(const color of palette.colors.getValues())
-        {
-            if(!color.isSelectable || (GetClubMemberLevel() < color.clubLevel)) continue;
-
-            return color.id;
-        }
-
-        return -1;
+        return '000000';
     }
 
     public static get clubItemsFirst(): boolean

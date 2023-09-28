@@ -1,41 +1,30 @@
-import { FC, useCallback, useEffect, useRef } from 'react';
-import { AvatarEditorGridColorItem, CategoryData, IAvatarEditorCategoryModel } from '../../../../api';
-import { AutoGrid } from '../../../../common';
-import { AvatarEditorPaletteSetItem } from './AvatarEditorPaletteSetItemView';
+import { FC, useCallback } from 'react';
+import { AvatarEditorColorPicker, CategoryData, IAvatarEditorCategoryModel } from '../../../../api';
+import { HexColorPicker } from 'react-colorful';
 
 export interface AvatarEditorPaletteSetViewProps
 {
     model: IAvatarEditorCategoryModel;
     category: CategoryData;
-    paletteSet: AvatarEditorGridColorItem[];
-    paletteIndex: number;
+    colorPicker: AvatarEditorColorPicker;
+    colorPickerIndex: number;
 }
 
 export const AvatarEditorPaletteSetView: FC<AvatarEditorPaletteSetViewProps> = props =>
 {
-    const { model = null, category = null, paletteSet = [], paletteIndex = -1 } = props;
-    const elementRef = useRef<HTMLDivElement>(null);
+    const { model = null, category = null, colorPicker = null, colorPickerIndex = 0 } = props;
 
-    const selectColor = useCallback((item: AvatarEditorGridColorItem) =>
+    const selectColor = useCallback((hexColor: string) =>
     {
-        const index = paletteSet.indexOf(item);
 
-        if(index === -1) return;
+        model.selectColor(category.name, hexColor.substring(1), colorPickerIndex);
 
-        model.selectColor(category.name, index, paletteIndex);
-    }, [ model, category, paletteSet, paletteIndex ]);
-
-    useEffect(() =>
-    {
-        if(!model || !category || !elementRef || !elementRef.current) return;
-
-        elementRef.current.scrollTop = 0;
-    }, [ model, category ]);
+    }, [ model, category, colorPickerIndex ]);
 
     return (
-        <AutoGrid gap={ 1 } columnCount={ 5 } columnMinWidth={ 11 } className="p-1 palette-width">
-            { (paletteSet.length > 0) && paletteSet.map((item, index) =>
-                <AvatarEditorPaletteSetItem key={ index } colorItem={ item } onClick={ event => selectColor(item) } />) }
-        </AutoGrid>
+        <div>
+            <HexColorPicker color={ colorPicker ? `#${ colorPicker.partColor.rgb.toString(16) }` : '#000000' } onChange={ selectColor } />
+            <div>{ `#${ colorPicker.partColor.rgb.toString(16) }` }</div>
+        </div>
     );
 }

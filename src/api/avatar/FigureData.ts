@@ -14,22 +14,19 @@ export class FigureData
     public static HAIR: string = 'hr';
     public static HAT: string = 'ha';
     public static HEAD_ACCESSORIES: string = 'he';
-    public static EARRINGS: string = 'er';
     public static EYE_ACCESSORIES: string = 'ea';
     public static FACE_ACCESSORIES: string = 'fa';
     public static JACKET: string = 'cc';
     public static SHIRT: string = 'ch';
     public static CHEST_ACCESSORIES: string = 'ca';
-    public static PURSES: string = 'pu';
-    public static BACKPACKS: string = 'bp';
     public static CHEST_PRINTS: string = 'cp';
     public static TROUSERS: string = 'lg';
     public static SHOES: string = 'sh';
     public static TROUSER_ACCESSORIES: string = 'wa';
-    public static SET_TYPES = [ FigureData.FACE, FigureData.HAIR, FigureData.HAT, FigureData.HEAD_ACCESSORIES, FigureData.EARRINGS, FigureData.EYE_ACCESSORIES, FigureData.FACE_ACCESSORIES, FigureData.JACKET, FigureData.SHIRT, FigureData.CHEST_ACCESSORIES, FigureData.PURSES,  FigureData.BACKPACKS, FigureData.CHEST_PRINTS, FigureData.TROUSERS, FigureData.SHOES, FigureData.TROUSERS ];
+    public static SET_TYPES = [ FigureData.FACE, FigureData.HAIR, FigureData.HAT, FigureData.HEAD_ACCESSORIES, FigureData.EYE_ACCESSORIES, FigureData.FACE_ACCESSORIES, FigureData.JACKET, FigureData.SHIRT, FigureData.CHEST_ACCESSORIES, FigureData.CHEST_PRINTS, FigureData.TROUSERS, FigureData.SHOES, FigureData.TROUSERS ];
 
     private _data: Map<string, number>;
-    private _colors: Map<string, number[]>;
+    private _colors: Map<string, string[]>;
     private _gender: string = 'M';
     private _direction: number = FigureData.DEFAULT_DIRECTION;
     private _avatarEffectType: number = -1;
@@ -61,21 +58,21 @@ export class FigureData
 
             const setType = parts[0];
             const setId = parseInt(parts[1]);
-            const colorIds: number[] = [];
+            const hexColors: string[] = [];
 
             let offset = 2;
 
             while(offset < parts.length)
             {
-                colorIds.push(parseInt(parts[offset]));
+                hexColors.push(parts[offset]);
 
                 offset++;
             }
 
-            if(!colorIds.length) colorIds.push(0);
+            if(!hexColors.length) hexColors.push('000000');
 
             this.savePartSetId(setType, setId, false);
-            this.savePartSetColourId(setType, colorIds, false);
+            this.savePartSetHexColor(setType, hexColors, false);
         }
     }
 
@@ -88,7 +85,7 @@ export class FigureData
         return -1;
     }
 
-    public getColorIds(setType: string): number[]
+    public getHexColors(setType: string): string[]
     {
         const existing = this._colors.get(setType);
 
@@ -137,10 +134,10 @@ export class FigureData
         return figureString;
     }
 
-    public savePartData(setType: string, partId: number, colorIds: number[], update: boolean = false): void
+    public savePartData(setType: string, partId: number, hexColors: string[], update: boolean = false): void
     {
         this.savePartSetId(setType, partId, update);
-        this.savePartSetColourId(setType, colorIds, update);
+        this.savePartSetHexColor(setType, hexColors, update);
     }
 
     private savePartSetId(setType: string, partId: number, update: boolean = true): void
@@ -151,14 +148,11 @@ export class FigureData
             case FigureData.HAIR:
             case FigureData.HAT:
             case FigureData.HEAD_ACCESSORIES:
-            case FigureData.EARRINGS:
             case FigureData.EYE_ACCESSORIES:
             case FigureData.FACE_ACCESSORIES:
             case FigureData.SHIRT:
             case FigureData.JACKET:
             case FigureData.CHEST_ACCESSORIES:
-            case FigureData.PURSES:
-            case FigureData.BACKPACKS:
             case FigureData.CHEST_PRINTS:
             case FigureData.TROUSERS:
             case FigureData.SHOES:
@@ -177,7 +171,7 @@ export class FigureData
         if(update) this.updateView();
     }
 
-    public savePartSetColourId(setType: string, colorIds: number[], update: boolean = true): void
+    public savePartSetHexColor(setType: string, hexColors: string[], update: boolean = true): void
     {
         switch(setType)
         {
@@ -185,19 +179,16 @@ export class FigureData
             case FigureData.HAIR:
             case FigureData.HAT:
             case FigureData.HEAD_ACCESSORIES:
-            case FigureData.EARRINGS:
             case FigureData.EYE_ACCESSORIES:
             case FigureData.FACE_ACCESSORIES:
             case FigureData.SHIRT:
             case FigureData.JACKET:
             case FigureData.CHEST_ACCESSORIES:
-            case FigureData.PURSES:
-            case FigureData.BACKPACKS:
             case FigureData.CHEST_PRINTS:
             case FigureData.TROUSERS:
             case FigureData.SHOES:
             case FigureData.TROUSER_ACCESSORIES:
-                this._colors.set(setType, colorIds);
+                this._colors.set(setType, hexColors);
                 break;
         }
 
