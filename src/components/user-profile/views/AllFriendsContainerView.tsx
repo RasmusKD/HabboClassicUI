@@ -1,7 +1,7 @@
 import { FriendsStatusInfoMessageParser } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useMemo, useState } from 'react';
 import { AddEventLinkTracker, CreateLinkEvent, LocalizeText, RemoveLinkEventTracker, GetUserProfile } from '../../../api';
-import { Base, Button, Column, Flex, Grid, LayoutAvatarImageView, Text, NitroCardHeaderView, NitroCardTabsItemView, NitroCardTabsView, NitroCardContentView, NitroCardHeaderView, NitroCardView, Tooltip } from '../../../common';
+import { Base, Button, Column, Flex, Grid, LayoutAvatarImageView, Text, NitroCardHeaderView, NitroCardTabsItemView, NitroCardTabsView, NitroCardContentView, NitroCardView, Tooltip } from '../../../common';
 import { useFriends } from '../../../hooks';
 
 interface AllFriendsContainerViewProps {

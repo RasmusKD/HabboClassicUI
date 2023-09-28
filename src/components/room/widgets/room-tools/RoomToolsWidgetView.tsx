@@ -1,7 +1,7 @@
 import { GetGuestRoomResultEvent, NavigatorSearchComposer, RateFlatMessageComposer, RoomDataParser } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
 import { CreateLinkEvent, GetRoomEngine, LocalizeText, SendMessageComposer, SetLocalStorage, TryVisitRoom } from '../../../../api';
-import { Base, classNames, Column, Flex, Text, Tooltip, TransitionAnimation, TransitionAnimationTypes, classNames } from '../../../../common';
+import { Base, classNames, Column, Flex, Text, Tooltip, TransitionAnimation, TransitionAnimationTypes } from '../../../../common';
 import { useMessageEvent, useNavigator, useRoom } from '../../../../hooks';
 
 export const RoomToolsWidgetView: FC<{}> = props =>
