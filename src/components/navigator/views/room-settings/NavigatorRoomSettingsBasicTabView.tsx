@@ -2,7 +2,7 @@ import { RoomDeleteComposer, RoomSettingsSaveErrorEvent, RoomSettingsSaveErrorPa
 import { FC, useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { CreateLinkEvent, GetMaxVisitorsList, IRoomData, LocalizeText, SendMessageComposer } from '../../../../api';
-import { Base, Column, Flex, Text, useFilteredInput } from '../../../../common';
+import { Column, Flex, Text, useFilteredInput } from '../../../../common';
 import { useMessageEvent, useNavigator, useNotification } from '../../../../hooks';
 
 const ROOM_NAME_MIN_LENGTH = 3;
@@ -44,6 +44,7 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
         {
             case RoomSettingsSaveErrorParser.ERROR_INVALID_TAG:
                 setTypeError('navigator.roomsettings.unacceptablewords');
+                break;
             case RoomSettingsSaveErrorParser.ERROR_NON_USER_CHOOSABLE_TAG:
                 setTypeError('navigator.roomsettings.nonuserchoosabletag');
                 break;
@@ -57,7 +58,7 @@ export const NavigatorRoomSettingsBasicTabView: FC<NavigatorRoomSettingsTabViewP
     const [isVisitorsCountOpen, setIsVisitorsCountOpen] = useState(false);
     const [isTradesSettingOpen, setIsTradesSettingOpen] = useState(false);
 
-    const handleSelectToggle = (selectName) => {
+    const handleSelectToggle = (selectName: string) => {
         switch (selectName) {
             case 'category':
                 setIsCategoryOpen(!isCategoryOpen);

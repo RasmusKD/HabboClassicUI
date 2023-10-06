@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import { MessengerFriend } from '../../../../api';
-import { Button, Flex } from '../../../../common';
+import { Flex } from '../../../../common';
 import { FriendBarItemView } from './FriendBarItemView';
 
 export const FriendBarView: FC<{ onlineFriends: MessengerFriend[] }> = (props) => {

@@ -80,7 +80,7 @@ export const AvatarEditorModelView: FC<AvatarEditorModelViewProps> = props =>
                 <Column className="clothes-height" size={ 5 } overflow="hidden">
                     <AvatarEditorFigureSetView model={ model } category={ activeCategory } setMaxPaletteCount={ setMaxPaletteCount } />
                 </Column>
-                <Flex overflow="hidden">
+                <Flex overflow="hidden" gap={ 1 }>
                     { (maxPaletteCount >= 1) &&
                         <AvatarEditorPaletteSetView model={ model } category={ activeCategory } colorPicker={ activeCategory.getColorPicker(0) } colorPickerIndex={ 0 }/> }
                     { (maxPaletteCount === 2) &&

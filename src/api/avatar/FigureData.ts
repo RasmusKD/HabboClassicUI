@@ -15,10 +15,13 @@ export class FigureData
     public static HAT: string = 'ha';
     public static HEAD_ACCESSORIES: string = 'he';
     public static EYE_ACCESSORIES: string = 'ea';
+    public static EARRINGS: string = 'er';
     public static FACE_ACCESSORIES: string = 'fa';
     public static JACKET: string = 'cc';
     public static SHIRT: string = 'ch';
     public static CHEST_ACCESSORIES: string = 'ca';
+    public static PURSES: string = 'pu';
+    public static BACKPACKS: string = 'bp';
     public static CHEST_PRINTS: string = 'cp';
     public static TROUSERS: string = 'lg';
     public static SHOES: string = 'sh';
@@ -69,7 +72,7 @@ export class FigureData
                 offset++;
             }
 
-            if(!hexColors.length) hexColors.push('000000');
+            if(!hexColors.length) hexColors.push('ffffff');
 
             this.savePartSetId(setType, setId, false);
             this.savePartSetHexColor(setType, hexColors, false);
@@ -87,13 +90,26 @@ export class FigureData
 
     public getHexColors(setType: string): string[]
     {
-        const existing = this._colors.get(setType);
+        const existingColors = this._colors.get(setType);
 
-        if(existing !== undefined) return existing;
+        // If the existing colors are found
+        if (existingColors !== undefined) {
+            if (existingColors.length === 1) { // If there's only one color
+                return [existingColors[0], 'FFFFFF']; // Return the existing color and white
+            } else {
+                return existingColors; // Else return the existing colors as they are
+            }
+        }
 
-        return [ AvatarEditorUtilities.avatarSetFirstSelectableColor(setType) ];
+        // If no existing colors are found, fetch using AvatarEditorUtilities
+        const hexColors = [];
+        for (let i = 0; i < 2; i++) {
+            let color = AvatarEditorUtilities.avatarSetFirstSelectableColor(setType);
+            hexColors.push(color === '0' ? 'FFFFFF' : color);
+        }
+
+        return hexColors;
     }
-
     public getFigureString(): string
     {
         let figureString = '';
@@ -148,11 +164,14 @@ export class FigureData
             case FigureData.HAIR:
             case FigureData.HAT:
             case FigureData.HEAD_ACCESSORIES:
+            case FigureData.EARRINGS:
             case FigureData.EYE_ACCESSORIES:
             case FigureData.FACE_ACCESSORIES:
             case FigureData.SHIRT:
             case FigureData.JACKET:
             case FigureData.CHEST_ACCESSORIES:
+            case FigureData.PURSES:
+            case FigureData.BACKPACKS:
             case FigureData.CHEST_PRINTS:
             case FigureData.TROUSERS:
             case FigureData.SHOES:
@@ -179,11 +198,14 @@ export class FigureData
             case FigureData.HAIR:
             case FigureData.HAT:
             case FigureData.HEAD_ACCESSORIES:
+            case FigureData.EARRINGS:
             case FigureData.EYE_ACCESSORIES:
             case FigureData.FACE_ACCESSORIES:
             case FigureData.SHIRT:
             case FigureData.JACKET:
             case FigureData.CHEST_ACCESSORIES:
+            case FigureData.PURSES:
+            case FigureData.BACKPACKS:
             case FigureData.CHEST_PRINTS:
             case FigureData.TROUSERS:
             case FigureData.SHOES:

@@ -7,8 +7,8 @@ import { AvatarEditorFigurePreviewView } from './views/AvatarEditorFigurePreview
 import { AvatarEditorModelView } from './views/AvatarEditorModelView';
 import { AvatarEditorWardrobeView } from './views/AvatarEditorWardrobeView';
 
-const DEFAULT_MALE_FIGURE: string = 'ch-215-66.wa-2007.sh-305-1408.ha-1002-73.hd-180-1.hr-100.lg-270-82';
-const DEFAULT_FEMALE_FIGURE: string = 'hr-515-37.hd-600-1.ch-635-73.lg-716-66-1408.sh-735-68';
+const DEFAULT_MALE_FIGURE: string = 'ch-215-E7B027.wa-2007.sh-305-DDDDDD.ha-1002-9F2B31.hd-180-FFCB98.hr-100.lg-270-4F7AA2';
+const DEFAULT_FEMALE_FIGURE: string = 'hr-515-9A5D2E.hd-600-FFCB98.ch-635-9F2B31.lg-716-E7B027-dddddd.sh-735-F8C790';
 
 export const AvatarEditorView: FC<{}> = props =>
 {

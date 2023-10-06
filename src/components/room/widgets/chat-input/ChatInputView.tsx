@@ -1,5 +1,5 @@
 import { HabboClubLevelEnum, RoomControllerLevel } from '@nitrots/nitro-renderer';
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {ChangeEvent, FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ChatMessageTypeEnum, GetClubMemberLevel, GetConfiguration, GetSessionDataManager, LocalizeText, RoomWidgetUpdateChatInputContentEvent } from '../../../../api';
 import { Base, classNames, Text, useFilteredInput } from '../../../../common';

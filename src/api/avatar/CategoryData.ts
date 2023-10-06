@@ -1,4 +1,4 @@
-import { IPartColor } from '@nitrots/nitro-renderer';
+import { IPartColor, PartColor } from '@nitrots/nitro-renderer';
 import { AvatarEditorColorPicker } from './AvatarEditorGridColorItem';
 import { AvatarEditorGridPartItem } from './AvatarEditorGridPartItem';
 
@@ -20,7 +20,7 @@ export class CategoryData
     private static defaultHexColor(): string
     {
 
-        return '000000';
+        return 'ffffff';
     }
 
     public init(): void
@@ -150,7 +150,7 @@ export class CategoryData
             }
             else
             {
-                partColors.push(null);
+                partColors.push(new PartColor('ffffff'));
             }
 
             i++;
@@ -174,7 +174,7 @@ export class CategoryData
 
         if(colorItem && (colorItem.partColor)) return colorItem.partColor.rgb.toString(16);
 
-        return '000000';
+        return 'ffffff';
     }
 
     public getColorPicker(index: number): AvatarEditorColorPicker

@@ -3,7 +3,7 @@ import { GetAvatarRenderManager } from '../../nitro';
 
 export class MannequinUtilities
 {
-    public static MANNEQUIN_FIGURE = [ 'hd', 99999, [ '000000' ] ];
+    public static MANNEQUIN_FIGURE = [ 'hd', 99999, [ 'ffffff' ] ];
     public static MANNEQUIN_CLOTHING_PART_TYPES = [
         AvatarFigurePartType.CHEST_ACCESSORY,
         AvatarFigurePartType.COAT_CHEST,

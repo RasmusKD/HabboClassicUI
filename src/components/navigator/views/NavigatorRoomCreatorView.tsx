@@ -1,6 +1,6 @@
 /* eslint-disable no-template-curly-in-string */
 import { CreateFlatMessageComposer, HabboClubLevelEnum } from '@nitrots/nitro-renderer';
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { CreateLinkEvent, GetClubMemberLevel, GetConfiguration, IRoomModel, LocalizeText, SendMessageComposer } from '../../../api';
 import { useFilteredInput, AutoGrid, Base, Button, Column, Flex, Grid, LayoutCurrencyIcon, LayoutGridItem, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text } from '../../../common';
 import { RoomCreatorGridItem } from '../../../common/layout/RoomCreatorGridItem';
@@ -26,7 +26,7 @@ export const NavigatorRoomCreatorView: FC<{}> = props =>
     const handleNameInputChange = useFilteredInput(name, setName);
     const handleDescriptionInputChange = useFilteredInput(description, setDescription);
 
-    const handleSelectToggle = (selectName) => {
+    const handleSelectToggle = (selectName: string) => {
         switch (selectName) {
             case 'category':
                 setIsCategoryOpen(!isCategoryOpen);

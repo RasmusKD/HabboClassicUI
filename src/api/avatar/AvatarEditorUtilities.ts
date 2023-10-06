@@ -1,5 +1,5 @@
 import { IPartColor, PartColor } from '@nitrots/nitro-renderer';
-import { GetAvatarPalette, GetAvatarRenderManager, GetAvatarSetType, GetClubMemberLevel, GetConfiguration } from '../nitro';
+import { GetAvatarRenderManager, GetAvatarSetType, GetClubMemberLevel, GetConfiguration } from '../nitro';
 import { AvatarEditorColorPicker } from './AvatarEditorGridColorItem';
 import { AvatarEditorGridPartItem } from './AvatarEditorGridPartItem';
 import { CategoryBaseModel } from './CategoryBaseModel';
@@ -217,7 +217,7 @@ export class AvatarEditorUtilities
 
     public static avatarSetFirstSelectableColor(name: string): string
     {
-        return '000000';
+        return 'ffffff';
     }
 
     public static get clubItemsFirst(): boolean

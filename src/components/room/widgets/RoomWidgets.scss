@@ -22,7 +22,7 @@
 
         .list-group-item {
             background: transparent;
-            padding: 3px 0px;
+            padding: 3px 0;
             color: $white;
             border-color: rgba($black, 0.3);
             cursor: pointer;
@@ -172,7 +172,7 @@
     overflow-wrap: anywhere;
 }
 .line-height-0 {
-    line-height: 0px!important;
+    line-height: 0 !important;
 }
 
 .buildtool-dropdown {
