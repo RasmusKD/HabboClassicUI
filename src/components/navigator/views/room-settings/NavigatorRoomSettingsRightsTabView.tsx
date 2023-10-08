@@ -1,7 +1,7 @@
 import { RoomGiveRightsComposer, FlatControllerAddedEvent, FlatControllerRemovedEvent, FlatControllersEvent, RemoveAllRightsMessageComposer, RoomTakeRightsComposer, RoomUsersWithRightsComposer } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState, useMemo } from 'react';
 import { IRoomData, LocalizeText, SendMessageComposer } from '../../../../api';
-import { Base, Button, Column, Flex, Grid, Text, UserProfileIconView } from '../../../../common';
+import { Base, Button, Column, Flex, Text, UserProfileIconView } from '../../../../common';
 import { useFriends, useMessageEvent } from '../../../../hooks';
 
 interface NavigatorRoomSettingsTabViewProps
@@ -32,10 +32,6 @@ export const NavigatorRoomSettingsRightsTabView: FC<NavigatorRoomSettingsTabView
             .filter(friend => friend.name.toLowerCase().includes(searchTerm.toLowerCase()))
             .sort((friendA, friendB) => friendA.name.toLowerCase().localeCompare(friendB.name.toLowerCase()));
     }, [friendsWithoutRights, searchTerm]);
-
-    const giveRightsToFriend = (friendId: number) => {
-        SendMessageComposer(new RoomGiveRightsComposer(friendId));
-    };
 
     useMessageEvent<FlatControllersEvent>(FlatControllersEvent, event =>
     {
@@ -123,9 +119,7 @@ export const NavigatorRoomSettingsRightsTabView: FC<NavigatorRoomSettingsTabView
                                     <Flex key={index} shrink className="nameItem" alignItems="center" gap={1} overflow="hidden">
                                         <Base className="arrowLeft"/>
                                         <UserProfileIconView userId={friend.id} />
-                                        <Text small pointer grow onClick={() => giveRightsToFriend(friend.id)}>
-                                            {friend.name}
-                                        </Text>
+                                        <Text small pointer grow onClick={ event => SendMessageComposer(new RoomGiveRightsComposer(friend.id)) }> { friend.name }</Text>
                                     </Flex>
                                 );
                             })}

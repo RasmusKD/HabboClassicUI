@@ -22,31 +22,18 @@ export const AvatarEditorPaletteSetView: FC<AvatarEditorPaletteSetViewProps> = p
     useEffect(() => {
         setDisplayedColor(defaultColor);
         setSelectedColor(defaultColor);
-    }, [defaultColor])
-
-    const ensureValidHex = (color: string) => {
-        if (!/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i.test(color)) {
-            return '#000000';  // return black if invalid
-        }
-        return color;
-    }
-
-    const handleColorChange = useCallback((hexColor: string) => {
-        console.log("Returned color:", hexColor);
-        hexColor = ensureValidHex(hexColor);
-        setDisplayedColor(hexColor);
-        isDraggingRef.current = true; // mark as dragging
-    }, []);
+    }, [defaultColor]);
 
     const handleInputChange = useCallback((hexColor: string) => {
-        if (!/^#[0-9A-F]{6}$/i.test(hexColor)) {
-            hexColor = '#000000'; // default to black if invalid
-        }
         setDisplayedColor(hexColor);
         setSelectedColor(hexColor);
         model.selectColor(category.name, hexColor.substring(1), colorPickerIndex);
     }, [model, category, colorPickerIndex]);
 
+    const handleColorChange = useCallback((hexColor: string) => {
+        setDisplayedColor(hexColor);
+        isDraggingRef.current = true; // mark as dragging
+    }, []);
 
     const handleMouseUp = useCallback(() => {
         if (isDraggingRef.current) {
@@ -65,7 +52,7 @@ export const AvatarEditorPaletteSetView: FC<AvatarEditorPaletteSetViewProps> = p
     }, [handleMouseUp]);
 
     return (
-        <section className="resposive">
+        <section className="responsive">
             <HexColorPicker color={displayedColor} onChange={handleColorChange} />
             {isInputVisible && (
                 <div className="color-input-container">

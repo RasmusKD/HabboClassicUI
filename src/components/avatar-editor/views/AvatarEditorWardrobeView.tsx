@@ -9,11 +9,12 @@ export interface AvatarEditorWardrobeViewProps
     savedFigures: [ IAvatarFigureContainer, string ][];
     setSavedFigures: Dispatch<SetStateAction<[ IAvatarFigureContainer, string][]>>;
     loadAvatarInEditor: (figure: string, gender: string, reset?: boolean) => void;
+    resetCategories: () => void;
 }
 
 export const AvatarEditorWardrobeView: FC<AvatarEditorWardrobeViewProps> = props =>
 {
-    const { figureData = null, savedFigures = [], setSavedFigures = null, loadAvatarInEditor = null } = props;
+    const { figureData = null, savedFigures = [], setSavedFigures = null, loadAvatarInEditor = null, resetCategories = null } = props;
 
     const hcDisabled = GetConfiguration<boolean>('hc.disabled', false);
 
@@ -24,6 +25,7 @@ export const AvatarEditorWardrobeView: FC<AvatarEditorWardrobeViewProps> = props
         const [ figure, gender ] = savedFigures[index];
 
         loadAvatarInEditor(figure.getFigureString(), gender);
+        resetCategories();
     }, [ savedFigures, loadAvatarInEditor ]);
 
     const saveFigureAtWardrobeIndex = useCallback((index: number) =>

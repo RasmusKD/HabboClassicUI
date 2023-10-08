@@ -129,7 +129,6 @@ export const AvatarEditorView: FC<{}> = props =>
                 return;
             case AvatarEditorAction.ACTION_RANDOMIZE:
                 const figure = generateRandomFigure(figureData, figureData.gender, GetClubMemberLevel(), figureSetIds, [ FigureData.FACE ]);
-
                 loadAvatarInEditor(figure, figureData.gender, false);
                 resetCategories();
                 return;
@@ -298,7 +297,7 @@ export const AvatarEditorView: FC<{}> = props =>
                     <Column size={ 3 } overflow="hidden">
                         <Base className='wardrobe-icon'/>
                         <Column className='testwardrobe' overflow="hidden">
-                            <AvatarEditorWardrobeView figureData={ figureData } savedFigures={ savedFigures } setSavedFigures={ setSavedFigures } loadAvatarInEditor={ loadAvatarInEditor } />
+                            <AvatarEditorWardrobeView figureData={ figureData } savedFigures={ savedFigures } setSavedFigures={ setSavedFigures } loadAvatarInEditor={ loadAvatarInEditor } resetCategories={ resetCategories }/>
                         </Column>
                     </Column>
                 </Grid>

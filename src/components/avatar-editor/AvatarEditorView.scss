@@ -550,30 +550,30 @@ cursor: pointer;
     min-height: 37px;
     align-self: center;
 }
-.resposive {
+.responsive {
     width: 100%;
     position: relative;
 }
-.resposive .react-colorful__interactive:focus .react-colorful__pointer {
+.responsive .react-colorful__interactive:focus .react-colorful__pointer {
     transform: translate(-50%,-50%);
 }
 
-.resposive .react-colorful {
+.responsive .react-colorful {
     width: auto;
-    height: 97px;
+    height: 96px;
 }
 
-.resposive .react-colorful__pointer {
+.responsive .react-colorful__pointer {
     width: 14px;
     height: 14px;
 }
 
-.resposive .react-colorful__pointer {
+.responsive .react-colorful__pointer {
     width: 14px;
     height: 14px;
 }
 
-.resposive .react-colorful__hue {
+.responsive .react-colorful__hue {
     height: 5px;
 }
 .color-input {
