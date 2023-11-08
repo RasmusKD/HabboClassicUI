@@ -131,7 +131,7 @@ export class CategoryData
 
     public getSelectedHexColors(): string[]
     {
-        return this._colorPickers.map(colorPicker => colorPicker.partColor.rgb.toString(16))
+        return this._colorPickers.map(colorPicker => colorPicker.partColor.rgb.toString(16).padStart(6, '0'))
     }
 
     private getSelectedColors(): IPartColor[]
@@ -172,7 +172,7 @@ export class CategoryData
     {
         const colorItem = this.getSelectedColor(paletteId);
 
-        if(colorItem && (colorItem.partColor)) return colorItem.partColor.rgb.toString(16);
+        if(colorItem && (colorItem.partColor)) return colorItem.partColor.rgb.toString(16).padStart(6, '0');
 
         return 'ffffff';
     }
@@ -291,7 +291,7 @@ export class CategoryData
             }
             else
             {
-                hexColors.push(partColor.rgb.toString(16));
+                hexColors.push(partColor.rgb.toString(16).padStart(6, '0'));
             }
 
             i++;

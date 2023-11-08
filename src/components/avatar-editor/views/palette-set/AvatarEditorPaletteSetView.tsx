@@ -1,68 +1,82 @@
-import { FC, useCallback, useEffect, useRef, useState} from 'react';
-import { AvatarEditorColorPicker, CategoryData, IAvatarEditorCategoryModel } from '../../../../api';
+import { FC, useCallback, useState, useEffect } from 'react';
 import { HexColorPicker, HexColorInput } from 'react-colorful';
-import { FaPen, FaTimes } from 'react-icons/fa'; // <-- Add FaTimes import here
+import { AvatarEditorColorPicker, CategoryData, IAvatarEditorCategoryModel } from '../../../../api';
+import { FaPen, FaTimes } from 'react-icons/fa';
 
-export interface AvatarEditorPaletteSetViewProps {
+export interface AvatarEditorPaletteSetViewProps
+{
     model: IAvatarEditorCategoryModel;
     category: CategoryData;
     colorPicker: AvatarEditorColorPicker;
     colorPickerIndex: number;
 }
-
-export const AvatarEditorPaletteSetView: FC<AvatarEditorPaletteSetViewProps> = props => {
+export const AvatarEditorPaletteSetView: FC<AvatarEditorPaletteSetViewProps> = props =>
+{
+    const [ down, setDown ] = useState(false);
+    const [ moving, setMoving ] = useState(false);
+    const [ lastColor, setLastColor ] = useState('#ffffff');
+    const [ isInputVisible, setInputVisible ] = useState(false);
     const { model = null, category = null, colorPicker = null, colorPickerIndex = 0 } = props;
+    const [ updateId, setUpdateId ] = useState(-1);
 
-    const defaultColor = colorPicker ? `#${colorPicker.partColor.rgb.toString(16)}` : '#ffffff';
-    const [selectedColor, setSelectedColor] = useState<string>(defaultColor);
-    const [displayedColor, setDisplayedColor] = useState<string>(defaultColor);
-    const [isInputVisible, setInputVisible] = useState(false);
-    const isDraggingRef = useRef<boolean>(false); // ref to track dragging state
+    const handleMouseDown = () =>
+    {
+        setDown(true);
+    }
 
-    useEffect(() => {
-        setDisplayedColor(defaultColor);
-        setSelectedColor(defaultColor);
-    }, [defaultColor]);
-
-    const handleInputChange = useCallback((hexColor: string) => {
-        setDisplayedColor(hexColor);
-        setSelectedColor(hexColor);
-        model.selectColor(category.name, hexColor.substring(1), colorPickerIndex);
-    }, [model, category, colorPickerIndex]);
-
-    const handleColorChange = useCallback((hexColor: string) => {
-        setDisplayedColor(hexColor);
-        isDraggingRef.current = true; // mark as dragging
-    }, []);
-
-    const handleMouseUp = useCallback(() => {
-        if (isDraggingRef.current) {
-            setSelectedColor(displayedColor);
-            model.selectColor(category.name, displayedColor.substring(1), colorPickerIndex);
-            isDraggingRef.current = false; // reset dragging state
+    const handleMouseMove = () =>
+    {
+        if (down)
+        {
+            setMoving(true);
         }
-    }, [displayedColor, model, category, colorPickerIndex]);
+    }
 
-    useEffect(() => {
-        // Listen to global mouse up event
-        window.addEventListener('mouseup', handleMouseUp);
-        return () => {
-            window.removeEventListener('mouseup', handleMouseUp);
-        };
-    }, [handleMouseUp]);
+    const handleMouseUp = () =>
+    {
+        if (moving)
+        {
+            model.selectColor(category.name, lastColor.substring(1), colorPickerIndex);
+        }
+        setMoving(false);
+        setDown(false);
+    }
+
+    const selectColor = useCallback((hexColor: string) =>
+    {
+        setLastColor(hexColor);
+        if (!moving)
+        {
+            model.selectColor(category.name, hexColor.substring(1), colorPickerIndex);
+        }
+    }, [ model, category, colorPickerIndex, moving ]);
+
+    useEffect(() =>
+    {
+        if(!colorPicker) return;
+
+        colorPicker.notify = () => setUpdateId(prevValue => (prevValue + 1));
+
+        return () =>
+        {
+            colorPicker.notify = null;
+        }
+    }, [ colorPicker ] );
+
+    const color = colorPicker ? `#${ colorPicker.partColor.rgb.toString(16).padStart(6, '0') }` : '#ffffff';
 
     return (
         <section className="responsive">
-            <HexColorPicker color={displayedColor} onChange={handleColorChange} />
-            {isInputVisible && (
+            <HexColorPicker color={ color } onChange={ selectColor } onMouseDown={ handleMouseDown } onMouseUp={ handleMouseUp } onMouseMove={ handleMouseMove } />
+            { isInputVisible && (
                 <div className="color-input-container">
-                    <HexColorInput color={selectedColor} onChange={handleInputChange} className="color-input" />
-                    <button onClick={() => setInputVisible(false)} className="close-button">
+                    <HexColorInput color={ color } onChange={ selectColor } className="color-input" />
+                    <button onClick={ () => setInputVisible(false) } className="close-button">
                         <FaTimes />
                     </button>
                 </div>
-            )}
-            <div className="color-picker-icon" onClick={() => setInputVisible(!isInputVisible)}>
+            ) }
+            <div className="color-picker-icon" onClick={ () => setInputVisible(!isInputVisible) }>
                 <FaPen />
             </div>
         </section>
