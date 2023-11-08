@@ -17,7 +17,7 @@ export const UserProfileView: FC<{}> = props =>
     const [ userFriends, setUserFriends ] = useState<FriendsStatusInfoMessageParser>(null);
     const [ isVisible, setVisible ] = useState(false);
     const elementRef = useRef<HTMLDivElement>();
-    const [friendsVisible, setFriendsVisible] = useState(false);
+    const [ friendsVisible, setFriendsVisible ] = useState(false);
 
     const onClose = () =>
     {
@@ -35,15 +35,18 @@ export const UserProfileView: FC<{}> = props =>
         GetUserProfile(userProfile.id);
     }
 
-    const handleAction = (action: string) => {
-        switch(action) {
+    const handleAction = (action: string) => 
+    {
+        switch(action) 
+        {
             case 'relationships':
                 setFriendsVisible(prev => !prev);
                 break;
         }
     }
 
-    const closeFriendsView = () => {
+    const closeFriendsView = () => 
+    {
         setFriendsVisible(false);
     }
 
@@ -124,7 +127,7 @@ export const UserProfileView: FC<{}> = props =>
     if(!userProfile) return null;
 
     return (
-        <NitroCardView id='UserProfile' overflow="visible" uniqueKey="nitro-user-profile" theme="primary" className="user-profile">
+        <NitroCardView id="UserProfile" overflow="visible" uniqueKey="nitro-user-profile" theme="primary" className="user-profile">
             <NitroCardHeaderView headerText={ LocalizeText('extendedprofile.caption') } onCloseClick={ onClose } />
             <NitroCardContentView className="user-profile" overflow="hidden">
                 <Grid fullHeight={ false } gap={ 2 }>
@@ -132,26 +135,26 @@ export const UserProfileView: FC<{}> = props =>
                         <UserContainerView userProfile={ userProfile } />
                         { userProfile.id === GetSessionDataManager().userId &&
                           <Flex className="p-0 margin-top-auto">
-                            <Text underline className="cursor-pointer font-size-11" onClick={ event => CreateLinkEvent('avatar-editor/toggle') }>
-                              { LocalizeText('habboclassic.dk.clothes') }
-                            </Text>
-                            <Text className="cursor-pointer badge-text font-size-11" underline onClick={ event => CreateLinkEvent('inventory/toggle') }>
-                              { LocalizeText('habboclassic.dk.badges') }
-                            </Text>
+                              <Text underline className="cursor-pointer font-size-11" onClick={ event => CreateLinkEvent('avatar-editor/toggle') }>
+                                  { LocalizeText('habboclassic.dk.clothes') }
+                              </Text>
+                              <Text className="cursor-pointer badge-text font-size-11" underline onClick={ event => CreateLinkEvent('inventory/toggle') }>
+                                  { LocalizeText('habboclassic.dk.badges') }
+                              </Text>
                           </Flex>
                         }
-                        <Grid columnCount={5} fullHeight className={`profile-grey-bg p-1 ${userProfile.id !== GetSessionDataManager().userId && "margin-top-auto"}`}>
-                          <BadgesContainerView fullWidth center badges={ userBadges } />
+                        <Grid columnCount={ 5 } fullHeight className={ `profile-grey-bg p-1 ${ userProfile.id !== GetSessionDataManager().userId && 'margin-top-auto' }` }>
+                            <BadgesContainerView fullWidth center badges={ userBadges } />
                         </Grid>
                     </Column>
                     <Column size={ 5 }>
                         { userRelationships &&
                             <Column gap={ 1 }>
                                 <Flex justifyContent="between">
-                                    <Text className='font-size-11'>
+                                    <Text className="font-size-11">
                                         <b>{ LocalizeText('extendedprofile.friends.count') }</b> { userProfile.friendsCount }
                                     </Text>
-                                    <Text className='font-size-11' underline pointer onClick={() => handleAction('relationships')}>
+                                    <Text className="font-size-11" underline pointer onClick={ () => handleAction('relationships') }>
                                         <b>Vis alle venner</b>
                                     </Text>
                                 </Flex>
@@ -160,19 +163,19 @@ export const UserProfileView: FC<{}> = props =>
                                     <RelationshipsContainerView relationships={ userRelationships } />
                                 </Column>
                             </Column> }
-                        {friendsVisible &&
-                            <AllFriendsContainerView friends={userFriends} username={userProfile.username} onClose={closeFriendsView}/>
+                        { friendsVisible &&
+                            <AllFriendsContainerView friends={ userFriends } username={ userProfile.username } onClose={ closeFriendsView }/>
                         }
                     </Column>
                 </Grid>
                 <Flex alignItems="center" className="rooms-button-container px-2 py-1">
                     <Flex alignItems="center" className="user-container pe-3" gap={ 2 } onClick={ event => CreateLinkEvent(`navigator/search/hotel_view/owner:${ userProfile.username }`) }>
                         <i className="icon icon-rooms2" />
-                        <Text bold className='font-size-11' underline pointer>{ LocalizeText('extendedprofile.rooms') }</Text>
+                        <Text bold className="font-size-11" underline pointer>{ LocalizeText('extendedprofile.rooms') }</Text>
                     </Flex>
                     <Flex alignItems="center" className="ps-3" gap={ 2 } onClick={ event => setVisible(prevValue => !prevValue) }>
                         <i className="icon icon-groups" />
-                        <Text bold className='font-size-11' underline pointer>{ LocalizeText('extendedprofile.groups') }</Text>
+                        <Text bold className="font-size-11" underline pointer>{ LocalizeText('extendedprofile.groups') }</Text>
                     </Flex>
                 </Flex>
                 { isVisible &&

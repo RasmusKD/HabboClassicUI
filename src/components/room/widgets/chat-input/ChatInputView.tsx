@@ -1,5 +1,5 @@
 import { HabboClubLevelEnum, RoomControllerLevel } from '@nitrots/nitro-renderer';
-import {ChangeEvent, FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ChatMessageTypeEnum, GetClubMemberLevel, GetConfiguration, GetSessionDataManager, LocalizeText, RoomWidgetUpdateChatInputContentEvent } from '../../../../api';
 import { Base, classNames, Text, useFilteredInput } from '../../../../common';
@@ -8,14 +8,14 @@ import { ChatInputStyleSelectorView } from './ChatInputStyleSelectorView';
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 
-const emojis =  [ '😀', '😆', '😅', '🤣', '😂',  '🙂', '🙃', '😉', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗',  '😚', '😋', '😛', '😝', '😜', '🤪', '🤔', '🤨', '😐', '😶', '🤭', '🥳', '😗', '🤗','😎'];
+const emojis = [ '😀', '😆', '😅', '🤣', '😂', '🙂', '🙃', '😉', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗', '😚', '😋', '😛', '😝', '😜', '🤪', '🤔', '🤨', '😐', '😶', '🤭', '🥳', '😗', '🤗','😎' ];
 
 export const ChatInputView: FC<{}> = props =>
 {
     const [ chatValue, setChatValue ] = useState<string>('');
-    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-    const [messagesHistory, setMessagesHistory] = useState<string[]>([]);
-    const [currentHistoryIndex, setCurrentHistoryIndex] = useState<number|null>(null);
+    const [ showEmojiPicker, setShowEmojiPicker ] = useState(false);
+    const [ messagesHistory, setMessagesHistory ] = useState<string[]>([]);
+    const [ currentHistoryIndex, setCurrentHistoryIndex ] = useState<number|null>(null);
     const { chatStyleId = 0, updateChatStyleId = null } = useSessionInfo();
     const { selectedUsername = '', floodBlocked = false, floodBlockedSeconds = 0, setIsTyping = null, setIsIdle = null, sendChat = null } = useChatInputWidget();
     const { roomSession = null } = useRoom();
@@ -25,38 +25,47 @@ export const ChatInputView: FC<{}> = props =>
     const chatModeIdSpeak = useMemo(() => LocalizeText('widgets.chatinput.mode.speak'), []);
     const maxChatLength = useMemo(() => GetConfiguration<number>('chat.input.maxlength', 100), []);
 
-    function EmojiButton({ showEmojiPicker }) {
-      const [emojiIcon, setEmojiIcon] = useState(localStorage.getItem('emojiIcon') || '😀');
+    function EmojiButton({ showEmojiPicker }) 
+    {
+        const [ emojiIcon, setEmojiIcon ] = useState(localStorage.getItem('emojiIcon') || '😀');
 
-      useEffect(() => {
-        localStorage.setItem('emojiIcon', emojiIcon);
-      }, [emojiIcon]);
+        useEffect(() => 
+        {
+            localStorage.setItem('emojiIcon', emojiIcon);
+        }, [ emojiIcon ]);
 
-      const handleMouseOver = useCallback(() => {
-              if (!showEmojiPicker) {
-                  setEmojiIcon(getRandomEmoji(emojiIcon));
-              }
-          }, [emojiIcon, showEmojiPicker]);
+        const handleMouseOver = useCallback(() => 
+        {
+            if (!showEmojiPicker) 
+            {
+                setEmojiIcon(getRandomEmoji(emojiIcon));
+            }
+        }, [ emojiIcon, showEmojiPicker ]);
 
-      const getRandomEmoji = useCallback((currentEmojiIcon) => {
-        let newEmojiIcon = currentEmojiIcon;
-        while (newEmojiIcon === currentEmojiIcon) {
-          const randomIndex = Math.floor(Math.random() * emojis.length);
-          newEmojiIcon = emojis[randomIndex];
-        }
-        return newEmojiIcon;
-      }, []);
+        const getRandomEmoji = useCallback((currentEmojiIcon) => 
+        {
+            let newEmojiIcon = currentEmojiIcon;
+            while (newEmojiIcon === currentEmojiIcon) 
+            {
+                const randomIndex = Math.floor(Math.random() * emojis.length);
+                newEmojiIcon = emojis[randomIndex];
+            }
+            return newEmojiIcon;
+        }, []);
 
-    return (
-        <Base pointer className={`emoji-image${showEmojiPicker ? ' active' : ''}`} onMouseOver={handleMouseOver} >
-            {emojiIcon || ''}
-        </Base>
+        return (
+            <Base pointer className={ `emoji-image${ showEmojiPicker ? ' active' : '' }` } onMouseOver={ handleMouseOver } >
+                { emojiIcon || '' }
+            </Base>
         );
     }
 
-    function handleEmojiSelect(emoji) {
-        if (chatValue.length + emoji.native.length <= maxChatLength) {
-            if (inputRef.current) {
+    function handleEmojiSelect(emoji) 
+    {
+        if (chatValue.length + emoji.native.length <= maxChatLength) 
+        {
+            if (inputRef.current) 
+            {
                 const start = inputRef.current.selectionStart || 0;
                 const end = inputRef.current.selectionEnd || 0;
                 const chatValueStart = chatValue.slice(0, start);
@@ -101,71 +110,81 @@ export const ChatInputView: FC<{}> = props =>
         });
     }, [ selectedUsername, chatModeIdWhisper ]);
 
-    const sendChatValue = useCallback((value: string, shiftKey: boolean = false) => {
-      if (!value || value === '') return;
+    const sendChatValue = useCallback((value: string, shiftKey: boolean = false) => 
+    {
+        if (!value || value === '') return;
 
-      let chatType = shiftKey ? ChatMessageTypeEnum.CHAT_SHOUT : ChatMessageTypeEnum.CHAT_DEFAULT;
-      let text = value;
+        let chatType = shiftKey ? ChatMessageTypeEnum.CHAT_SHOUT : ChatMessageTypeEnum.CHAT_DEFAULT;
+        let text = value;
 
-      const parts = text.split(' ');
+        const parts = text.split(' ');
 
-      let recipientName = '';
-      let append = '';
+        let recipientName = '';
+        let append = '';
 
-      switch (parts[0]) {
-        case chatModeIdWhisper:
-          chatType = ChatMessageTypeEnum.CHAT_WHISPER;
-          recipientName = parts[1];
-          append = chatModeIdWhisper + ' ' + recipientName + ' ';
+        switch (parts[0]) 
+        {
+            case chatModeIdWhisper:
+                chatType = ChatMessageTypeEnum.CHAT_WHISPER;
+                recipientName = parts[1];
+                append = chatModeIdWhisper + ' ' + recipientName + ' ';
 
-          parts.shift();
-          parts.shift();
-          break;
-        case chatModeIdShout:
-          chatType = ChatMessageTypeEnum.CHAT_SHOUT;
+                parts.shift();
+                parts.shift();
+                break;
+            case chatModeIdShout:
+                chatType = ChatMessageTypeEnum.CHAT_SHOUT;
 
-          parts.shift();
-          break;
-        case chatModeIdSpeak:
-          chatType = ChatMessageTypeEnum.CHAT_DEFAULT;
+                parts.shift();
+                break;
+            case chatModeIdSpeak:
+                chatType = ChatMessageTypeEnum.CHAT_DEFAULT;
 
-          parts.shift();
-          break;
-      }
-
-      text = parts.join(' ');
-
-      setIsTyping(false);
-      setIsIdle(false);
-
-      if (text.length <= maxChatLength) {
-        if (!/%CC%/g.test(encodeURIComponent(text))) {
-          sendChat(text, chatType, recipientName, chatStyleId);
+                parts.shift();
+                break;
         }
-      }
 
-      setChatValue(append);
-      setTimeout(() => {
-        inputRef.current.value = append;
-      }, 0);
-      if (value !== messagesHistory[messagesHistory.length - 1]) {
-              setMessagesHistory(prev => [...prev, value]);
-          }
-          setCurrentHistoryIndex(null);
-    }, [chatModeIdWhisper, chatModeIdShout, chatModeIdSpeak, maxChatLength, chatStyleId, setIsTyping, setIsIdle, sendChat]);
+        text = parts.join(' ');
+
+        setIsTyping(false);
+        setIsIdle(false);
+
+        if (text.length <= maxChatLength) 
+        {
+            if (!/%CC%/g.test(encodeURIComponent(text))) 
+            {
+                sendChat(text, chatType, recipientName, chatStyleId);
+            }
+        }
+
+        setChatValue(append);
+        setTimeout(() => 
+        {
+            inputRef.current.value = append;
+        }, 0);
+        if (value !== messagesHistory[messagesHistory.length - 1]) 
+        {
+            setMessagesHistory(prev => [ ...prev, value ]);
+        }
+        setCurrentHistoryIndex(null);
+    }, [ chatModeIdWhisper, chatModeIdShout, chatModeIdSpeak, maxChatLength, chatStyleId, setIsTyping, setIsIdle, sendChat ]);
 
     const handleInputChange = useFilteredInput(chatValue, setChatValue);
 
-    const updateChatInput = useCallback((value: string) => {
-      if (!value || !value.length) {
-        setIsTyping(false);
-      } else {
-        setIsTyping(true);
-        setIsIdle(true);
-      }
+    const updateChatInput = useCallback((value: string) => 
+    {
+        if (!value || !value.length) 
+        {
+            setIsTyping(false);
+        }
+        else 
+        {
+            setIsTyping(true);
+            setIsIdle(true);
+        }
 
-      handleInputChange({ target: { value } } as ChangeEvent<HTMLInputElement>);
-    }, [setIsTyping, setIsIdle, handleInputChange]);
+        handleInputChange({ target: { value }} as ChangeEvent<HTMLInputElement>);
+    }, [ setIsTyping, setIsIdle, handleInputChange ]);
 
     const onKeyDownEvent = useCallback((event: KeyboardEvent) =>
     {
@@ -184,20 +203,26 @@ export const ChatInputView: FC<{}> = props =>
             case 'ArrowUp':
                 if (GetSessionDataManager().arrowKeys !== 1) return;
                 event.preventDefault();
-                if (currentHistoryIndex === null && messagesHistory.length > 0) {
+                if (currentHistoryIndex === null && messagesHistory.length > 0) 
+                {
                     setCurrentHistoryIndex(messagesHistory.length - 1);
                     setChatValue(messagesHistory[messagesHistory.length - 1]);
-                } else if (currentHistoryIndex && currentHistoryIndex > 0) {
+                }
+                else if (currentHistoryIndex && currentHistoryIndex > 0) 
+                {
                     setCurrentHistoryIndex(currentIndex => currentIndex! - 1);
                     setChatValue(messagesHistory[currentHistoryIndex! - 1]);
                 }
                 return;
             case 'ArrowDown':
                 if (GetSessionDataManager().arrowKeys !== 1) return;
-                if (currentHistoryIndex !== null && currentHistoryIndex < messagesHistory.length - 1) {
+                if (currentHistoryIndex !== null && currentHistoryIndex < messagesHistory.length - 1) 
+                {
                     setCurrentHistoryIndex(currentIndex => currentIndex! + 1);
                     setChatValue(messagesHistory[currentHistoryIndex! + 1]);
-                } else {
+                }
+                else 
+                {
                     setCurrentHistoryIndex(null); // reset to allow user to type a new one
                     setChatValue(''); // clear the chat input
                 }
@@ -283,20 +308,23 @@ export const ChatInputView: FC<{}> = props =>
         return styleIds;
     }, []);
 
-    useEffect(() => {
-        const handleMotdTextClick = (event: Event) => {
-          const customEvent = event as CustomEvent;
-          const command = customEvent.detail;
-          setChatValue(prevValue => `:${command} `);
-          setInputFocus()
+    useEffect(() => 
+    {
+        const handleMotdTextClick = (event: Event) => 
+        {
+            const customEvent = event as CustomEvent;
+            const command = customEvent.detail;
+            setChatValue(prevValue => `:${ command } `);
+            setInputFocus()
         };
 
-        window.addEventListener("motdTextClick", handleMotdTextClick);
+        window.addEventListener('motdTextClick', handleMotdTextClick);
 
-        return () => {
-          window.removeEventListener("motdTextClick", handleMotdTextClick);
+        return () => 
+        {
+            window.removeEventListener('motdTextClick', handleMotdTextClick);
         };
-      }, []);
+    }, []);
 
     useEffect(() =>
     {
@@ -315,23 +343,27 @@ export const ChatInputView: FC<{}> = props =>
         inputRef.current.parentElement.dataset.value = chatValue;
     }, [ chatValue ]);
 
-    useEffect(() => {
-      function handleClickOutside(event: MouseEvent) {
-        const emojiPickerContainer = document.querySelector('.emoji-mart');
-        const emojiSelector = document.querySelector('.emoji-selector');
-        if (
-          emojiPickerContainer &&
+    useEffect(() => 
+    {
+        function handleClickOutside(event: MouseEvent) 
+        {
+            const emojiPickerContainer = document.querySelector('.emoji-mart');
+            const emojiSelector = document.querySelector('.emoji-selector');
+            if (
+                emojiPickerContainer &&
           emojiSelector &&
           !emojiPickerContainer.contains(event.target as Node) &&
           !emojiSelector.contains(event.target as Node)
-        ) {
-          setShowEmojiPicker(false);
+            ) 
+            {
+                setShowEmojiPicker(false);
+            }
         }
-      }
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => 
+        {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, []);
 
     if(!roomSession || roomSession.isSpectator) return null;
@@ -340,8 +372,8 @@ export const ChatInputView: FC<{}> = props =>
         createPortal(
             <div className="nitro-chat-input-container">
                 <ChatInputStyleSelectorView chatStyleId={ chatStyleId } chatStyleIds={ chatStyleIds } selectChatStyleId={ updateChatStyleId } />
-                <Base className="emoji-selector" pointer onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-                    <EmojiButton showEmojiPicker={showEmojiPicker} />
+                <Base className="emoji-selector" pointer onClick={ () => setShowEmojiPicker(!showEmojiPicker) }>
+                    <EmojiButton showEmojiPicker={ showEmojiPicker } />
                 </Base>
                 <div className="input-sizer align-items-center">
                     { !floodBlocked &&
@@ -349,7 +381,7 @@ export const ChatInputView: FC<{}> = props =>
                     { floodBlocked &&
                     <Text variant="danger">{ LocalizeText('chat.input.alert.flood', [ 'time' ], [ floodBlockedSeconds.toString() ]) } </Text> }
                 </div>
-                <div className="emoji-mart">{showEmojiPicker && (<Picker set="native" onEmojiSelect={handleEmojiSelect}/> )}</div>
+                <div className="emoji-mart">{ showEmojiPicker && (<Picker set="native" onEmojiSelect={ handleEmojiSelect }/> ) }</div>
             </div>, document.getElementById('toolbar-chat-input-container'))
 
     );
