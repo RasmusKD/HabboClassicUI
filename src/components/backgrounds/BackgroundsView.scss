@@ -1,0 +1,57 @@
+.nitro-backgrounds {
+  width: $backgrounds-width;
+  height: $backgrounds-height;
+  min-width: $backgrounds-width;
+  min-height: $backgrounds-height;
+}
+
+.profile-background {
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 135px;
+  width: 68px;
+
+  &.background-0 {
+    background-image: url('@/assets/images/backgrounds/bg_0.png');
+  }
+
+  &.background-1 {
+    background-image: url('@/assets/images/backgrounds/bg_idk.png');
+  }
+
+  &.background-2 {
+    background-image: url('@/assets/images/backgrounds/bg_2.gif');
+  }
+
+  &.background-3 {
+    background-image: url('@/assets/images/backgrounds/bg_3.gif');
+  }
+
+  &.background-4 {
+    background-image: url('@/assets/images/backgrounds/bg_4.png');
+  }
+
+  &.background-5 {
+    background-image: url('@/assets/images/backgrounds/bg_5.png');
+  }
+
+  &.background-6 {
+    background-image: url('@/assets/images/backgrounds/bg_6.png');
+  }
+
+  &.background-7 {
+    background-image: url('@/assets/images/backgrounds/bg_7.png');
+  }
+
+  &.background-8 {
+    background-image: url('@/assets/images/backgrounds/bg_8.png');
+  }
+
+  &.background-9 {
+    background-image: url('@/assets/images/backgrounds/bg_9.png');
+  }
+
+  &.background-10 {
+    background-image: url('@/assets/images/backgrounds/bg_10.png');
+  }
+}

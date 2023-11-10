@@ -20,6 +20,9 @@ export const InfoStandWidgetUserView: FC<InfoStandWidgetUserViewProps> = props =
     const [ isEditingMotto, setIsEditingMotto ] = useState(false);
     const [ relationships, setRelationships ] = useState<RelationshipStatusInfoMessageParser>(null);
     const { roomSession = null } = useRoom();
+    const [ backgroundId, setBackgroundId ] = useState<number>(null);
+
+    const infostandBackgroundClass = `background-${ backgroundId }`;
 
     const handleInputChange = useFilteredInput(motto, setMotto);
 
@@ -74,6 +77,7 @@ export const InfoStandWidgetUserView: FC<InfoStandWidgetUserViewProps> = props =
 
             newValue.figure = event.figure;
             newValue.motto = event.customInfo;
+            newValue.backgroundId = event.backgroundId;
             newValue.achievementScore = event.activityPoints;
 
             return newValue;
@@ -110,6 +114,7 @@ export const InfoStandWidgetUserView: FC<InfoStandWidgetUserViewProps> = props =
     {
         setIsEditingMotto(false);
         setMotto(avatarInfo.motto);
+        setBackgroundId(avatarInfo.backgroundId);
 
         SendMessageComposer(new UserRelationshipsComposer(avatarInfo.webID));
 
@@ -117,7 +122,9 @@ export const InfoStandWidgetUserView: FC<InfoStandWidgetUserViewProps> = props =
         {
             setIsEditingMotto(false);
             setMotto(null);
+            setBackgroundId(null);
             setRelationships(null);
+
         }
     }, [ avatarInfo ]);
 
@@ -138,7 +145,7 @@ export const InfoStandWidgetUserView: FC<InfoStandWidgetUserViewProps> = props =
                 </Column>
                 <Column gap={ 1 }>
                     <Flex gap={ 1 }>
-                        <Column pointer fullWidth className="body-image infostand-thumb-bg" onClick={ event => GetUserProfile(avatarInfo.webID) }>
+                        <Column pointer fullWidth className={ `body-image profile-background ${ infostandBackgroundClass }` } onClick={ event => GetUserProfile(avatarInfo.webID) }>
                             <LayoutAvatarImageView figure={ avatarInfo.figure } direction={ 4 } />
                         </Column>
                         <Column grow alignItems="center" gap={ 0 }>
@@ -184,7 +191,7 @@ export const InfoStandWidgetUserView: FC<InfoStandWidgetUserViewProps> = props =
                                     { !isEditingMotto &&
                                         <Text fullWidth pointer wrap textBreak variant="white" onClick={ event => setIsEditingMotto(true) }>{ motto }&nbsp;</Text> }
                                     { isEditingMotto &&
-                                        <input spellCheck="false" type="text" className="motto-input" maxLength={ GetConfiguration<number>('motto.max.length', 38) } value={ motto } onChange={handleInputChange} onBlur={ onMottoBlur } onKeyDown={ onMottoKeyDown } autoFocus={ true } /> }
+                                        <input spellCheck="false" type="text" className="motto-input" maxLength={ GetConfiguration<number>('motto.max.length', 38) } value={ motto } onChange={ handleInputChange } onBlur={ onMottoBlur } onKeyDown={ onMottoKeyDown } autoFocus={ true } /> }
                                 </Flex>
                             </Flex> }
                     </Flex>

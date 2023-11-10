@@ -60,6 +60,10 @@ export const ToolbarMeView: FC<PropsWithChildren<ToolbarMeViewProps>> = props =>
                 <Base pointer className="navigation-item icon icon-me-clothing" />
                 <Text className="me-text">{ LocalizeText('widget.memenu.myclothes') }</Text>
             </Column>
+            <Column gap={ 1 } alignItems="center" onClick={ event => CreateLinkEvent('backgrounds/toggle') }>
+                <Base pointer className="navigation-item icon icon-me-clothing" />
+                <Text className="me-text">{ LocalizeText('widget.memenu.myclothes') }</Text>
+            </Column>
             { children }
         </Flex>
     );
