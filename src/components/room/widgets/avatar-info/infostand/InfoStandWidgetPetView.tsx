@@ -85,15 +85,15 @@ export const InfoStandWidgetPetView: FC<InfoStandWidgetPetViewProps> = props =>
                     { (avatarInfo.petType === PetType.MONSTERPLANT) &&
                         <>
                             <Flex gap={ 1 }>
-                            <Column fullWidth overflow="hidden" className="body-image pet p-1">
-                                <LayoutPetImageView figure={ avatarInfo.petFigure } posture={ avatarInfo.posture } direction={ 2 } />
-                            </Column>
+                                <Column fullWidth overflow="hidden" className="body-image pet p-1">
+                                    <LayoutPetImageView figure={ avatarInfo.petFigure } posture={ avatarInfo.posture } direction={ 2 } />
+                                </Column>
                                 { !avatarInfo.dead &&
                             <Column grow gap={ 1 }>
                                 <Text variant="white" center wrap>{ LocalizeText('pet.level', [ 'level', 'maxlevel' ], [ avatarInfo.level.toString(), avatarInfo.maximumLevel.toString() ]) }</Text>
-                            </Column>}
+                            </Column> }
                             </Flex>
-                                <Column gap={ 2 }>
+                            <Column gap={ 2 }>
                                 <Column alignItems="center" gap={ 1 }>
                                     <Text variant="white" truncate>{ LocalizeText('infostand.pet.text.wellbeing') }</Text>
                                     <Base fullWidth overflow="hidden" position="relative" className="pet-bg">
@@ -120,24 +120,24 @@ export const InfoStandWidgetPetView: FC<InfoStandWidgetPetViewProps> = props =>
                         </> }
                     { (avatarInfo.petType !== PetType.MONSTERPLANT) &&
                         <>
-                    <Column gap={ 1 }>
-                        <Flex gap={ 1 }>
-                            <Column fullWidth overflow="hidden" className="body-image pet p-1">
-                                <LayoutPetImageView figure={ avatarInfo.petFigure } posture={ avatarInfo.posture } direction={ 4 } />
-                            </Column>
-                            <Column grow gap={ 1 }>
-                                <Text variant="white" center wrap>{ LocalizeText('pet.level', [ 'level', 'maxlevel' ], [ avatarInfo.level.toString(), avatarInfo.maximumLevel.toString() ]) }</Text>
-                            </Column>
-                        </Flex>
-                            <Column className="pet-padding" alignItems="center" gap={ 1 }>
+                            <Column gap={ 1 }>
+                                <Flex gap={ 1 }>
+                                    <Column fullWidth overflow="hidden" className="body-image pet p-1">
+                                        <LayoutPetImageView figure={ avatarInfo.petFigure } posture={ avatarInfo.posture } direction={ 4 } />
+                                    </Column>
+                                    <Column grow gap={ 1 }>
+                                        <Text variant="white" center wrap>{ LocalizeText('pet.level', [ 'level', 'maxlevel' ], [ avatarInfo.level.toString(), avatarInfo.maximumLevel.toString() ]) }</Text>
+                                    </Column>
+                                </Flex>
+                                <Column className="pet-padding" alignItems="center" gap={ 1 }>
                                     <Text variant="white" truncate>{ LocalizeText('infostand.pet.text.happiness') }</Text>
                                     <Base fullWidth overflow="hidden" position="relative" className="pet-bg">
                                         <Flex fit center position="absolute">
                                             <Text variant="white">{ avatarInfo.happyness + '/' + avatarInfo.maximumHappyness }</Text>
                                         </Flex>
                                         <Flex>
-                                        <Base className="hclassic-pet-happiness pet-stats" style={ { width: (avatarInfo.happyness / avatarInfo.maximumHappyness) * 100 + '%' } } />
-                                        <i className="pet-happiness"/>
+                                            <Base className="hclassic-pet-happiness pet-stats" style={ { width: (avatarInfo.happyness / avatarInfo.maximumHappyness) * 100 + '%' } } />
+                                            <i className="pet-happiness"/>
                                         </Flex>
                                     </Base>
                                 </Column>
@@ -148,8 +148,8 @@ export const InfoStandWidgetPetView: FC<InfoStandWidgetPetViewProps> = props =>
                                             <Text variant="white">{ avatarInfo.experience + '/' + avatarInfo.levelExperienceGoal }</Text>
                                         </Flex>
                                         <Flex>
-                                        <Base className="hclassic-pet-experience pet-stats" style={ { width: (avatarInfo.experience / avatarInfo.levelExperienceGoal) * 100 + '%' } } />
-                                        <i className="pet-experience"/>
+                                            <Base className="hclassic-pet-experience pet-stats" style={ { width: (avatarInfo.experience / avatarInfo.levelExperienceGoal) * 100 + '%' } } />
+                                            <i className="pet-experience"/>
                                         </Flex>
                                     </Base>
                                 </Column>
@@ -160,19 +160,19 @@ export const InfoStandWidgetPetView: FC<InfoStandWidgetPetViewProps> = props =>
                                             <Text variant="white">{ avatarInfo.energy + '/' + avatarInfo.maximumEnergy }</Text>
                                         </Flex>
                                         <Flex>
-                                        <Base className="hclassic-pet-energy pet-stats" style={ { width: (avatarInfo.energy / avatarInfo.maximumEnergy) * 100 + '%' } } />
-                                        <i className="pet-energy"/>
+                                            <Base className="hclassic-pet-energy pet-stats" style={ { width: (avatarInfo.energy / avatarInfo.maximumEnergy) * 100 + '%' } } />
+                                            <i className="pet-energy"/>
                                         </Flex>
                                     </Base>
                                 </Column>
-                        <hr className="m-0" />
-                    </Column>
-                    <Column className="pet-text-center" gap={ 1 }>
-                        { (avatarInfo.petType !== PetType.MONSTERPLANT) &&
+                                <hr className="m-0" />
+                            </Column>
+                            <Column className="pet-text-center" gap={ 1 }>
+                                { (avatarInfo.petType !== PetType.MONSTERPLANT) &&
                         <Flex center>
                             <Text variant="white" wrap>{ LocalizeText('infostand.text.petrespect', [ 'count' ], [ avatarInfo.respect.toString() ]) }</Text>
                             <i className="pet-scratched"/>
-                            </Flex>}
+                        </Flex> }
                                 <Text variant="white" wrap>{ LocalizeText('pet.age', [ 'age' ], [ avatarInfo.age.toString() ]) }</Text>
                                 <Text variant="white" wrap>{ LocalizeText('infostand.text.petowner', [ 'name' ], [ avatarInfo.ownerName ]) }</Text>
                             </Column>

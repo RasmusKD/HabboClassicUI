@@ -295,8 +295,8 @@ export const AvatarEditorView: FC<{}> = props =>
                         </Column>
                     </Column>
                     <Column size={ 3 } overflow="hidden">
-                        <Base className='wardrobe-icon'/>
-                        <Column className='testwardrobe' overflow="hidden">
+                        <Base className="wardrobe-icon"/>
+                        <Column className="testwardrobe" overflow="hidden">
                             <AvatarEditorWardrobeView figureData={ figureData } savedFigures={ savedFigures } setSavedFigures={ setSavedFigures } loadAvatarInEditor={ loadAvatarInEditor } resetCategories={ resetCategories }/>
                         </Column>
                     </Column>

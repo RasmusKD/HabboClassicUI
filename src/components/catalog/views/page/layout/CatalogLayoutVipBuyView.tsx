@@ -56,7 +56,7 @@ export const CatalogLayoutVipBuyView: FC<CatalogLayoutProps> = props =>
         const extensionOrSubscription = (purse.clubDays > 0 || purse.clubPeriods > 0) ? 'extension.' : 'subscription.';
         const daysOrMonths = ((pendingOffer.months === 0) ? 'days' : 'months');
         const daysOrMonthsText = ((pendingOffer.months === 0) ? pendingOffer.extraDays : pendingOffer.months);
-        const locale = LocalizeText('catalog.vip.buy.confirm.' + extensionOrSubscription + daysOrMonths, [ 'num_months' ], [pendingOffer.months.toString() ]);
+        const locale = LocalizeText('catalog.vip.buy.confirm.' + extensionOrSubscription + daysOrMonths, [ 'num_months' ], [ pendingOffer.months.toString() ]);
 
         return locale.replace('%NUM_' + daysOrMonths.toUpperCase() + '%', daysOrMonthsText.toString());
     }, [ pendingOffer, purse ]);
@@ -128,12 +128,12 @@ export const CatalogLayoutVipBuyView: FC<CatalogLayoutProps> = props =>
         if(!clubOffers) SendMessageComposer(new GetClubOffersMessageComposer(1));
     }, [ clubOffers ]);
 
-        useEffect(() =>
-        {
-            if(!clubOffers || !clubOffers.length) return;
+    useEffect(() =>
+    {
+        if(!clubOffers || !clubOffers.length) return;
 
-            setPendingOffer(clubOffers[0]);
-        }, [ clubOffers, setPendingOffer ]);
+        setPendingOffer(clubOffers[0]);
+    }, [ clubOffers, setPendingOffer ]);
 
     return (
         <Column fullHeight>
@@ -141,14 +141,14 @@ export const CatalogLayoutVipBuyView: FC<CatalogLayoutProps> = props =>
                 { currentPage.localization.getImage(1) && <img draggable="false" alt="" src={ currentPage.localization.getImage(1) } /> }
                 { purse.clubDays > 0 &&
                 <Column className="px-2">
-                <Text bold>{LocalizeText('catalog.vip.extend.title')}</Text>
-                <Text small overflow="auto" dangerouslySetInnerHTML={ { __html: getSubscriptionDetails } } />
-                </Column>}
+                    <Text bold>{ LocalizeText('catalog.vip.extend.title') }</Text>
+                    <Text small overflow="auto" dangerouslySetInnerHTML={ { __html: getSubscriptionDetails } } />
+                </Column> }
                 { purse.clubDays < 1 &&
                 <Column className="px-2">
-                <Text bold>{LocalizeText('catalog.vip.buy.title')}</Text>
-                <Text small overflow="auto">{LocalizeText('catalog.vip.buy.info')}</Text>
-                </Column>}
+                    <Text bold>{ LocalizeText('catalog.vip.buy.title') }</Text>
+                    <Text small overflow="auto">{ LocalizeText('catalog.vip.buy.info') }</Text>
+                </Column> }
             </Flex>
             <Column fullHeight size={ 7 } overflow="hidden" justifyContent="between">
                 <AutoGrid columnCount={ 1 } className="nitro-catalog-layout-vip-buy-grid">
@@ -157,23 +157,23 @@ export const CatalogLayoutVipBuyView: FC<CatalogLayoutProps> = props =>
                         return (
                             <LayoutHCCataGridItem key={ index } column={ false } center={ false } justifyContent="between" itemActive={ pendingOffer === offer } className="hc-padding">
                                 <Column className="w-100">
-                                <Flex className="hc-title-bg" gap={ 2 }>
-                                    <i className="icon-hc-small-banner" />
-                                    <Text bold variant="white">{ getOfferText(offer) }</Text>
-                                </Flex>
-                                <Flex className="hc-product-height" justifyContent="between" gap={ 1 }>
-                                    { (offer.priceCredits > 0) &&
+                                    <Flex className="hc-title-bg" gap={ 2 }>
+                                        <i className="icon-hc-small-banner" />
+                                        <Text bold variant="white">{ getOfferText(offer) }</Text>
+                                    </Flex>
+                                    <Flex className="hc-product-height" justifyContent="between" gap={ 1 }>
+                                        { (offer.priceCredits > 0) &&
                                     <Flex alignItems="center" justifyContent="end" gap={ 1 }>
                                         <Text bold>{ offer.priceCredits }</Text>
                                         <LayoutCurrencyIconBig type={ -1 } />
                                     </Flex> }
-                                    { (offer.priceActivityPoints > 0) &&
+                                        { (offer.priceActivityPoints > 0) &&
                                     <Flex alignItems="center" justifyContent="end" gap={ 1 }>
                                         <Text bold>{ offer.priceActivityPoints }</Text>
                                         <LayoutCurrencyIconBig type={ offer.priceActivityPointsType } />
                                     </Flex> }
-                                    { getPurchaseButton() }
-                                </Flex>
+                                        { getPurchaseButton() }
+                                    </Flex>
                                 </Column>
                             </LayoutHCCataGridItem>
                         );
@@ -182,7 +182,7 @@ export const CatalogLayoutVipBuyView: FC<CatalogLayoutProps> = props =>
             </Column>
             <Column className="hc-end-text-margin" fullHeight size={ 7 } overflow="hidden" justifyContent="end">
                 <Text small>
-                    {LocalizeText('catalog.vip.buy.hccenter')}
+                    { LocalizeText('catalog.vip.buy.hccenter') }
                     <u className="ms-1 cursor-pointer" onClick={ () => CreateLinkEvent('habboUI/open/hccenter') }>HC Center &gt;&gt;</u>
                 </Text>
             </Column>

@@ -25,27 +25,27 @@ export const ChatInputView: FC<{}> = props =>
     const chatModeIdSpeak = useMemo(() => LocalizeText('widgets.chatinput.mode.speak'), []);
     const maxChatLength = useMemo(() => GetConfiguration<number>('chat.input.maxlength', 100), []);
 
-    function EmojiButton({ showEmojiPicker }) 
+    function EmojiButton({ showEmojiPicker })
     {
         const [ emojiIcon, setEmojiIcon ] = useState(localStorage.getItem('emojiIcon') || '😀');
 
-        useEffect(() => 
+        useEffect(() =>
         {
             localStorage.setItem('emojiIcon', emojiIcon);
         }, [ emojiIcon ]);
 
-        const handleMouseOver = useCallback(() => 
+        const handleMouseOver = useCallback(() =>
         {
-            if (!showEmojiPicker) 
+            if (!showEmojiPicker)
             {
                 setEmojiIcon(getRandomEmoji(emojiIcon));
             }
         }, [ emojiIcon, showEmojiPicker ]);
 
-        const getRandomEmoji = useCallback((currentEmojiIcon) => 
+        const getRandomEmoji = useCallback((currentEmojiIcon) =>
         {
             let newEmojiIcon = currentEmojiIcon;
-            while (newEmojiIcon === currentEmojiIcon) 
+            while (newEmojiIcon === currentEmojiIcon)
             {
                 const randomIndex = Math.floor(Math.random() * emojis.length);
                 newEmojiIcon = emojis[randomIndex];
@@ -60,11 +60,11 @@ export const ChatInputView: FC<{}> = props =>
         );
     }
 
-    function handleEmojiSelect(emoji) 
+    function handleEmojiSelect(emoji)
     {
-        if (chatValue.length + emoji.native.length <= maxChatLength) 
+        if (chatValue.length + emoji.native.length <= maxChatLength)
         {
-            if (inputRef.current) 
+            if (inputRef.current)
             {
                 const start = inputRef.current.selectionStart || 0;
                 const end = inputRef.current.selectionEnd || 0;
@@ -110,7 +110,7 @@ export const ChatInputView: FC<{}> = props =>
         });
     }, [ selectedUsername, chatModeIdWhisper ]);
 
-    const sendChatValue = useCallback((value: string, shiftKey: boolean = false) => 
+    const sendChatValue = useCallback((value: string, shiftKey: boolean = false) =>
     {
         if (!value || value === '') return;
 
@@ -122,7 +122,7 @@ export const ChatInputView: FC<{}> = props =>
         let recipientName = '';
         let append = '';
 
-        switch (parts[0]) 
+        switch (parts[0])
         {
             case chatModeIdWhisper:
                 chatType = ChatMessageTypeEnum.CHAT_WHISPER;
@@ -149,20 +149,20 @@ export const ChatInputView: FC<{}> = props =>
         setIsTyping(false);
         setIsIdle(false);
 
-        if (text.length <= maxChatLength) 
+        if (text.length <= maxChatLength)
         {
-            if (!/%CC%/g.test(encodeURIComponent(text))) 
+            if (!/%CC%/g.test(encodeURIComponent(text)))
             {
                 sendChat(text, chatType, recipientName, chatStyleId);
             }
         }
 
         setChatValue(append);
-        setTimeout(() => 
+        setTimeout(() =>
         {
             inputRef.current.value = append;
         }, 0);
-        if (value !== messagesHistory[messagesHistory.length - 1]) 
+        if (value !== messagesHistory[messagesHistory.length - 1])
         {
             setMessagesHistory(prev => [ ...prev, value ]);
         }
@@ -171,13 +171,13 @@ export const ChatInputView: FC<{}> = props =>
 
     const handleInputChange = useFilteredInput(chatValue, setChatValue);
 
-    const updateChatInput = useCallback((value: string) => 
+    const updateChatInput = useCallback((value: string) =>
     {
-        if (!value || !value.length) 
+        if (!value || !value.length)
         {
             setIsTyping(false);
-        }
-        else 
+        }@emoji-mart
+        else
         {
             setIsTyping(true);
             setIsIdle(true);
@@ -203,12 +203,12 @@ export const ChatInputView: FC<{}> = props =>
             case 'ArrowUp':
                 if (GetSessionDataManager().arrowKeys !== 1) return;
                 event.preventDefault();
-                if (currentHistoryIndex === null && messagesHistory.length > 0) 
+                if (currentHistoryIndex === null && messagesHistory.length > 0)
                 {
                     setCurrentHistoryIndex(messagesHistory.length - 1);
                     setChatValue(messagesHistory[messagesHistory.length - 1]);
                 }
-                else if (currentHistoryIndex && currentHistoryIndex > 0) 
+                else if (currentHistoryIndex && currentHistoryIndex > 0)
                 {
                     setCurrentHistoryIndex(currentIndex => currentIndex! - 1);
                     setChatValue(messagesHistory[currentHistoryIndex! - 1]);
@@ -216,12 +216,12 @@ export const ChatInputView: FC<{}> = props =>
                 return;
             case 'ArrowDown':
                 if (GetSessionDataManager().arrowKeys !== 1) return;
-                if (currentHistoryIndex !== null && currentHistoryIndex < messagesHistory.length - 1) 
+                if (currentHistoryIndex !== null && currentHistoryIndex < messagesHistory.length - 1)
                 {
                     setCurrentHistoryIndex(currentIndex => currentIndex! + 1);
                     setChatValue(messagesHistory[currentHistoryIndex! + 1]);
                 }
-                else 
+                else
                 {
                     setCurrentHistoryIndex(null); // reset to allow user to type a new one
                     setChatValue(''); // clear the chat input
@@ -308,9 +308,9 @@ export const ChatInputView: FC<{}> = props =>
         return styleIds;
     }, []);
 
-    useEffect(() => 
+    useEffect(() =>
     {
-        const handleMotdTextClick = (event: Event) => 
+        const handleMotdTextClick = (event: Event) =>
         {
             const customEvent = event as CustomEvent;
             const command = customEvent.detail;
@@ -320,7 +320,7 @@ export const ChatInputView: FC<{}> = props =>
 
         window.addEventListener('motdTextClick', handleMotdTextClick);
 
-        return () => 
+        return () =>
         {
             window.removeEventListener('motdTextClick', handleMotdTextClick);
         };
@@ -343,9 +343,9 @@ export const ChatInputView: FC<{}> = props =>
         inputRef.current.parentElement.dataset.value = chatValue;
     }, [ chatValue ]);
 
-    useEffect(() => 
+    useEffect(() =>
     {
-        function handleClickOutside(event: MouseEvent) 
+        function handleClickOutside(event: MouseEvent)
         {
             const emojiPickerContainer = document.querySelector('.emoji-mart');
             const emojiSelector = document.querySelector('.emoji-selector');
@@ -354,13 +354,13 @@ export const ChatInputView: FC<{}> = props =>
           emojiSelector &&
           !emojiPickerContainer.contains(event.target as Node) &&
           !emojiSelector.contains(event.target as Node)
-            ) 
+            )
             {
                 setShowEmojiPicker(false);
             }
         }
         document.addEventListener('mousedown', handleClickOutside);
-        return () => 
+        return () =>
         {
             document.removeEventListener('mousedown', handleClickOutside);
         };

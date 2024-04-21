@@ -173,6 +173,8 @@ export class AvatarInfoUtilities
         userInfo.motto = userData.custom;
 
         userInfo.backgroundId = userData.background;
+        userInfo.standId = userData.stand;
+        userInfo.overlayId = userData.overlay;
 
         userInfo.achievementScore = userData.activityPoints;
         userInfo.webID = userData.webID;

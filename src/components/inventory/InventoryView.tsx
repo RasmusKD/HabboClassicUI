@@ -119,10 +119,10 @@ export const InventoryView: FC<{}> = props =>
     if(!isVisible) return null;
 
     return (
-    <>
-        <NitroCardView uniqueKey={ 'inventory' } className={ isTrading ? 'nitro-inventory trading' : 'nitro-inventory' } theme={ isTrading ? 'primary' : '' } >
-            <NitroCardHeaderView headerText={ LocalizeText('inventory.title') } onCloseClick={ onClose } />
-            { !isTrading &&
+        <>
+            <NitroCardView uniqueKey={ 'inventory' } className={ isTrading ? 'nitro-inventory trading' : 'nitro-inventory' } theme={ isTrading ? 'primary' : '' } >
+                <NitroCardHeaderView headerText={ LocalizeText('inventory.title') } onCloseClick={ onClose } />
+                { !isTrading &&
                 <>
                     <NitroCardTabsView className="inventory-tab-padding">
                         { TABS.map((name, index) =>
@@ -145,12 +145,12 @@ export const InventoryView: FC<{}> = props =>
                             <InventoryBadgeView /> }
                     </NitroCardContentView>
                 </> }
-            { isTrading &&
+                { isTrading &&
                 <NitroCardContentView>
                     <InventoryTradeView cancelTrade={ onClose } />
                 </NitroCardContentView> }
-        </NitroCardView>
-        <InventoryFurnitureDeleteView />
+            </NitroCardView>
+            <InventoryFurnitureDeleteView />
         </>
     );
 }

@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useBetween } from 'use-between';
 import { GetSessionDataManager, SendMessageComposer } from '../../api';
 import { useMessageEvent } from '../events';
-import { useLocalStorage } from '../useLocalStorage';
 
 const useSessionInfoState = () =>
 {

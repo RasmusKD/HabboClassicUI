@@ -29,6 +29,7 @@ import { UserSettingsView } from '../user-settings/UserSettingsView';
 import { WiredView } from '../wired/WiredView';
 import { WiredHelpView } from '../wiredhelp/WiredHelpView';
 import { BackgroundsView } from '../backgrounds/BackgroundsView';
+import {NotificationCenterView} from '../notification-center/NotificationCenterView';
 
 export const MainView: FC<{}> = props =>
 {
@@ -94,12 +95,12 @@ export const MainView: FC<{}> = props =>
             <WiredHelpView />
             <AvatarEditorView />
             <AchievementsView />
-            <BackgroundsView />
             <NavigatorView />
             <InventoryView />
             <CatalogView />
             <FriendsView />
             <RightSideView />
+            <NotificationCenterView />
             <UserSettingsView />
             <UserProfileView />
             <GroupsView />

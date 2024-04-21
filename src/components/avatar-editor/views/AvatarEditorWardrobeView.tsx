@@ -43,15 +43,16 @@ export const AvatarEditorWardrobeView: FC<AvatarEditorWardrobeViewProps> = props
         SendMessageComposer(new SaveWardrobeOutfitMessageComposer((index + 1), figure, gender));
     }, [ figureData, savedFigures, setSavedFigures ]);
 
-    const removeFigureAtWardrobeIndex = useCallback((index: number) => {
+    const removeFigureAtWardrobeIndex = useCallback((index: number) => 
+    {
         if(index >= savedFigures.length || index < 0) return;
 
-        const newFigures = [...savedFigures];
-        newFigures[index] = [null, newFigures[index][1]];
+        const newFigures = [ ...savedFigures ];
+        newFigures[index] = [ null, newFigures[index][1] ];
 
         setSavedFigures(newFigures);
         SendMessageComposer(new RemoveWardrobeOutfitMessageComposer(index + 1));
-    }, [savedFigures, setSavedFigures]);
+    }, [ savedFigures, setSavedFigures ]);
 
     const figures = useMemo(() =>
     {
@@ -75,7 +76,7 @@ export const AvatarEditorWardrobeView: FC<AvatarEditorWardrobeViewProps> = props
                         <Base className="button-padding-wardrobe wardrobe-wear-button" fullWidth onClick={ event => wearFigureAtIndex(index) }></Base> }
                     </Column>
                     { figureContainer &&
-                    <LayoutAvatarImageView className='testrendering' figure={ figureContainer.getFigureString() } gender={ gender } direction={ 4 } scale={ 0.5 } /> }
+                    <LayoutAvatarImageView className="testrendering" figure={ figureContainer.getFigureString() } gender={ gender } direction={ 4 } scale={ 0.5 } /> }
                     { !hcDisabled && (clubLevel > 0) && <LayoutCurrencyIcon className="position-absolute hc-icon-position" type="hc" /> }
                 </LayoutGridBlank>
             );
@@ -85,7 +86,7 @@ export const AvatarEditorWardrobeView: FC<AvatarEditorWardrobeViewProps> = props
     }, [ savedFigures, hcDisabled, saveFigureAtWardrobeIndex, wearFigureAtIndex ]);
 
     return (
-        <AutoGrid className='wardrobefigurepadding' columnCount={ 5 } columnMinWidth={ 13 } columnMinHeight={ 50 }>
+        <AutoGrid className="wardrobefigurepadding" columnCount={ 5 } columnMinWidth={ 13 } columnMinHeight={ 50 }>
             { figures }
         </AutoGrid>
     );
