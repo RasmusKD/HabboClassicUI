@@ -176,7 +176,7 @@ export const ChatInputView: FC<{}> = props =>
         if (!value || !value.length)
         {
             setIsTyping(false);
-        }@emoji-mart
+        }
         else
         {
             setIsTyping(true);
