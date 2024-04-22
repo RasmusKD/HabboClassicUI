@@ -12,7 +12,7 @@
     "dependencies": {
         "@emoji-mart/data": "^1.1.2",
         "@emoji-mart/react": "^1.1.1",
-        "@nitrots/nitro-renderer": "file:C:\\Users\\Rasmus\\Desktop\\rasmus\\nitro-renderer-dev",
+        "@nitrots/nitro-renderer": "file:submodules/renderer",
         "@tanstack/react-virtual": "^3.0.0-alpha.0",
         "emoji-mart": "^5.5.2",
         "emoji-toolkit": "^7.0.0",
