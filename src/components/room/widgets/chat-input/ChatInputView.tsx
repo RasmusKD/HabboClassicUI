@@ -7,6 +7,7 @@ import { useChatInputWidget, useRoom, useSessionInfo, useUiEvent } from '../../.
 import { ChatInputStyleSelectorView } from './ChatInputStyleSelectorView';
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
+import GifPicker from 'gif-picker-react';
 
 const emojis = [ '😀', '😆', '😅', '🤣', '😂', '🙂', '🙃', '😉', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗', '😚', '😋', '😛', '😝', '😜', '🤪', '🤔', '🤨', '😐', '😶', '🤭', '🥳', '😗', '🤗','😎' ];
 
@@ -24,7 +25,9 @@ export const ChatInputView: FC<{}> = props =>
     const chatModeIdShout = useMemo(() => LocalizeText('widgets.chatinput.mode.shout'), []);
     const chatModeIdSpeak = useMemo(() => LocalizeText('widgets.chatinput.mode.speak'), []);
     const maxChatLength = useMemo(() => GetConfiguration<number>('chat.input.maxlength', 100), []);
-
+    const [ showGifPicker, setShowGifPicker ] = useState(false);
+    const emojiPickerRef = useRef<HTMLDivElement>(null);
+    const gifPickerRef = useRef<HTMLDivElement>(null);
     function EmojiButton({ showEmojiPicker })
     {
         const [ emojiIcon, setEmojiIcon ] = useState(localStorage.getItem('emojiIcon') || '😀');
@@ -59,7 +62,28 @@ export const ChatInputView: FC<{}> = props =>
             </Base>
         );
     }
-
+    function handleGifSelect(gif)
+    {
+        const gifTag = `${ gif.url }`; // Use a special format to denote gifs
+        if (chatValue.length + gifTag.length <= maxChatLength)
+        {
+            if (inputRef.current)
+            {
+                const start = inputRef.current.selectionStart || 0;
+                const end = inputRef.current.selectionEnd || 0;
+                const chatValueStart = chatValue.slice(0, start);
+                const chatValueEnd = chatValue.slice(end, chatValue.length);
+                const updatedChatValue = chatValueStart + gifTag + chatValueEnd;
+                inputRef.current.value = updatedChatValue;
+                const newCursorPosition = start + gifTag.length;
+                updateChatInput(updatedChatValue);
+                inputRef.current.setSelectionRange(newCursorPosition, newCursorPosition);
+                inputRef.current.focus();
+                // Sending the chat value
+                sendChatValue(updatedChatValue);
+            }
+        }
+    }
     function handleEmojiSelect(emoji)
     {
         if (chatValue.length + emoji.native.length <= maxChatLength)
@@ -347,7 +371,7 @@ export const ChatInputView: FC<{}> = props =>
     {
         function handleClickOutside(event: MouseEvent)
         {
-            const emojiPickerContainer = document.querySelector('.emoji-mart');
+            const emojiPickerContainer = emojiPickerRef.current;
             const emojiSelector = document.querySelector('.emoji-selector');
             if (
                 emojiPickerContainer &&
@@ -357,6 +381,17 @@ export const ChatInputView: FC<{}> = props =>
             )
             {
                 setShowEmojiPicker(false);
+            }
+            const gifPickerContainer = gifPickerRef.current;
+            const gifSelector = document.querySelector('.gif-picker');
+            if (
+                gifPickerContainer &&
+                gifSelector &&
+                !gifPickerContainer.contains(event.target as Node) &&
+                !gifSelector.contains(event.target as Node)
+            )
+            {
+                setShowGifPicker(false);
             }
         }
         document.addEventListener('mousedown', handleClickOutside);
@@ -375,14 +410,26 @@ export const ChatInputView: FC<{}> = props =>
                 <Base className="emoji-selector" pointer onClick={ () => setShowEmojiPicker(!showEmojiPicker) }>
                     <EmojiButton showEmojiPicker={ showEmojiPicker } />
                 </Base>
+                <Base className="gif-selector" pointer onClick={ () => setShowGifPicker(!showGifPicker) }>
+                    <span role="img" aria-label="gif">📷 </span>
+                </Base>
                 <div className="input-sizer align-items-center">
                     { !floodBlocked &&
                     <input ref={ inputRef } spellCheck="false" type="text" className="chat-input chat-input-size" placeholder={ LocalizeText('widgets.chatinput.default') } value={ chatValue } maxLength={ maxChatLength } onChange={ event => updateChatInput(event.target.value) } onMouseDown={ event => setInputFocus() } /> }
                     { floodBlocked &&
                     <Text variant="danger">{ LocalizeText('chat.input.alert.flood', [ 'time' ], [ floodBlockedSeconds.toString() ]) } </Text> }
                 </div>
-                <div className="emoji-mart">{ showEmojiPicker && (<Picker set="native" onEmojiSelect={ handleEmojiSelect }/> ) }</div>
+                { showEmojiPicker && (
+                    <div ref={ emojiPickerRef } className="emoji-mart">
+                        <Picker theme="dark" locale="en" set="native" onEmojiSelect={ handleEmojiSelect } />
+                    </div>
+                ) }
+                { showGifPicker && (
+                    <div ref={ gifPickerRef } className="gif-picker">
+                        <GifPicker onGifClick={ handleGifSelect } locale="en" tenorApiKey={ 'AIzaSyAHHguzDTg0GnPMNbIuj-TyqYz4qmqRqA0' } />
+                    </div>
+                ) }
             </div>, document.getElementById('toolbar-chat-input-container'))
 
     );
-}
+};

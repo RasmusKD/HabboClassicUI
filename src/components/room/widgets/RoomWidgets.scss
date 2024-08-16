@@ -189,7 +189,7 @@
     }
 }
 
-.wallitem-buildtool-box {
+.buildtool-box {
     align-items: center;
     width: 100%;
     border-radius: 10px;
@@ -214,7 +214,7 @@
     }
 }
 
-.wallitem-l-button {
+.buildtool-l-button {
     background-color: #252525;
     color: #fff;
     width: 25px;
@@ -274,6 +274,10 @@
     position: absolute;
     right: 16px;
     bottom: 71px;
+}
+
+.floor-button-l-gap {
+    gap: 1em!important;
 }
 
 .icon-color polyline {

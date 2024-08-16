@@ -14,6 +14,7 @@ export class UserMessageData
     private _figure: string = '';
     private _custom: string = '';
     private _activityPoints: number = 0;
+    private _rank: number = 0;
     private _background: number = 0;
     private _stand: number = 0;
     private _overlay: number = 0;
@@ -180,6 +181,16 @@ export class UserMessageData
         {
             this._activityPoints = k;
         }
+    }
+
+    public get rank(): number
+    {
+        return this._rank;
+    }
+
+    public set rank(k: number)
+    {
+        this._rank = k;
     }
 
     public get background(): number

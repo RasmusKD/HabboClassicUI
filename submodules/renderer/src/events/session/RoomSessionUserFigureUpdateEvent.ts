@@ -10,11 +10,12 @@ export class RoomSessionUserFigureUpdateEvent extends RoomSessionEvent
     private _gender: string = '';
     private _customInfo: string = '';
     private _achievementScore: number;
+    private _rankId: number;
     private _backgroundId: number;
     private _standId: number;
     private _overlayId: number;
 
-    constructor(session: IRoomSession, roomIndex: number, figure: string, gender: string, customInfo: string, achievementScore: number, backgroundId: number, standId: number, overlayId: number )
+    constructor(session: IRoomSession, roomIndex: number, figure: string, gender: string, customInfo: string, achievementScore: number, rankId: number, backgroundId: number, standId: number, overlayId: number)
     {
         super(RoomSessionUserFigureUpdateEvent.USER_FIGURE, session);
 
@@ -23,6 +24,7 @@ export class RoomSessionUserFigureUpdateEvent extends RoomSessionEvent
         this._gender = gender;
         this._customInfo = customInfo;
         this._achievementScore = achievementScore;
+        this._rankId = rankId;
         this._backgroundId = backgroundId;
         this._standId = standId;
         this._overlayId = overlayId;
@@ -51,6 +53,11 @@ export class RoomSessionUserFigureUpdateEvent extends RoomSessionEvent
     public get activityPoints(): number
     {
         return this._achievementScore;
+    }
+
+    public get rankId(): number
+    {
+        return this._rankId;
     }
 
     public get backgroundId(): number

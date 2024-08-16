@@ -7,6 +7,7 @@ export class RoomUnitInfoParser implements IMessageParser
     private _gender: string;
     private _motto: string;
     private _achievementScore: number;
+    private _rankId: number;
     private _backgroundId: number;
     private _standId: number;
     private _overlayId: number;
@@ -18,6 +19,7 @@ export class RoomUnitInfoParser implements IMessageParser
         this._gender = 'M';
         this._motto = null;
         this._achievementScore = 0;
+        this._rankId = 0;
         this._backgroundId = 0;
         this._standId = 0;
         this._overlayId = 0;
@@ -34,6 +36,7 @@ export class RoomUnitInfoParser implements IMessageParser
         this._gender = wrapper.readString().toLocaleUpperCase();
         this._motto = wrapper.readString();
         this._achievementScore = wrapper.readInt();
+        this._rankId = wrapper.readInt();
         this._backgroundId = wrapper.readInt();
         this._standId = wrapper.readInt();
         this._overlayId = wrapper.readInt();
@@ -63,6 +66,11 @@ export class RoomUnitInfoParser implements IMessageParser
     public get achievementScore(): number
     {
         return this._achievementScore;
+    }
+
+    public get rankId(): number
+    {
+        return this._rankId;
     }
 
     public get backgroundId(): number

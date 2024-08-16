@@ -37,9 +37,19 @@ export class RoomChatHandler extends BaseHandler
         if(event instanceof RoomUnitChatShoutEvent) chatType = RoomSessionChatEvent.CHAT_TYPE_SHOUT;
         else if(event instanceof RoomUnitChatWhisperEvent) chatType = RoomSessionChatEvent.CHAT_TYPE_WHISPER;
 
-        const chatEvent = new RoomSessionChatEvent(RoomSessionChatEvent.CHAT_EVENT, session, parser.roomIndex, parser.message, chatType, parser.bubble);
+        const message = parser.message;
+        const gifUrl = this.extractGifUrl(message);
+
+        const chatEvent = new RoomSessionChatEvent(RoomSessionChatEvent.CHAT_EVENT, session, parser.roomIndex, message, chatType, parser.bubble, gifUrl);
 
         NitroEventDispatcher.dispatchEvent(chatEvent);
+    }
+
+    private extractGifUrl(message: string): string | null
+    {
+        const gifRegex = /\{GIF:(https?:\/\/.*\.(?:gif))\}/i;
+        const match = message.match(gifRegex);
+        return match ? match[1] : null;
     }
 
     private onRoomUnitHandItemReceivedEvent(event: RoomUnitHandItemReceivedEvent): void

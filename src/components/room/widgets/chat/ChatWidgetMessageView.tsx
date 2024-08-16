@@ -16,6 +16,16 @@ export const ChatWidgetMessageView: FC<ChatWidgetMessageViewProps> = props =>
     const [ isReady, setIsReady ] = useState<boolean>(false);
     const elementRef = useRef<HTMLDivElement>();
 
+    // Function to sanitize and embed Tenor URLs
+    const sanitizeAndEmbedTenorUrls = (text: string) =>
+    {
+        const urlRegex = /(https:\/\/media\.tenor\.com\/[^\s]+)/g;
+        return text.replace(urlRegex, url =>
+        {
+            return `<img src="${ url }"  style="max-width: 200px; max-height: 200px; object-fit: contain;" alt="Tenor GIF" />`;
+        });
+    }
+
     const getBubbleWidth = useMemo(() =>
     {
         switch(bubbleWidth)
@@ -26,6 +36,8 @@ export const ChatWidgetMessageView: FC<ChatWidgetMessageViewProps> = props =>
                 return 240;
             case RoomChatSettings.CHAT_BUBBLE_WIDTH_WIDE:
                 return 2000;
+            default:
+                return 350; // Default width
         }
     }, [ bubbleWidth ]);
 
@@ -71,6 +83,7 @@ export const ChatWidgetMessageView: FC<ChatWidgetMessageViewProps> = props =>
         if(!isReady || !chat || isVisible) return;
 
         if(makeRoom) makeRoom(chat);
+        chat.formattedText = sanitizeAndEmbedTenorUrls(chat.formattedText);
 
         setIsVisible(true);
     }, [ chat, isReady, isVisible, makeRoom ]);

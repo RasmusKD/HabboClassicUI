@@ -106,7 +106,13 @@
     border-image-width:9px 9px 9px 9px;
     margin-bottom: -13px;
 }
-.emoji-mart {
+
+.gif-selector {
+        background-repeat: no-repeat;
+}
+
+.emoji-mart,
+.gif-picker {
     position: fixed;
     bottom: 103px;
     z-index: 1;
@@ -120,7 +126,8 @@
     display: none;
 }
 
-.emoji-image {
+.emoji-image,
+.gif-selector {
   filter: grayscale(100%);
   transition: filter .3s ease-in-out;
   font-size: 1.3em;

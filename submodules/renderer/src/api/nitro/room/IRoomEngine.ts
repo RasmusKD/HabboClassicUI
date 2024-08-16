@@ -85,9 +85,11 @@ export interface IRoomEngine
     saveTextureAsScreenshot(texture: RenderTexture, saveAsThumbnail?: boolean): Promise<void>;
     saveBase64AsScreenshot(base64: string, saveAsThumbnail?: boolean): void;
     deleteRoomObject(objectId: number, objectCategory: number): boolean;
-    getFurniLocation(roomId: number, objectId: number, isFloorItem: boolean): string;
-    getFurniDirection(roomId: number, objectId: number, isFloorItem: boolean): string;
-    getFurniState(roomId: number, objectId: number, isFloorItem: boolean): number;
+    getWallFurniLocation(roomId: number, objectId: number): string;
+    getFurniLocation(roomId: number, objectId: number, isWallItem: boolean): string;
+    getFurniDirection(roomId: number, objectId: number, isWallItem: boolean): number;
+    getFurniState(roomId: number, objectId: number, isWallItem: boolean): number;
+    updateRoomObjectWallLocation2(objectId: number, location: string): void
     sessionDataManager: ISessionDataManager;
     roomSessionManager: IRoomSessionManager;
     roomManager: IRoomManager;

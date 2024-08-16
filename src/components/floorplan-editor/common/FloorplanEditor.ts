@@ -1,6 +1,6 @@
 import { NitroPoint } from '@nitrots/nitro-renderer';
 import { ActionSettings } from './ActionSettings';
-import { FloorAction, HEIGHT_SCHEME, MAX_NUM_TILE_PER_AXIS, TILE_SIZE } from './Constants';
+import { FloorAction, HEIGHT_SCHEME, MAX_NUM_TILE_PER_AXIS, SMALL_TILE_SIZE, TILE_SIZE } from './Constants';
 import { imageBase64, spritesheet } from './FloorplanResource';
 import { Tile } from './Tile';
 
@@ -21,6 +21,7 @@ export class FloorplanEditor
     private _actionSettings: ActionSettings;
 
     private _image: HTMLImageElement;
+    private _zoomedIn: boolean;
 
     constructor()
     {
@@ -72,28 +73,28 @@ export class FloorplanEditor
     }
 
     public getScreenPositionForTile(x: number, y: number, zoomedIn: boolean = this._zoomedIn): [number , number]
-        {
-            const tileSize = zoomedIn ? TILE_SIZE : SMALL_TILE_SIZE;
-            let positionX = (x * tileSize / 2) - (y * tileSize / 2);
-            const positionY = (x * tileSize / 4) + (y * tileSize / 4);
+    {
+        const tileSize = zoomedIn ? TILE_SIZE : SMALL_TILE_SIZE;
+        let positionX = (x * tileSize / 2) - (y * tileSize / 2);
+        const positionY = (x * tileSize / 4) + (y * tileSize / 4);
 
-            const translationValue = zoomedIn ? 1600 : 800;
-            positionX = positionX + translationValue; // center the map in the canvas
+        const translationValue = zoomedIn ? 1600 : 800;
+        positionX = positionX + translationValue; // center the map in the canvas
 
-            return [ positionX, positionY ];
-        }
+        return [ positionX, positionY ];
+    }
 
-        public getTileFromScreenPosition(x: number, y: number, zoomedIn: boolean = this._zoomedIn): [number, number]
-        {
-            const tileSize = zoomedIn ? TILE_SIZE : SMALL_TILE_SIZE;
-            const translationValue = zoomedIn ? 1600 : 800;
-            const translatedX = x - translationValue; // after centering translation
+    public getTileFromScreenPosition(x: number, y: number, zoomedIn: boolean = this._zoomedIn): [number, number]
+    {
+        const tileSize = zoomedIn ? TILE_SIZE : SMALL_TILE_SIZE;
+        const translationValue = zoomedIn ? 1600 : 800;
+        const translatedX = x - translationValue; // after centering translation
 
-            const realX = ((translatedX / (tileSize / 2)) + (y / (tileSize / 4))) / 2;
-            const realY = ((y / (tileSize / 4)) - (translatedX / (tileSize / 2))) / 2;
+        const realX = ((translatedX / (tileSize / 2)) + (y / (tileSize / 4))) / 2;
+        const realY = ((y / (tileSize / 4)) - (translatedX / (tileSize / 2))) / 2;
 
-            return [ realX, realY ];
-        }
+        return [ realX, realY ];
+    }
 
     private tileHitDetection(tempPoint: NitroPoint, isClick: boolean = false): boolean
     {

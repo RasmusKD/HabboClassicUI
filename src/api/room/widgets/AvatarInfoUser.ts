@@ -13,6 +13,7 @@ export class AvatarInfoUser implements IAvatarInfo
     public name: string = '';
     public motto: string = '';
     public achievementScore: number = 0;
+    public rankId: number = 0;
     public backgroundId: number = 0;
     public standId: number = 0;
     public overlayId: number = 0;
@@ -42,7 +43,7 @@ export class AvatarInfoUser implements IAvatarInfo
     public targetRoomControllerLevel: number = 0;
     public isAmbassador: boolean = false;
 
-    constructor(public readonly type: string) 
+    constructor(public readonly type: string)
     {}
 
     public get isOwnUser(): boolean

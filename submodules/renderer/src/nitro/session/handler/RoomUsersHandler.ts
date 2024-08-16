@@ -55,6 +55,7 @@ export class RoomUsersHandler extends BaseHandler
 
                 userData.name = user.name;
                 userData.custom = user.custom;
+                userData.rank = user.rank;
                 userData.background = user.background;
                 userData.stand = user.stand;
                 userData.overlay = user.overlay;
@@ -103,9 +104,10 @@ export class RoomUsersHandler extends BaseHandler
         session.userDataManager.updateFigure(parser.unitId, parser.figure, parser.gender, false, false);
         session.userDataManager.updateMotto(parser.unitId, parser.motto);
         session.userDataManager.updateAchievementScore(parser.unitId, parser.achievementScore);
+        session.userDataManager.updateRank(parser.unitId, parser.rankId);
         session.userDataManager.updateBackground(parser.unitId, parser.backgroundId, parser.standId, parser.overlayId);
 
-        NitroEventDispatcher.dispatchEvent(new RoomSessionUserFigureUpdateEvent(session, parser.unitId, parser.figure, parser.gender, parser.motto, parser.achievementScore, parser.backgroundId, parser.standId, parser.overlayId));
+        NitroEventDispatcher.dispatchEvent(new RoomSessionUserFigureUpdateEvent(session, parser.unitId, parser.figure, parser.gender, parser.motto, parser.achievementScore, parser.rankId, parser.backgroundId, parser.standId, parser.overlayId));
 
     }
 

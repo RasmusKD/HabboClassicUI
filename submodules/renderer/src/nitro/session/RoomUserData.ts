@@ -9,6 +9,7 @@ export class RoomUserData implements IRoomUserData
     private _figure: string = '';
     private _custom: string = '';
     private _activityPoints: number;
+    private _rank: number;
     private _background: number;
     private _stand: number;
     private _overlay: number;
@@ -48,6 +49,17 @@ export class RoomUserData implements IRoomUserData
     {
         this._activityPoints = k;
     }
+
+    public get rank(): number
+    {
+        return this._rank;
+    }
+
+    public set rank(k: number)
+    {
+        this._rank = k;
+    }
+
     public get background(): number
     {
         return this._background;

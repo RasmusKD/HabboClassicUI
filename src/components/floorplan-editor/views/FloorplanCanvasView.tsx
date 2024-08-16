@@ -13,25 +13,25 @@ export const FloorplanCanvasView: FC<ColumnProps> = props =>
     const [ entryTileReceived, setEntryTileReceived ] = useState(false);
     const { originalFloorplanSettings = null, setOriginalFloorplanSettings = null, setVisualizationSettings = null } = useFloorplanEditorContext();
     const elementRef = useRef<HTMLDivElement>(null);
-    const [zoomedIn, setZoomedIn] = useState(false);
+    const [ zoomedIn, setZoomedIn ] = useState(false);
 
-   const toggleZoom = () => {
-     const zoomFactor = zoomedIn ? 2 : 0.5;
-     const element = elementRef.current;
-     const currentScrollX = element.scrollLeft;
-     const currentScrollY = element.scrollTop;
+    const toggleZoom = () =>
+    {
+        const zoomFactor = zoomedIn ? 2 : 0.5;
+        const element = elementRef.current;
+        const currentScrollX = element.scrollLeft;
+        const currentScrollY = element.scrollTop;
 
-     const relativeScrollX = currentScrollX / (element.scrollWidth - element.clientWidth);
-     const relativeScrollY = currentScrollY / (element.scrollHeight - element.clientHeight);
+        const relativeScrollX = currentScrollX / (element.scrollWidth - element.clientWidth);
+        const relativeScrollY = currentScrollY / (element.scrollHeight - element.clientHeight);
 
-     FloorplanEditor.instance.toggleZoom();
-     setZoomedIn(!zoomedIn);
+        setZoomedIn(!zoomedIn);
 
-     const newScrollX = relativeScrollX * (element.scrollWidth - element.clientWidth);
-     const newScrollY = relativeScrollY * (element.scrollHeight - element.clientHeight);
+        const newScrollX = relativeScrollX * (element.scrollWidth - element.clientWidth);
+        const newScrollY = relativeScrollY * (element.scrollHeight - element.clientHeight);
 
-     element.scrollTo(newScrollX, newScrollY);
-   };
+        element.scrollTo(newScrollX, newScrollY);
+    };
 
     useMessageEvent<RoomOccupiedTilesMessageEvent>(RoomOccupiedTilesMessageEvent, event =>
     {
@@ -51,7 +51,7 @@ export const FloorplanCanvasView: FC<ColumnProps> = props =>
         setOccupiedTilesReceived(true);
 
         elementRef.current.scrollTo(
-          (FloorplanEditor.instance.renderer.canvas.width - elementRef.current.clientWidth) / 2, 0);
+            (FloorplanEditor.instance.renderer.canvas.width - elementRef.current.clientWidth) / 2, 0);
     });
 
     useMessageEvent<RoomEntryTileMessageEvent>(RoomEntryTileMessageEvent, event =>
@@ -76,7 +76,7 @@ export const FloorplanCanvasView: FC<ColumnProps> = props =>
 
             return newValue;
         });
-        
+
         FloorplanEditor.instance.doorLocation = new NitroPoint(parser.x, parser.y);
 
         setEntryTileReceived(true);
@@ -122,7 +122,7 @@ export const FloorplanCanvasView: FC<ColumnProps> = props =>
     useEffect(() =>
     {
         if(!entryTileReceived || !occupiedTilesReceived) return;
-        
+
         FloorplanEditor.instance.renderTiles();
     }, [ entryTileReceived, occupiedTilesReceived ]);
 
@@ -159,22 +159,17 @@ export const FloorplanCanvasView: FC<ColumnProps> = props =>
                 currentElement.removeEventListener('pointermove', onPointerEvent);
             }
         }
-        }, []);
-
-    useEffect(() =>
-    {
-        FloorplanEditor.instance.tilemapRenderer.interactive = true;
-    }, [zoomedIn]);
+    }, []);
 
     return (
-        <Column gap={gap} {...rest} position="relative">
+        <Column gap={ gap } { ...rest } position="relative">
             <Column overflow="hidden">
-                <Base overflow="auto" innerRef={elementRef} />
-                <Base className='floorplan-square' />
+                <Base overflow="auto" innerRef={ elementRef } />
+                <Base className="floorplan-square" />
             </Column>
-            {children}
+            { children }
             <Flex position="absolute" className="bottom-4 start-2">
-                <Base pointer onClick={toggleZoom} className={classNames('icon', zoomedIn && 'icon-zoom-less', !zoomedIn && 'icon-zoom-more')} />
+                <Base pointer onClick={ toggleZoom } className={ classNames('icon', zoomedIn && 'icon-zoom-less', !zoomedIn && 'icon-zoom-more') } />
             </Flex>
         </Column>
     );

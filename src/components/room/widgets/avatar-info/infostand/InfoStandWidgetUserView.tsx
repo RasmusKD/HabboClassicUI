@@ -24,6 +24,7 @@ export const InfoStandWidgetUserView: FC<InfoStandWidgetUserViewProps> = props =
     const [ backgroundId, setBackgroundId ] = useState<number>(null);
     const [ standId, setStandId ] = useState<number>(null);
     const [ overlayId, setOverlayId ] = useState<number>(null);
+    const [ rankId, setRankId ] = useState<number>(null);
     const [ isVisible, setIsVisible ] = useState(false);
 
     const infostandBackgroundClass = `background-${ backgroundId }`;
@@ -83,6 +84,7 @@ export const InfoStandWidgetUserView: FC<InfoStandWidgetUserViewProps> = props =
 
             newValue.figure = event.figure;
             newValue.motto = event.customInfo;
+            newValue.rankId = event.rankId;
             newValue.backgroundId = event.backgroundId;
             newValue.standId = event.standId;
             newValue.overlayId = event.overlayId;
@@ -122,6 +124,7 @@ export const InfoStandWidgetUserView: FC<InfoStandWidgetUserViewProps> = props =
     {
         setIsEditingMotto(false);
         setMotto(avatarInfo.motto);
+        setRankId(avatarInfo.rankId);
         setBackgroundId(avatarInfo.backgroundId);
         setStandId(avatarInfo.standId);
         setOverlayId(avatarInfo.overlayId);
@@ -134,6 +137,7 @@ export const InfoStandWidgetUserView: FC<InfoStandWidgetUserViewProps> = props =
             setIsEditingMotto(false);
             setMotto(null);
             setRelationships(null);
+            setRankId(null);
             setBackgroundId(null);
             setStandId(null);
             setOverlayId(null);
@@ -163,9 +167,9 @@ export const InfoStandWidgetUserView: FC<InfoStandWidgetUserViewProps> = props =
                             <LayoutAvatarImageView figure={ avatarInfo.figure } direction={ 4 } />
                             <Base position="absolute" className={ `body-image profile-overlay ${ infostandOverlayClass }` }/>
                             { avatarInfo.type === AvatarInfoUser.OWN_USER &&
-                                <Base className="icon edit-icon edit-position" onClick={ event => 
+                                <Base className="icon edit-icon edit-position" onClick={ event =>
                                 {
-                                    event.stopPropagation(); setIsVisible(prevValue => !prevValue); 
+                                    event.stopPropagation(); setIsVisible(prevValue => !prevValue);
                                 } } />
                             }
                         </Column>
@@ -201,6 +205,8 @@ export const InfoStandWidgetUserView: FC<InfoStandWidgetUserViewProps> = props =
                 </Column>
                 <Column gap={ 1 }>
                     <Flex alignItems="center" className="infostand-thumb-bg py-1 px-2">
+                        { rankId != null &&
+                        <Text fullWidth pointer wrap textBreak variant="white">{ rankId }</Text> }
                         { (avatarInfo.type !== AvatarInfoUser.OWN_USER) &&
                             <Flex grow alignItems="center" className="motto-content">
                                 <Text fullWidth pointer wrap textBreak variant="white">{ motto }</Text>

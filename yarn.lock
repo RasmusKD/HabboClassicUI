@@ -1086,9 +1086,9 @@ callsites@^3.0.0:
   integrity sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==
 
 caniuse-lite@^1.0.30001400:
-  version "1.0.30001508"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001508.tgz"
-  integrity sha512-sdQZOJdmt3GJs1UMNpCCCyeuS2IEGLXnHyAo9yIO5JJDjbjoVRij4M1qep6P6gFpptD1PqIYgzM+gwJbOi92mw==
+  version "1.0.30001638"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001638.tgz"
+  integrity sha512-5SuJUJ7cZnhPpeLHaH0c/HPAnAHZvS6ElWyHK9GSIbVOQABLzowiI2pjmpvZ1WEbkyz46iFd4UXlOHR5SqgfMQ==
 
 chalk@^2.0.0:
   version "2.4.2"
@@ -1692,6 +1692,11 @@ get-symbol-description@^1.0.0:
   dependencies:
     call-bind "^1.0.2"
     get-intrinsic "^1.1.1"
+
+gif-picker-react@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/gif-picker-react/-/gif-picker-react-1.3.3.tgz#3d3627ed8ca41559323bbc2cce14a0b77d215f41"
+  integrity sha512-4zl7GhFsswwHaaLdhy5NZ9F+J/dNttwXi+6xthbF+a398izAvyPloN0feoVhHt77F2H5/OlL5KiF1ie2TfC+vQ==
 
 gifuct-js@^2.1.2:
   version "2.1.2"

@@ -1,22 +1,133 @@
-import { Matrix, Point, Rectangle, RenderTexture, Resource, Texture } from '@pixi/core';
-import { Container, DisplayObject } from '@pixi/display';
-import { ICommunicationManager, IConnection, IFurnitureStackingHeightMap, IGetImageListener, IImageResult, ILegacyWallGeometry, IMessageComposer, IObjectData, IPetColorResult, IPetCustomPart, IRoomContentListener, IRoomContentLoader, IRoomCreator, IRoomEngine, IRoomEngineServices, IRoomGeometry, IRoomInstance, IRoomManager, IRoomManagerListener, IRoomObject, IRoomObjectController, IRoomObjectLogicFactory, IRoomObjectVisualizationFactory, IRoomRenderer, IRoomRendererFactory, IRoomRenderingCanvas, IRoomSessionManager, ISelectedRoomObjectData, ISessionDataManager, ITileObjectMap, IUpdateReceiver, IVector3D, LegacyDataType, MouseEventType, NitroConfiguration, NitroLogger, ObjectDataFactory, RoomControllerLevel, RoomObjectCategory, RoomObjectUserType, RoomObjectVariable, ToolbarIconEnum, Vector3d } from '../../api';
-import { BadgeImageReadyEvent, NitroEventDispatcher, NitroToolbarAnimateIconEvent, RoomBackgroundColorEvent, RoomDragEvent, RoomEngineEvent, RoomEngineObjectEvent, RoomObjectEvent, RoomObjectFurnitureActionEvent, RoomObjectMouseEvent, RoomSessionEvent, RoomToObjectOwnAvatarMoveEvent } from '../../events';
-import { GetTicker, GetTickerTime, NitroSprite, TextureUtils } from '../../pixi-proxy';
-import { NumberBank, RoomEnterEffect, RoomGeometry, RoomInstance, RoomManager, RoomObjectUpdateMessage, RoomRendererFactory } from '../../room';
-import { PetFigureData } from '../avatar';
-import { FurnitureWallUpdateComposer, RenderRoomMessageComposer, RenderRoomThumbnailMessageComposer } from '../communication';
-import { RoomSessionManager } from '../session';
-import { FurniId } from '../utils';
-import { ImageResult } from './ImageResult';
-import { RoomContentLoader } from './RoomContentLoader';
-import { RoomMessageHandler } from './RoomMessageHandler';
-import { RoomObjectEventHandler } from './RoomObjectEventHandler';
-import { RoomObjectLogicFactory } from './RoomObjectLogicFactory';
-import { RoomVariableEnum } from './RoomVariableEnum';
-import { ObjectAvatarCarryObjectUpdateMessage, ObjectAvatarChatUpdateMessage, ObjectAvatarDanceUpdateMessage, ObjectAvatarEffectUpdateMessage, ObjectAvatarExperienceUpdateMessage, ObjectAvatarExpressionUpdateMessage, ObjectAvatarFigureUpdateMessage, ObjectAvatarFlatControlUpdateMessage, ObjectAvatarGestureUpdateMessage, ObjectAvatarGuideStatusUpdateMessage, ObjectAvatarMutedUpdateMessage, ObjectAvatarOwnMessage, ObjectAvatarPetGestureUpdateMessage, ObjectAvatarPlayerValueUpdateMessage, ObjectAvatarPlayingGameUpdateMessage, ObjectAvatarPostureUpdateMessage, ObjectAvatarSignUpdateMessage, ObjectAvatarSleepUpdateMessage, ObjectAvatarTypingUpdateMessage, ObjectAvatarUpdateMessage, ObjectAvatarUseObjectUpdateMessage, ObjectDataUpdateMessage, ObjectGroupBadgeUpdateMessage, ObjectHeightUpdateMessage, ObjectItemDataUpdateMessage, ObjectModelDataUpdateMessage, ObjectMoveUpdateMessage, ObjectRoomColorUpdateMessage, ObjectRoomFloorHoleUpdateMessage, ObjectRoomMaskUpdateMessage, ObjectRoomPlanePropertyUpdateMessage, ObjectRoomPlaneVisibilityUpdateMessage, ObjectRoomUpdateMessage, ObjectStateUpdateMessage } from './messages';
-import { RoomLogic, RoomMapData, RoomObjectVisualizationFactory } from './object';
-import { RoomCamera, RoomData, RoomFurnitureData, RoomInstanceData, RoomObjectBadgeImageAssetListener, SpriteDataCollector } from './utils';
+import {Matrix, Point, Rectangle, RenderTexture, Resource, Texture} from '@pixi/core';
+import {Container, DisplayObject} from '@pixi/display';
+import {
+    ICommunicationManager,
+    IConnection,
+    IFurnitureStackingHeightMap,
+    IGetImageListener,
+    IImageResult,
+    ILegacyWallGeometry,
+    IMessageComposer,
+    IObjectData,
+    IPetColorResult,
+    IPetCustomPart,
+    IRoomContentListener,
+    IRoomContentLoader,
+    IRoomCreator,
+    IRoomEngine,
+    IRoomEngineServices,
+    IRoomGeometry,
+    IRoomInstance,
+    IRoomManager,
+    IRoomManagerListener,
+    IRoomObject,
+    IRoomObjectController,
+    IRoomObjectLogicFactory,
+    IRoomObjectVisualizationFactory,
+    IRoomRenderer,
+    IRoomRendererFactory,
+    IRoomRenderingCanvas,
+    IRoomSessionManager,
+    ISelectedRoomObjectData,
+    ISessionDataManager,
+    ITileObjectMap,
+    IUpdateReceiver,
+    IVector3D,
+    LegacyDataType,
+    MouseEventType,
+    NitroConfiguration,
+    NitroLogger,
+    ObjectDataFactory,
+    RoomControllerLevel,
+    RoomObjectCategory,
+    RoomObjectUserType,
+    RoomObjectVariable,
+    ToolbarIconEnum,
+    Vector3d
+} from '../../api';
+import {
+    BadgeImageReadyEvent,
+    NitroEventDispatcher,
+    NitroToolbarAnimateIconEvent,
+    RoomBackgroundColorEvent,
+    RoomDragEvent,
+    RoomEngineEvent,
+    RoomEngineObjectEvent,
+    RoomObjectEvent,
+    RoomObjectFurnitureActionEvent,
+    RoomObjectMouseEvent,
+    RoomSessionEvent,
+    RoomToObjectOwnAvatarMoveEvent
+} from '../../events';
+import {GetTicker, GetTickerTime, NitroSprite, TextureUtils} from '../../pixi-proxy';
+import {
+    NumberBank,
+    RoomEnterEffect,
+    RoomGeometry,
+    RoomInstance,
+    RoomManager,
+    RoomObjectUpdateMessage,
+    RoomRendererFactory
+} from '../../room';
+import {PetFigureData} from '../avatar';
+import {
+    FurnitureWallUpdateComposer,
+    RenderRoomMessageComposer,
+    RenderRoomThumbnailMessageComposer
+} from '../communication';
+import {RoomSessionManager} from '../session';
+import {FurniId} from '../utils';
+import {ImageResult} from './ImageResult';
+import {RoomContentLoader} from './RoomContentLoader';
+import {RoomMessageHandler} from './RoomMessageHandler';
+import {RoomObjectEventHandler} from './RoomObjectEventHandler';
+import {RoomObjectLogicFactory} from './RoomObjectLogicFactory';
+import {RoomVariableEnum} from './RoomVariableEnum';
+import {
+    ObjectAvatarCarryObjectUpdateMessage,
+    ObjectAvatarChatUpdateMessage,
+    ObjectAvatarDanceUpdateMessage,
+    ObjectAvatarEffectUpdateMessage,
+    ObjectAvatarExperienceUpdateMessage,
+    ObjectAvatarExpressionUpdateMessage,
+    ObjectAvatarFigureUpdateMessage,
+    ObjectAvatarFlatControlUpdateMessage,
+    ObjectAvatarGestureUpdateMessage,
+    ObjectAvatarGuideStatusUpdateMessage,
+    ObjectAvatarMutedUpdateMessage,
+    ObjectAvatarOwnMessage,
+    ObjectAvatarPetGestureUpdateMessage,
+    ObjectAvatarPlayerValueUpdateMessage,
+    ObjectAvatarPlayingGameUpdateMessage,
+    ObjectAvatarPostureUpdateMessage,
+    ObjectAvatarSignUpdateMessage,
+    ObjectAvatarSleepUpdateMessage,
+    ObjectAvatarTypingUpdateMessage,
+    ObjectAvatarUpdateMessage,
+    ObjectAvatarUseObjectUpdateMessage,
+    ObjectDataUpdateMessage,
+    ObjectGroupBadgeUpdateMessage,
+    ObjectHeightUpdateMessage,
+    ObjectItemDataUpdateMessage,
+    ObjectModelDataUpdateMessage,
+    ObjectMoveUpdateMessage,
+    ObjectRoomColorUpdateMessage,
+    ObjectRoomFloorHoleUpdateMessage,
+    ObjectRoomMaskUpdateMessage,
+    ObjectRoomPlanePropertyUpdateMessage,
+    ObjectRoomPlaneVisibilityUpdateMessage,
+    ObjectRoomUpdateMessage,
+    ObjectStateUpdateMessage
+} from './messages';
+import {RoomLogic, RoomMapData, RoomObjectVisualizationFactory} from './object';
+import {
+    RoomCamera,
+    RoomData,
+    RoomFurnitureData,
+    RoomInstanceData,
+    RoomObjectBadgeImageAssetListener,
+    SpriteDataCollector
+} from './utils';
 
 export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineServices, IRoomManagerListener, IRoomContentListener, IUpdateReceiver
 {
@@ -1884,9 +1995,30 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         const angle = ((roomObject.getDirection().x) % 360);
         return wallGeometry.getOldLocationString(roomObject.getLocation(), angle);
     }
-    public updateRoomObjectWallLocation2(objectId: number, location: IVector3D): boolean
+    public updateRoomObjectWallLocation2(objectId: number, location: string): void
     {
         this.connection.send(new FurnitureWallUpdateComposer(objectId, location));
+    }
+
+    public getFurniLocation(roomId: number, objectId: number, isWallItem: boolean): string
+    {
+        return isWallItem
+            ? this.getRoomObjectWall(roomId, objectId).getLocation().toString()
+            : this.getRoomObjectFloor(roomId, objectId).getLocation().toString();
+    }
+
+    public getFurniDirection(roomId: number, objectId: number, isWallItem: boolean): string
+    {
+        return isWallItem
+            ? this.getRoomObjectWall(roomId, objectId).getDirection().toString()
+            : this.getRoomObjectFloor(roomId, objectId).getDirection().toString();
+    }
+
+    public getFurniState(roomId: number, objectId: number, isWallItem: boolean): number
+    {
+        return isWallItem
+            ? this.getRoomObjectWall(roomId, objectId).getState()
+            : this.getRoomObjectFloor(roomId, objectId).getState();
     }
 
     public addRoomObjectUser(roomId: number, objectId: number, location: IVector3D, direction: IVector3D, headDirection: number, type: number, figure: string): boolean
@@ -1936,27 +2068,6 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         }
 
         return true;
-    }
-
-    public getFloorFurniLocation(roomId: number, objectId: number): string
-    {
-        const roomObject = this.getRoomObjectFloor(roomId, objectId);
-        if(!roomObject) return null;
-        return roomObject.getLocation().toString();
-    }
-
-    public getFloorFurniDirection(roomId: number, objectId: number): string
-    {
-        const roomObject = this.getRoomObjectFloor(roomId, objectId);
-        if(!roomObject) return null;
-        return roomObject.getDirection().toString();
-    }
-
-    public getFloorFurniState(roomId: number, objectId: number): number
-    {
-        const roomObject = this.getRoomObjectFloor(roomId, objectId);
-        if(!roomObject) return null;
-        return roomObject.getState();
     }
 
     private fixedUserLocation(roomId: number, location: IVector3D): IVector3D

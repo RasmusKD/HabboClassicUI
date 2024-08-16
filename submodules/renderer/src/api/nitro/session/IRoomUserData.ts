@@ -7,6 +7,7 @@ export interface IRoomUserData
     sex: string;
     figure: string;
     custom: string;
+    rank: number;
     background: number;
     stand: number;
     overlay: number;

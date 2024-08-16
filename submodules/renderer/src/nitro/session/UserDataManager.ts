@@ -160,6 +160,15 @@ export class UserDataManager
         userData.custom = custom;
     }
 
+    public updateRank(roomIndex: number, rank: number): void
+    {
+        const userData = this.getUserDataByIndex(roomIndex);
+
+        if(!userData) return;
+
+        userData.rank = rank;
+    }
+
     public updateBackground(roomIndex: number, background: number, stand: number, overlay: number): void
     {
         const userData = this.getUserDataByIndex(roomIndex);
